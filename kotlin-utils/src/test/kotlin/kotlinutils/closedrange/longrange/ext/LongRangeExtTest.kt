@@ -8,31 +8,30 @@ class LongRangeExtTest {
     @Test
     internal fun testSize() {
         // single value
-        var r: LongRange = 1L..1L
+        var range: LongRange = 1L..1L
         var expected: Long = 1
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // positive
-        r = 10L..99L
+        range = 10L..99L
         expected = 90
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // negative
-        r = -100L..-11L
+        range = -100L..-11L
         expected = 90
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // postive + negative
-        r = -1000L..1000L
+        range = -1000L..1000L
         expected = 2001
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // until
-        r = -1000L until 1000L
+        range = -1000L until 1000L
         expected = 2000
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
     }
-
 
     @Test
     internal fun testGet() {

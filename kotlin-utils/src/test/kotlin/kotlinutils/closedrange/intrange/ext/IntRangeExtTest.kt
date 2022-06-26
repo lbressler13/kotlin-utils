@@ -6,31 +6,30 @@ internal class IntRangeExtTest {
     @Test
     internal fun testSize() {
         // single value
-        var r = 1..1
+        var range = 1..1
         var expected = 1
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // positive
-        r = 10..99
+        range = 10..99
         expected = 90
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // negative
-        r = -100..-11
+        range = -100..-11
         expected = 90
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // postive + negative
-        r = -1000..1000
+        range = -1000..1000
         expected = 2001
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // until
-        r = -1000 until 1000
+        range = -1000 until 1000
         expected = 2000
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
     }
-
 
     @Test
     internal fun testGet() {

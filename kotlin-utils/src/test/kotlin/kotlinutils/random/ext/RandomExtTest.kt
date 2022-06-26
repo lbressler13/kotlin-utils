@@ -26,6 +26,11 @@ internal class RandomExtTest {
         assertFailsWith<IllegalArgumentException>(expectedMessage) { random.nextBoolean(1.5f) }
     }
 
+    /**
+     * Run nextBoolean test for a single probability
+     *
+     * @param probability [Float]: the value to test
+     */
     private fun runSingleNextBooleanTest(probability: Float) {
         val iterations = 1000
         val results = List(iterations) { random.nextBoolean(probability) }
@@ -55,6 +60,7 @@ internal class RandomExtTest {
                 assertTrue(truePair.second in (minTrue..maxTrue))
             }
         }
+        // TODO use helper function here
     }
 
     @Test
@@ -117,12 +123,17 @@ internal class RandomExtTest {
         runSingleNextFromWeightedListTest(rangeList)
     }
 
+    /**
+     * Run nextFromWeightedList test for a single list
+     *
+     * @param list [List]: the value to test
+     */
     private fun <T> runSingleNextFromWeightedListTest(list: List<Pair<T, Float>>) {
+        // TODO use helper here too
         val iterations = 10000
         val results = List(iterations) { random.nextFromWeightedList(list) }
             .groupBy { it }
             .map { it.key to it.value.size }
-
 
         val totalResults = results.sumOf { it.second }
         assertEquals(iterations, totalResults)

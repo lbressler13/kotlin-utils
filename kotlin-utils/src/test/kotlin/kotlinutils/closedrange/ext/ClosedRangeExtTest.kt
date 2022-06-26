@@ -9,30 +9,30 @@ class ClosedRangeExtTest {
     internal fun testIsSingleValue() {
         // Int
         // single value
-        var range = 0..0
-        assertTrue { range.isSingleValue() }
+        var rangeInt: IntRange = 0..0
+        assertTrue { rangeInt.isSingleValue() }
 
-        range = 1000000..1000000
-        assertTrue { range.isSingleValue() }
+        rangeInt = 1000000..1000000
+        assertTrue { rangeInt.isSingleValue() }
 
-        range = -1000000..-1000000
-        assertTrue { range.isSingleValue() }
+        rangeInt = -1000000..-1000000
+        assertTrue { rangeInt.isSingleValue() }
 
-        range = 1 until 2
-        assertTrue { range.isSingleValue() }
+        rangeInt = 1 until 2
+        assertTrue { rangeInt.isSingleValue() }
 
         // multipleValues
-        range = 0..1
-        assertFalse { range.isSingleValue() }
+        rangeInt = 0..1
+        assertFalse { rangeInt.isSingleValue() }
 
-        range = 1 until 3
-        assertFalse { range.isSingleValue() }
+        rangeInt = 1 until 3
+        assertFalse { rangeInt.isSingleValue() }
 
-        range = Int.MIN_VALUE..Int.MAX_VALUE
-        assertFalse { range.isSingleValue() }
+        rangeInt = Int.MIN_VALUE..Int.MAX_VALUE
+        assertFalse { rangeInt.isSingleValue() }
 
-        range = 0 until 2
-        assertFalse { range.isSingleValue() }
+        rangeInt = 0 until 2
+        assertFalse { rangeInt.isSingleValue() }
 
         // Char
         // single value
@@ -87,30 +87,30 @@ class ClosedRangeExtTest {
     internal fun testIsNotSingleValue() {
         // Int
         // multiple values
-        var range = 0..1
-        assertTrue { range.isNotSingleValue() }
+        var rangeInt = 0..1
+        assertTrue { rangeInt.isNotSingleValue() }
 
-        range = 1 until 3
-        assertTrue { range.isNotSingleValue() }
+        rangeInt = 1 until 3
+        assertTrue { rangeInt.isNotSingleValue() }
 
-        range = Int.MIN_VALUE..Int.MAX_VALUE
-        assertTrue { range.isNotSingleValue() }
+        rangeInt = Int.MIN_VALUE..Int.MAX_VALUE
+        assertTrue { rangeInt.isNotSingleValue() }
 
-        range = 0 until 2
-        assertTrue { range.isNotSingleValue() }
+        rangeInt = 0 until 2
+        assertTrue { rangeInt.isNotSingleValue() }
 
         // single value
-        range = 0..0
-        assertFalse { range.isNotSingleValue() }
+        rangeInt = 0..0
+        assertFalse { rangeInt.isNotSingleValue() }
 
-        range = 1000000..1000000
-        assertFalse { range.isNotSingleValue() }
+        rangeInt = 1000000..1000000
+        assertFalse { rangeInt.isNotSingleValue() }
 
-        range = -1000000..-1000000
-        assertFalse { range.isNotSingleValue() }
+        rangeInt = -1000000..-1000000
+        assertFalse { rangeInt.isNotSingleValue() }
 
-        range = 1 until 2
-        assertFalse { range.isNotSingleValue() }
+        rangeInt = 1 until 2
+        assertFalse { rangeInt.isNotSingleValue() }
 
         // Char
         // multiple values

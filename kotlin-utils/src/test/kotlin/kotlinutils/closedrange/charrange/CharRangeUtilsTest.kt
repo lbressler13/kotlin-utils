@@ -6,20 +6,20 @@ import kotlin.test.assertEquals
 class CharRangeUtilsTest {
     @Test
     internal fun testRangeOfChar() {
-        var c = Char(0)
+        var char = Char(0)
         var expected = Char(0)..Char(0)
-        assertEquals(expected, rangeOfChar(c))
+        assertEquals(expected, rangeOfChar(char))
 
-        c = Char(1000)
+        char = Char(1000)
         expected = Char(1000)..Char(1000)
-        assertEquals(expected, rangeOfChar(c))
+        assertEquals(expected, rangeOfChar(char))
 
-        c = Char.MAX_VALUE
+        char = Char.MAX_VALUE
         expected = Char.MAX_VALUE..Char.MAX_VALUE
-        assertEquals(expected, rangeOfChar(c))
+        assertEquals(expected, rangeOfChar(char))
 
-        c = Char.MIN_VALUE
+        char = Char.MIN_VALUE
         expected = Char.MIN_VALUE..Char.MIN_VALUE
-        assertEquals(expected, rangeOfChar(c))
+        assertEquals(expected, rangeOfChar(char))
     }
 }

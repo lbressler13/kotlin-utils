@@ -12,41 +12,41 @@ internal class ListExtTest {
         assertFails { listOf("a", "b").copyWithReplacement(2, "c") }
         assertFails { listOf("a", "b").copyWithReplacement(8, "c") }
 
-        var l = listOf("a")
-        var i = 0
-        var expected = listOf("abc")
-        assertEquals(expected, l.copyWithReplacement(i, "abc"))
+        var listString = listOf("a")
+        var index = 0
+        var expectedString = listOf("abc")
+        assertEquals(expectedString, listString.copyWithReplacement(index, "abc"))
 
-        l = listOf("0", "1", "1", "2", "3", "6", "8")
-        i = 5
-        expected = listOf("0", "1", "1", "2", "3", "5", "8")
-        assertEquals(expected, l.copyWithReplacement(i, "5"))
+        listString = listOf("0", "1", "1", "2", "3", "6", "8")
+        index = 5
+        expectedString = listOf("0", "1", "1", "2", "3", "5", "8")
+        assertEquals(expectedString, listString.copyWithReplacement(index, "5"))
 
-        l = listOf("0", "1", "1", "2", "3", "6", "8")
-        i = 5
-        expected = listOf("0", "1", "1", "2", "3", "5", "8")
-        assertEquals(expected, l.copyWithReplacement(i, "5"))
+        listString = listOf("0", "1", "1", "2", "3", "6", "8")
+        index = 5
+        expectedString = listOf("0", "1", "1", "2", "3", "5", "8")
+        assertEquals(expectedString, listString.copyWithReplacement(index, "5"))
 
-        l = listOf("hello", "goodbye", "greetings", "hey y'all")
+        listString = listOf("hello", "goodbye", "greetings", "hey y'all")
             .copyWithReplacement(2, "farewell")
             .copyWithReplacement(0, "hey")
             .copyWithReplacement(3, "what's up")
             .copyWithReplacement(1, "byeeee")
-        expected = listOf("hey", "byeeee", "farewell", "what's up")
-        assertEquals(expected, l)
+        expectedString = listOf("hey", "byeeee", "farewell", "what's up")
+        assertEquals(expectedString, listString)
 
-        val ln = listOf(0, 1, 1, 2, 3, 6, 8)
-        i = 5
-        val expectedNum = listOf(0, 1, 1, 2, 3, 5, 8)
-        assertEquals(expectedNum, ln.copyWithReplacement(i, 5))
+        val listInt = listOf(0, 1, 1, 2, 3, 6, 8)
+        index = 5
+        val expectedInt = listOf(0, 1, 1, 2, 3, 5, 8)
+        assertEquals(expectedInt, listInt.copyWithReplacement(index, 5))
 
         val e1 = ArithmeticException()
         val e2 = NumberFormatException()
         val e3 = RuntimeException()
-        val le = listOf(e1, e2, e3)
-        i = 0
-        val expectedErr = listOf(e3, e2, e3)
-        assertEquals(expectedErr, le.copyWithReplacement(i, e3))
+        val listException = listOf(e1, e2, e3)
+        index = 0
+        val expectedException = listOf(e3, e2, e3)
+        assertEquals(expectedException, listException.copyWithReplacement(index, e3))
     }
 
     @Test
@@ -125,23 +125,23 @@ internal class ListExtTest {
     internal fun testCopyWithoutLast() {
         assertFails { listOf<String>().copyWithoutLast() }
 
-        var l = listOf("1")
-        var expected = listOf<String>()
-        assertEquals(expected, l.copyWithoutLast())
+        var listString = listOf("1")
+        var expectedString = listOf<String>()
+        assertEquals(expectedString, listString.copyWithoutLast())
 
-        l = "Hello world this is a test".split(' ')
-        expected = "Hello world this is a".split(' ')
-        assertEquals(expected, l.copyWithoutLast())
+        listString = "Hello world this is a test".split(' ')
+        expectedString = "Hello world this is a".split(' ')
+        assertEquals(expectedString, listString.copyWithoutLast())
 
-        val lInt = (-1000..10000).toList()
+        val listInt = (-1000..10000).toList()
         val expectedInt = (-1000 until 10000).toList()
-        assertEquals(expected, l.copyWithoutLast())
+        assertEquals(expectedInt, listInt.copyWithoutLast())
 
         val e1 = ArithmeticException()
         val e2 = NumberFormatException()
         val e3 = RuntimeException()
-        val le = listOf(e1, e2, e3)
-        val expectedErr = listOf(e1, e2)
-        assertEquals(expectedErr, le.copyWithoutLast())
+        val listException = listOf(e1, e2, e3)
+        val expectedException = listOf(e1, e2)
+        assertEquals(expectedException, listException.copyWithoutLast())
     }
 }

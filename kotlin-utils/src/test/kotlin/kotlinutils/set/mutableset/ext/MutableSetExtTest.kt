@@ -9,38 +9,43 @@ import kotlin.test.assertNull
 internal class MutableSetExtTest {
     @Test
     internal fun testPopRandom() {
-        var ms = mutableSetOf<String>()
-        assertNull(ms.popRandom())
+        var set = mutableSetOf<String>()
+        assertNull(set.popRandom())
 
-        ms = mutableSetOf("123")
-        assertEquals("123", ms.popRandom())
-        assertNull(ms.popRandom())
+        set = mutableSetOf("123")
+        assertEquals("123", set.popRandom())
+        assertNull(set.popRandom())
 
-        ms = mutableSetOf("123", "456", "abc", "def")
-        runSinglePopRandomTest(ms)
+        set = mutableSetOf("123", "456", "abc", "def")
+        runSinglePopRandomTest(set)
 
-        val msInt = mutableSetOf(23, 89, 0, -104, 44, 2)
-        runSinglePopRandomTest(msInt)
+        val setInt = mutableSetOf(23, 89, 0, -104, 44, 2)
+        runSinglePopRandomTest(setInt)
 
-        val msException = mutableSetOf(IndexOutOfBoundsException(), ArithmeticException(), ClassCastException())
-        runSinglePopRandomTest(msException)
+        val setException = mutableSetOf(IndexOutOfBoundsException(), ArithmeticException(), ClassCastException())
+        runSinglePopRandomTest(setException)
     }
 
-    // assumes ml has size >= 2
-    private fun <T> runSinglePopRandomTest(ms: MutableSet<T>) {
+    /**
+     * Run popRandom test on a single set.
+     * Assumes the set has size >= 2 and has at least 2 distinct values
+     *
+     * @param set [MutableSet]: the value to test
+     */
+    private fun <T> runSinglePopRandomTest(set: MutableSet<T>) {
         val createResultSet = {
-            val set = mutableSetOf<T>()
-            set.addAll(ms)
+            val setCopy = mutableSetOf<T>()
+            setCopy.addAll(set)
             val resultSet = mutableSetOf<T>()
-            for (i in 0 until ms.size) {
-                val result = set.popRandom()
+            for (i in 0 until set.size) {
+                val result = setCopy.popRandom()
                 assertNotNull(result)
                 resultSet.add(result)
             }
 
             resultSet
         }
-        val checkResult: (MutableSet<T>) -> Boolean = { it: MutableSet<T> -> it == ms }
+        val checkResult: (MutableSet<T>) -> Boolean = { it: MutableSet<T> -> it == set }
 
         runRandomTest(createResultSet, checkResult)
     }

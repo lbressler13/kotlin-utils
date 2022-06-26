@@ -9,52 +9,52 @@ internal class StringExtTest {
         assertFailsWith<IndexOutOfBoundsException> { "a".substringTo(-1) }
         assertFailsWith<IndexOutOfBoundsException> { "a b".substringTo(4) }
 
-        var s = ""
-        var i = 0
+        var string = ""
+        var int = 0
         var expected = ""
-        assertEquals(expected, s.substringTo(i))
+        assertEquals(expected, string.substringTo(int))
 
-        s = "hello world"
+        string = "hello world"
 
-        i = 11
+        int = 11
         expected = "hello world"
-        assertEquals(expected, s.substringTo(i))
+        assertEquals(expected, string.substringTo(int))
 
-        i = 1
+        int = 1
         expected = "h"
-        assertEquals(expected, s.substringTo(i))
+        assertEquals(expected, string.substringTo(int))
 
-        i = 6
+        int = 6
         expected = "hello "
-        assertEquals(expected, s.substringTo(i))
+        assertEquals(expected, string.substringTo(int))
     }
 
     @Test
     internal fun testIsInt() {
         // int
-        var s = "0"
-        assertTrue { s.isInt() }
+        var string = "0"
+        assertTrue { string.isInt() }
 
-        s = "1000000"
-        assertTrue { s.isInt() }
+        string = "1000000"
+        assertTrue { string.isInt() }
 
-        s = "-1000000"
-        assertTrue { s.isInt() }
+        string = "-1000000"
+        assertTrue { string.isInt() }
 
-        s = Int.MAX_VALUE.toString()
-        assertTrue { s.isInt() }
+        string = Int.MAX_VALUE.toString()
+        assertTrue { string.isInt() }
 
         // not int
-        s = ""
-        assertFalse { s.isInt() }
+        string = ""
+        assertFalse { string.isInt() }
 
-        s = "abc"
-        assertFalse { s.isInt() }
+        string = "abc"
+        assertFalse { string.isInt() }
 
-        s = "1.0"
-        assertFalse { s.isInt() }
+        string = "1.0"
+        assertFalse { string.isInt() }
 
-        s = Long.MAX_VALUE.toString()
-        assertFalse { s.isInt() }
+        string = Long.MAX_VALUE.toString()
+        assertFalse { string.isInt() }
     }
 }

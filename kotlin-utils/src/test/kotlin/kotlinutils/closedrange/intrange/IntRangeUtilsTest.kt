@@ -6,20 +6,20 @@ import kotlin.test.assertEquals
 internal class IntRangeUtilsTest {
     @Test
     internal fun testRangeOfInt() {
-        var i = 0
+        var int = 0
         var expected = 0..0
-        assertEquals(expected, rangeOfInt(i))
+        assertEquals(expected, rangeOfInt(int))
 
-        i = -1000
+        int = -1000
         expected = -1000..-1000
-        assertEquals(expected, rangeOfInt(i))
+        assertEquals(expected, rangeOfInt(int))
 
-        i = Int.MAX_VALUE
+        int = Int.MAX_VALUE
         expected = Int.MAX_VALUE..Int.MAX_VALUE
-        assertEquals(expected, rangeOfInt(i))
+        assertEquals(expected, rangeOfInt(int))
 
-        i = Int.MIN_VALUE
+        int = Int.MIN_VALUE
         expected = Int.MIN_VALUE..Int.MIN_VALUE
-        assertEquals(expected, rangeOfInt(i))
+        assertEquals(expected, rangeOfInt(int))
     }
 }

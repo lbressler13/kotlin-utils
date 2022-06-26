@@ -6,21 +6,20 @@ class CharRangeExtTest {
     @Test
     internal fun testSize() {
         // single value
-        var r: CharRange = Char(1)..Char(1)
+        var range: CharRange = Char(1)..Char(1)
         var expected = 1
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // multiple values
-        r = Char(10)..Char(99)
+        range = Char(10)..Char(99)
         expected = 90
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
 
         // until
-        r = Char(100) until Char(1000)
+        range = Char(100) until Char(1000)
         expected = 900
-        assertEquals(expected, r.size())
+        assertEquals(expected, range.size())
     }
-
 
     @Test
     internal fun testGet() {
