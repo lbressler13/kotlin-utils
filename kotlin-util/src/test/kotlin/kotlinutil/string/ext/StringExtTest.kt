@@ -1,15 +1,13 @@
 package kotlinutil.string.ext
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
+import kotlin.test.*
 
 internal class StringExtTest {
     @Test
     internal fun testSubstringTo() {
-        assertFails { "".substringTo(1) }
-        assertFails { "a".substringTo(-1) }
-        assertFails { "a b".substringTo(4) }
+        assertFailsWith<IndexOutOfBoundsException> { "".substringTo(1) }
+        assertFailsWith<IndexOutOfBoundsException> { "a".substringTo(-1) }
+        assertFailsWith<IndexOutOfBoundsException> { "a b".substringTo(4) }
 
         var s = ""
         var i = 0
@@ -29,5 +27,34 @@ internal class StringExtTest {
         i = 6
         expected = "hello "
         assertEquals(expected, s.substringTo(i))
+    }
+
+    @Test
+    internal fun testIsInt() {
+        // int
+        var s = "0"
+        assertTrue { s.isInt() }
+
+        s = "1000000"
+        assertTrue { s.isInt() }
+
+        s = "-1000000"
+        assertTrue { s.isInt() }
+
+        s = Int.MAX_VALUE.toString()
+        assertTrue { s.isInt() }
+
+        // not int
+        s = ""
+        assertFalse { s.isInt() }
+
+        s = "abc"
+        assertFalse { s.isInt() }
+
+        s = "1.0"
+        assertFalse { s.isInt() }
+
+        s = Long.MAX_VALUE.toString()
+        assertFalse { s.isInt() }
     }
 }

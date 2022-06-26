@@ -2,10 +2,16 @@ package kotlinutil.biginteger.ext
 
 import java.math.BigInteger
 
-// unary checks
+/**
+ * Unary check to determine if value is negative
+ *
+ * @return [Boolean]: true if value is less than zero, false otherwise
+ */
 fun BigInteger.isNegative(): Boolean = this < BigInteger.ZERO
-fun BigInteger.isZero(): Boolean = equals(BigInteger.ZERO)
 
-// comparisons
-fun min(val1: BigInteger, val2: BigInteger): BigInteger = if (val1 < val2) val1 else val2
-fun max(val1: BigInteger, val2: BigInteger): BigInteger = if (val2 < val1) val1 else val2
+/**
+ * Unary check to determine if value is zero
+ *
+ * @return [Boolean]: true if value is zero, false otherwise
+ */
+fun BigInteger.isZero(): Boolean = equals(BigInteger.ZERO)

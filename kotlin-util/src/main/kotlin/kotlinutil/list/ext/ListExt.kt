@@ -27,7 +27,17 @@ fun <T> List<T>.copyWithReplacement(index: Int, value: T): List<T> {
  */
 fun <T> List<T>.copyWithLastReplaced(value: T): List<T> = copyWithReplacement(lastIndex, value)
 
-// TODO test + docstring
-fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
+/**
+ * Create a copy of a list, with the first value changed
+ *
+ * @param value [T]: new value for first index
+ * @return list identical to this, with the exception of the value at the first index
+ */
+fun <T> List<T>.copyWithFirstReplaced(value: T): List<T> = copyWithReplacement(0, value)
 
-// TODO copy with first replaced
+/**
+ * Create a copy of a list, without the last value
+ *
+ * @return list identical to this, with the last value removed
+ */
+fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)

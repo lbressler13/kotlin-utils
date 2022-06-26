@@ -6,6 +6,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 internal class RandomExtTest {
     private val random = Random.Default
@@ -51,7 +52,7 @@ internal class RandomExtTest {
                 val maxTrue = (maxTrueFloat * iterations).toInt()
 
                 assertEquals(iterations, truePair.second + falsePair.second)
-                assert(truePair.second in (minTrue..maxTrue))
+                assertTrue(truePair.second in (minTrue..maxTrue))
             }
         }
     }
@@ -143,7 +144,7 @@ internal class RandomExtTest {
                     val maxFloat = min(weight + errorRange, 1f)
                     val minMatch = (minFloat * iterations).toInt()
                     val maxMatch = (maxFloat * iterations).toInt()
-                    assert(result.second in (minMatch..maxMatch))
+                    assertTrue(result.second in (minMatch..maxMatch))
                 }
             }
         }

@@ -43,7 +43,9 @@ internal class MutableListExtTest {
 
             resultList
         }
-        val checkResult = { it: MutableList<T> -> it != ml }
+
+        // same elements, different order
+        val checkResult = { it: MutableList<T> -> it != ml && it.size == ml.size && it.toSet() == ml.toSet() }
 
         runRandomTest(createResultList, checkResult)
     }
