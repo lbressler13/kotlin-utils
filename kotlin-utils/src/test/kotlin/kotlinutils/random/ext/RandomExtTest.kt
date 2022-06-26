@@ -1,5 +1,7 @@
 package kotlinutils.random.ext
 
+import kotlinutils.list.WeightedList
+import kotlinutils.runTestWithWeights
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
@@ -32,35 +34,9 @@ internal class RandomExtTest {
      * @param probability [Float]: the value to test
      */
     private fun runSingleNextBooleanTest(probability: Float) {
-        val iterations = 1000
-        val results = List(iterations) { random.nextBoolean(probability) }
-            .groupBy { it }
-            .map { it.key to it.value.size }
-
-        val falsePair = results.find { !it.first } ?: (false to 0)
-        val truePair = results.find { it.first } ?: (true to 0)
-
-        when (probability) {
-            0f -> {
-                assertEquals(0, truePair.second)
-                assertEquals(iterations, falsePair.second)
-            }
-            1f -> {
-                assertEquals(iterations, truePair.second)
-                assertEquals(0, falsePair.second)
-            }
-            else -> {
-                val errorRange = 0.05f
-                val minTrueFloat = max(probability - errorRange, 0f)
-                val maxTrueFloat = min(probability + errorRange, 1f)
-                val minTrue = (minTrueFloat * iterations).toInt()
-                val maxTrue = (maxTrueFloat * iterations).toInt()
-
-                assertEquals(iterations, truePair.second + falsePair.second)
-                assertTrue(truePair.second in (minTrue..maxTrue))
-            }
-        }
-        // TODO use helper function here
+        val weightedList = listOf(Pair(true, probability), Pair(false, 1f - probability))
+        val randomAction = { random.nextBoolean(probability) }
+        runTestWithWeights(weightedList, randomAction)
     }
 
     @Test
@@ -128,36 +104,8 @@ internal class RandomExtTest {
      *
      * @param list [List]: the value to test
      */
-    private fun <T> runSingleNextFromWeightedListTest(list: List<Pair<T, Float>>) {
-        // TODO use helper here too
-        val iterations = 10000
-        val results = List(iterations) { random.nextFromWeightedList(list) }
-            .groupBy { it }
-            .map { it.key to it.value.size }
-
-        val totalResults = results.sumOf { it.second }
-        assertEquals(iterations, totalResults)
-
-        for (item in list) {
-            val weight = item.second
-            val result: Pair<T, Int> =
-                results.find { it.first == item.first } ?: Pair(item.first, 0)
-            when (item.second) {
-                0f -> {
-                    assertEquals(0, result.second)
-                }
-                1f -> {
-                    assertEquals(iterations, result.second)
-                }
-                else -> {
-                    val errorRange = 0.05f
-                    val minFloat = max(weight - errorRange, 0f)
-                    val maxFloat = min(weight + errorRange, 1f)
-                    val minMatch = (minFloat * iterations).toInt()
-                    val maxMatch = (maxFloat * iterations).toInt()
-                    assertTrue(result.second in (minMatch..maxMatch))
-                }
-            }
-        }
+    private fun <T> runSingleNextFromWeightedListTest(list: WeightedList<T>) {
+        val randomAction = { random.nextFromWeightedList(list) }
+        runTestWithWeights(list, randomAction)
     }
 }

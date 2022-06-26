@@ -1,5 +1,6 @@
 package kotlinutils.random.ext
 
+import kotlinutils.list.WeightedList
 import kotlin.random.Random
 
 /**
@@ -19,12 +20,12 @@ fun Random.nextBoolean(probabilityTrue: Float): Boolean {
 /**
  * Get a random value from a weighted list, based on the weights
  *
- * @param weightedPairs [List]: list of pairs, which consist of an item and a weight.
+ * @param weightedPairs [WeightedList]: list of pairs, which consist of an item and a weight.
  * Weights must be non-negative, and sum of weights must equal 1.
  * @return [T]: the randomly selected value
  * @throws [IllegalArgumentException] if a weight is less than zero, or sum of weights is not 1
  */
-fun <T> Random.nextFromWeightedList(weightedPairs: List<Pair<T, Float>>): T {
+fun <T> Random.nextFromWeightedList(weightedPairs: WeightedList<T>): T {
     // check for invalid weights
     if (weightedPairs.any { it.second < 0f }) {
         throw IllegalArgumentException("Weights cannot be less than zero")
