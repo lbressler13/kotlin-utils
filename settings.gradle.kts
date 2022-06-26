@@ -7,5 +7,5 @@
  * in the user manual at https://docs.gradle.org/7.4.2/userguide/multi_project_builds.html
  */
 
-rootProject.name = "kotlin-util"
-include("kotlin-util")
+rootProject.name = "kotlin-utils"
+include("kotlin-utils")
