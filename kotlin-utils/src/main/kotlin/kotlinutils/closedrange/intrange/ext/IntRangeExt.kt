@@ -1,6 +1,4 @@
-package kotlinutils.intrange.ext
-
-// TODO generalize to all ranges
+package kotlinutils.closedrange.intrange.ext
 
 /**
  * Get number of elements in range, inclusive of start and end
@@ -8,20 +6,6 @@ package kotlinutils.intrange.ext
  * @return [Int]: size of range
  */
 fun IntRange.size(): Int = last - first + 1
-
-/**
- * If range consists of a single value
- *
- * @return [Boolean]: true if range consists of single value, false otherwise
- */
-fun IntRange.isSingleValue(): Boolean = first == last
-
-/**
- * If range does not consist of a single value
- *
- * @return [Boolean]: true if range consists of multiple value, false otherwise
- */
-fun IntRange.isNotSingleValue(): Boolean = first != last
 
 /**
  * Mimic getting an indexed value in a List by getting nth value in range

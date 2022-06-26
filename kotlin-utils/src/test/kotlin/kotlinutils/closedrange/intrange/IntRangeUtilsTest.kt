@@ -1,4 +1,4 @@
-package kotlinutils.intrange
+package kotlinutils.closedrange.intrange
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
