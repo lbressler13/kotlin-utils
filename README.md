@@ -5,7 +5,7 @@ Android-specific code, such as functions to handle Views, is not included.
 
 ## Purpose
 The primary purpose of this package is to avoid copying code between projects.
-Most of this code has already been implemented at least twice, so, as an alternative to continuing to copy/past, I've moved it into this package.
+Most of this code has already been implemented at least twice, so, as an alternative to continuing to copy/paste, I've moved it into this package.
 This prevents unnecessary re-writing and re-testing of code, and also creates a central location for any changes and bug fixes.
 
 ## Contents
@@ -18,8 +18,8 @@ See [here](https://kotlinlang.org/docs/type-aliases.html) for general informatio
 Reusable classes and data classes.
 
 ### Extension functions
-Functions that extended existing classes and interfaces.
-When possible, extensions are added to the broadest class/implementation possible in order to be broadly usable.
+Functions that extend existing classes and interfaces.
+Extensions are added to the broadest possible class/implementation in order to be more widely usable.
 
 See [here](https://kotlinlang.org/docs/extensions.html) for general information about extensions in Kotlin.
 
@@ -63,11 +63,8 @@ The full folder structure, including additional subclasses, can be repeated with
 The package can be built using an IDE, or with the following command:
 ```./gradlew build```
 
-The package can be built via the command line by running `./gradlew build`.
-IDEs such as IntelliJ may also provide the option to build the package through the UI.
-
 When the package is built, a .jar file will be generated in the build/libs folder.
-The name will be in the format "kotlin-utils-version", where the version is specified in the build.gradle file.
+The name will be in the format "kotlin-utils-version", where the version is specified in the build.gradle.kts file.
 
 ## Testing
 Unit tests are written using the [Kotlin test](https://kotlinlang.org/api/latest/kotlin.test/) framework.
@@ -77,7 +74,8 @@ Tests can be run using an IDE, or with the following command:
 ```./gradlew test```
 
 ## Linting
-Linting is done using [ktlint](https://github.com/pinterest/ktlint).
+Linting is done using [ktlint](https://ktlint.github.io/), using [this](https://github.com/jlleitschuh/ktlint-gradle) plugin.
+See [here](https://github.com/pinterest/ktlint#standard-rules) for a list of standard rules.
 
 Linting can be run using an IDE, or with the following command:
 ```./gradlew ktlintCheck```
