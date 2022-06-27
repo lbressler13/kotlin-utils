@@ -2,13 +2,9 @@ package kotlinutils.random.ext
 
 import kotlinutils.list.WeightedList
 import kotlinutils.runTestWithWeights
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.random.Random
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 internal class RandomExtTest {
     private val random = Random.Default
@@ -88,7 +84,7 @@ internal class RandomExtTest {
         list = listOf(Pair(-1, 0.15f), Pair(0, 0.3f), Pair(1, 0.55f))
         runSingleNextFromWeightedListTest(list)
 
-        list = listOf(Pair(0, 0.1f), Pair(-1, 0.2f), Pair(5, 0.45f), Pair(2, 0.25f))//, Pair(13, 0.1f))
+        list = listOf(Pair(0, 0.1f), Pair(-1, 0.2f), Pair(5, 0.45f), Pair(2, 0.25f))
         runSingleNextFromWeightedListTest(list)
 
         // other types

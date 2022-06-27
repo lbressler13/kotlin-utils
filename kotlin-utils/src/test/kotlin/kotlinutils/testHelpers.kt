@@ -51,7 +51,7 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
         val result: Pair<T, Int> =
             results.find { it.first == item.first } ?: Pair(item.first, 0)
 
-        when (weight)  {
+        when (weight) {
             0f -> assertEquals(0, result.second)
             1f -> assertEquals(iterations, result.second)
             else -> {
