@@ -1,6 +1,8 @@
 package kotlinutils.closedrange.charrange.ext
 
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class CharRangeExtTest {
     @Test

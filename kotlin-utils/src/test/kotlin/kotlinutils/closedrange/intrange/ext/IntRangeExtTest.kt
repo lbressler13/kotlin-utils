@@ -1,6 +1,8 @@
 package kotlinutils.closedrange.intrange.ext
 
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 internal class IntRangeExtTest {
     @Test

@@ -1,8 +1,8 @@
 package kotlinutils.closedrange.ext
 
+import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlin.test.Test
 
 class ClosedRangeExtTest {
     @Test

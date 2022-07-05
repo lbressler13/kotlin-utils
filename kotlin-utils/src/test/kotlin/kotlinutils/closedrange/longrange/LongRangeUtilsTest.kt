@@ -1,7 +1,7 @@
 package kotlinutils.closedrange.longrange
 
-import kotlin.test.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class LongRangeUtilsTest {
     @Test
