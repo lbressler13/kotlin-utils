@@ -2,6 +2,7 @@ package kotlinutils.biginteger.ext
 
 import java.math.BigInteger
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -40,5 +41,26 @@ internal class BigIntegerExtTest {
 
         bi = BigInteger("-100")
         assertFalse { bi.isZero() }
+    }
+
+    @Test
+    internal fun testIfZero() {
+        val getValue = { BigInteger.TWO }
+
+        var bi = BigInteger.ZERO
+        var expected = BigInteger.TWO
+        assertEquals(expected, bi.ifZero(getValue))
+
+        bi = BigInteger.TWO
+        expected = BigInteger.TWO
+        assertEquals(expected, bi.ifZero(getValue))
+
+        bi = BigInteger("15")
+        expected = BigInteger("15")
+        assertEquals(expected, bi.ifZero(getValue))
+
+        bi = BigInteger("-100")
+        expected = BigInteger("-100")
+        assertEquals(expected, bi.ifZero(getValue))
     }
 }
