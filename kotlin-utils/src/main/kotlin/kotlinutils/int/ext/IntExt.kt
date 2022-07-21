@@ -7,7 +7,7 @@ package kotlinutils.int.ext
  * @return [Int] the current value, or the default
  */
 fun Int.ifZero(getDefaultValue: () -> Int): Int {
-    return if (this == 0) {
+    return if (equals(0)) {
         getDefaultValue()
     } else {
         this
