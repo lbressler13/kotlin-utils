@@ -54,6 +54,7 @@ fun getListGCD(values: List<BigInteger>): BigInteger {
     }
 
     var current: BigInteger = values[0]
+    // loop is more efficient than fold b/c fold is not parallel, and loop has the option to exit early
     for (value in values) {
         current = getGCD(value, current)
         if (current == BigInteger.ONE) {
