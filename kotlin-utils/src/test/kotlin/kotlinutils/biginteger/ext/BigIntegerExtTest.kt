@@ -9,10 +9,10 @@ import kotlin.test.assertTrue
 internal class BigIntegerExtTest {
     @Test
     internal fun testIsNegative() {
-        var bi = BigInteger("0")
+        var bi = BigInteger.ZERO
         assertFalse { bi.isNegative() }
 
-        bi = BigInteger("1")
+        bi = BigInteger.ONE
         assertFalse { bi.isNegative() }
 
         bi = BigInteger("100")
@@ -27,10 +27,10 @@ internal class BigIntegerExtTest {
 
     @Test
     internal fun testIsZero() {
-        var bi = BigInteger("0")
+        var bi = BigInteger.ZERO
         assertTrue { bi.isZero() }
 
-        bi = BigInteger("1")
+        bi = BigInteger.ONE
         assertFalse { bi.isZero() }
 
         bi = BigInteger("-1")
