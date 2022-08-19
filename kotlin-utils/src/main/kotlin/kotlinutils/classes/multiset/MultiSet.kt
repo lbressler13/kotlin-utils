@@ -1,6 +1,5 @@
 package kotlinutils.classes.multiset
 
-// TODO constructor w/ size + init fn
 class MultiSet<T> internal constructor(elements: Collection<T>) : Collection<T> {
     override val size: Int
     private val valuesMap: Map<T, Int>
@@ -19,6 +18,8 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Collection<T> 
 
         valuesMap = mutableMap.toMap()
     }
+
+    constructor(size: Int, init: (Int) -> T) : this((0 until size).map(init))
 
     // O(1)
     override fun contains(element: T): Boolean = valuesMap.contains(element)

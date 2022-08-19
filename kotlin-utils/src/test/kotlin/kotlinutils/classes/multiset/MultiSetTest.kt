@@ -9,6 +9,7 @@ import kotlin.test.assertTrue
 class MultiSetTest {
     @Test
     fun testConstructor() {
+        // collection
         var set: MultiSet<Int> = MultiSet(listOf())
         var expectedSize = 0
         assertEquals(expectedSize, set.size)
@@ -32,6 +33,26 @@ class MultiSetTest {
         val listSet = MultiSet(listOf(listOf(1, 3, 4), listOf(55, 66, 77)))
         expectedSize = 2
         assertEquals(expectedSize, listSet.size)
+
+        // size and init fn
+        set = MultiSet(5) { 2 }
+        expectedSize = 5
+        var expected = MultiSet(listOf(2, 2, 2, 2, 2))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = MultiSet(4) { 3 * it }
+        expectedSize = 4
+        expected = MultiSet(listOf(0, 3, 6, 9))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
+        set = MultiSet(8) { values[it] }
+        expectedSize = 8
+        expected = MultiSet(values)
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
     }
 
     @Test
@@ -87,8 +108,8 @@ class MultiSetTest {
         assertEquals(listSet1, listSet1)
 
         val listSet2 = multiSetOf(listOf(12, 34, 56))
-        assertNotEquals(stringSet1, stringSet2)
-        assertNotEquals(stringSet2, stringSet1)
+        assertNotEquals(listSet1, listSet2)
+        assertNotEquals(listSet2, listSet1)
     }
 
     @Test
