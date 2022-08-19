@@ -5,9 +5,9 @@ import kotlinutils.classes.multiset.multiSetOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CollectionExtTest {
+internal class CollectionExtTest {
     @Test
-    fun testToMultiSet() {
+    internal fun testToMultiSet() {
         var collection: Collection<Int> = listOf()
         var expected: MultiSet<Int> = multiSetOf()
         assertEquals(expected, collection.toMultiSet())

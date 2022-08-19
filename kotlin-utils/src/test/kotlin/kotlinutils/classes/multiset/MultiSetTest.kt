@@ -6,9 +6,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-class MultiSetTest {
+internal class MultiSetTest {
     @Test
-    fun testConstructor() {
+    internal fun testConstructor() {
         // collection
         var set: MultiSet<Int> = MultiSet(listOf())
         var expectedSize = 0
@@ -56,7 +56,7 @@ class MultiSetTest {
     }
 
     @Test
-    fun testEquals() {
+    internal fun testEquals() {
         // equals
         var set1: MultiSet<Int> = multiSetOf()
         assertEquals(set1, set1)
@@ -113,7 +113,7 @@ class MultiSetTest {
     }
 
     @Test
-    fun testContains() {
+    internal fun testContains() {
         var set: MultiSet<Int> = multiSetOf()
         assertFalse(set.contains(0))
         assertFalse(set.contains(1000))
@@ -139,7 +139,7 @@ class MultiSetTest {
     }
 
     @Test
-    fun testContainsAll() {
+    internal fun testContainsAll() {
         // equal
         var set1: MultiSet<Int> = multiSetOf()
         assertTrue(set1.containsAll(set1))
@@ -213,7 +213,7 @@ class MultiSetTest {
     }
 
     @Test
-    fun testIsEmpty() {
+    internal fun testIsEmpty() {
         // empty
         var intSet: MultiSet<Int> = multiSetOf()
         assertTrue(intSet.isEmpty())
@@ -239,7 +239,7 @@ class MultiSetTest {
     }
 
     @Test
-    fun testGetCountOf() {
+    internal fun testGetCountOf() {
         var set: MultiSet<Int> = multiSetOf()
         var expected = 0
 
@@ -279,7 +279,7 @@ class MultiSetTest {
     }
 
     @Test
-    fun testIterator() {
+    internal fun testIterator() {
         var set: MultiSet<Int> = multiSetOf()
         var iter = set.iterator()
         assertFalse(iter.hasNext())

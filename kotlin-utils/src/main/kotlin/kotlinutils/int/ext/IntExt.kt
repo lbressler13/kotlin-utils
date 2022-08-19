@@ -13,3 +13,17 @@ fun Int.ifZero(getDefaultValue: () -> Int): Int {
         this
     }
 }
+
+/**
+ * Unary check to determine if value is zero
+ *
+ * @return [Boolean]: true if value is zero, false otherwise
+ */
+fun Int.isZero(): Boolean = equals(0)
+
+/**
+ * Unary check to determine if value is negative
+ *
+ * @return [Boolean]: true if value is less than zero, false otherwise
+ */
+fun Int.isNegative(): Boolean = this < 0

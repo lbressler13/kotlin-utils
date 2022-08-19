@@ -3,9 +3,9 @@ package kotlinutils.generic.ext
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class TExtTest {
+internal class GenericExtTest {
     @Test
-    fun testIfNull() {
+    internal fun testIfNull() {
         var string: String? = "abc"
         var expectedStr = "abc"
         var resultStr = string.ifNull { "abcde" }
