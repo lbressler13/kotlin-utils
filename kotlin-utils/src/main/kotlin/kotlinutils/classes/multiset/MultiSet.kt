@@ -1,18 +1,18 @@
 package kotlinutils.classes.multiset
 
 // TODO constructor w/ size + init fn
-class MultiSet<T> internal constructor(values: Collection<T>) : Collection<T> {
+class MultiSet<T> internal constructor(elements: Collection<T>) : Collection<T> {
     override val size: Int
     private val valuesMap: Map<T, Int>
     private var iter: Iterator<T>? = null
 
     // O(n) init
     init {
-        size = values.size
+        size = elements.size
 
         val mutableMap: MutableMap<T, Int> = mutableMapOf()
 
-        for (value in values) {
+        for (value in elements) {
             val currentCount = mutableMap[value] ?: 0
             mutableMap[value] = currentCount + 1
         }
@@ -25,6 +25,10 @@ class MultiSet<T> internal constructor(values: Collection<T>) : Collection<T> {
 
     // O(|e|)
     override fun containsAll(elements: Collection<T>): Boolean {
+        if (elements.isEmpty()) {
+            return true
+        }
+
         val newSet = MultiSet(elements)
         return newSet.valuesMap.all { valuesMap.contains(it.key) && it.value <= getCountOf(it.key) }
     }
