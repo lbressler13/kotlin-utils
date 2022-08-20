@@ -8,3 +8,5 @@ import kotlinutils.classes.multiset.MultiSet
  * @return [MultiSet<T>]
  */
 fun <T> Collection<T>.toMultiSet() = MultiSet(this)
+
+fun <T> Collection<T>.filterNotNull() = filterNot { it == null }

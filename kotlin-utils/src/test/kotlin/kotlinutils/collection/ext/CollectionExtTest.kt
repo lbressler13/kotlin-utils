@@ -31,4 +31,9 @@ internal class CollectionExtTest {
         val listExpected = multiSetOf(listOf(), listOf(1, 2), listOf(10000))
         assertEquals(listExpected, listCollection.toMultiSet())
     }
+
+    @Test
+    internal fun testFilterNotNull() {
+        // TODO
+    }
 }

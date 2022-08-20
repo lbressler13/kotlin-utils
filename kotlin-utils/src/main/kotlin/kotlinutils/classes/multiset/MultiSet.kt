@@ -51,7 +51,7 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * Runs in O(1).
      *
      * @param element [T]
-     * @return [Boolean]: true if [element] is in the MultiSet, false otherwise
+     * @return [Boolean]: `true` if [element] is in the MultiSet, `false` otherwise
      */
     override fun contains(element: T): Boolean = countsMap.contains(element)
 
@@ -62,7 +62,7 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * Runs in O(e), where e is the size of [elements].
      *
      * @param elements [Collection<T>]
-     * @return [Boolean]: true if the current MultiSet contains at least as many occurrences of each value as [elements]
+     * @return [Boolean]: `true` if the current MultiSet contains at least as many occurrences of each value as [elements], `false` otherwise
      */
     override fun containsAll(elements: Collection<T>): Boolean {
         if (elements.isEmpty()) {
@@ -77,7 +77,7 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * If the current MultiSet contains 0 elements.
      * Runs in O(1).
      *
-     * @return [Boolean]: true if the MultiSet contains 0 elements, false otherwise
+     * @return [Boolean]: `true` if the MultiSet contains 0 elements, `false` otherwise
      */
     override fun isEmpty(): Boolean = countsMap.isEmpty()
 
@@ -95,7 +95,7 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * Runs in O(n).
      *
      * @param other [Any?]
-     * @return [Boolean]: true if [other] is a non-null MultiSet which contains the same values, false otherwise
+     * @return [Boolean]: `true` if [other] is a non-null MultiSet which contains the same values, `false` otherwise
      */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is MultiSet<*>) {
@@ -127,5 +127,5 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
         return iter!!
     }
 
-    override fun hashCode(): Int = Pair("MultiSet", countsMap).hashCode()
+    override fun hashCode(): Int = listOf("MultiSet", countsMap).hashCode()
 }
