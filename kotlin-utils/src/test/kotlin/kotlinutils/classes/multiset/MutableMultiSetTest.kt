@@ -25,6 +25,7 @@ class MutableMultiSetTest {
     @Test
     fun testAdd() {
         // TODO
+        // test size after adding/removing
     }
 
     @Test

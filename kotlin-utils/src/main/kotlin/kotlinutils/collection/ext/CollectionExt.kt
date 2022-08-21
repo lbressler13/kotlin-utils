@@ -1,12 +1,18 @@
 package kotlinutils.collection.ext
 
 import kotlinutils.classes.multiset.MultiSet
+import kotlinutils.classes.multiset.MutableMultiSet
 
 /**
  * Create a MultiSet with the elements in the current collection.
  *
- * @return [MultiSet<T>]
+ * @return [MultiSet<E>]
  */
-fun <T> Collection<T>.toMultiSet() = MultiSet(this)
+fun <E> Collection<E>.toMultiSet() = MultiSet(this)
 
-fun <T> Collection<T>.filterNotNull() = filterNot { it == null }
+/**
+ * Create a MutableMultiSet with the elements in the current collection.
+ *
+ * @return [MultiSet<E>]
+ */
+fun <E> Collection<E>.toMutableMultiSet() = MutableMultiSet(this)

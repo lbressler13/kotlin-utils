@@ -3,7 +3,7 @@ package kotlinutils.classes.multiset
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
+class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     /**
      * Number of elements in set
      */
@@ -13,12 +13,12 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * Store the number of occurrences of each element in set.
      * Because set is not mutable, counts are guaranteed to be greater than 0.
      */
-    private val countsMap: HashMap<T, Int>
+    private val countsMap: HashMap<E, Int>
 
     /**
      * Iterator for the set, is created and stored the first time it's requested
      */
-    private var iter: Iterator<T>? = null
+    private var iter: Iterator<E>? = null
 
     /**
      * Initialize size and countsMap from input elements.
@@ -27,7 +27,7 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
     init {
         size = elements.size
 
-        val mutableMap: MutableMap<T, Int> = mutableMapOf()
+        val mutableMap: MutableMap<E, Int> = mutableMapOf()
 
         for (value in elements) {
             val currentCount = mutableMap[value] ?: 0
@@ -42,18 +42,18 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * Runs in O(n), in addition to the runtime of class init function
      *
      * @param size [Int]: size of MultiSet to create
-     * @param initializeElement [(Int) -> T]: initialization function, used to create each element based on its index
+     * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
      */
-    constructor(size: Int, initializeElement: (Int) -> T) : this((0 until size).map(initializeElement))
+    constructor(size: Int, initializeElement: (Int) -> E) : this((0 until size).map(initializeElement))
 
     /**
      * Determine if an element is contained in the current MultiSet.
      * Runs in O(1).
      *
-     * @param element [T]
+     * @param element [E]
      * @return [Boolean]: `true` if [element] is in the MultiSet, `false` otherwise
      */
-    override fun contains(element: T): Boolean = countsMap.contains(element)
+    override fun contains(element: E): Boolean = countsMap.contains(element)
 
     /**
      * Determine if all elements in a collection are contained in the current MultiSet.
@@ -61,10 +61,10 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * this function checks if the MultiSet has at least as many occurrence as the input collection.
      * Runs in O(e), where e is the size of [elements].
      *
-     * @param elements [Collection<T>]
+     * @param elements [Collection<E>]
      * @return [Boolean]: `true` if the current MultiSet contains at least as many occurrences of each value as [elements], `false` otherwise
      */
-    override fun containsAll(elements: Collection<T>): Boolean {
+    override fun containsAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
             return true
         }
@@ -85,10 +85,10 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * Get the number of occurrences of a given element in the current MultiSet.
      * Runs in O(1).
      *
-     * @param element [T]
+     * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    fun getCountOf(element: T): Int = countsMap[element] ?: 0
+    fun getCountOf(element: E): Int = countsMap[element] ?: 0
 
     /**
      * If two MultiSets contain the same elements, with the same number of occurrences per element.
@@ -109,11 +109,11 @@ class MultiSet<T> internal constructor(elements: Collection<T>) : Set<T> {
      * Create an iterator for the elements in this MultiSet.
      * Runs in O(n) the first time, and O(1) for repeat calls
      *
-     * @return [Iterator<T>]
+     * @return [Iterator<E>]
      */
-    override fun iterator(): Iterator<T> {
+    override fun iterator(): Iterator<E> {
         if (iter == null) {
-            val list: MutableList<T> = mutableListOf()
+            val list: MutableList<E> = mutableListOf()
             countsMap.forEach {
                 val element = it.key
                 val count = it.value

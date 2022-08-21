@@ -1,7 +1,9 @@
 package kotlinutils.collection.ext
 
 import kotlinutils.classes.multiset.MultiSet
+import kotlinutils.classes.multiset.MutableMultiSet
 import kotlinutils.classes.multiset.multiSetOf
+import kotlinutils.classes.multiset.mutableMultiSetOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -33,7 +35,28 @@ internal class CollectionExtTest {
     }
 
     @Test
-    internal fun testFilterNotNull() {
-        // TODO
+    internal fun testToMutableMultiSet() {
+        var collection: Collection<Int> = listOf()
+        var expected: MutableMultiSet<Int> = mutableMultiSetOf()
+        assertEquals(expected, collection.toMutableMultiSet())
+
+        expected = mutableMultiSetOf(1, 2, 3)
+
+        collection = listOf(1, 2, 3)
+        assertEquals(expected, collection.toMutableMultiSet())
+
+        collection = mutableSetOf(1, 2, 3)
+        assertEquals(expected, collection.toMutableMultiSet())
+
+        collection = mutableListOf(1, 2, 3)
+        assertEquals(expected, collection.toMutableMultiSet())
+
+        collection = listOf(1, 1, 2, 4)
+        expected = mutableMultiSetOf(1, 2, 1, 4)
+        assertEquals(expected, collection.toMutableMultiSet())
+
+        val listCollection = listOf(listOf(), listOf(1, 2), listOf(10000))
+        val listExpected = mutableMultiSetOf(listOf(), listOf(1, 2), listOf(10000))
+        assertEquals(listExpected, listCollection.toMutableMultiSet())
     }
 }

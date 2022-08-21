@@ -3,30 +3,33 @@ package kotlinutils.classes.multiset
 import kotlinutils.int.ext.isZero
 import java.lang.Integer.min
 
-class MutableMultiSet<T> internal constructor(elements: Collection<T>) : MutableSet<T> {
+class MutableMultiSet<E> internal constructor(elements: Collection<E>) : MutableSet<E> {
     /**
      * Number of elements in set
      */
     override val size: Int
+        get() = storedSize
 
     /**
      * Store the number of occurrences of each element in set.
      * Because set is not mutable, counts are guaranteed to be greater than 0.
      */
-    private val countsMap: MutableMap<T, Int>
+    private val countsMap: MutableMap<E, Int>
 
     /**
      * Iterator for the set, is created and stored the first time it's requested
      */
-    private var iter: MutableIterator<T>? = null
+    private var iter: MutableIterator<E>? = null
 
     /**
      * If the iterator is up-to-date with the most recent changes
      */
     private var iterUpdated: Boolean = false
 
+    private var storedSize: Int = 0
+
     init {
-        size = elements.size
+        storedSize = elements.size
 
         countsMap = mutableMapOf()
 
@@ -35,44 +38,62 @@ class MutableMultiSet<T> internal constructor(elements: Collection<T>) : Mutable
         }
     }
 
-    fun getCountOf(element: T): Int = countsMap[element] ?: 0
+    /**
+     * Constructor that creates a MutableMultiSet of a given size, using the init function to generate each element
+     * Runs in O(n), in addition to the runtime of class init function
+     *
+     * @param size [Int]: size of MultiSet to create
+     * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
+     */
+    constructor(size: Int, initializeElement: (Int) -> E) : this((0 until size).map(initializeElement))
+
+    fun getCountOf(element: E): Int = countsMap[element] ?: 0
 
     /**
      * Adds the specified element to the set.
      *
-     * @param element [T]
+     * @param element [E]
      * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
-    override fun add(element: T): Boolean {
+    override fun add(element: E): Boolean {
         countsMap[element] = getCountOf(element) + 1
         iterUpdated = false
+        storedSize++
         return true
     }
 
     /**
      * Adds all specified elements to the set.
      *
-     * @param elements [Collection<T>]
+     * @param elements [Collection<E>]
      * @return [Boolean]: `true` if all elements have been added successfully, `false` otherwise
      */
-    override fun addAll(elements: Collection<T>): Boolean {
+    override fun addAll(elements: Collection<E>): Boolean {
+        var allSucceeded = true
+        var successCount = 0
+
         for (element in elements) {
-            if (!add(element)) {
-                return false
+            val success = add(element)
+            allSucceeded = allSucceeded && success
+            if (success) {
+                successCount++
             }
         }
-        return true
+
+        storedSize += successCount
+        return allSucceeded
     }
 
     /**
      * Remove all elements from the set
      */
     override fun clear() {
-        iterUpdated = false
         countsMap.clear()
+        iterUpdated = false
+        storedSize = 0
     }
 
-    override fun iterator(): MutableIterator<T> {
+    override fun iterator(): MutableIterator<E> {
         if (!iterUpdated) {
             // store iterator to be used for future calls
             iter = toList().iterator()
@@ -81,42 +102,47 @@ class MutableMultiSet<T> internal constructor(elements: Collection<T>) : Mutable
         return iter!!
     }
 
-    override fun remove(element: T): Boolean {
+    override fun remove(element: E): Boolean {
         val currentCount = getCountOf(element)
-        return when (currentCount) {
-            0 -> false
-            1 -> {
-                countsMap.remove(element)
-                iterUpdated = false
-                true
-            }
-            else -> {
-                countsMap[element] = currentCount - 1
-                iterUpdated = false
-                true
-            }
-        }
-    }
 
-    override fun removeAll(elements: Collection<T>): Boolean {
-        for (element in elements) {
-            if (!remove(element)) {
-                return false
-            }
+        when (currentCount) {
+            0 -> return false
+            1 -> countsMap.remove(element)
+            else -> countsMap[element] = currentCount - 1
         }
 
+        iterUpdated = false
+        storedSize--
         return true
     }
 
+    override fun removeAll(elements: Collection<E>): Boolean {
+        var allSucceeded = true
+        var successCount = 0
+
+        for (element in elements) {
+            val success = remove(element)
+            allSucceeded = allSucceeded && success
+            if (success) {
+                successCount++
+            }
+        }
+
+        storedSize -= successCount
+        return allSucceeded
+    }
+
     // O(max(n, e))
-    override fun retainAll(elements: Collection<T>): Boolean {
+    override fun retainAll(elements: Collection<E>): Boolean {
         val other = MutableMultiSet(elements) // O(e)
         val keys = countsMap.keys.intersect(other.countsMap.keys) // O(max(n, e))
 
         val newValues = keys.map { it to min(countsMap[it]!!, other.countsMap[it]!!) } // O(n)
         clear()
         countsMap.putAll(newValues) // O(n)
+
         iterUpdated = false
+        storedSize = countsMap.values.fold(0, Int::plus) // O(n)
 
         return true
     }
@@ -125,10 +151,10 @@ class MutableMultiSet<T> internal constructor(elements: Collection<T>) : Mutable
      * Determine if an element is contained in the current MultiSet.
      * Runs in O(1).
      *
-     * @param element [T]
+     * @param element [E]
      * @return [Boolean]: true if [element] is in the MultiSet, false otherwise
      */
-    override fun contains(element: T): Boolean = countsMap.contains(element)
+    override fun contains(element: E): Boolean = countsMap.contains(element)
 
     /**
      * Determine if all elements in a collection are contained in the current MultiSet.
@@ -136,10 +162,10 @@ class MutableMultiSet<T> internal constructor(elements: Collection<T>) : Mutable
      * this function checks if the MultiSet has at least as many occurrence as the input collection.
      * Runs in O(e), where e is the size of [elements].
      *
-     * @param elements [Collection<T>]
+     * @param elements [Collection<E>]
      * @return [Boolean]: true if the current MultiSet contains at least as many occurrences of each value as [elements]
      */
-    override fun containsAll(elements: Collection<T>): Boolean {
+    override fun containsAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
             return true
         }
@@ -149,8 +175,8 @@ class MutableMultiSet<T> internal constructor(elements: Collection<T>) : Mutable
     }
 
     // O(n)
-    private fun toList(): MutableList<T> {
-        val list: MutableList<T> = mutableListOf()
+    private fun toList(): MutableList<E> {
+        val list: MutableList<E> = mutableListOf()
 
         countsMap.forEach {
             val element = it.key
@@ -161,11 +187,7 @@ class MutableMultiSet<T> internal constructor(elements: Collection<T>) : Mutable
         return list
     }
 
-    override fun isEmpty(): Boolean {
-        // remove zeros
-        countsMap.keys.removeAll { countsMap[it]?.isZero() ?: true }
-        return countsMap.isEmpty()
-    }
+    override fun isEmpty(): Boolean = storedSize.isZero()
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is MutableMultiSet<*>) {
