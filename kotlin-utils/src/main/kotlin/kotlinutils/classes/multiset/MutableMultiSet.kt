@@ -59,6 +59,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
         countsMap[element] = getCountOf(element) + 1
         iterUpdated = false
         storedSize++
+        println(Pair(storedSize, countsMap))
         return true
     }
 
@@ -69,19 +70,17 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      * @return [Boolean]: `true` if all elements have been added successfully, `false` otherwise
      */
     override fun addAll(elements: Collection<E>): Boolean {
-        var allSucceeded = true
-        var successCount = 0
-
-        for (element in elements) {
-            val success = add(element)
-            allSucceeded = allSucceeded && success
-            if (success) {
-                successCount++
-            }
+        if (elements.isEmpty()) {
+            return true
         }
 
-        storedSize += successCount
-        return allSucceeded
+        var someSucceeded = false
+
+        for (element in elements) {
+            someSucceeded = add(element) || someSucceeded
+        }
+
+        return someSucceeded
     }
 
     /**
@@ -117,19 +116,17 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     }
 
     override fun removeAll(elements: Collection<E>): Boolean {
-        var allSucceeded = true
-        var successCount = 0
-
-        for (element in elements) {
-            val success = remove(element)
-            allSucceeded = allSucceeded && success
-            if (success) {
-                successCount++
-            }
+        if (elements.isEmpty()) {
+            return true
         }
 
-        storedSize -= successCount
-        return allSucceeded
+        var someSucceeded = false
+
+        for (element in elements) {
+            someSucceeded = remove(element) || someSucceeded
+        }
+
+        return someSucceeded
     }
 
     // O(max(n, e))

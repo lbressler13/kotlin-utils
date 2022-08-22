@@ -7,6 +7,7 @@ Android-specific code, such as functions to handle Views, is not included.
 The primary purpose of this package is to avoid copying code between projects.
 Most of this code has already been implemented at least twice, so, as an alternative to continuing to copy/paste, I've moved it into this package.
 This prevents unnecessary re-writing and re-testing of code, and also creates a central location for any changes and bug fixes.
+TODO update this
 
 ## Contents
 ### Typealiases
