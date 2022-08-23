@@ -2,6 +2,7 @@ package kotlinutils.collection.ext
 
 import kotlinutils.classes.multiset.MultiSet
 import kotlinutils.classes.multiset.MutableMultiSet
+import kotlinutils.int.ext.isZero
 
 /**
  * Create a MultiSet with the elements in the current collection.
@@ -16,3 +17,5 @@ fun <E> Collection<E>.toMultiSet() = MultiSet(this)
  * @return [MultiSet<E>]
  */
 fun <E> Collection<E>.toMutableMultiSet() = MutableMultiSet(this)
+
+fun Collection<Int>.filterNotZero() = filterNot { it.isZero() }

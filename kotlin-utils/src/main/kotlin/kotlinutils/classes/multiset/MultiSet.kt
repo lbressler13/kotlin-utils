@@ -16,9 +16,14 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     private val countsMap: HashMap<E, Int>
 
     /**
-     * Iterator for the set, is created and stored the first time it's requested
+     * String representation of the set
      */
-    private var iter: Iterator<E>? = null
+    private val string: String
+
+    /**
+     * The initial elements that were passed to the constructor
+     */
+    private val initialElements: Collection<E> = elements
 
     /**
      * Initialize size and countsMap from input elements.
@@ -26,6 +31,13 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
      */
     init {
         size = elements.size
+
+        string = if (size == 0) {
+            "[]"
+        } else {
+            val elementsString = elements.joinToString(", ")
+            "[$elementsString]"
+        }
 
         val mutableMap: MutableMap<E, Int> = mutableMapOf()
 
@@ -106,26 +118,20 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     }
 
     /**
-     * Create an iterator for the elements in this MultiSet.
-     * Runs in O(n) the first time, and O(1) for repeat calls
+     * Get an iterator for the elements in this MultiSet.
+     * Runs in O(n).
      *
      * @return [Iterator<E>]
      */
-    override fun iterator(): Iterator<E> {
-        if (iter == null) {
-            val list: MutableList<E> = mutableListOf()
-            countsMap.forEach {
-                val element = it.key
-                val count = it.value
-                repeat(count) { list.add(element) }
-            }
+    override fun iterator(): Iterator<E> = initialElements.iterator()
 
-            // store iterator to be used for future calls
-            iter = list.iterator()
-        }
-
-        return iter!!
-    }
+    /**
+     * Get a string representation of the set.
+     * Runs in O(1).
+     *
+     * @return [String]
+     */
+    override fun toString(): String = string
 
     override fun hashCode(): Int = listOf("MultiSet", countsMap).hashCode()
 }

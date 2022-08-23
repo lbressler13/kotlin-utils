@@ -16,17 +16,13 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      */
     private val countsMap: MutableMap<E, Int>
 
-    /**
-     * Iterator for the set, is created and stored the first time it's requested
-     */
-    private var iter: MutableIterator<E>? = null
+    private val list: MutableList<E>
 
-    /**
-     * If the iterator is up-to-date with the most recent changes
-     */
-    private var iterUpdated: Boolean = false
+    private var listUpdated = false
 
     private var storedSize: Int = 0
+
+    private var string: String
 
     init {
         storedSize = elements.size
@@ -36,6 +32,11 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
         for (value in elements) {
             countsMap[value] = getCountOf(value) + 1
         }
+
+        // string and list are both updated in updateList
+        list = mutableListOf()
+        string = ""
+        updateList()
     }
 
     /**
@@ -57,9 +58,8 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      */
     override fun add(element: E): Boolean {
         countsMap[element] = getCountOf(element) + 1
-        iterUpdated = false
         storedSize++
-        println(Pair(storedSize, countsMap))
+        listUpdated = false
         return true
     }
 
@@ -88,17 +88,13 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      */
     override fun clear() {
         countsMap.clear()
-        iterUpdated = false
+        listUpdated = false
         storedSize = 0
     }
 
     override fun iterator(): MutableIterator<E> {
-        if (!iterUpdated) {
-            // store iterator to be used for future calls
-            iter = toList().iterator()
-        }
-
-        return iter!!
+        updateList()
+        return list.iterator()
     }
 
     override fun remove(element: E): Boolean {
@@ -110,7 +106,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
             else -> countsMap[element] = currentCount - 1
         }
 
-        iterUpdated = false
+        listUpdated = false
         storedSize--
         return true
     }
@@ -138,7 +134,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
         clear()
         countsMap.putAll(newValues) // O(n)
 
-        iterUpdated = false
+        listUpdated = false
         storedSize = countsMap.values.fold(0, Int::plus) // O(n)
 
         return true
@@ -172,16 +168,25 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     }
 
     // O(n)
-    private fun toList(): MutableList<E> {
-        val list: MutableList<E> = mutableListOf()
+    private fun updateList() {
+        if (!listUpdated) {
+            list.clear()
 
-        countsMap.forEach {
-            val element = it.key
-            val count = it.value
-            repeat(count) { list.add(element) }
+            countsMap.forEach {
+                val element = it.key
+                val count = it.value
+                repeat(count) { list.add(element) }
+            }
+
+            listUpdated = true
+
+            string = if (size == 0) {
+                "[]"
+            } else {
+                val listString = list.joinToString(", ")
+                "[$listString]"
+            }
         }
-
-        return list
     }
 
     override fun isEmpty(): Boolean = storedSize.isZero()
@@ -194,6 +199,11 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
         val simplifiedCounts = countsMap.filterNot { it.value.isZero() }
         val otherSimplifiedCounts = other.countsMap.filterNot { it.value.isZero() }
         return simplifiedCounts == otherSimplifiedCounts
+    }
+
+    override fun toString(): String {
+        updateList()
+        return string
     }
 
     override fun hashCode(): Int = listOf("MutableMultiSet", countsMap).hashCode()

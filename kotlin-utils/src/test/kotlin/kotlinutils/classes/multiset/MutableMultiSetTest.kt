@@ -6,9 +6,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-class MutableMultiSetTest {
+internal class MutableMultiSetTest {
     @Test
-    fun testConstructor() {
+    internal fun testConstructor() {
         // collection
         var set: MutableMultiSet<Int> = MutableMultiSet(listOf())
         var expectedSize = 0
@@ -56,7 +56,7 @@ class MutableMultiSetTest {
     }
 
     @Test
-    fun testEquals() {
+    internal fun testEquals() {
         // equals
         var set1: MutableMultiSet<Int> = mutableMultiSetOf()
         assertEquals(set1, set1)
@@ -113,7 +113,7 @@ class MutableMultiSetTest {
     }
 
     @Test
-    fun testGetCountOf() {
+    internal fun testGetCountOf() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
         var expected = 0
 
@@ -153,7 +153,7 @@ class MutableMultiSetTest {
     }
 
     @Test
-    fun testClear() {
+    internal fun testClear() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
         set.clear()
         assertEquals(0, set.size)
@@ -171,7 +171,7 @@ class MutableMultiSetTest {
     }
 
     @Test
-    fun testIterator() {
+    internal fun testIterator() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
         var iter = set.iterator()
         assertFalse(iter.hasNext())
@@ -213,14 +213,14 @@ class MutableMultiSetTest {
         assertEquals(expected.sorted(), values.sorted())
     }
 
-    @Test fun testAdd() = runAddTests()
-    @Test fun testAddAll() = runAddAllTests()
-    @Test fun testRemove() = runRemoveTests()
-    @Test fun testRemoveAll() = runRemoveAllTests()
-    @Test fun testRetainAll() = runRetainAllTests()
+    @Test internal fun testAdd() = runAddTests()
+    @Test internal fun testAddAll() = runAddAllTests()
+    @Test internal fun testRemove() = runRemoveTests()
+    @Test internal fun testRemoveAll() = runRemoveAllTests()
+    @Test internal fun testRetainAll() = runRetainAllTests()
 
     @Test
-    fun testContains() {
+    internal fun testContains() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
         assertFalse(set.contains(0))
         assertFalse(set.contains(1000))
@@ -254,7 +254,7 @@ class MutableMultiSetTest {
     }
 
     @Test
-    fun testContainsAll() {
+    internal fun testContainsAll() {
         // equal
         var set1: MutableMultiSet<Int> = mutableMultiSetOf()
         assertTrue(set1.containsAll(set1))
@@ -343,7 +343,7 @@ class MutableMultiSetTest {
     }
 
     @Test
-    fun testIsEmpty() {
+    internal fun testIsEmpty() {
         // empty
         var intSet: MutableMultiSet<Int> = mutableMultiSetOf()
         assertTrue(intSet.isEmpty())
@@ -387,5 +387,32 @@ class MutableMultiSetTest {
         intSet = mutableMultiSetOf(2, 3)
         intSet.clear()
         assertTrue(intSet.isEmpty())
+    }
+
+    @Test
+    internal fun testToString() {
+        var set: MutableMultiSet<Int> = mutableMultiSetOf()
+        var expected = "[]"
+        assertEquals(expected, set.toString())
+
+        set = mutableMultiSetOf(100, -200, 400, 800)
+        expected = "[100, -200, 400, 800]"
+        assertEquals(expected, set.toString())
+
+        set = mutableMultiSetOf(1, 1, 1, 1)
+        expected = "[1, 1, 1, 1]"
+        assertEquals(expected, set.toString())
+
+        set = mutableMultiSetOf(2, 4, 2, 1)
+        expected = "[2, 2, 4, 1]"
+        assertEquals(expected, set.toString())
+
+        set.add(5)
+        expected = "[2, 2, 4, 1, 5]"
+        assertEquals(expected, set.toString())
+
+        set.remove(2)
+        expected = "[2, 4, 1, 5]"
+        assertEquals(expected, set.toString())
     }
 }

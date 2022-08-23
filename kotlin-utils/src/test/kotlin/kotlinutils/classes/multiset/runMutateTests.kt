@@ -1,10 +1,6 @@
 package kotlinutils.classes.multiset
 
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
-
-// Test size after changes
 
 internal fun runAddTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()

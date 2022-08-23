@@ -57,4 +57,11 @@ internal class MultiSetUtilsTest {
         val listExpected = MutableMultiSet(listOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97)))
         assertEquals(listExpected, listSet)
     }
+
+    @Test
+    fun testEmptyMultiSet() {
+        val set = emptyMultiSet<Int>()
+        val expected = multiSetOf<Int>()
+        assertEquals(expected, set)
+    }
 }

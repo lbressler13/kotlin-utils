@@ -21,3 +21,10 @@ fun <E> multiSetOf(vararg elements: E): MultiSet<E> = elements.toList().toMultiS
  */
 fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = elements.toList().toMutableMultiSet()
 
+/**
+ * Create a MultiSet containing 0 elements.
+ * Runs in O(1).
+ *
+ * @return [MultiSet<E>]
+ */
+fun <E> emptyMultiSet(): MultiSet<E> = MultiSet(listOf())

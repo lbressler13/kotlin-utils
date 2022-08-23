@@ -302,4 +302,23 @@ internal class MultiSetTest {
         }
         assertEquals(expected.sorted(), values.sorted())
     }
+
+    @Test
+    internal fun testToString() {
+        var set: MultiSet<Int> = emptyMultiSet()
+        var expected = "[]"
+        assertEquals(expected, set.toString())
+
+        set = multiSetOf(100, -200, 400, 800)
+        expected = "[100, -200, 400, 800]"
+        assertEquals(expected, set.toString())
+
+        set = multiSetOf(1, 1, 1, 1)
+        expected = "[1, 1, 1, 1]"
+        assertEquals(expected, set.toString())
+
+        set = multiSetOf(2, 4, 2, 1)
+        expected = "[2, 4, 2, 1]"
+        assertEquals(expected, set.toString())
+    }
 }
