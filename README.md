@@ -1,13 +1,14 @@
 # Kotlin Utils
 
-A collection of reusable functions, classes, and aliases that I've defined across different Kotlin and Android projects.
+A collection of reusable functions, classes, and aliases that can be used across various Kotlin and Android projects.
 Android-specific code, such as functions to handle Views, is not included.
 
 ## Purpose
 The primary purpose of this package is to avoid copying code between projects.
-Most of this code has already been implemented at least twice, so, as an alternative to continuing to copy/paste, I've moved it into this package.
+The initial code in this package had already been implemented several times, and was collected here as an alternative to repeated copy/paste.
 This prevents unnecessary re-writing and re-testing of code, and also creates a central location for any changes and bug fixes.
-TODO update this
+
+The package has since expanded to include various classes and functions that could be useful in different projects.
 
 ## Contents
 ### Typealiases
@@ -62,7 +63,9 @@ The full folder structure, including additional subclasses, can be repeated with
 
 ## Building
 The package can be built using an IDE, or with the following command:
-```./gradlew build```
+```shell
+./gradlew build
+```
 
 When the package is built, a .jar file will be generated in the build/libs folder.
 The name will be in the format "kotlin-utils-version", where the version is specified in the build.gradle.kts file.
@@ -70,16 +73,21 @@ The name will be in the format "kotlin-utils-version", where the version is spec
 ## Testing
 Unit tests are written using the [Kotlin test](https://kotlinlang.org/api/latest/kotlin.test/) framework.
 Tests must be written for helper functions and extension functions.
+They should also be written for new classes, with the exception of data classes.
 
 Tests can be run using an IDE, or with the following command:
-```./gradlew test```
+```shell
+./gradlew test
+```
 
 ## Linting
 Linting is done using [ktlint](https://ktlint.github.io/), using [this](https://github.com/jlleitschuh/ktlint-gradle) plugin.
 See [here](https://github.com/pinterest/ktlint#standard-rules) for a list of standard rules.
 
 Linting can be run using an IDE, or with the following command:
-```./gradlew ktlintCheck```
+```shell
+./gradlew ktlintCheck
+```
 
 ## Importing the package
 In order to import the package, copy the most recent .jar file into your project, and add the file to the list of imports for the project.

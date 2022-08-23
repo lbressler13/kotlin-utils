@@ -5,29 +5,28 @@ package kotlinutils.classes.multiset
  */
 class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     /**
-     * Number of elements in set
+     * Number of elements in set.
      */
     override val size: Int
 
     /**
      * Store the number of occurrences of each element in set.
-     * Because set is not mutable, counts are guaranteed to be greater than 0.
+     * Counts are guaranteed to be greater than 0.
      */
     private val countsMap: HashMap<E, Int>
 
     /**
-     * String representation of the set
-     */
-    private val string: String
-
-    /**
-     * The initial elements that were passed to the constructor
+     * The initial elements that were passed to the constructor.
      */
     private val initialElements: Collection<E> = elements
 
     /**
-     * Initialize size and countsMap from input elements.
-     * Runs in O(n).
+     * String representation of the set.
+     */
+    private val string: String
+
+    /**
+     * Initialize stored variables from input elements.
      */
     init {
         size = elements.size
@@ -51,7 +50,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * Constructor that creates a MultiSet of a given size, using the init function to generate each element
-     * Runs in O(n), in addition to the runtime of class init function
      *
      * @param size [Int]: size of MultiSet to create
      * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
@@ -60,7 +58,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * Determine if an element is contained in the current MultiSet.
-     * Runs in O(1).
      *
      * @param element [E]
      * @return [Boolean]: `true` if [element] is in the MultiSet, `false` otherwise
@@ -71,7 +68,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
      * Determine if all elements in a collection are contained in the current MultiSet.
      * If [elements] has repeats of a single element,
      * this function checks if the MultiSet has at least as many occurrence as the input collection.
-     * Runs in O(e), where e is the size of [elements].
      *
      * @param elements [Collection<E>]
      * @return [Boolean]: `true` if the current MultiSet contains at least as many occurrences of each value as [elements], `false` otherwise
@@ -87,7 +83,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * If the current MultiSet contains 0 elements.
-     * Runs in O(1).
      *
      * @return [Boolean]: `true` if the MultiSet contains 0 elements, `false` otherwise
      */
@@ -95,7 +90,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * Get the number of occurrences of a given element in the current MultiSet.
-     * Runs in O(1).
      *
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
@@ -104,7 +98,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * If two MultiSets contain the same elements, with the same number of occurrences per element.
-     * Runs in O(n).
      *
      * @param other [Any?]
      * @return [Boolean]: `true` if [other] is a non-null MultiSet which contains the same values, `false` otherwise
@@ -119,7 +112,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * Get an iterator for the elements in this MultiSet.
-     * Runs in O(n).
      *
      * @return [Iterator<E>]
      */
@@ -127,7 +119,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * Get a string representation of the set.
-     * Runs in O(1).
      *
      * @return [String]
      */
