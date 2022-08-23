@@ -153,24 +153,6 @@ internal class MutableMultiSetTest {
     }
 
     @Test
-    internal fun testClear() {
-        var set: MutableMultiSet<Int> = mutableMultiSetOf()
-        set.clear()
-        assertEquals(0, set.size)
-        assertEquals(setOf(), set)
-
-        set = mutableMultiSetOf(1, 2, 3)
-        set.clear()
-        assertEquals(0, set.size)
-        assertEquals(setOf(), set)
-
-        set = mutableMultiSetOf(-45, -45, -45, -45)
-        set.clear()
-        assertEquals(0, set.size)
-        assertEquals(setOf(), set)
-    }
-
-    @Test
     internal fun testIterator() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
         var iter = set.iterator()
@@ -213,6 +195,7 @@ internal class MutableMultiSetTest {
         assertEquals(expected.sorted(), values.sorted())
     }
 
+    @Test internal fun testClear() = runClearTests()
     @Test internal fun testAdd() = runAddTests()
     @Test internal fun testAddAll() = runAddAllTests()
     @Test internal fun testRemove() = runRemoveTests()

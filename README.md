@@ -4,11 +4,11 @@ A collection of reusable functions, classes, and aliases that can be used across
 Android-specific code, such as functions to handle Views, is not included.
 
 ## Purpose
-The primary purpose of this package is to avoid copying code between projects.
-The initial code in this package had already been implemented several times, and was collected here as an alternative to repeated copy/paste.
-This prevents unnecessary re-writing and re-testing of code, and also creates a central location for any changes and bug fixes.
+The initial purpose of this package was to avoid copying code between projects.
+The initial code had already been implemented several times, and was collected here as an alternative to repeated copy/paste.
+This prevented unnecessary re-writing and re-testing of code, and also created a central location for any changes and bug fixes.
 
-The package has since expanded to include various classes and functions that could be useful in different projects.
+However, the package has since expanded to include various classes and functions that could be useful in different projects.
 
 ## Contents
 ### Typealiases

@@ -192,6 +192,23 @@ internal fun runRetainAllTests() {
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
 }
 
+internal fun runClearTests() {
+    var set: MutableMultiSet<Int> = mutableMultiSetOf()
+    set.clear()
+    assertEquals(0, set.size)
+    assertEquals(setOf(), set)
+
+    set = mutableMultiSetOf(1, 2, 3)
+    set.clear()
+    assertEquals(0, set.size)
+    assertEquals(setOf(), set)
+
+    set = mutableMultiSetOf(-45, -45, -45, -45)
+    set.clear()
+    assertEquals(0, set.size)
+    assertEquals(setOf(), set)
+}
+
 private fun <T> runSingleMutateTest(
     set: MutableMultiSet<T>,
     expected: MutableMultiSet<T>,

@@ -14,7 +14,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
         get() = storedSize
 
     /**
-     * Number of elements in the set.
+     * Mutable variable to store number of elements in the set.
      */
     private var storedSize: Int = 0
 
@@ -25,7 +25,8 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     private val countsMap: MutableMap<E, Int>
 
     /**
-     * A list containing all elements in the set, which is updated when updateList is called.
+     * A list containing all elements in the set.
+     * Updated when needed using updateList, to avoid frequent expensive operations.
      */
     private val list: MutableList<E>
 
@@ -40,7 +41,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     private var string: String
 
     /**
-     * Initialize stored variables from input elements.
+     * Initialize stored variables.
      */
     init {
         storedSize = elements.size
@@ -51,7 +52,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
             countsMap[element] = getCountOf(element) + 1
         }
 
-        // string and list are both updated in updateList
+        // string and list are initialized in updateList
         list = mutableListOf()
         string = ""
         updateList()
@@ -66,10 +67,10 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     constructor(size: Int, initializeElement: (Int) -> E) : this((0 until size).map(initializeElement))
 
     /**
-     * Adds one occurrence specified element to the set.
+     * Add one occurrence of the specified element to the set.
      *
      * @param element [E]
-     * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
+     * @return [Boolean]: true if the element has been added successfully, false otherwise
      */
     override fun add(element: E): Boolean {
         countsMap[element] = getCountOf(element) + 1
@@ -79,11 +80,11 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     }
 
     /**
-     * Adds all specified elements to the set.
-     * If [elements] contains multiple occurrences of the same value, it will be added multiple times.
+     * Add all specified elements to the set.
+     * If [elements] contains multiple occurrences of the same value, the value will be added multiple times.
      *
      * @param elements [Collection<E>]
-     * @return [Boolean]: `true` if any elements have been added successfully, `false` otherwise
+     * @return [Boolean]: true if any elements have been added successfully, false otherwise
      */
     override fun addAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -109,10 +110,10 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     }
 
     /**
-     * Removes one occurrence of the specified element from the set, if the element exists.
+     * Remove one occurrence of the specified element from the set, if the element exists.
      *
      * @param element [E]
-     * @return [Boolean]: `true` if the element has been removed successfully, `false` otherwise
+     * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
     override fun remove(element: E): Boolean {
         val currentCount = getCountOf(element)
@@ -130,10 +131,10 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
 
     /**
      * Remove all specified elements from the set.
-     * If [elements] contains multiple occurrences of the same value, it will be removed multiple times.
+     * If [elements] contains multiple occurrences of the same value, the value will be removed multiple times.
      *
      * @param elements [Collection<E>]
-     * @return [Boolean]: `true` if any elements have been removed successfully, `false` otherwise
+     * @return [Boolean]: true if any elements have been removed successfully, false otherwise
      */
     override fun removeAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -151,10 +152,10 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
 
     /**
      * Retain only elements that are present in [elements].
-     * If [elements] contains multiple occurrences of the same value, it will retain up to that number of occurrences.
+     * If [elements] contains multiple occurrences of the same value, the value will retain up to that number of occurrences.
      *
      * @param elements [Collection<E>]
-     * @return [Boolean]: `true` if elements have been retained successfully, `false` otherwise
+     * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
         val other = MutableMultiSet(elements) // O(e)
@@ -180,8 +181,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
 
     /**
      * Determine if all elements in a collection are contained in the current set.
-     * If [elements] has repeats of a single element,
-     * this function checks if the set has at least as many occurrence as the input collection.
+     * If [elements] has repeats of a single element, this function checks if the set has at least as many occurrence as [elements].
      *
      * @param elements [Collection<E>]
      * @return [Boolean]: true if the current set contains at least as many occurrences of each value as [elements]
@@ -196,7 +196,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     }
 
     /**
-     * Update the values of `list` and `string` to match the current values in the set.
+     * Update the values of [list] and [string] to match the current values in the set.
      */
     private fun updateList() {
         if (!listUpdated) {
@@ -222,7 +222,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     /**
      * If the current set contains 0 elements.
      *
-     * @return [Boolean]: `true` if the set contains 0 elements, `false` otherwise
+     * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
     override fun isEmpty(): Boolean = storedSize.isZero()
 
@@ -238,7 +238,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      * If two MutableMultiSets contain the same elements, with the same number of occurrences per element.
      *
      * @param other [Any?]
-     * @return [Boolean]: `true` if [other] is a non-null MutableMultiSet which contains the same values, `false` otherwise
+     * @return [Boolean]: true if [other] is a non-null MultiSet which contains the same values as the current set, false otherwise
      */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is MutableMultiSet<*>) {

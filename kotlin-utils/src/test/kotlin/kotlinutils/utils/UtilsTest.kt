@@ -5,9 +5,9 @@ import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-class UtilsTest {
+internal class UtilsTest {
     @Test
-    fun testRepeat() {
+    internal fun testRepeat() {
         var baseString = ""
         repeat(20) { baseString += "a" }
         var expectedString = "aaaaaaaaaaaaaaaaaaaa"
