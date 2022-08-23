@@ -1,7 +1,6 @@
 package kotlinutils.list.mutablelist.ext
 
 import kotlinutils.runRandomTest
-import kotlinutils.utils.repeat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

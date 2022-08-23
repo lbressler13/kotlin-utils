@@ -1,6 +1,7 @@
 package kotlinutils.biginteger
 
 import kotlinutils.biginteger.ext.isZero
+import kotlinutils.list.ext.isSingleValue
 import java.math.BigInteger
 
 /**
@@ -48,8 +49,8 @@ fun getGCD(val1: BigInteger, val2: BigInteger): BigInteger {
 fun getListGCD(values: List<BigInteger>): BigInteger {
     when {
         values.isEmpty() -> return BigInteger.ONE
-        values.size == 1 && values[0].isZero() -> return BigInteger.ONE
-        values.size == 1 -> return values[0].abs()
+        values.isSingleValue() && values[0].isZero() -> return BigInteger.ONE
+        values.isSingleValue() -> return values[0].abs()
         values.size == 2 -> return getGCD(values[0], values[1])
     }
 
