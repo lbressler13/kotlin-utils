@@ -3,6 +3,9 @@ package kotlinutils.classes.multiset
 import kotlinutils.int.ext.isZero
 import java.lang.Integer.min
 
+/**
+ * Mutable set implementation that allows multiple occurrences of the same value.
+ */
 class MutableMultiSet<E> internal constructor(elements: Collection<E>) : MutableSet<E> {
     /**
      * Number of elements in set. References a mutable variable.
@@ -44,8 +47,8 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
 
         countsMap = mutableMapOf()
 
-        for (value in elements) {
-            countsMap[value] = getCountOf(value) + 1
+        for (element in elements) {
+            countsMap[element] = getCountOf(element) + 1
         }
 
         // string and list are both updated in updateList
@@ -57,7 +60,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     /**
      * Constructor that creates a MutableMultiSet of a given size, using the init function to generate each element.
      *
-     * @param size [Int]: size of MultiSet to create
+     * @param size [Int]: size of set to create
      * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
      */
     constructor(size: Int, initializeElement: (Int) -> E) : this((0 until size).map(initializeElement))
@@ -157,9 +160,9 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
         val other = MutableMultiSet(elements) // O(e)
         val keys = countsMap.keys.intersect(other.countsMap.keys) // O(max(n, e))
 
-        val newValues = keys.map { it to min(countsMap[it]!!, other.countsMap[it]!!) } // O(n)
+        val newElements = keys.map { it to min(countsMap[it]!!, other.countsMap[it]!!) } // O(n)
         clear()
-        countsMap.putAll(newValues) // O(n)
+        countsMap.putAll(newElements) // O(n)
 
         listUpdated = false
         storedSize = countsMap.values.fold(0, Int::plus) // O(n)
@@ -168,20 +171,20 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     }
 
     /**
-     * Determine if an element is contained in the current MultiSet.
+     * Determine if an element is contained in the current set.
      *
      * @param element [E]
-     * @return [Boolean]: true if [element] is in the MultiSet, false otherwise
+     * @return [Boolean]: true if [element] is in the set, false otherwise
      */
     override fun contains(element: E): Boolean = countsMap.contains(element)
 
     /**
-     * Determine if all elements in a collection are contained in the current MultiSet.
+     * Determine if all elements in a collection are contained in the current set.
      * If [elements] has repeats of a single element,
-     * this function checks if the MultiSet has at least as many occurrence as the input collection.
+     * this function checks if the set has at least as many occurrence as the input collection.
      *
      * @param elements [Collection<E>]
-     * @return [Boolean]: true if the current MultiSet contains at least as many occurrences of each value as [elements]
+     * @return [Boolean]: true if the current set contains at least as many occurrences of each value as [elements]
      */
     override fun containsAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -224,7 +227,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     override fun isEmpty(): Boolean = storedSize.isZero()
 
     /**
-     * Get the number of occurrences of a given element in the current MultiSet.
+     * Get the number of occurrences of a given element in the current set.
      *
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.

@@ -1,6 +1,7 @@
 package kotlinutils.list.mutablelist.ext
 
 import kotlinutils.runRandomTest
+import kotlinutils.utils.repeat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -40,7 +41,7 @@ internal class MutableListExtTest {
             val listCopy = mutableListOf<T>()
             listCopy.addAll(list)
             val resultList = mutableListOf<T>()
-            for (i in list.indices) {
+            repeat(list.size) {
                 val result = listCopy.popRandom()
                 assertNotNull(result)
                 resultList.add(result)

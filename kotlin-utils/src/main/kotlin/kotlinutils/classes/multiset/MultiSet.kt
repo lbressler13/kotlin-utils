@@ -40,9 +40,9 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
         val mutableMap: MutableMap<E, Int> = mutableMapOf()
 
-        for (value in elements) {
-            val currentCount = mutableMap[value] ?: 0
-            mutableMap[value] = currentCount + 1
+        for (element in elements) {
+            val currentCount = mutableMap[element] ?: 0
+            mutableMap[element] = currentCount + 1
         }
 
         countsMap = HashMap(mutableMap)
@@ -51,26 +51,26 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     /**
      * Constructor that creates a MultiSet of a given size, using the init function to generate each element
      *
-     * @param size [Int]: size of MultiSet to create
+     * @param size [Int]: size of set to create
      * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
      */
     constructor(size: Int, initializeElement: (Int) -> E) : this((0 until size).map(initializeElement))
 
     /**
-     * Determine if an element is contained in the current MultiSet.
+     * Determine if an element is contained in the current set.
      *
      * @param element [E]
-     * @return [Boolean]: `true` if [element] is in the MultiSet, `false` otherwise
+     * @return [Boolean]: `true` if [element] is in the set, `false` otherwise
      */
     override fun contains(element: E): Boolean = countsMap.contains(element)
 
     /**
-     * Determine if all elements in a collection are contained in the current MultiSet.
+     * Determine if all elements in a collection are contained in the current set.
      * If [elements] has repeats of a single element,
-     * this function checks if the MultiSet has at least as many occurrence as the input collection.
+     * this function checks if the set has at least as many occurrence as the input collection.
      *
      * @param elements [Collection<E>]
-     * @return [Boolean]: `true` if the current MultiSet contains at least as many occurrences of each value as [elements], `false` otherwise
+     * @return [Boolean]: `true` if the current set contains at least as many occurrences of each value as [elements], `false` otherwise
      */
     override fun containsAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -82,14 +82,14 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     }
 
     /**
-     * If the current MultiSet contains 0 elements.
+     * If the current set contains 0 elements.
      *
-     * @return [Boolean]: `true` if the MultiSet contains 0 elements, `false` otherwise
+     * @return [Boolean]: `true` if the set contains 0 elements, `false` otherwise
      */
     override fun isEmpty(): Boolean = countsMap.isEmpty()
 
     /**
-     * Get the number of occurrences of a given element in the current MultiSet.
+     * Get the number of occurrences of a given element in the current set.
      *
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
@@ -111,7 +111,7 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     }
 
     /**
-     * Get an iterator for the elements in this MultiSet.
+     * Get an iterator for the elements in this set.
      *
      * @return [Iterator<E>]
      */
