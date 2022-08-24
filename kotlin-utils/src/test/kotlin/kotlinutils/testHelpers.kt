@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 internal fun <T> runRandomTest(randomAction: () -> T, randomCheck: (T) -> Boolean) {
     var checkPassed = false
 
-    repeat {
+    repeat(20) {
         val result = randomAction()
         if (randomCheck(result)) {
             checkPassed = true
@@ -64,18 +64,5 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
                 assertTrue(result.second in (minMatch..maxMatch))
             }
         }
-    }
-}
-
-/**
- * Run a function several times
- *
- * @param function [() -> Unit]: function to run
- */
-internal fun repeat(function: () -> Unit) {
-    val iterations = 20
-
-    for (i in 0 until iterations) {
-        function()
     }
 }

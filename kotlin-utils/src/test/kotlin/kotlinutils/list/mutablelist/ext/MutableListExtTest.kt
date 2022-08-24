@@ -40,7 +40,7 @@ internal class MutableListExtTest {
             val listCopy = mutableListOf<T>()
             listCopy.addAll(list)
             val resultList = mutableListOf<T>()
-            for (i in list.indices) {
+            repeat(list.size) {
                 val result = listCopy.popRandom()
                 assertNotNull(result)
                 resultList.add(result)

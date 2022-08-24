@@ -1,4 +1,4 @@
-package kotlinutils.classes
+package kotlinutils.classes.labelled
 
 /**
  * Class to represent a value with an assigned label
