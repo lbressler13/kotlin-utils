@@ -1,5 +1,6 @@
 package kotlinutils.collection.ext
 
+import kotlinutils.classes.multiset.ImmutableMultiSet
 import kotlinutils.classes.multiset.MultiSet
 import kotlinutils.classes.multiset.MutableMultiSet
 import kotlinutils.int.ext.isZero
@@ -9,7 +10,7 @@ import kotlinutils.int.ext.isZero
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMultiSet() = MultiSet(this)
+fun <E> Collection<E>.toMultiSet(): MultiSet<E> = ImmutableMultiSet(this)
 
 /**
  * Create a MutableMultiSet with the elements in the current collection.

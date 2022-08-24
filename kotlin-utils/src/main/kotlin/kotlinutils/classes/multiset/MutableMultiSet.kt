@@ -6,7 +6,7 @@ import java.lang.Integer.min
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-class MutableMultiSet<E> internal constructor(elements: Collection<E>) : MutableSet<E> {
+class MutableMultiSet<E> internal constructor(elements: Collection<E>) : MultiSet<E>, MutableSet<E> {
     /**
      * Number of elements in set. References a mutable variable.
      */
@@ -246,7 +246,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    fun getCountOf(element: E): Int = countsMap.getOrDefault(element, 0)
+    override fun getCountOf(element: E): Int = countsMap.getOrDefault(element, 0)
 
     /**
      * If two MutableMultiSets contain the same elements, with the same number of occurrences per element.

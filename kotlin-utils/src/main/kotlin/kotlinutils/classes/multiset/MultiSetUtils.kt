@@ -24,4 +24,4 @@ fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = elements.toL
  *
  * @return [MultiSet<E>]
  */
-fun <E> emptyMultiSet(): MultiSet<E> = MultiSet(listOf())
+fun <E> emptyMultiSet(): MultiSet<E> = ImmutableMultiSet(listOf())
