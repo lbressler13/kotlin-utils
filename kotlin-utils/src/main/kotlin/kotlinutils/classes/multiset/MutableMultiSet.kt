@@ -16,22 +16,22 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     /**
      * Mutable variable to store number of elements in the set.
      */
-    private var storedSize: Int = 0
+    private var storedSize: Int = elements.size
 
     /**
      * Store the number of occurrences of each element in set.
-     * Counts are guaranteed to be non-negative.
+     * Counts are guaranteed to be greater than zero.
      */
     private val countsMap: MutableMap<E, Int>
 
     /**
      * A list containing all elements in the set.
-     * Updated when needed using updateList, to avoid frequent expensive operations.
+     * Values may not be up-to-date with [countsMap], and are updated only when needed to avoid frequent expensive operations.
      */
     private val list: MutableList<E>
 
     /**
-     * Flag to indicate if the elements in the list are up-to-date with the current countsMap.
+     * Flag to indicate if the elements in the list are up-to-date with the current [countsMap].
      */
     private var listUpdated = false
 
@@ -44,8 +44,6 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      * Initialize stored variables.
      */
     init {
-        storedSize = elements.size
-
         countsMap = mutableMapOf()
 
         for (element in elements) {
@@ -59,7 +57,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
     }
 
     /**
-     * Constructor that creates a MutableMultiSet of a given size, using the init function to generate each element.
+     * Constructor that creates a MutableMultiSet of a given size, using [initializeElement] to generate each element in the set.
      *
      * @param size [Int]: size of set to create
      * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
@@ -131,7 +129,8 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
 
     /**
      * Remove all specified elements from the set.
-     * If [elements] contains multiple occurrences of the same value, the value will be removed multiple times.
+     * If [elements] contains a single occurrence of a value, only one occurrence of the value will be removed from the set.
+     * If there are multiple occurrences, the value will be removed multiple times.
      *
      * @param elements [Collection<E>]
      * @return [Boolean]: true if any elements have been removed successfully, false otherwise
@@ -158,15 +157,30 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
-        val other = MutableMultiSet(elements) // O(e)
-        val keys = countsMap.keys.intersect(other.countsMap.keys) // O(max(n, e))
+        val other = MutableMultiSet(elements)
 
-        val newElements = keys.map { it to min(countsMap[it]!!, other.countsMap[it]!!) } // O(n)
-        clear()
-        countsMap.putAll(newElements) // O(n)
+        val elementsToRemove: MutableSet<E> = mutableSetOf()
+
+        // update count of each element or mark as needing removal
+        // cannot remove during loop, will throw a ConcurrentModificationException
+        for (pair in countsMap) {
+            val element = pair.key
+            val currentCount = pair.value
+            val newCount = min(currentCount, other.getCountOf(element))
+
+            if (newCount.isZero()) {
+                elementsToRemove.add(element)
+            } else {
+                countsMap[element] = newCount
+            }
+        }
+
+        for (element in elementsToRemove) {
+            countsMap.remove(element)
+        }
 
         listUpdated = false
-        storedSize = countsMap.values.fold(0, Int::plus) // O(n)
+        storedSize = countsMap.values.fold(0, Int::plus)
 
         return true
     }
@@ -181,7 +195,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
 
     /**
      * Determine if all elements in a collection are contained in the current set.
-     * If [elements] has repeats of a single element, this function checks if the set has at least as many occurrence as [elements].
+     * If [elements] contains multiple occurrences of the same value, the function will check if this set contains at least as many occurrences as [elements].
      *
      * @param elements [Collection<E>]
      * @return [Boolean]: true if the current set contains at least as many occurrences of each value as [elements]
@@ -232,7 +246,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    fun getCountOf(element: E): Int = countsMap[element] ?: 0
+    fun getCountOf(element: E): Int = countsMap.getOrDefault(element, 0)
 
     /**
      * If two MutableMultiSets contain the same elements, with the same number of occurrences per element.
@@ -245,9 +259,7 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : Mutable
             return false
         }
 
-        val simplifiedCounts = countsMap.filterNot { it.value.isZero() }
-        val otherSimplifiedCounts = other.countsMap.filterNot { it.value.isZero() }
-        return simplifiedCounts == otherSimplifiedCounts
+        return countsMap == other.countsMap
     }
 
     /**

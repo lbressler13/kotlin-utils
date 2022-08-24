@@ -6,7 +6,7 @@ import kotlinutils.collection.ext.toMutableMultiSet
 /**
  * Create a MultiSet containing the given elements.
  *
- * @param elements [E]: variable number of elements to include in MultiSet
+ * @param elements [E]: variable number of elements to include in set
  * @return [MultiSet<E>]
  */
 fun <E> multiSetOf(vararg elements: E): MultiSet<E> = elements.toList().toMultiSet()
@@ -14,7 +14,7 @@ fun <E> multiSetOf(vararg elements: E): MultiSet<E> = elements.toList().toMultiS
 /**
  * Create a MutableMultiSet containing the given elements.
  *
- * @param elements [E]: variable number of elements to include in MultiSet
+ * @param elements [E]: variable number of elements to include in set
  * @return [MutableMultiSet<E>]
  */
 fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = elements.toList().toMutableMultiSet()

@@ -88,6 +88,12 @@ Linting can be run using an IDE, or with the following command:
 ```shell
 ./gradlew ktlintCheck
 ```
+This command will verify if the code passes linting, but will not attempt to fix any issues.
+To perform linting and fix issues where possible, run the following command:
+```shell
+./gradlew ktlintFormat
+```
+This can also be run through an IDE.
 
 ## Importing the package
 In order to import the package, copy the most recent .jar file into your project, and add the file to the list of imports for the project.

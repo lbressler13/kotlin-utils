@@ -7,7 +7,7 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     /**
      * Number of elements in set.
      */
-    override val size: Int
+    override val size: Int = elements.size
 
     /**
      * Store the number of occurrences of each element in set.
@@ -29,8 +29,6 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
      * Initialize stored variables.
      */
     init {
-        size = elements.size
-
         // init string
         string = if (size == 0) {
             "[]"
@@ -51,7 +49,7 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
     }
 
     /**
-     * Constructor that creates a MultiSet of a given size, using the init function to generate each element
+     * Constructor that creates a MultiSet of a given size, using [initializeElement] to generate each element in the set.
      *
      * @param size [Int]: size of set to create
      * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
@@ -68,7 +66,7 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
 
     /**
      * Determine if all elements in a collection are contained in the current set.
-     * If [elements] has repeats of a single element, this function checks if the set has at least as many occurrence as [elements].
+     * If [elements] contains multiple occurrences of the same value, the function will check if this set contains at least as many occurrences as [elements].
      *
      * @param elements [Collection<E>]
      * @return [Boolean]: true if the current set contains at least as many occurrences of each value as [elements], false otherwise
@@ -95,7 +93,7 @@ class MultiSet<E> internal constructor(elements: Collection<E>) : Set<E> {
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    fun getCountOf(element: E): Int = countsMap[element] ?: 0
+    fun getCountOf(element: E): Int = countsMap.getOrDefault(element, 0)
 
     /**
      * If two MultiSets contain the same elements, with the same number of occurrences per element.
