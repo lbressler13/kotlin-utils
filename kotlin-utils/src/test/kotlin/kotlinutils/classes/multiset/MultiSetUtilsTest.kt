@@ -59,9 +59,65 @@ internal class MultiSetUtilsTest {
     }
 
     @Test
-    fun testEmptyMultiSet() {
+    internal fun testEmptyMultiSet() {
         val set = emptyMultiSet<Int>()
         val expected = multiSetOf<Int>()
+        assertEquals(expected, set)
+    }
+
+    @Test
+    internal fun testMultiSet() {
+        var set = MultiSet(0) { 1 }
+        var expectedSize = 0
+        var expected: MultiSet<Int> = emptyMultiSet()
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = MultiSet(5) { 2 }
+        expectedSize = 5
+        expected = ImmutableMultiSet(listOf(2, 2, 2, 2, 2))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = MultiSet(4) { 3 * it }
+        expectedSize = 4
+        expected = ImmutableMultiSet(listOf(0, 3, 6, 9))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
+        set = MultiSet(8) { values[it] }
+        expectedSize = 8
+        expected = ImmutableMultiSet(values)
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+    }
+
+    @Test
+    internal fun testMutableMultiSet() {
+        var set = MutableMultiSet(0) { 5 }
+        var expectedSize = 0
+        var expected: MutableMultiSet<Int> = mutableMultiSetOf()
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = MutableMultiSet(5) { 2 }
+        expectedSize = 5
+        expected = MutableMultiSet(listOf(2, 2, 2, 2, 2))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = MutableMultiSet(4) { 3 * it }
+        expectedSize = 4
+        expected = MutableMultiSet(listOf(0, 3, 6, 9))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
+        set = MutableMultiSet(8) { values[it] }
+        expectedSize = 8
+        expected = MutableMultiSet(values)
+        assertEquals(expectedSize, set.size)
         assertEquals(expected, set)
     }
 }

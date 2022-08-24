@@ -57,14 +57,6 @@ class MutableMultiSet<E> internal constructor(elements: Collection<E>) : MultiSe
     }
 
     /**
-     * Constructor that creates a MutableMultiSet of a given size, using [initializeElement] to generate each element in the set.
-     *
-     * @param size [Int]: size of set to create
-     * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
-     */
-    constructor(size: Int, initializeElement: (Int) -> E) : this((0 until size).map(initializeElement))
-
-    /**
      * Add one occurrence of the specified element to the set.
      *
      * @param element [E]

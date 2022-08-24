@@ -49,14 +49,6 @@ internal class ImmutableMultiSet<E> internal constructor(elements: Collection<E>
     }
 
     /**
-     * Constructor that creates a ImmutableMultiSet of a given size, using [initializeElement] to generate each element in the set.
-     *
-     * @param size [Int]: size of set to create
-     * @param initializeElement [(Int) -> E]: initialization function, used to create each element based on its index
-     */
-    internal constructor(size: Int, initializeElement: (Int) -> E) : this((0 until size).map(initializeElement))
-
-    /**
      * Determine if an element is contained in the current set.
      *
      * @param element [E]

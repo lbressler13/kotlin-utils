@@ -9,7 +9,6 @@ import kotlin.test.assertTrue
 internal class MutableMultiSetTest {
     @Test
     internal fun testConstructor() {
-        // collection
         var set: MutableMultiSet<Int> = MutableMultiSet(listOf())
         var expectedSize = 0
         assertEquals(expectedSize, set.size)
@@ -33,26 +32,6 @@ internal class MutableMultiSetTest {
         val listSet = MutableMultiSet(listOf(listOf(1, 3, 4), listOf(55, 66, 77)))
         expectedSize = 2
         assertEquals(expectedSize, listSet.size)
-
-        // size and init fn
-        set = MutableMultiSet(5) { 2 }
-        expectedSize = 5
-        var expected = MutableMultiSet(listOf(2, 2, 2, 2, 2))
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        set = MutableMultiSet(4) { 3 * it }
-        expectedSize = 4
-        expected = MutableMultiSet(listOf(0, 3, 6, 9))
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
-        set = MutableMultiSet(8) { values[it] }
-        expectedSize = 8
-        expected = MutableMultiSet(values)
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
     }
 
     @Test
