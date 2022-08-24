@@ -3,7 +3,7 @@ package kotlinutils.classes.multiset
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class ImmutableMultiSet<E> internal constructor(elements: Collection<E>) : MultiSet<E>, Set<E> {
+internal class ImmutableMultiSet<E> constructor(elements: Collection<E>) : MultiSet<E>, Set<E> {
     /**
      * Number of elements in set.
      */
