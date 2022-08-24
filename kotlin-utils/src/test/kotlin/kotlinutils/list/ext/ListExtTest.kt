@@ -3,6 +3,8 @@ package kotlinutils.list.ext
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class ListExtTest {
     @Test
@@ -143,5 +145,34 @@ internal class ListExtTest {
         val listException = listOf(e1, e2, e3)
         val expectedException = listOf(e1, e2)
         assertEquals(expectedException, listException.copyWithoutLast())
+    }
+
+    @Test
+    internal fun testIsSingleValue() {
+        // single value
+        var intList = listOf(5)
+        assertTrue(intList.isSingleValue())
+
+        intList = listOf(-1000)
+        assertTrue(intList.isSingleValue())
+
+        var stringList = listOf("")
+        assertTrue(stringList.isSingleValue())
+
+        stringList = listOf("1 1 1 1 1 1")
+        assertTrue(stringList.isSingleValue())
+
+        // not single value
+        intList = listOf()
+        assertFalse(intList.isSingleValue())
+
+        intList = listOf(1, 1)
+        assertFalse(intList.isSingleValue())
+
+        intList = listOf(9, 44, 512, 5, -11110004, 124, 59, 0, 111, 2424)
+        assertFalse(intList.isSingleValue())
+
+        stringList = listOf("123", "456", "789")
+        assertFalse(stringList.isSingleValue())
     }
 }

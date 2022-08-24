@@ -4,7 +4,8 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0" // ktlint
 }
 
-version = "0.0.3"
+group = "org.example"
+version = "0.0.8"
 
 repositories {
     mavenCentral()

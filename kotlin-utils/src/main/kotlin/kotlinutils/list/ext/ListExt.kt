@@ -41,3 +41,10 @@ fun <T> List<T>.copyWithFirstReplaced(value: T): List<T> = copyWithReplacement(0
  * @return [List]: list identical to this, with the last value removed
  */
 fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
+
+/**
+ * If list consists of a single value
+ *
+ * @return [Boolean]: true if list consists of single value, false otherwise
+ */
+fun <T> List<T>.isSingleValue(): Boolean = size == 1

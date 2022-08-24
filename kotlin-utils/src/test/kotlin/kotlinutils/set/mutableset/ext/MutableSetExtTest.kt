@@ -37,7 +37,7 @@ internal class MutableSetExtTest {
             val setCopy = mutableSetOf<T>()
             setCopy.addAll(set)
             val resultSet = mutableSetOf<T>()
-            for (i in 0 until set.size) {
+            repeat(set.size) {
                 val result = setCopy.popRandom()
                 assertNotNull(result)
                 resultSet.add(result)
