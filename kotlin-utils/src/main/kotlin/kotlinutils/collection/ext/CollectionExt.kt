@@ -1,7 +1,9 @@
 package kotlinutils.collection.ext
 
 import kotlinutils.classes.multiset.MultiSet
+import kotlinutils.classes.multiset.MultiSetImpl
 import kotlinutils.classes.multiset.MutableMultiSet
+import kotlinutils.classes.multiset.MutableMultiSetImpl
 import kotlinutils.int.ext.isZero
 
 /**
@@ -9,14 +11,14 @@ import kotlinutils.int.ext.isZero
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMultiSet() = MultiSet(this)
+fun <E> Collection<E>.toMultiSet(): MultiSet<E> = MultiSetImpl(this)
 
 /**
  * Create a MutableMultiSet with the elements in the current collection.
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMutableMultiSet() = MutableMultiSet(this)
+fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetImpl(this)
 
 /**
  * Filter an integer collection to contain only elements that do not equal zero.
