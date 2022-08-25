@@ -24,7 +24,7 @@ fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = elements.toL
  *
  * @return [MultiSet<E>]
  */
-fun <E> emptyMultiSet(): MultiSet<E> = ImmutableMultiSet(listOf())
+fun <E> emptyMultiSet(): MultiSet<E> = MultiSetImpl(listOf())
 
 /**
  * Create a MultiSet of a given size, using [init] to generate each element in the set.
@@ -33,7 +33,7 @@ fun <E> emptyMultiSet(): MultiSet<E> = ImmutableMultiSet(listOf())
  * @param init [(Int) -> E]: initialization function, used to create each element based on its index
  * @return [MultiSet<E>]
  */
-fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = ImmutableMultiSet((0 until size).map(init))
+fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = MultiSetImpl((0 until size).map(init))
 
 /**
  * Create a MutableMultiSet of a given size, using [init] to generate each element in the set.
@@ -42,4 +42,4 @@ fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = ImmutableMultiSet((
  * @param init [(Int) -> E]: initialization function, used to create each element based on its index
  * @return [MutableMultiSet<E>]
  */
-fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = MutableMultiSet((0 until size).map(init))
+fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = MutableMultiSetImpl((0 until size).map(init))

@@ -6,30 +6,30 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-internal class ImmutableMultiSetTest {
+internal class MultiSetImplTest {
     @Test
     internal fun testConstructor() {
-        var set: MultiSet<Int> = ImmutableMultiSet(listOf())
+        var set: MultiSet<Int> = MultiSetImpl(listOf())
         var expectedSize = 0
         assertEquals(expectedSize, set.size)
 
-        set = ImmutableMultiSet(setOf(-12))
+        set = MultiSetImpl(setOf(-12))
         expectedSize = 1
         assertEquals(expectedSize, set.size)
 
-        set = ImmutableMultiSet(mutableListOf(10, 10, 10, 10))
+        set = MultiSetImpl(mutableListOf(10, 10, 10, 10))
         expectedSize = 4
         assertEquals(expectedSize, set.size)
 
-        set = ImmutableMultiSet(listOf(-12, 18, 4, 10000, 25, 25, -1, 0, 5, 25))
+        set = MultiSetImpl(listOf(-12, 18, 4, 10000, 25, 25, -1, 0, 5, 25))
         expectedSize = 10
         assertEquals(expectedSize, set.size)
 
-        val errSet = ImmutableMultiSet(mutableSetOf(ArithmeticException(), NullPointerException()))
+        val errSet = MultiSetImpl(mutableSetOf(ArithmeticException(), NullPointerException()))
         expectedSize = 2
         assertEquals(expectedSize, errSet.size)
 
-        val listSet = ImmutableMultiSet(listOf(listOf(1, 3, 4), listOf(55, 66, 77)))
+        val listSet = MultiSetImpl(listOf(listOf(1, 3, 4), listOf(55, 66, 77)))
         expectedSize = 2
         assertEquals(expectedSize, listSet.size)
     }

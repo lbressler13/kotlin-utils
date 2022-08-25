@@ -3,7 +3,7 @@ package kotlinutils.classes.multiset
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class ImmutableMultiSet<E> constructor(elements: Collection<E>) : MultiSet<E>, Set<E> {
+internal class MultiSetImpl<E> constructor(elements: Collection<E>) : MultiSet<E>, Set<E> {
     /**
      * Number of elements in set.
      */
@@ -68,7 +68,7 @@ internal class ImmutableMultiSet<E> constructor(elements: Collection<E>) : Multi
             return true
         }
 
-        val newSet = ImmutableMultiSet(elements)
+        val newSet = MultiSetImpl(elements)
         return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
     }
 
@@ -94,7 +94,7 @@ internal class ImmutableMultiSet<E> constructor(elements: Collection<E>) : Multi
      * @return [Boolean]: true if [other] is a non-null ImmutableMultiSet which contains the same values as the current set, false otherwise
      */
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is ImmutableMultiSet<*>) {
+        if (other == null || other !is MultiSetImpl<*>) {
             return false
         }
 
