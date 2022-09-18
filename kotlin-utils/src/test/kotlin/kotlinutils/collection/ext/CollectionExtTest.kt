@@ -6,6 +6,8 @@ import kotlinutils.classes.multiset.multiSetOf
 import kotlinutils.classes.multiset.mutableMultiSetOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 internal class CollectionExtTest {
     @Test
@@ -127,5 +129,23 @@ internal class CollectionExtTest {
         collection = listOf(1, 2, 3, 4, 5)
         expected = 5
         assertEquals(expected, collection.countNotNull())
+    }
+
+    @Test
+    internal fun testIsNotNullOrEmpty() {
+        var collection: Collection<Int?>? = null
+        assertFalse(collection.isNotNullOrEmpty())
+
+        collection = setOf()
+        assertFalse(collection.isNotNullOrEmpty())
+
+        collection = listOf(1)
+        assertTrue(collection.isNotNullOrEmpty())
+
+        collection = listOf(null)
+        assertTrue(collection.isNotNullOrEmpty())
+
+        collection = listOf(1, 2, 3)
+        assertTrue(collection.isNotNullOrEmpty())
     }
 }

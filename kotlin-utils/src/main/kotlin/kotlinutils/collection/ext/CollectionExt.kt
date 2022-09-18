@@ -40,3 +40,11 @@ fun <E> Collection<E?>.countNull(): Int = count { it == null }
  * @return [Int]
  */
 fun <E> Collection<E?>.countNotNull(): Int = count { it != null }
+
+/**
+ * Check if a collection is not null and is not empty.
+ * Combines separate calls for checking if the collection is null and if it is empty.
+ *
+ * @return [Boolean]: true if the collection is not null and has size > 0, false otherwise
+ */
+fun <E> Collection<E>?.isNotNullOrEmpty() = !this.isNullOrEmpty()
