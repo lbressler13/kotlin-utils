@@ -26,3 +26,17 @@ fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetI
  * @return [Collection<Int>]: collection containing the same values as [this], except any elements with value 0.
  */
 fun Collection<Int>.filterNotZero() = filterNot { it.isZero() }
+
+/**
+ * Count number of elements in the collection that are null.
+ *
+ * @return [Int]
+ */
+fun <E> Collection<E?>.countNull(): Int = count { it == null }
+
+/**
+ * Count number of elements in the collection that are not null.
+ *
+ * @return [Int]
+ */
+fun <E> Collection<E?>.countNotNull(): Int = count { it != null }

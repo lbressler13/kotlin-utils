@@ -82,4 +82,50 @@ internal class CollectionExtTest {
         expected = listOf(1, 4, 1000, 19, 5)
         assertEquals(expected, list.filterNotZero())
     }
+
+    @Test
+    internal fun testCountNull() {
+        var collection: Collection<Int?> = listOf()
+        var expected = 0
+        assertEquals(expected, collection.countNull())
+
+        collection = listOf(1, 2, 3, 4, 5)
+        expected = 0
+        assertEquals(expected, collection.countNull())
+
+        collection = setOf(1, null, 2, 3, 4)
+        expected = 1
+        assertEquals(expected, collection.countNull())
+
+        collection = listOf(null, null, null, 4, 5, 6, null)
+        expected = 4
+        assertEquals(expected, collection.countNull())
+
+        collection = listOf(null, null)
+        expected = 2
+        assertEquals(expected, collection.countNull())
+    }
+
+    @Test
+    internal fun testCountNotNull() {
+        var collection: Collection<Int?> = listOf()
+        var expected = 0
+        assertEquals(expected, collection.countNotNull())
+
+        collection = listOf(null, null)
+        expected = 0
+        assertEquals(expected, collection.countNotNull())
+
+        collection = setOf(1, null, 2, 3, 4)
+        expected = 4
+        assertEquals(expected, collection.countNotNull())
+
+        collection = listOf(null, null, null, 4, 5, 6, null)
+        expected = 3
+        assertEquals(expected, collection.countNotNull())
+
+        collection = listOf(1, 2, 3, 4, 5)
+        expected = 5
+        assertEquals(expected, collection.countNotNull())
+    }
 }
