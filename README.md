@@ -47,7 +47,7 @@ In general, these can still be associated with a single class, as this package d
 │   │   │   │   │   ├── sample2               
 │   │   ├── test
 │   │   │   ├── kotlin
-│   │   │   │   ├── kotlinutils   <-- Unit tests for kotlin-utils module
+│   │   │   │   ├── kotlinutils  <-- Unit tests for kotlin-utils module
 │   ├── build.gradle.kts
 └── settings.gradle.kts
 ```
