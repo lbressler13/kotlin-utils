@@ -4,6 +4,8 @@ import xyz.lbres.kotlinutils.classes.multiset.MultiSet
 import xyz.lbres.kotlinutils.classes.multiset.MultiSetImpl
 import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSetImpl
+import xyz.lbres.kotlinutils.generic.ext.isNotNull
+import xyz.lbres.kotlinutils.generic.ext.isNull
 import xyz.lbres.kotlinutils.int.ext.isZero
 
 /**
@@ -32,14 +34,14 @@ fun Collection<Int>.filterNotZero() = filterNot { it.isZero() }
  *
  * @return [Int]
  */
-fun <E> Collection<E?>.countNull(): Int = count { it == null }
+fun <E> Collection<E?>.countNull(): Int = count { it.isNull() }
 
 /**
  * Count number of elements in the collection that are not null.
  *
  * @return [Int]
  */
-fun <E> Collection<E?>.countNotNull(): Int = count { it != null }
+fun <E> Collection<E?>.countNotNull(): Int = count { it.isNotNull() }
 
 /**
  * Check if a collection is not null and is not empty.
