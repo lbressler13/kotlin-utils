@@ -19,6 +19,9 @@ See [here](https://kotlinlang.org/docs/type-aliases.html) for general informatio
 ### Classes
 Reusable classes and data classes.
 
+### General utils
+Functions that are not associated with a specific class.
+
 ### Extension functions
 Functions that extend existing classes and interfaces.
 Extensions are added to the broadest possible class/implementation in order to be more widely usable.
@@ -39,6 +42,7 @@ In general, these can still be associated with a single class, as this package d
 │   │   │   ├── kotlin
 │   │   │   │   ├── kotlinutils  <-- Source code for kotlin-utils module
 │   │   │   │   │   ├── classes  <-- New classes defined by this package
+│   │   │   │   │   ├── general  <-- Generic util functions not related to a class               
 │   │   │   │   │   ├── sample   <-- Sample of a class that already exists in Kotlin
 │   │   │   │   │   ├── sample2               
 │   │   ├── test
