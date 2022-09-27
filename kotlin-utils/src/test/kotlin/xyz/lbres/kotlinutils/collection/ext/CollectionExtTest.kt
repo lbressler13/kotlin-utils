@@ -63,29 +63,6 @@ internal class CollectionExtTest {
     }
 
     @Test
-    internal fun testFilterNotZero() {
-        var list: List<Int> = listOf()
-        var expected: List<Int> = listOf()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(0, 0, 0)
-        expected = listOf()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1, 2, 0, 4, 0, 0, 5)
-        expected = listOf(1, 2, 4, 5)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(-1, 1, 0)
-        expected = listOf(-1, 1)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1, 4, 1000, 19, 5)
-        expected = listOf(1, 4, 1000, 19, 5)
-        assertEquals(expected, list.filterNotZero())
-    }
-
-    @Test
     internal fun testCountNull() {
         var collection: Collection<Int?> = listOf()
         var expected = 0

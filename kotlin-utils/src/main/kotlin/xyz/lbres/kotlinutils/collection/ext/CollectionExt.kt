@@ -23,13 +23,6 @@ fun <E> Collection<E>.toMultiSet(): MultiSet<E> = MultiSetImpl(this)
 fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetImpl(this)
 
 /**
- * Filter an integer collection to contain only elements that do not equal zero.
- *
- * @return [Collection<Int>]: collection containing the same values as [this], except any elements with value 0.
- */
-fun Collection<Int>.filterNotZero() = filterNot { it.isZero() }
-
-/**
  * Count number of elements in the collection that are null.
  *
  * @return [Int]
