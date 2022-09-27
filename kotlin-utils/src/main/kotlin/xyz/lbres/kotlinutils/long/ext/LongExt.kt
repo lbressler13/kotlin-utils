@@ -1,25 +1,25 @@
-package xyz.lbres.kotlinutils.int.ext
+package xyz.lbres.kotlinutils.long.ext
 
 import xyz.lbres.kotlinutils.general.ternaryIf
 
 /**
  * Returns this number if not zero, or the result of calling [getDefaultValue] if it is.
  *
- * @param getDefaultValue () -> [Int]
- * @return [Int] the current value, or the default
+ * @param getDefaultValue () -> [Long]
+ * @return [Long] the current value, or the default
  */
-fun Int.ifZero(getDefaultValue: () -> Int): Int = ternaryIf(isZero(), getDefaultValue(), this)
+fun Long.ifZero(getDefaultValue: () -> Long): Long = ternaryIf(isZero(), getDefaultValue(), this)
 
 /**
  * Unary check to determine if value is zero
  *
  * @return [Boolean]: true if value is zero, false otherwise
  */
-fun Int.isZero(): Boolean = equals(0)
+fun Long.isZero(): Boolean = equals(0L)
 
 /**
  * Unary check to determine if value is negative
  *
  * @return [Boolean]: true if value is less than zero, false otherwise
  */
-fun Int.isNegative(): Boolean = this < 0
+fun Long.isNegative(): Boolean = this < 0L

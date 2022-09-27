@@ -34,7 +34,7 @@ internal fun <T> runRandomTest(randomAction: () -> T, randomCheck: (T) -> Boolea
  */
 internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction: () -> T) {
     val iterations = 1000
-    val errorRange = 0.05f
+    val errorRange = 0.075f
 
     // run action and collect results
     val results = List(iterations) { randomAction() }
