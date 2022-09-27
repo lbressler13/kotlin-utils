@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.char.ext
 
-import xyz.lbres.kotlinutils.int.ext.isZero
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

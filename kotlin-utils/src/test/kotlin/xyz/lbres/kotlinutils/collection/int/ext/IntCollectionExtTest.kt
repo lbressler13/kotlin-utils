@@ -1,8 +1,8 @@
 package xyz.lbres.kotlinutils.collection.int.ext
 
 import xyz.lbres.kotlinutils.list.IntList
-import kotlin.test.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class IntCollectionExtTest {
     @Test

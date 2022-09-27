@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection.char.ext
 
-import kotlin.test.assertEquals
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class CharCollectionExtTest {
     private val zero = Char(0)

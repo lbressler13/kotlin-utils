@@ -6,7 +6,6 @@ import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSetImpl
 import xyz.lbres.kotlinutils.generic.ext.isNotNull
 import xyz.lbres.kotlinutils.generic.ext.isNull
-import xyz.lbres.kotlinutils.int.ext.isZero
 
 /**
  * Create a MultiSet with the elements in the current collection.

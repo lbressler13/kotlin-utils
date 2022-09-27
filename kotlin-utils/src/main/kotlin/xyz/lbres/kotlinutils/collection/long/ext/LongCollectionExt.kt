@@ -3,10 +3,8 @@ package xyz.lbres.kotlinutils.collection.long.ext
 import xyz.lbres.kotlinutils.general.ternaryIf
 import xyz.lbres.kotlinutils.long.ext.isZero
 
-// TODO test all of these
-
 /**
- * Filter an integer collection to contain only elements that do not equal zero.
+ * Filter a long collection to contain only elements that do not equal zero.
  *
  * @return [Collection]<[Long]>: collection containing the same values as [this], except any elements with value 0.
  */
