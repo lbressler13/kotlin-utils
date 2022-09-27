@@ -16,7 +16,7 @@ fun <T> T?.ifNull(getDefaultValue: () -> T): T = this ?: getDefaultValue()
 fun <T> T?.isNull(): Boolean = this == null
 
 /**
- * Returns true if a value is null, or false otherwise
+ * Returns true if a value is not null, or false otherwise
  *
  * @return [Boolean]
  */
