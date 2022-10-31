@@ -1,67 +1,74 @@
-package xyz.lbres.kotlinutils.classes.multiset
+package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.classes.multiset.MultiSet
+import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSet
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class MultiSetUtilsTest {
     @Test
     internal fun testMultiSetOf() {
-        var set: MultiSet<Int> = multiSetOf()
+        var set: MultiSet<Int> = xyz.lbres.kotlinutils.classes.multiset.multiSetOf()
         var expected: MultiSet<Int> = MultiSetImpl(listOf())
         assertEquals(expected, set)
 
-        set = multiSetOf(1)
+        set = xyz.lbres.kotlinutils.classes.multiset.multiSetOf(1)
         expected = MultiSetImpl(listOf(1))
         assertEquals(expected, set)
 
-        set = multiSetOf(1, 2, 3, 4)
+        set = xyz.lbres.kotlinutils.classes.multiset.multiSetOf(1, 2, 3, 4)
         expected = MultiSetImpl(listOf(1, 2, 3, 4))
         assertEquals(expected, set)
 
-        set = multiSetOf(1, 1, 1)
+        set = xyz.lbres.kotlinutils.classes.multiset.multiSetOf(1, 1, 1)
         expected = MultiSetImpl(listOf(1, 1, 1))
         assertEquals(expected, set)
 
-        val stringSet = multiSetOf("", "hello", "world")
+        val stringSet = xyz.lbres.kotlinutils.classes.multiset.multiSetOf("", "hello", "world")
         val stringExpected = MultiSetImpl(listOf("", "hello", "world"))
         assertEquals(stringExpected, stringSet)
 
-        val listSet = multiSetOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97))
+        val listSet =
+            xyz.lbres.kotlinutils.classes.multiset.multiSetOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97))
         val listExpected = MultiSetImpl(listOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97)))
         assertEquals(listExpected, listSet)
     }
 
     @Test
     internal fun testMutableMultiSetOf() {
-        var set: MutableMultiSet<Int> = mutableMultiSetOf()
+        var set: MutableMultiSet<Int> = xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf()
         var expected: MutableMultiSet<Int> = MutableMultiSetImpl(listOf())
         assertEquals(expected, set)
 
-        set = mutableMultiSetOf(1)
+        set = xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf(1)
         expected = MutableMultiSetImpl(listOf(1))
         assertEquals(expected, set)
 
-        set = mutableMultiSetOf(1, 2, 3, 4)
+        set = xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf(1, 2, 3, 4)
         expected = MutableMultiSetImpl(listOf(1, 2, 3, 4))
         assertEquals(expected, set)
 
-        set = mutableMultiSetOf(1, 1, 1)
+        set = xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf(1, 1, 1)
         expected = MutableMultiSetImpl(listOf(1, 1, 1))
         assertEquals(expected, set)
 
-        val stringSet = mutableMultiSetOf("", "hello", "world")
+        val stringSet = xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf("", "hello", "world")
         val stringExpected = MutableMultiSetImpl(listOf("", "hello", "world"))
         assertEquals(stringExpected, stringSet)
 
-        val listSet = mutableMultiSetOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97))
+        val listSet = xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf(
+            listOf(123),
+            listOf(1, 4, 5, 6),
+            listOf(99, 100, 97)
+        )
         val listExpected = MutableMultiSetImpl(listOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97)))
         assertEquals(listExpected, listSet)
     }
 
     @Test
     internal fun testEmptyMultiSet() {
-        val set = emptyMultiSet<Int>()
-        val expected = multiSetOf<Int>()
+        val set = xyz.lbres.kotlinutils.classes.multiset.emptyMultiSet<Int>()
+        val expected = xyz.lbres.kotlinutils.classes.multiset.multiSetOf<Int>()
         assertEquals(expected, set)
     }
 
@@ -69,7 +76,7 @@ internal class MultiSetUtilsTest {
     internal fun testMultiSet() {
         var set = MultiSet(0) { 1 }
         var expectedSize = 0
-        var expected: MultiSet<Int> = emptyMultiSet()
+        var expected: MultiSet<Int> = xyz.lbres.kotlinutils.classes.multiset.emptyMultiSet()
         assertEquals(expectedSize, set.size)
         assertEquals(expected, set)
 
@@ -97,7 +104,7 @@ internal class MultiSetUtilsTest {
     internal fun testMutableMultiSet() {
         var set = MutableMultiSet(0) { 5 }
         var expectedSize = 0
-        var expected: MutableMultiSet<Int> = mutableMultiSetOf()
+        var expected: MutableMultiSet<Int> = xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf()
         assertEquals(expectedSize, set.size)
         assertEquals(expected, set)
 
