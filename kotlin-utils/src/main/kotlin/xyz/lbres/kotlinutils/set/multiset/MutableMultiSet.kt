@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.classes.multiset
+package xyz.lbres.kotlinutils.set.multiset
 
 /**
  * Interface for set that allows multiple occurrences of a value.

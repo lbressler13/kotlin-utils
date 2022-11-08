@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.collection.ext
 
-import xyz.lbres.kotlinutils.classes.multiset.MultiSet
-import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.classes.multiset.multiSetOf
-import xyz.lbres.kotlinutils.classes.multiset.mutableMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.multiSetOf
+import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

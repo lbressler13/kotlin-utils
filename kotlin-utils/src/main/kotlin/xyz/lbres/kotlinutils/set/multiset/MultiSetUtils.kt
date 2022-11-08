@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.classes.multiset
+package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
@@ -24,7 +24,7 @@ fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = elements.toL
  *
  * @return [MultiSet<E>]
  */
-fun <E> emptyMultiSet(): MultiSet<E> = MultiSetImpl(listOf())
+fun <E> emptyMultiSet(): MultiSet<E> = MultiSetImpl(emptyList())
 
 /**
  * Create a MultiSet of a given size, using [init] to generate each element in the set.

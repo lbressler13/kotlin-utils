@@ -1,11 +1,11 @@
 package xyz.lbres.kotlinutils.collection.ext
 
-import xyz.lbres.kotlinutils.classes.multiset.MultiSet
-import xyz.lbres.kotlinutils.classes.multiset.MultiSetImpl
-import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.classes.multiset.MutableMultiSetImpl
 import xyz.lbres.kotlinutils.generic.ext.isNotNull
 import xyz.lbres.kotlinutils.generic.ext.isNull
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSetImpl
 
 /**
  * Create a MultiSet with the elements in the current collection.

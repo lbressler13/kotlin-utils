@@ -1,9 +1,9 @@
-package xyz.lbres.kotlinutils.classes.multiset
+package xyz.lbres.kotlinutils.set.multiset
 
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class MultiSetImpl<E> constructor(elements: Collection<E>) : MultiSet<E>, Set<E> {
+internal class MultiSetImpl<E> constructor(elements: Collection<E>) : MultiSet<E> {
     /**
      * Number of elements in set.
      */

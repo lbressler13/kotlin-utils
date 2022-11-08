@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.classes.labelled
+package xyz.lbres.kotlinutils.general.labelled
 
 /**
  * Class to represent a value with an assigned label

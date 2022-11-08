@@ -1,7 +1,7 @@
-package xyz.lbres.kotlinutils.classes.multiset
+package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.int.ext.isZero
-import java.lang.Integer.min
+import kotlin.math.min
 
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
