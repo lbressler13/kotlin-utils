@@ -2,7 +2,9 @@ package xyz.lbres.kotlinutils.collection.ext
 
 import xyz.lbres.kotlinutils.generic.ext.isNotNull
 import xyz.lbres.kotlinutils.generic.ext.isNull
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSetImpl
 
 /**
@@ -10,14 +12,14 @@ import xyz.lbres.kotlinutils.set.multiset.MutableMultiSetImpl
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMultiSet(): xyz.lbres.kotlinutils.set.multiset.MultiSet<E> = MultiSetImpl(this)
+fun <E> Collection<E>.toMultiSet(): MultiSet<E> = MultiSetImpl(this)
 
 /**
  * Create a MutableMultiSet with the elements in the current collection.
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMutableMultiSet(): xyz.lbres.kotlinutils.set.multiset.MutableMultiSet<E> = MutableMultiSetImpl(this)
+fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetImpl(this)
 
 /**
  * Count number of elements in the collection that are null.
