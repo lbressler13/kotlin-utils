@@ -22,14 +22,9 @@ internal fun runAddTests() {
     expected = mutableMultiSetOf(-1, 3, -5, 4, 1000, 17, 15)
     runSingleMutateTest(set, expected, true) { set.add(other) }
 
-    val listSet: MutableMultiSet<List<String>> =
-        mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"))
+    val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"))
     val listOther = listOf("farewell", "goodbye")
-    val listExpected = mutableMultiSetOf(
-        listOf("hello", "world"),
-        listOf("goodbye"),
-        listOf("farewell", "goodbye")
-    )
+    val listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"))
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOther) }
 }
 

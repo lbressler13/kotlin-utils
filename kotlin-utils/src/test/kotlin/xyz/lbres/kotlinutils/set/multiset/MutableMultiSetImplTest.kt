@@ -83,11 +83,7 @@ internal class MutableMultiSetImplTest {
         assertNotEquals(stringSet1, stringSet2)
         assertNotEquals(stringSet2, stringSet1)
 
-        val listSet1 = mutableMultiSetOf(
-            listOf(12, 34, 56),
-            listOf(77, 78, 0, 15),
-            listOf(5)
-        )
+        val listSet1 = mutableMultiSetOf(listOf(12, 34, 56), listOf(77, 78, 0, 15), listOf(5))
         assertEquals(listSet1, listSet1)
 
         val listSet2 = mutableMultiSetOf(listOf(12, 34, 56))
@@ -202,11 +198,7 @@ internal class MutableMultiSetImplTest {
         assertFalse(set.contains(2))
 
         val error = ArithmeticException()
-        val errSet = mutableMultiSetOf(
-            ArithmeticException(),
-            error,
-            NumberFormatException()
-        )
+        val errSet = mutableMultiSetOf(ArithmeticException(), error, NumberFormatException())
         assertTrue(errSet.contains(error))
 
         val listSet = mutableMultiSetOf(listOf(), listOf(5, 6), listOf(9, 8, 3))
