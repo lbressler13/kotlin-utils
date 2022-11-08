@@ -1,6 +1,6 @@
 # Kotlin Utils
 
-[![Unit Tests](https://github.com/lbressler13/kotlin-utils/actions/workflows/basic_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/basic_checks.yml)
+[![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
 A collection of reusable functions, classes, and aliases that can be used across various Kotlin and Android projects.
 Android-specific code, such as functions to handle Views, is not included.
