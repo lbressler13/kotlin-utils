@@ -3,6 +3,10 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.assertEmpty
 import kotlin.test.assertEquals
 
+private val e1 = ArithmeticException()
+private val e2 = NullPointerException()
+private val e3 = IllegalArgumentException()
+
 fun runImmutableMinusTests() {
     // empty
     var ms1 = emptyMultiSet<Int>()
@@ -62,9 +66,6 @@ fun runImmutableMinusTests() {
     lExpected = multiSetOf(listOf())
     assertEquals(lExpected, listMs2 - listMs1)
 
-    val e1 = ArithmeticException()
-    val e2 = NullPointerException()
-    val e3 = IllegalArgumentException()
     val ems1: MultiSet<Exception> = multiSetOf(e1, e2, e1, e1, e2)
     val ems2: MultiSet<Exception> = multiSetOf(e1, e3, e3, e1, e1)
     var eExpected: MultiSet<Exception> = multiSetOf(e2, e2)
@@ -109,12 +110,64 @@ fun runImmutablePlusTests() {
     assertEquals(lExpected, listMs1 + listMs2)
     assertEquals(lExpected, listMs2 + listMs1)
 
-    val e1 = ArithmeticException()
-    val e2 = NullPointerException()
-    val e3 = IllegalArgumentException()
     val ems1: MultiSet<Exception> = multiSetOf(e1, e2, e1, e2)
     val ems2: MultiSet<Exception> = multiSetOf(e1, e3, e3, e2, e1, e1)
     val eExpected: MultiSet<Exception> = multiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
     assertEquals(eExpected, ems1 + ems2)
     assertEquals(eExpected, ems2 + ems1)
+}
+
+fun runImmutableIntersectTests() {
+    // empty
+    var ms1 = emptyMultiSet<Int>()
+
+    var ms2 = emptyMultiSet<Int>()
+    assertEmpty(ms1.intersect(ms2))
+
+    ms2 = multiSetOf(1, 2, 3)
+    assertEmpty(ms1.intersect(ms2))
+    assertEmpty(ms2.intersect(ms1))
+
+    // none shared
+    ms1 = multiSetOf(1, 2, 3)
+    ms2 = multiSetOf(4, 5, 6, 7, 8)
+    assertEmpty(ms1.intersect(ms2))
+    assertEmpty(ms2.intersect(ms1))
+
+    var listMs1 = multiSetOf(listOf(1, 2, 3), listOf(4, 5))
+    var listMs2 = multiSetOf(listOf(1, 2), listOf(3, 4, 5))
+    assertEmpty(listMs1.intersect(listMs2))
+    assertEmpty(listMs2.intersect(listMs1))
+
+    // all shared
+    ms1 = multiSetOf(1, 2, 3)
+    ms2 = multiSetOf(1, 2, 3)
+    var expected = multiSetOf(1, 2, 3)
+    assertEquals(expected, ms1.intersect(ms2))
+    assertEquals(expected, ms2.intersect(ms1))
+
+    ms1 = multiSetOf(1, 1, 2, 2, 3, 3)
+    ms2 = multiSetOf(1, 2, 2, 2, 3)
+    expected = multiSetOf(1, 2, 2, 3)
+    assertEquals(expected, ms1.intersect(ms2))
+    assertEquals(expected, ms2.intersect(ms1))
+
+    // some shared
+    ms1 = multiSetOf(1, 2, 2, 4, 5, 6, 7, -1, 10)
+    ms2 = multiSetOf(-1, 14, 3, 9, 9, 6)
+    expected = multiSetOf(-1, 6)
+    assertEquals(expected, ms1.intersect(ms2))
+    assertEquals(expected, ms2.intersect(ms1))
+
+    listMs1 = multiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
+    listMs2 = multiSetOf(listOf(), listOf(1, 2, 3))
+    val lExpected = multiSetOf(listOf(1, 2, 3))
+    assertEquals(lExpected, listMs1.intersect(listMs2))
+    assertEquals(lExpected, listMs2.intersect(listMs1))
+
+    val ems1: MultiSet<Exception> = multiSetOf(e1, e2, e1, e2)
+    val ems2: MultiSet<Exception> = multiSetOf(e1, e3, e3, e2, e1, e1)
+    val eExpected: MultiSet<Exception> = multiSetOf(e1, e1, e2)
+    assertEquals(eExpected, ems1.intersect(ems2))
+    assertEquals(eExpected, ems2.intersect(ems1))
 }

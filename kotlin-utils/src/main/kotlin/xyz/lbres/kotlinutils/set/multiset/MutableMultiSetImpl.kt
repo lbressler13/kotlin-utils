@@ -206,6 +206,7 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
 
     override operator fun minus(other: MultiSet<E>) = (this as MultiSet<E>) - other
     override operator fun plus(other: MultiSet<E>) = (this as MultiSet<E>) + other
+    override fun intersect(other: MultiSet<E>): MultiSet<E> = (this as MultiSet<E>).intersect(other)
 
     /**
      * Update the values of [list] and [string] to match the current values in the set.

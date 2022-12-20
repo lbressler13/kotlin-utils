@@ -303,4 +303,5 @@ internal class MultiSetImplTest {
 
     @Test fun testMinus() = runImmutableMinusTests()
     @Test fun testPlus() = runImmutablePlusTests()
+    @Test fun testIntersect() = runImmutableIntersectTests()
 }

@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Set implementation that allows multiple occurrences of the same value.
@@ -107,6 +108,18 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         val newCounts = allValues.associateWith {
             getCountOf(it) + other.getCountOf(it)
         }
+
+        return MultiSetImpl(HashMap(newCounts))
+    }
+
+    override fun intersect(other: MultiSet<E>): MultiSet<E> {
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.map {
+            val count = getCountOf(it)
+            val otherCount = other.getCountOf(it)
+            it to min(count, otherCount)
+        }.filter { it.second > 0 }.toMap()
 
         return MultiSetImpl(HashMap(newCounts))
     }

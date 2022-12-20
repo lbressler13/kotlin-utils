@@ -8,6 +8,8 @@ package xyz.lbres.kotlinutils.set.multiset
 interface MultiSet<E> : Set<E> {
     val distinctValues: Set<E>
     fun getCountOf(element: E): Int
+
     operator fun minus(other: MultiSet<E>): MultiSet<E>
     operator fun plus(other: MultiSet<E>): MultiSet<E>
+    fun intersect(other: MultiSet<E>): MultiSet<E>
 }
