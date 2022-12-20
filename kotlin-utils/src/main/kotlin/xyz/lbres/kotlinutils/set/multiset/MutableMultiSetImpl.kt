@@ -1,12 +1,13 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.int.ext.isZero
+import kotlin.math.max
 import kotlin.math.min
 
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : MutableMultiSet<E> {
+internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
      * Number of elements in set. References a mutable variable.
      */
@@ -16,7 +17,7 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
     /**
      * Mutable variable to store number of elements in the set.
      */
-    private var storedSize: Int = elements.size
+    private var storedSize: Int
 
     override val distinctValues: Set<E>
         get() = countsMap.keys
@@ -46,12 +47,23 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
     /**
      * Initialize stored variables.
      */
-    init {
+    constructor(elements: Collection<E>) {
+        storedSize = elements.size
         countsMap = mutableMapOf()
 
         for (element in elements) {
             countsMap[element] = getCountOf(element) + 1
         }
+
+        // string and list are initialized in updateList
+        list = mutableListOf()
+        string = ""
+        updateList()
+    }
+
+    constructor(counts: Map<E, Int>) {
+        countsMap = counts.toMutableMap()
+        storedSize = counts.values.fold(0, Int::plus)
 
         // string and list are initialized in updateList
         list = mutableListOf()
@@ -204,9 +216,38 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
         return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
     }
 
-    override operator fun minus(other: MultiSet<E>) = (this as MultiSet<E>) - other
-    override operator fun plus(other: MultiSet<E>) = (this as MultiSet<E>) + other
-    override fun intersect(other: MultiSet<E>): MultiSet<E> = (this as MultiSet<E>).intersect(other)
+    override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
+        val newCounts: Map<E, Int> = countsMap.map {
+            val element = it.key
+            val count = it.value
+            val otherCount = other.getCountOf(element)
+            element to max(count - otherCount, 0)
+        }.filter { it.second > 0 }.toMap()
+
+        return MutableMultiSetImpl(newCounts)
+    }
+
+    override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.associateWith {
+            getCountOf(it) + other.getCountOf(it)
+        }
+
+        return MutableMultiSetImpl(newCounts)
+    }
+
+    override fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.map {
+            val count = getCountOf(it)
+            val otherCount = other.getCountOf(it)
+            it to min(count, otherCount)
+        }.filter { it.second > 0 }.toMap()
+
+        return MutableMultiSetImpl(newCounts)
+    }
 
     /**
      * Update the values of [list] and [string] to match the current values in the set.

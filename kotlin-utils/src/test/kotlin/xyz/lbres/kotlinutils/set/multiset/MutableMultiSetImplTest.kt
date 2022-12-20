@@ -381,4 +381,8 @@ class MutableMultiSetImplTest {
         expected = "[2, 4, 1, 5]"
         assertEquals(expected, set.toString())
     }
+
+    @Test fun testMinus() = runMutableMinusTests()
+    @Test fun testPlus() = runMutablePlusTests()
+    @Test fun testIntersect() = runMutableIntersectTests()
 }
