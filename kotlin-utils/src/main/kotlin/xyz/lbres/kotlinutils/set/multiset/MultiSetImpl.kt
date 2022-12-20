@@ -1,13 +1,15 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.int.ext.isZero
+
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class MultiSetImpl<E> constructor(elements: Collection<E>) : MultiSet<E> {
+internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * Number of elements in set.
      */
-    override val size: Int = elements.size
+    override val size: Int
 
     /**
      * Store the number of occurrences of each element in set.
@@ -18,7 +20,7 @@ internal class MultiSetImpl<E> constructor(elements: Collection<E>) : MultiSet<E
     /**
      * The initial elements that were passed to the constructor.
      */
-    private val initialElements: Collection<E> = elements
+    private val initialElements: Collection<E>
 
     /**
      * String representation of the set.
@@ -26,26 +28,50 @@ internal class MultiSetImpl<E> constructor(elements: Collection<E>) : MultiSet<E
     private val string: String
 
     /**
-     * Initialize stored variables.
+     * Initialize stored variables from a collection of values.
      */
-    init {
-        // init string
-        string = if (size == 0) {
-            "[]"
-        } else {
-            val elementsString = elements.joinToString(", ")
-            "[$elementsString]"
-        }
+    constructor(elements: Collection<E>) {
+        size = elements.size
+        initialElements = elements
+        string = createString()
 
         // init counts
         val mutableMap: MutableMap<E, Int> = mutableMapOf()
 
-        for (element in elements) {
+        for (element in initialElements) {
             val currentCount = mutableMap[element] ?: 0
             mutableMap[element] = currentCount + 1
         }
 
         countsMap = HashMap(mutableMap)
+    }
+
+    /**
+     * Initialize stored variables from an existing counts map.
+     */
+    private constructor(counts: HashMap<E, Int>) {
+        countsMap = counts
+        size = counts.values.fold(0, Int::plus)
+
+        initialElements = counts.flatMap {
+            val value = it.key
+            val count = it.value
+            List(count) { value }
+        }
+
+        string = createString()
+    }
+
+    /**
+     * Create the static string representation of the set.
+     */
+    private fun createString(): String {
+        if (size.isZero()) {
+            return "[]"
+        }
+
+        val elementsString = initialElements.joinToString(", ")
+        return "[$elementsString]"
     }
 
     /**
