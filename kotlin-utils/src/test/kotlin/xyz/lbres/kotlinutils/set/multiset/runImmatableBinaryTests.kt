@@ -115,6 +115,16 @@ fun runImmutablePlusTests() {
     val eExpected: MultiSet<Exception> = multiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
     assertEquals(eExpected, ems1 + ems2)
     assertEquals(eExpected, ems2 + ems1)
+
+//    val a = mutableSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+//    val b = mutableSetOf(listOf(1, 2, 3), listOf(1, 2, 3), listOf())
+//    val ep = multiSetOf(listOf(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+//    val em = multiSetOf(listOf(), listOf(1, 2, 3))
+//    println(a.size)
+//    println(b.size)
+//    println((a+b).size)
+//    assertEquals(ep, a + b)
+//    assertEquals(em, b - a)
 }
 
 fun runImmutableIntersectTests() {

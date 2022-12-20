@@ -6,9 +6,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-internal class MultiSetImplTest {
+class MultiSetImplTest {
     @Test
-    internal fun testConstructor() {
+    fun testConstructor() {
         var set: MultiSet<Int> = MultiSetImpl(listOf())
         var expectedSize = 0
         assertEquals(expectedSize, set.size)
@@ -32,10 +32,14 @@ internal class MultiSetImplTest {
         val listSet = MultiSetImpl(listOf(listOf(1, 3, 4), listOf(55, 66, 77)))
         expectedSize = 2
         assertEquals(expectedSize, listSet.size)
+
+        val compListSet = MultiSetImpl(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
+        expectedSize = 3
+        assertEquals(expectedSize, compListSet.size)
     }
 
     @Test
-    internal fun testEquals() {
+    fun testEquals() {
         // equals
         var set1: MultiSet<Int> = multiSetOf()
         assertEquals(set1, set1)
@@ -92,7 +96,7 @@ internal class MultiSetImplTest {
     }
 
     @Test
-    internal fun testContains() {
+    fun testContains() {
         var set: MultiSet<Int> = multiSetOf()
         assertFalse(set.contains(0))
         assertFalse(set.contains(1000))
@@ -118,7 +122,7 @@ internal class MultiSetImplTest {
     }
 
     @Test
-    internal fun testContainsAll() {
+    fun testContainsAll() {
         // equal
         var set1: MultiSet<Int> = multiSetOf()
         assertTrue(set1.containsAll(set1))
@@ -192,7 +196,7 @@ internal class MultiSetImplTest {
     }
 
     @Test
-    internal fun testIsEmpty() {
+    fun testIsEmpty() {
         // empty
         var intSet: MultiSet<Int> = multiSetOf()
         assertTrue(intSet.isEmpty())
@@ -218,7 +222,7 @@ internal class MultiSetImplTest {
     }
 
     @Test
-    internal fun testGetCountOf() {
+    fun testGetCountOf() {
         var set: MultiSet<Int> = multiSetOf()
         var expected = 0
 
@@ -258,7 +262,7 @@ internal class MultiSetImplTest {
     }
 
     @Test
-    internal fun testIterator() {
+    fun testIterator() {
         var set: MultiSet<Int> = multiSetOf()
         var iter = set.iterator()
         assertFalse(iter.hasNext())
@@ -283,7 +287,7 @@ internal class MultiSetImplTest {
     }
 
     @Test
-    internal fun testToString() {
+    fun testToString() {
         var set: MultiSet<Int> = emptyMultiSet()
         var expected = "[]"
         assertEquals(expected, set.toString())
