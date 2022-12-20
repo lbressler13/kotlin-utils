@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.int.ext.isZero
+import kotlin.math.max
 
 /**
  * Set implementation that allows multiple occurrences of the same value.
@@ -54,24 +54,12 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         size = counts.values.fold(0, Int::plus)
 
         initialElements = counts.flatMap {
-            val value = it.key
+            val element = it.key
             val count = it.value
-            List(count) { value }
+            List(count) { element }
         }
 
         string = createString()
-    }
-
-    /**
-     * Create the static string representation of the set.
-     */
-    private fun createString(): String {
-        if (size.isZero()) {
-            return "[]"
-        }
-
-        val elementsString = initialElements.joinToString(", ")
-        return "[$elementsString]"
     }
 
     /**
@@ -96,6 +84,17 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 
         val newSet = MultiSetImpl(elements)
         return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
+    }
+
+    override operator fun minus(other: MultiSet<E>): MultiSet<E> {
+        val newCounts: Map<E, Int> = countsMap.map {
+            val element = it.key
+            val count = it.value
+            val otherCount = other.getCountOf(element)
+            element to max(count - otherCount, 0)
+        }.filter { it.second > 0 }.toMap()
+
+        return MultiSetImpl(HashMap(newCounts))
     }
 
     /**
@@ -125,6 +124,18 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         }
 
         return countsMap == other.countsMap
+    }
+
+    /**
+     * Create the static string representation of the set.
+     */
+    private fun createString(): String {
+        if (initialElements.isEmpty()) {
+            return "[]"
+        }
+
+        val elementsString = initialElements.joinToString(", ")
+        return "[$elementsString]"
     }
 
     /**

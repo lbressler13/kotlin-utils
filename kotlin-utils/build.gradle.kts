@@ -17,6 +17,12 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+tasks.withType<Test> {
+    this.testLogging {
+        this.showStandardStreams = true
+    }
+}
+
 publishing {
     repositories {
         maven {

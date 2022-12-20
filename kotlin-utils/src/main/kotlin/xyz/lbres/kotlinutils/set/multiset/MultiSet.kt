@@ -7,4 +7,5 @@ package xyz.lbres.kotlinutils.set.multiset
  */
 interface MultiSet<E> : Set<E> {
     fun getCountOf(element: E): Int
+    operator fun minus(other: MultiSet<E>): MultiSet<E>
 }

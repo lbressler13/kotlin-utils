@@ -300,4 +300,7 @@ internal class MultiSetImplTest {
         expected = "[2, 4, 2, 1]"
         assertEquals(expected, set.toString())
     }
+
+    @Test
+    fun testMinus() = runImmutableMinusTests()
 }

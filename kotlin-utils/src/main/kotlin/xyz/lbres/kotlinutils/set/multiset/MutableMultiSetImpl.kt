@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import xyz.lbres.kotlinutils.int.ext.isZero
 import kotlin.math.min
 
@@ -200,6 +201,8 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
         val newSet = MutableMultiSetImpl(elements)
         return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
     }
+
+    override operator fun minus(other: MultiSet<E>) = toMultiSet() - other
 
     /**
      * Update the values of [list] and [string] to match the current values in the set.
