@@ -19,6 +19,9 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      */
     private var storedSize: Int
 
+    /**
+     * All distinct values in the set, without any counts
+     */
     override val distinctValues: Set<E>
         get() = countsMap.keys
 
@@ -45,7 +48,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     private var string: String
 
     /**
-     * Initialize stored variables.
+     * Initialize stored variables from a collection of values.
      */
     constructor(elements: Collection<E>) {
         storedSize = elements.size
@@ -61,7 +64,10 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         updateList()
     }
 
-    constructor(counts: Map<E, Int>) {
+    /**
+     * Initialize stored variables from an existing counts map.
+     */
+    private constructor(counts: Map<E, Int>) {
         countsMap = counts.toMutableMap()
         storedSize = counts.values.fold(0, Int::plus)
 
@@ -217,8 +223,8 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     }
 
     /**
-     * Create a new MultiSet with values that are in this set but not in [other].
-     * If there are multiple occurrences of a value, the number of occurrences in [other] will be subtracted from the number in this MultiSet.
+     * Create a new MultiSet with values that are in this set but not the other set.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
      * @param other [MultiSet]<[E]>: MultiSet to subtract from current
      * @return [MutableMultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
@@ -236,7 +242,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
 
     /**
      * Create a new MultiSet with all values from both sets.
-     * If there are multiple occurrences of a value, the number of occurrences in [other] will be added to the number in this MultiSet.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
      * @param other [MultiSet]<[E]>: MultiSet to add to current
      * @return [MutableMultiSet]<[E]>: MultiSet containing all values from both MultiSets
@@ -338,7 +344,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             }
 
             return true
-        } catch (e: ClassCastException) {
+        } catch (e: Exception) {
             return false
         }
     }

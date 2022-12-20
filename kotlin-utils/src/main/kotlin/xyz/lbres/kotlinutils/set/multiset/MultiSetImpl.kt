@@ -21,7 +21,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than 0.
      */
-    private val countsMap: HashMap<E, Int>
+    private val countsMap: Map<E, Int>
 
     /**
      * The initial elements that were passed to the constructor.
@@ -44,19 +44,19 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         // init counts
         val mutableMap: MutableMap<E, Int> = mutableMapOf()
 
-        for (element in initialElements) {
+        for (element in elements) {
             val currentCount = mutableMap[element] ?: 0
             mutableMap[element] = currentCount + 1
         }
 
-        countsMap = HashMap(mutableMap)
+        countsMap = mutableMap.toMap() // store simpler data structure
         distinctValues = countsMap.keys
     }
 
     /**
      * Initialize stored variables from an existing counts map.
      */
-    private constructor(counts: HashMap<E, Int>) {
+    private constructor(counts: Map<E, Int>) {
         countsMap = counts
         size = counts.values.fold(0, Int::plus)
         distinctValues = counts.keys
@@ -95,8 +95,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     }
 
     /**
-     * Create a new MultiSet with values that are in this set but not in [other].
-     * If there are multiple occurrences of a value, the number of occurrences in [other] will be subtracted from the number in this MultiSet.
+     * Create a new MultiSet with values that are in this set but not the other set.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
      * @param other [MultiSet]<[E]>: MultiSet to subtract from current
      * @return [MultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
@@ -109,12 +109,12 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             element to max(count - otherCount, 0)
         }.filter { it.second > 0 }.toMap()
 
-        return MultiSetImpl(HashMap(newCounts))
+        return MultiSetImpl(newCounts)
     }
 
     /**
      * Create a new MultiSet with all values from both sets.
-     * If there are multiple occurrences of a value, the number of occurrences in [other] will be added to the number in this MultiSet.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
      * @param other [MultiSet]<[E]>: MultiSet to add to current
      * @return [MultiSet]<[E]>: MultiSet containing all values from both MultiSets
@@ -126,7 +126,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             getCountOf(it) + other.getCountOf(it)
         }
 
-        return MultiSetImpl(HashMap(newCounts))
+        return MultiSetImpl(newCounts)
     }
 
     /**
@@ -145,7 +145,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             it to min(count, otherCount)
         }.filter { it.second > 0 }.toMap()
 
-        return MultiSetImpl(HashMap(newCounts))
+        return MultiSetImpl(newCounts)
     }
 
     /**
@@ -192,13 +192,14 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             }
 
             return true
-        } catch (e: ClassCastException) {
+        } catch (e: Exception) {
             return false
         }
     }
 
     /**
      * Create the static string representation of the set.
+     * Stored in a helper so it can be reused in both constructors.
      */
     private fun createString(): String {
         if (initialElements.isEmpty()) {

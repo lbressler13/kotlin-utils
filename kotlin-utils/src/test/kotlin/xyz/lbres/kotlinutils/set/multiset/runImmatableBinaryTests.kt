@@ -1,29 +1,28 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.assertEmpty
 import kotlin.test.assertEquals
 
 private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-fun runImmutableMinusTests() {
+internal fun runImmutableMinusTests() {
     // empty
     var ms1 = emptyMultiSet<Int>()
     var ms2 = emptyMultiSet<Int>()
-    assertEmpty(ms1 - ms2)
-    assertEmpty(ms2 - ms1)
+    assertEquals(emptyMultiSet(), ms1 - ms2)
+    assertEquals(emptyMultiSet(), ms2 - ms1)
 
     ms1 = multiSetOf(1, 2, 3, 3)
     assertEquals(ms1, ms1 - ms2)
-    assertEmpty(ms2 - ms1)
+    assertEquals(emptyMultiSet(), ms2 - ms1)
 
     // equal
     ms1 = multiSetOf(1, 2, 3, 4, 5)
-    assertEmpty(ms1 - ms1)
+    assertEquals(emptyMultiSet(), ms1 - ms1)
 
     var listMs1 = multiSetOf(listOf(1, 2, 3), listOf(456, 789))
-    assertEmpty(listMs1 - listMs1)
+    assertEquals(emptyMultiSet(), listMs1 - listMs1)
 
     // all shared
     ms1 = multiSetOf(1, 1, 2, 3, 4, 4, 4)
@@ -81,12 +80,12 @@ fun runImmutableMinusTests() {
     assertEquals(compListExpected, compListMs2 - compListMs1)
 }
 
-fun runImmutablePlusTests() {
+internal fun runImmutablePlusTests() {
     // empty
     var ms1 = emptyMultiSet<Int>()
     var ms2 = emptyMultiSet<Int>()
-    assertEmpty(ms1 + ms2)
-    assertEmpty(ms2 + ms1)
+    assertEquals(emptyMultiSet(), ms1 + ms2)
+    assertEquals(emptyMultiSet(), ms2 + ms1)
 
     ms1 = multiSetOf(1, 2, 3, 3)
     assertEquals(ms1, ms1 + ms2)
@@ -130,27 +129,27 @@ fun runImmutablePlusTests() {
     assertEquals(compListExpected, compListMs2 + compListMs1)
 }
 
-fun runImmutableIntersectTests() {
+internal fun runImmutableIntersectTests() {
     // empty
     var ms1 = emptyMultiSet<Int>()
 
     var ms2 = emptyMultiSet<Int>()
-    assertEmpty(ms1.intersect(ms2))
+    assertEquals(emptyMultiSet(), ms1.intersect(ms2))
 
     ms2 = multiSetOf(1, 2, 3)
-    assertEmpty(ms1.intersect(ms2))
-    assertEmpty(ms2.intersect(ms1))
+    assertEquals(emptyMultiSet(), ms1.intersect(ms2))
+    assertEquals(emptyMultiSet(), ms2.intersect(ms1))
 
     // none shared
     ms1 = multiSetOf(1, 2, 3)
     ms2 = multiSetOf(4, 5, 6, 7, 8)
-    assertEmpty(ms1.intersect(ms2))
-    assertEmpty(ms2.intersect(ms1))
+    assertEquals(emptyMultiSet(), ms1.intersect(ms2))
+    assertEquals(emptyMultiSet(), ms2.intersect(ms1))
 
     var listMs1 = multiSetOf(listOf(1, 2, 3), listOf(4, 5))
     var listMs2 = multiSetOf(listOf(1, 2), listOf(3, 4, 5))
-    assertEmpty(listMs1.intersect(listMs2))
-    assertEmpty(listMs2.intersect(listMs1))
+    assertEquals(emptyMultiSet(), listMs1.intersect(listMs2))
+    assertEquals(emptyMultiSet(), listMs2.intersect(listMs1))
 
     // all shared
     ms1 = multiSetOf(1, 2, 3)

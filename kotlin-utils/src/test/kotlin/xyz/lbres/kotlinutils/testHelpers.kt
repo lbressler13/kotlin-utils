@@ -66,12 +66,3 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
         }
     }
 }
-
-/**
- * Assert that a collection is empty.
- *
- * @param collection [Collection]
- */
-internal fun <E> assertEmpty(collection: Collection<E>) {
-    assertTrue(collection.isEmpty())
-}

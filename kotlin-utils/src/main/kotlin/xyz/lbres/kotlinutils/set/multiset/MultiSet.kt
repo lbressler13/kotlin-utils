@@ -20,8 +20,8 @@ interface MultiSet<E> : Set<E> {
     fun getCountOf(element: E): Int
 
     /**
-     * Create a new MultiSet with values that are in this set but not in [other].
-     * If there are multiple occurrences of a value, the number of occurrences in [other] will be subtracted from the number in this MultiSet.
+     * Create a new MultiSet with values that are in this set but not the other set.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
      * @param other [MultiSet]<[E]>: MultiSet to subtract from current
      * @return [MultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
@@ -30,7 +30,7 @@ interface MultiSet<E> : Set<E> {
 
     /**
      * Create a new MultiSet with all values from both sets.
-     * If there are multiple occurrences of a value, the number of occurrences in [other] will be added to the number in this MultiSet.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
      * @param other [MultiSet]<[E]>: MultiSet to add to current
      * @return [MultiSet]<[E]>: MultiSet containing all values from both MultiSets

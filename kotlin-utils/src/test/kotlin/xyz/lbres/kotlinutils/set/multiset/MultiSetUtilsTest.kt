@@ -3,7 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MultiSetUtilsTest {
+internal class MultiSetUtilsTest {
     @Test
     fun testMultiSetOf() {
         var set: MultiSet<Int> = multiSetOf()

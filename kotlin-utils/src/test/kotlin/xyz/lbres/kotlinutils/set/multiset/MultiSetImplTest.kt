@@ -6,7 +6,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-class MultiSetImplTest {
+internal class MultiSetImplTest {
     @Test
     fun testConstructor() {
         var set: MultiSet<Int> = MultiSetImpl(listOf())
