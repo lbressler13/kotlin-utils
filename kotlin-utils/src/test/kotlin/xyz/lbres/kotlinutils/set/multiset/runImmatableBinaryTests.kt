@@ -72,6 +72,13 @@ fun runImmutableMinusTests() {
     assertEquals(eExpected, ems1 - ems2)
     eExpected = multiSetOf(e3, e3)
     assertEquals(eExpected, ems2 - ems1)
+
+    val compListMs1: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListMs2: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), listOf())
+    var compListExpected: MultiSet<List<Comparable<*>>> = multiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+    assertEquals(compListExpected, compListMs1 - compListMs2)
+    compListExpected = multiSetOf(listOf(1, 2, 3), listOf())
+    assertEquals(compListExpected, compListMs2 - compListMs1)
 }
 
 fun runImmutablePlusTests() {
@@ -116,15 +123,11 @@ fun runImmutablePlusTests() {
     assertEquals(eExpected, ems1 + ems2)
     assertEquals(eExpected, ems2 + ems1)
 
-//    val a = mutableSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-//    val b = mutableSetOf(listOf(1, 2, 3), listOf(1, 2, 3), listOf())
-//    val ep = multiSetOf(listOf(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-//    val em = multiSetOf(listOf(), listOf(1, 2, 3))
-//    println(a.size)
-//    println(b.size)
-//    println((a+b).size)
-//    assertEquals(ep, a + b)
-//    assertEquals(em, b - a)
+    val compListMs1: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListMs2: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), listOf())
+    val compListExpected: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    assertEquals(compListExpected, compListMs1 + compListMs2)
+    assertEquals(compListExpected, compListMs2 + compListMs1)
 }
 
 fun runImmutableIntersectTests() {
