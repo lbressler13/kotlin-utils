@@ -13,7 +13,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     override val size: Int
 
     /**
-     * All distinct values in the set, without any counts
+     * All distinct values contained in the MultiSet, without any counts
      */
     override val distinctValues: Set<E>
 
@@ -43,14 +43,17 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 
         // init counts
         val mutableMap: MutableMap<E, Int> = mutableMapOf()
+        val mutableValues: MutableSet<E> = mutableSetOf()
 
         for (element in elements) {
             val currentCount = mutableMap[element] ?: 0
             mutableMap[element] = currentCount + 1
+            mutableValues.add(element)
         }
 
-        countsMap = mutableMap.toMap() // store simpler data structure
-        distinctValues = countsMap.keys
+        // cast to simpler data structures
+        countsMap = mutableMap.toMap()
+        distinctValues = mutableValues.toSet()
     }
 
     /**
@@ -102,12 +105,11 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        val newCounts: Map<E, Int> = countsMap.map {
-            val element = it.key
-            val count = it.value
-            val otherCount = other.getCountOf(element)
-            element to max(count - otherCount, 0)
-        }.filter { it.second > 0 }.toMap()
+        val newCounts = countsMap.keys.associateWith {
+            val count = getCountOf(it)
+            val otherCount = other.getCountOf(it)
+            max(count - otherCount, 0)
+        }.filter { it.value > 0 }.toMap()
 
         return MultiSetImpl(newCounts)
     }
@@ -139,11 +141,11 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     override fun intersect(other: MultiSet<E>): MultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
-        val newCounts = allValues.map {
+        val newCounts = allValues.associateWith {
             val count = getCountOf(it)
             val otherCount = other.getCountOf(it)
-            it to min(count, otherCount)
-        }.filter { it.second > 0 }.toMap()
+            min(count, otherCount)
+        }.filter { it.value > 0 }.toMap()
 
         return MultiSetImpl(newCounts)
     }
@@ -156,7 +158,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     override fun isEmpty(): Boolean = countsMap.isEmpty()
 
     /**
-     * Get the number of occurrences of a given element in the current set.
+     * Get the number of occurrences of a given element.
      *
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
@@ -174,26 +176,11 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             return false
         }
 
-        try {
+        return try {
             other as MultiSet<E>
-
-            if (distinctValues != other.distinctValues) {
-                return false
-            }
-
-            countsMap.forEach {
-                val element = it.key
-                val count = it.value
-                val otherCount = other.getCountOf(element)
-
-                if (count != otherCount) {
-                    return false
-                }
-            }
-
-            return true
+            return minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
         } catch (e: Exception) {
-            return false
+            false
         }
     }
 
@@ -224,5 +211,5 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      */
     override fun toString(): String = string
 
-    override fun hashCode(): Int = listOf("ImmutableMultiSet", countsMap).hashCode()
+    override fun hashCode(): Int = listOf(javaClass.name, countsMap).hashCode()
 }

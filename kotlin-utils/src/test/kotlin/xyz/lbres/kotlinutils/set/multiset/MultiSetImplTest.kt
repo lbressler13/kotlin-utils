@@ -6,6 +6,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
+// TODO test distinct values
 internal class MultiSetImplTest {
     @Test
     fun testConstructor() {

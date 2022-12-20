@@ -12,7 +12,7 @@ interface MultiSet<E> : Set<E> {
     val distinctValues: Set<E>
 
     /**
-     * Get the number of occurrences of a given element in the MultiSet.
+     * Get the number of occurrences of a given element.
      *
      * @param element [E]
      * @return [Int]: The number of occurrences of [element]. 0 if the element does not exist.
@@ -23,7 +23,7 @@ interface MultiSet<E> : Set<E> {
      * Create a new MultiSet with values that are in this set but not the other set.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to subtract from current
+     * @param other [MultiSet]<[E]>: values to subtract from this MultiSet
      * @return [MultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
      */
     operator fun minus(other: MultiSet<E>): MultiSet<E>
@@ -32,7 +32,7 @@ interface MultiSet<E> : Set<E> {
      * Create a new MultiSet with all values from both sets.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to add to current
+     * @param other [MultiSet]<[E]>: values to add to this MultiSet
      * @return [MultiSet]<[E]>: MultiSet containing all values from both MultiSets
      */
     operator fun plus(other: MultiSet<E>): MultiSet<E>
@@ -41,7 +41,7 @@ interface MultiSet<E> : Set<E> {
      * Create a new MultiSet with values that are shared between the sets.
      * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to intersect with current
+     * @param other [MultiSet]<[E]>: values to intersect with this MultiSet
      * @return [MultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
      */
     fun intersect(other: MultiSet<E>): MultiSet<E>

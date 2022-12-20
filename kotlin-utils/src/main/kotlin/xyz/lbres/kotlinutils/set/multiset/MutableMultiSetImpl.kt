@@ -20,7 +20,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     private var storedSize: Int
 
     /**
-     * All distinct values in the set, without any counts
+     * All distinct values contained in the MultiSet, without any counts
      */
     override val distinctValues: Set<E>
         get() = countsMap.keys
@@ -226,16 +226,15 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Create a new MultiSet with values that are in this set but not the other set.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to subtract from current
+     * @param other [MultiSet]<[E]>: values to subtract from this MultiSet
      * @return [MutableMultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        val newCounts: Map<E, Int> = countsMap.map {
-            val element = it.key
-            val count = it.value
-            val otherCount = other.getCountOf(element)
-            element to max(count - otherCount, 0)
-        }.filter { it.second > 0 }.toMap()
+        val newCounts = countsMap.keys.associateWith {
+            val count = getCountOf(it)
+            val otherCount = other.getCountOf(it)
+            max(count - otherCount, 0)
+        }.filter { it.value > 0 }.toMap()
 
         return MutableMultiSetImpl(newCounts)
     }
@@ -244,7 +243,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Create a new MultiSet with all values from both sets.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to add to current
+     * @param other [MultiSet]<[E]>: values to add to this MultiSet
      * @return [MutableMultiSet]<[E]>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
@@ -261,17 +260,17 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Create a new MultiSet with values that are shared between the sets.
      * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to intersect with current
+     * @param other [MultiSet]<[E]>: values to intersect with the MultiSet
      * @return [MutableMultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
      */
     override fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
-        val newCounts = allValues.map {
+        val newCounts = allValues.associateWith {
             val count = getCountOf(it)
             val otherCount = other.getCountOf(it)
-            it to min(count, otherCount)
-        }.filter { it.second > 0 }.toMap()
+            min(count, otherCount)
+        }.filter { it.value > 0 }.toMap()
 
         return MutableMultiSetImpl(newCounts)
     }
@@ -308,7 +307,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     override fun isEmpty(): Boolean = storedSize.isZero()
 
     /**
-     * Get the number of occurrences of a given element in the current set.
+     * Get the number of occurrences of a given element.
      *
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
@@ -326,26 +325,11 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return false
         }
 
-        try {
+        return try {
             other as MultiSet<E>
-
-            if (distinctValues != other.distinctValues) {
-                return false
-            }
-
-            countsMap.forEach {
-                val element = it.key
-                val count = it.value
-                val otherCount = other.getCountOf(element)
-
-                if (count != otherCount) {
-                    return false
-                }
-            }
-
-            return true
+            return minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
         } catch (e: Exception) {
-            return false
+            false
         }
     }
 
@@ -369,5 +353,5 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         return string
     }
 
-    override fun hashCode(): Int = listOf("MutableMultiSet", countsMap).hashCode()
+    override fun hashCode(): Int = listOf(javaClass.name, countsMap).hashCode()
 }
