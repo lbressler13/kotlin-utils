@@ -93,6 +93,16 @@ class MutableMultiSetImplTest {
         val listSet2 = mutableMultiSetOf(listOf(12, 34, 56))
         assertNotEquals(listSet1, listSet2)
         assertNotEquals(listSet2, listSet1)
+
+        assertFalse(set1 == stringSet1)
+
+        // immutable
+        set1 = mutableMultiSetOf(1, 2, 3)
+        var immutableSet = multiSetOf(1, 2, 3)
+        assertEquals(set1, immutableSet)
+
+        immutableSet = multiSetOf(1)
+        assertNotEquals(set1, immutableSet)
     }
 
     @Test

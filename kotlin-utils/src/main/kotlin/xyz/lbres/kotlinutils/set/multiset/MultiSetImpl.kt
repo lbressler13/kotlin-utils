@@ -170,11 +170,31 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @return [Boolean]: true if [other] is a non-null ImmutableMultiSet which contains the same values as the current set, false otherwise
      */
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is MultiSetImpl<*>) {
+        if (other == null || other !is MultiSet<*>) {
             return false
         }
 
-        return countsMap == other.countsMap
+        try {
+            other as MultiSet<E>
+
+            if (distinctValues != other.distinctValues) {
+                return false
+            }
+
+            countsMap.forEach {
+                val element = it.key
+                val count = it.value
+                val otherCount = other.getCountOf(element)
+
+                if (count != otherCount) {
+                    return false
+                }
+            }
+
+            return true
+        } catch (e: ClassCastException) {
+            return false
+        }
     }
 
     /**
