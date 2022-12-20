@@ -216,6 +216,13 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
     }
 
+    /**
+     * Create a new MultiSet with values that are in this set but not in [other].
+     * If there are multiple occurrences of a value, the number of occurrences in [other] will be subtracted from the number in this MultiSet.
+     *
+     * @param other [MultiSet]<[E]>: MultiSet to subtract from current
+     * @return [MutableMultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
+     */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
         val newCounts: Map<E, Int> = countsMap.map {
             val element = it.key
@@ -227,6 +234,13 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         return MutableMultiSetImpl(newCounts)
     }
 
+    /**
+     * Create a new MultiSet with all values from both sets.
+     * If there are multiple occurrences of a value, the number of occurrences in [other] will be added to the number in this MultiSet.
+     *
+     * @param other [MultiSet]<[E]>: MultiSet to add to current
+     * @return [MutableMultiSet]<[E]>: MultiSet containing all values from both MultiSets
+     */
     override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
@@ -237,6 +251,13 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         return MutableMultiSetImpl(newCounts)
     }
 
+    /**
+     * Create a new MultiSet with values that are shared between the sets.
+     * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
+     *
+     * @param other [MultiSet]<[E]>: MultiSet to intersect with current
+     * @return [MutableMultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
+     */
     override fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
