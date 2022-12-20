@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import xyz.lbres.kotlinutils.int.ext.isZero
 import kotlin.math.min
 
@@ -18,6 +17,9 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
      * Mutable variable to store number of elements in the set.
      */
     private var storedSize: Int = elements.size
+
+    override val distinctValues: Set<E>
+        get() = countsMap.keys
 
     /**
      * Store the number of occurrences of each element in set.
@@ -202,7 +204,8 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
         return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
     }
 
-    override operator fun minus(other: MultiSet<E>) = toMultiSet() - other
+    override operator fun minus(other: MultiSet<E>) = (this as MultiSet<E>) - other
+    override operator fun plus(other: MultiSet<E>) = (this as MultiSet<E>) + other
 
     /**
      * Update the values of [list] and [string] to match the current values in the set.

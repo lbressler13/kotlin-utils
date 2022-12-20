@@ -11,6 +11,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      */
     override val size: Int
 
+    override val distinctValues: Set<E>
+
     /**
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than 0.
@@ -44,6 +46,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         }
 
         countsMap = HashMap(mutableMap)
+        distinctValues = countsMap.keys
     }
 
     /**
@@ -52,6 +55,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     private constructor(counts: HashMap<E, Int>) {
         countsMap = counts
         size = counts.values.fold(0, Int::plus)
+        distinctValues = counts.keys
 
         initialElements = counts.flatMap {
             val element = it.key
@@ -93,6 +97,16 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             val otherCount = other.getCountOf(element)
             element to max(count - otherCount, 0)
         }.filter { it.second > 0 }.toMap()
+
+        return MultiSetImpl(HashMap(newCounts))
+    }
+
+    override operator fun plus(other: MultiSet<E>): MultiSet<E> {
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.associateWith {
+            getCountOf(it) + other.getCountOf(it)
+        }
 
         return MultiSetImpl(HashMap(newCounts))
     }

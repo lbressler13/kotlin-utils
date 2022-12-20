@@ -301,6 +301,6 @@ internal class MultiSetImplTest {
         assertEquals(expected, set.toString())
     }
 
-    @Test
-    fun testMinus() = runImmutableMinusTests()
+    @Test fun testMinus() = runImmutableMinusTests()
+    @Test fun testPlus() = runImmutablePlusTests()
 }
