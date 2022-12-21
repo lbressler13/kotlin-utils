@@ -1,10 +1,78 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 
 private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
+
+internal fun runImmutableEqualsTests() {
+    // equals
+    var set1: MultiSet<Int> = multiSetOf()
+    assertEquals(set1, set1)
+
+    set1 = multiSetOf(3)
+    assertEquals(set1, set1)
+
+    set1 = multiSetOf(3, 3, 3)
+    assertEquals(set1, set1)
+
+    set1 = multiSetOf(2, 3, 4)
+    assertEquals(set1, set1)
+
+    set1 = multiSetOf(1, 2, 3)
+    var set2 = multiSetOf(3, 1, 2)
+    assertEquals(set1, set2)
+    assertEquals(set2, set1)
+
+    // not equals
+    set1 = multiSetOf()
+    set2 = multiSetOf(0)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    set1 = multiSetOf(1, 1)
+    set2 = multiSetOf(1)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    set1 = multiSetOf(1, 2)
+    set2 = multiSetOf(2, 2)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    set1 = multiSetOf(-1, 3, 1, -3)
+    set2 = multiSetOf(2, -2)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    // other type
+    val stringSet1 = multiSetOf("", "abc")
+    assertEquals(stringSet1, stringSet1)
+
+    val stringSet2 = multiSetOf("abc")
+    assertNotEquals(stringSet1, stringSet2)
+    assertNotEquals(stringSet2, stringSet1)
+
+    val listSet1 = multiSetOf(listOf(12, 34, 56), listOf(77, 78, 0, 15), listOf(5))
+    assertEquals(listSet1, listSet1)
+
+    val listSet2 = multiSetOf(listOf(12, 34, 56))
+    assertNotEquals(listSet1, listSet2)
+    assertNotEquals(listSet2, listSet1)
+
+    assertFalse(stringSet1 == set1)
+
+    // mutable
+    set1 = multiSetOf(1, 2, 3)
+    var mutableSet = mutableMultiSetOf(1, 2, 3)
+    assertEquals(set1, mutableSet)
+
+    mutableSet = mutableMultiSetOf(1)
+    assertNotEquals(set1, mutableSet)
+}
 
 internal fun runImmutableMinusTests() {
     // empty

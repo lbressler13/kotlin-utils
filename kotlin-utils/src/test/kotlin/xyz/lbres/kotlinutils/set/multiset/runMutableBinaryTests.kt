@@ -1,6 +1,8 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 
 private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
@@ -197,4 +199,70 @@ internal fun runMutableIntersectTests() {
     val immutable = multiSetOf(1, 4, 4, 5)
     expectedInt = mutableMultiSetOf(1, 4)
     assertEquals(expectedInt, intSet1.intersect(immutable))
+}
+
+internal fun runMutableEqualsTests() {
+    // equals
+    var set1: MutableMultiSet<Int> = mutableMultiSetOf()
+    assertEquals(set1, set1)
+
+    set1 = mutableMultiSetOf(3)
+    assertEquals(set1, set1)
+
+    set1 = mutableMultiSetOf(3, 3, 3)
+    assertEquals(set1, set1)
+
+    set1 = mutableMultiSetOf(2, 3, 4)
+    assertEquals(set1, set1)
+
+    set1 = mutableMultiSetOf(1, 2, 3)
+    var set2 = mutableMultiSetOf(3, 1, 2)
+    assertEquals(set1, set2)
+    assertEquals(set2, set1)
+
+    // not equals
+    set1 = mutableMultiSetOf()
+    set2 = mutableMultiSetOf(0)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    set1 = mutableMultiSetOf(1, 1)
+    set2 = mutableMultiSetOf(1)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    set1 = mutableMultiSetOf(1, 2)
+    set2 = mutableMultiSetOf(2, 2)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    set1 = mutableMultiSetOf(-1, 3, 1, -3)
+    set2 = mutableMultiSetOf(2, -2)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    // other type
+    val stringSet1 = mutableMultiSetOf("", "abc")
+    assertEquals(stringSet1, stringSet1)
+
+    val stringSet2 = mutableMultiSetOf("abc")
+    assertNotEquals(stringSet1, stringSet2)
+    assertNotEquals(stringSet2, stringSet1)
+
+    val listSet1 = mutableMultiSetOf(listOf(12, 34, 56), listOf(77, 78, 0, 15), listOf(5))
+    assertEquals(listSet1, listSet1)
+
+    val listSet2 = mutableMultiSetOf(listOf(12, 34, 56))
+    assertNotEquals(listSet1, listSet2)
+    assertNotEquals(listSet2, listSet1)
+
+    assertFalse(set1 == stringSet1)
+
+    // immutable
+    set1 = mutableMultiSetOf(1, 2, 3)
+    var immutableSet = multiSetOf(1, 2, 3)
+    assertEquals(set1, immutableSet)
+
+    immutableSet = multiSetOf(1)
+    assertNotEquals(set1, immutableSet)
 }
