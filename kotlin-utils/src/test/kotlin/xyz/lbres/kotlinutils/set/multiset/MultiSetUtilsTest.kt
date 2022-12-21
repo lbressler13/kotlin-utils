@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 internal class MultiSetUtilsTest {
     @Test
-    internal fun testMultiSetOf() {
+    fun testMultiSetOf() {
         var set: MultiSet<Int> = multiSetOf()
         var expected: MultiSet<Int> = MultiSetImpl(listOf())
         assertEquals(expected, set)
@@ -29,10 +29,14 @@ internal class MultiSetUtilsTest {
         val listSet = multiSetOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97))
         val listExpected = MultiSetImpl(listOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97)))
         assertEquals(listExpected, listSet)
+
+        val compListSet = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+        val compListSetExpected = MultiSetImpl(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
+        assertEquals(compListSetExpected, compListSet)
     }
 
     @Test
-    internal fun testMutableMultiSetOf() {
+    fun testMutableMultiSetOf() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
         var expected: MutableMultiSet<Int> = MutableMultiSetImpl(listOf())
         assertEquals(expected, set)
@@ -56,17 +60,21 @@ internal class MultiSetUtilsTest {
         val listSet = mutableMultiSetOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97))
         val listExpected = MutableMultiSetImpl(listOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97)))
         assertEquals(listExpected, listSet)
+
+        val compListSet = mutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+        val compListSetExpected = MutableMultiSetImpl(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
+        assertEquals(compListSetExpected, compListSet)
     }
 
     @Test
-    internal fun testEmptyMultiSet() {
+    fun testEmptyMultiSet() {
         val set = emptyMultiSet<Int>()
         val expected = multiSetOf<Int>()
         assertEquals(expected, set)
     }
 
     @Test
-    internal fun testMultiSet() {
+    fun testMultiSet() {
         var set = MultiSet(0) { 1 }
         var expectedSize = 0
         var expected: MultiSet<Int> = emptyMultiSet()
@@ -94,7 +102,7 @@ internal class MultiSetUtilsTest {
     }
 
     @Test
-    internal fun testMutableMultiSet() {
+    fun testMutableMultiSet() {
         var set = MutableMultiSet(0) { 5 }
         var expectedSize = 0
         var expected: MutableMultiSet<Int> = mutableMultiSetOf()

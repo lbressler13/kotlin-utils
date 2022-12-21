@@ -1,12 +1,13 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.int.ext.isZero
+import kotlin.math.max
 import kotlin.math.min
 
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : MutableMultiSet<E> {
+internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
      * Number of elements in set. References a mutable variable.
      */
@@ -16,7 +17,13 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
     /**
      * Mutable variable to store number of elements in the set.
      */
-    private var storedSize: Int = elements.size
+    private var storedSize: Int
+
+    /**
+     * All distinct values contained in the MultiSet, without any counts
+     */
+    override val distinctValues: Set<E>
+        get() = countsMap.keys
 
     /**
      * Store the number of occurrences of each element in set.
@@ -41,14 +48,28 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
     private var string: String
 
     /**
-     * Initialize stored variables.
+     * Initialize stored variables from a collection of values.
      */
-    init {
+    constructor(elements: Collection<E>) {
+        storedSize = elements.size
         countsMap = mutableMapOf()
 
         for (element in elements) {
             countsMap[element] = getCountOf(element) + 1
         }
+
+        // string and list are initialized in updateList
+        list = mutableListOf()
+        string = ""
+        updateList()
+    }
+
+    /**
+     * Initialize stored variables from an existing counts map.
+     */
+    private constructor(counts: Map<E, Int>) {
+        countsMap = counts.toMutableMap()
+        storedSize = counts.values.fold(0, Int::plus)
 
         // string and list are initialized in updateList
         list = mutableListOf()
@@ -202,6 +223,59 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
     }
 
     /**
+     * Create a new MultiSet with values that are in this set but not the other set.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
+     *
+     * @param other [MultiSet]<[E]>: values to subtract from this MultiSet
+     * @return [MutableMultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
+     */
+    override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
+        val newCounts = countsMap.keys.associateWith {
+            val count = getCountOf(it)
+            val otherCount = other.getCountOf(it)
+            max(count - otherCount, 0)
+        }.filter { it.value > 0 }.toMap()
+
+        return MutableMultiSetImpl(newCounts)
+    }
+
+    /**
+     * Create a new MultiSet with all values from both sets.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
+     *
+     * @param other [MultiSet]<[E]>: values to add to this MultiSet
+     * @return [MutableMultiSet]<[E]>: MultiSet containing all values from both MultiSets
+     */
+    override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.associateWith {
+            getCountOf(it) + other.getCountOf(it)
+        }
+
+        return MutableMultiSetImpl(newCounts)
+    }
+
+    /**
+     * Create a new MultiSet with values that are shared between the sets.
+     * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
+     *
+     * @param other [MultiSet]<[E]>: values to intersect with the MultiSet
+     * @return [MutableMultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
+     */
+    override fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.associateWith {
+            val count = getCountOf(it)
+            val otherCount = other.getCountOf(it)
+            min(count, otherCount)
+        }.filter { it.value > 0 }.toMap()
+
+        return MutableMultiSetImpl(newCounts)
+    }
+
+    /**
      * Update the values of [list] and [string] to match the current values in the set.
      */
     private fun updateList() {
@@ -233,7 +307,7 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
     override fun isEmpty(): Boolean = storedSize.isZero()
 
     /**
-     * Get the number of occurrences of a given element in the current set.
+     * Get the number of occurrences of a given element.
      *
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
@@ -247,11 +321,16 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
      * @return [Boolean]: true if [other] is a non-null MultiSet which contains the same values as the current set, false otherwise
      */
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is MutableMultiSetImpl<*>) {
+        if (other == null || other !is MultiSet<*>) {
             return false
         }
 
-        return countsMap == other.countsMap
+        return try {
+            other as MultiSet<E>
+            return minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
+        } catch (e: Exception) {
+            false
+        }
     }
 
     /**
@@ -274,5 +353,5 @@ internal class MutableMultiSetImpl<E> constructor(elements: Collection<E>) : Mut
         return string
     }
 
-    override fun hashCode(): Int = listOf("MutableMultiSet", countsMap).hashCode()
+    override fun hashCode(): Int = listOf(javaClass.name, countsMap).hashCode()
 }

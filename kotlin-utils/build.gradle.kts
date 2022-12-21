@@ -2,11 +2,11 @@ plugins {
     `java-library`
     `maven-publish`
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
-    id("org.jlleitschuh.gradle.ktlint") version "10.3.0" // ktlint
+    id("org.jlleitschuh.gradle.ktlint") version "11.0.0" // ktlint
 }
 
 group = "xyz.lbres"
-version = "0.3.1"
+version = "0.4.0"
 
 repositories {
     mavenCentral()
