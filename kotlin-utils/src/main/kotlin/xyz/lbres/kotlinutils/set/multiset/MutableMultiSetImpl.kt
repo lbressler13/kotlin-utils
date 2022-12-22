@@ -263,7 +263,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @param other [MultiSet]<[E]>: values to intersect with the MultiSet
      * @return [MutableMultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
      */
-    override fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
+    override infix fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {

@@ -44,7 +44,7 @@ interface MultiSet<E> : Set<E> {
      * @param other [MultiSet]<[E]>: values to intersect with this MultiSet
      * @return [MultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
      */
-    fun intersect(other: MultiSet<E>): MultiSet<E>
+    infix fun intersect(other: MultiSet<E>): MultiSet<E>
 
     fun <T> map(mapFunction: (E) -> T): MultiSet<T>
     fun filter(filterFunction: (E) -> Boolean): MultiSet<E>

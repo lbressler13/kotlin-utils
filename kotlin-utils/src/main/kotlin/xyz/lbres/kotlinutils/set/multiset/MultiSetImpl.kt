@@ -6,7 +6,7 @@ import kotlin.math.min
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class MultiSetImpl<E> : MultiSet<E>, Iterable<E> {
+internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -138,7 +138,7 @@ internal class MultiSetImpl<E> : MultiSet<E>, Iterable<E> {
      * @param other [MultiSet]<[E]>: MultiSet to intersect with current
      * @return [MultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
      */
-    override fun intersect(other: MultiSet<E>): MultiSet<E> {
+    override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
