@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.set.multiset.immutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -17,6 +18,11 @@ internal class MultiSetImplTest {
 
     @Test fun testIsEmpty() = runImmutableIsEmptyTests()
     @Test fun testGetCountOf() = runImmutableGetCountOfTests()
+
+    @Test fun testMap() = runImmutableMapTests()
+    @Test fun testFilter() = runImmutableFilterTests()
+    @Test fun testFilterNot() = runImmutableFilterNotTests()
+    @Test fun testFold() = runImmutableFoldTests()
 
     @Test
     fun testIterator() {
