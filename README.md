@@ -101,4 +101,5 @@ To perform linting and fix issues where possible, run the following command:
 This can also be run through an IDE.
 
 ## Importing the package
-In order to import the package, copy the most recent .jar file into your project, and add the file to the list of imports for the project.
+This package is hosted in the GitHub Packages registry.
+See [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package) for information on importing GitHub packages.
