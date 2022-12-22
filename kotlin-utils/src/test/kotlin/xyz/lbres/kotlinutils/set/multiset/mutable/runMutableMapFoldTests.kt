@@ -1,7 +1,8 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.mutable
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
+import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import java.lang.NullPointerException
 import kotlin.math.pow
 import kotlin.test.assertEquals

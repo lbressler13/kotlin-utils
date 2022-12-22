@@ -1,8 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.immutable
 
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
-import xyz.lbres.kotlinutils.set.multiset.multiSetOf
+import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
