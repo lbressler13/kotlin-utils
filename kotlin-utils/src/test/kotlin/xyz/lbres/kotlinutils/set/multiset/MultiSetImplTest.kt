@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.set.multiset.immutable.runImmutableFilterNotTests
-import xyz.lbres.kotlinutils.set.multiset.immutable.runImmutableFilterTests
+import xyz.lbres.kotlinutils.set.multiset.immutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -21,8 +20,8 @@ internal class MultiSetImplTest {
     @Test fun testGetCountOf() = runImmutableGetCountOfTests()
 
     @Test fun testMap() = runImmutableMapTests()
-    @Test fun testFilter() = runImmutableFilterTests() // TODO
-    @Test fun testFilterNot() = runImmutableFilterNotTests() // TODO
+    @Test fun testFilter() = runImmutableFilterTests()
+    @Test fun testFilterNot() = runImmutableFilterNotTests()
     @Test fun testFold() = runImmutableFoldTests()
 
     @Test

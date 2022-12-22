@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.set.multiset.mutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -26,6 +27,8 @@ internal class MutableMultiSetImplTest {
     @Test fun testGetCountOf() = runMutableGetCountOfTests()
 
     @Test fun testMap() = runMutableMapTests()
+    @Test fun testFilter() = runMutableFilterTests()
+    @Test fun testFilterNot() = runMutableFilterNotTests()
     @Test fun testFold() = runMutableFoldTests()
 
     @Test
