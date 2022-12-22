@@ -162,6 +162,28 @@ internal class MultiSetImpl<E> : MultiSet<E>, Iterable<E> {
         return MultiSetImpl(newCounts)
     }
 
+    override fun filter(filterFunction: (E) -> Boolean): MultiSet<E> {
+        val newCounts = countsMap.filterKeys(filterFunction)
+        return MultiSetImpl(newCounts)
+    }
+
+    override fun filterNot(filterFunction: (E) -> Boolean): MultiSet<E> {
+        val newCounts = countsMap.filterKeys { !filterFunction(it) }
+        return MultiSetImpl(newCounts)
+    }
+
+    override fun <T> fold(initialValue: T, foldFunction: (T, E) -> T): T {
+        var acc = initialValue
+
+        countsMap.forEach {
+            val value = it.key
+            val count = it.value
+            repeat(count) { acc = foldFunction(acc, value) }
+        }
+
+        return acc
+    }
+
     /**
      * If the current set contains 0 elements.
      *

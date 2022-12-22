@@ -26,6 +26,7 @@ internal class MutableMultiSetImplTest {
     @Test fun testGetCountOf() = runMutableGetCountOfTests()
 
     @Test fun testMap() = runMutableMapTests()
+    @Test fun testFold() = runMutableFoldTests()
 
     @Test
     fun testIterator() {

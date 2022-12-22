@@ -287,6 +287,28 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         return MutableMultiSetImpl(newCounts)
     }
 
+    override fun filter(filterFunction: (E) -> Boolean): MultiSet<E> {
+        val newCounts = countsMap.filterKeys(filterFunction)
+        return MutableMultiSetImpl(newCounts)
+    }
+
+    override fun filterNot(filterFunction: (E) -> Boolean): MultiSet<E> {
+        val newCounts = countsMap.filterKeys { !filterFunction(it) }
+        return MutableMultiSetImpl(newCounts)
+    }
+
+    override fun <T> fold(initialValue: T, foldFunction: (T, E) -> T): T {
+        var acc = initialValue
+
+        countsMap.forEach {
+            val value = it.key
+            val count = it.value
+            repeat(count) { acc = foldFunction(acc, value) }
+        }
+
+        return acc
+    }
+
     /**
      * Update the values of [list] and [string] to match the current values in the set.
      */

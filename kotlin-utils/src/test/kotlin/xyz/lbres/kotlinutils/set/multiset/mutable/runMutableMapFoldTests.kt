@@ -3,7 +3,9 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import java.lang.NullPointerException
+import kotlin.math.pow
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
@@ -66,4 +68,44 @@ internal fun runMutableMapTests() {
         }
     }
     assertEquals(expectedList, listSet.map(listMap))
+}
+
+internal fun runMutableFoldTests() {
+    assertFailsWith<ArithmeticException> { mutableMultiSetOf(1, 2, 0).fold(1, Int::div) }
+
+    var intSet = multiSetOf<Int>()
+    var intExpected = 0
+    assertEquals(intExpected, intSet.fold(0, Int::plus))
+
+    intExpected = 10
+    assertEquals(intExpected, intSet.fold(10, Int::plus))
+
+    intSet = mutableMultiSetOf(1, 1, 1, 2, 2, 3, 4, 5)
+    intExpected = 0
+    assertEquals(intExpected, intSet.fold(0, Int::times))
+
+    intExpected = 720
+    assertEquals(intExpected, intSet.fold(3, Int::times))
+
+    var stringExpected = "011122345"
+    var foldedString = intSet.fold("0") { acc, int -> acc + int.toString() }
+    foldedString = foldedString.toCharArray().sorted().joinToString("")
+    assertEquals(stringExpected, foldedString)
+
+    var stringSet = mutableMultiSetOf("abc", "ab", "nop", "def", "hijk", "lm", "lm", "lm", "nop")
+    stringExpected = "aadhlllnn"
+    foldedString = stringSet.fold("") { acc, string -> string[0] + acc }
+    foldedString = foldedString.toCharArray().sorted().joinToString("")
+    assertEquals(stringExpected, foldedString)
+
+    stringSet = mutableMultiSetOf("abc", "abc", "de")
+    intExpected = 262144
+    assertEquals(intExpected, stringSet.fold(2) { acc, string -> acc.toDouble().pow(string.length).toInt() })
+
+    stringExpected = "123123123"
+    assertEquals(stringExpected, stringSet.fold("") { acc, _ -> acc + "123" })
+
+    val msSet = mutableMultiSetOf(multiSetOf(1, 2, 3), multiSetOf(1, 2, 3), emptyMultiSet(), multiSetOf(9), multiSetOf(3, 3, 9, 4), emptyMultiSet())
+    val msExpected = multiSetOf(1, 2, 3, 1, 2, 3, 9, 3, 3, 9, 4)
+    assertEquals(msExpected, msSet.fold(emptyMultiSet()) { acc, set -> acc + set })
 }
