@@ -77,7 +77,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * Determine if an element is contained in the current set.
      *
      * @param element [E]
-     * @return [Boolean]: true if [element] is in the set, false otherwise
+     * @return [Boolean]: `true` if [element] is in the set, `false` otherwise
      */
     override fun contains(element: E): Boolean = countsMap.contains(element)
 
@@ -85,8 +85,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * Determine if all elements in a collection are contained in the current set.
      * If [elements] contains multiple occurrences of the same value, the function will check if this set contains at least as many occurrences as [elements].
      *
-     * @param elements [Collection<E>]
-     * @return [Boolean]: true if the current set contains at least as many occurrences of each value as [elements], false otherwise
+     * @param elements [Collection]<E>
+     * @return [Boolean]: `true` if the current set contains at least as many occurrences of each value as [elements], `false` otherwise
      */
     override fun containsAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -101,8 +101,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * Create a new MultiSet with values that are in this set but not the other set.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to subtract from current
-     * @return [MultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
+     * @param other [MultiSet]<E>: MultiSet to subtract from current
+     * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
         val newCounts = countsMap.keys.associateWith {
@@ -118,8 +118,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * Create a new MultiSet with all values from both sets.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to add to current
-     * @return [MultiSet]<[E]>: MultiSet containing all values from both MultiSets
+     * @param other [MultiSet]<E>: MultiSet to add to current
+     * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
         val allValues = distinctValues + other.distinctValues
@@ -135,8 +135,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * Create a new MultiSet with values that are shared between the sets.
      * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
      *
-     * @param other [MultiSet]<[E]>: MultiSet to intersect with current
-     * @return [MultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
+     * @param other [MultiSet]<E>: MultiSet to intersect with current
+     * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
         val allValues = distinctValues + other.distinctValues
@@ -150,11 +150,17 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         return MultiSetImpl(newCounts)
     }
 
-    override fun <T> map(mapFunction: (E) -> T): MultiSet<T> {
+    /**
+     * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
+     *
+     * @param transform (E) -> T: transformation function
+     * @return [MultiSet]<T>: new MultiSet with transformed values
+     */
+    override fun <T> map(transform: (E) -> T): MultiSet<T> {
         val newCounts: MutableMap<T, Int> = mutableMapOf()
 
         countsMap.forEach {
-            val mappedValue = mapFunction(it.key)
+            val mappedValue = transform(it.key)
             val count = it.value
             newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
         }
@@ -162,23 +168,45 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         return MultiSetImpl(newCounts)
     }
 
-    override fun filter(filterFunction: (E) -> Boolean): MultiSet<E> {
-        val newCounts = countsMap.filterKeys(filterFunction)
+    /**
+     * Create a new MultiSet containing only elements that match the given predicate.
+     *
+     * @param predicate (E) -> [Boolean]: predicate to use for filtering
+     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
+     */
+    override fun filter(predicate: (E) -> Boolean): MultiSet<E> {
+        val newCounts = countsMap.filterKeys(predicate)
         return MultiSetImpl(newCounts)
     }
 
-    override fun filterNot(filterFunction: (E) -> Boolean): MultiSet<E> {
-        val newCounts = countsMap.filterKeys { !filterFunction(it) }
+    /**
+     * Create a new MultiSet containing only elements that do not match the given predicate.
+     *
+     * @param predicate (E) -> [Boolean]: predicate to use for filtering
+     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
+     */
+    override fun filterNot(predicate: (E) -> Boolean): MultiSet<E> {
+        val newCounts = countsMap.filterKeys { !predicate(it) }
         return MultiSetImpl(newCounts)
     }
 
-    override fun <T> fold(initialValue: T, foldFunction: (T, E) -> T): T {
-        var acc = initialValue
+    /**
+     * Accumulates value starting with [initial] value and applying [operation] from left to right
+     * to current accumulator value and each element.
+     *
+     * Returns the specified [initial] value if the collection is empty.
+     *
+     * @param initial [T]: initial value for applying operation
+     * @param [operation] (T, E) -> T: function that takes current accumulator value and an element, and calculates the next accumulator value.
+     * @return [T]: the accumulated value, or [initial] if the MultiSet is empty
+     */
+    override fun <T> fold(initial: T, operation: (T, E) -> T): T {
+        var acc = initial
 
         countsMap.forEach {
             val value = it.key
             val count = it.value
-            repeat(count) { acc = foldFunction(acc, value) }
+            repeat(count) { acc = operation(acc, value) }
         }
 
         return acc
@@ -187,7 +215,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * If the current set contains 0 elements.
      *
-     * @return [Boolean]: true if the set contains 0 elements, false otherwise
+     * @return [Boolean]: `true` if the set contains 0 elements, `false` otherwise
      */
     override fun isEmpty(): Boolean = countsMap.isEmpty()
 
@@ -202,8 +230,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * If two ImmutableMultiSets contain the same elements, with the same number of occurrences per element.
      *
-     * @param other [Any?]
-     * @return [Boolean]: true if [other] is a non-null ImmutableMultiSet which contains the same values as the current set, false otherwise
+     * @param other [Any]?
+     * @return [Boolean]: `true` if [other] is a non-null ImmutableMultiSet which contains the same values as the current set, `false` otherwise
      */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is MultiSet<*>) {
@@ -211,6 +239,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         }
 
         return try {
+            @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
             return minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
         } catch (e: Exception) {
@@ -221,6 +250,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * Create the static string representation of the set.
      * Stored in a helper so it can be reused in both constructors.
+     *
+     * @return [String]
      */
     private fun createString(): String {
         if (initialElements.isEmpty()) {
@@ -234,7 +265,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * Get an iterator for the elements in this set.
      *
-     * @return [Iterator<E>]
+     * @return [Iterator]<E>
      */
     override fun iterator(): Iterator<E> = initialElements.iterator()
 
