@@ -45,4 +45,15 @@ interface MultiSet<E> : Set<E> {
      * @return [MultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
      */
     fun intersect(other: MultiSet<E>): MultiSet<E>
+
+    fun <T> map(mapFunction: (E) -> T): MultiSet<T>
+
+    // fun <T> flatMap(mapFunction: (E) -> Collection<T>): MultiSet<T>
+    // fun filter(filterFunction: (E) -> Boolean): MultiSet<E>
+    // fun filterNot(filterFunction: (E) -> Boolean): MultiSet<E>
+    // fun <T> fold(initialValue: E, foldFunction: (E, E) -> T): T
+    // fun minByOrNull(minFunction: (E, E) -> Int): E?
+    // fun maxByOrNull(maxFunction: (E, E) -> Int): E?
+    // fun any(anyFunction: (E) -> Boolean): Boolean
+    // fun all(allFunction: (E) -> Boolean): Boolean
 }

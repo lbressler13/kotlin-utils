@@ -275,6 +275,18 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         return MutableMultiSetImpl(newCounts)
     }
 
+    override fun <T> map(mapFunction: (E) -> T): MutableMultiSet<T> {
+        val newCounts: MutableMap<T, Int> = mutableMapOf()
+
+        countsMap.forEach {
+            val mappedValue = mapFunction(it.key)
+            val count = it.value
+            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
+        }
+
+        return MutableMultiSetImpl(newCounts)
+    }
+
     /**
      * Update the values of [list] and [string] to match the current values in the set.
      */

@@ -6,7 +6,7 @@ import kotlin.math.min
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class MultiSetImpl<E> : MultiSet<E> {
+internal class MultiSetImpl<E> : MultiSet<E>, Iterable<E> {
     /**
      * Number of elements in set.
      */
@@ -146,6 +146,18 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             val otherCount = other.getCountOf(it)
             min(count, otherCount)
         }.filter { it.value > 0 }.toMap()
+
+        return MultiSetImpl(newCounts)
+    }
+
+    override fun <T> map(mapFunction: (E) -> T): MultiSet<T> {
+        val newCounts: MutableMap<T, Int> = mutableMapOf()
+
+        countsMap.forEach {
+            val mappedValue = mapFunction(it.key)
+            val count = it.value
+            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
+        }
 
         return MultiSetImpl(newCounts)
     }

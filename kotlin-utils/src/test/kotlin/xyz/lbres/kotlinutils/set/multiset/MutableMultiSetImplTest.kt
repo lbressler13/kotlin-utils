@@ -25,6 +25,8 @@ internal class MutableMultiSetImplTest {
     @Test fun testIsEmpty() = runMutableIsEmptyTests()
     @Test fun testGetCountOf() = runMutableGetCountOfTests()
 
+    @Test fun testMap() = runMutableMapTests()
+
     @Test
     fun testIterator() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
