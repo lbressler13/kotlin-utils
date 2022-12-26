@@ -54,8 +54,7 @@ fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = Mutab
  * @return [MultiSet]<E>: MultiSet containing all elements in both sets
  */
 fun <E> defaultPlus(set: MultiSet<E>, other: MultiSet<E>): MultiSet<E> {
-    val values = (set.distinctValues + other.distinctValues).flatMap {
-        val element = it
+    val values = (set.distinctValues + other.distinctValues).flatMap { element ->
         val totalCount = set.getCountOf(element) + other.getCountOf(element)
         List(totalCount) { element }
     }
@@ -72,8 +71,7 @@ fun <E> defaultPlus(set: MultiSet<E>, other: MultiSet<E>): MultiSet<E> {
  * @return [MultiSet]<E>: MultiSet containing the elements in [set] but not in [other]
  */
 fun <E> defaultMinus(set: MultiSet<E>, other: MultiSet<E>): MultiSet<E> {
-    val values = set.distinctValues.flatMap {
-        val element = it
+    val values = set.distinctValues.flatMap { element ->
         val totalCount = set.getCountOf(element) - other.getCountOf(element)
 
         if (totalCount <= 0) {
@@ -95,8 +93,7 @@ fun <E> defaultMinus(set: MultiSet<E>, other: MultiSet<E>): MultiSet<E> {
  * @return [MultiSet]<E>: MultiSet containing only the elements that occur in both sets
  */
 fun <E> defaultIntersect(set: MultiSet<E>, other: MultiSet<E>): MultiSet<E> {
-    val values = (set.distinctValues intersect other.distinctValues).flatMap {
-        val element = it
+    val values = (set.distinctValues intersect other.distinctValues).flatMap { element ->
         val totalCount = min(set.getCountOf(element), other.getCountOf(element))
         List(totalCount) { element }
     }
