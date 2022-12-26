@@ -141,10 +141,62 @@ inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E
 }
 
 /**
+ * Returns `true` if at least one element matches the given [predicate].
+ * Returns `false` if MultiSet is empty.
+ *
+ * @param predicate (E) -> [Boolean]
+ * @return [Boolean]: `true` if the MultiSet is non-empty and at least one element matches the predicate, `false` otherwise
+ */
+inline fun <E> MultiSet<E>.any(predicate: (E) -> Boolean): Boolean {
+    distinctValues.forEach {
+        if (predicate(it)) {
+            return true
+        }
+    }
+
+    return false
+}
+
+/**
+ * Returns `true` if all elements match the given [predicate].
+ * Returns `true` if MultiSet is empty.
+ *
+ * @param predicate (E) -> [Boolean]
+ * @return [Boolean]: `true` if the MultiSet is empty or all elements match the predicate, `false` otherwise
+ */
+inline fun <E> MultiSet<E>.all(predicate: (E) -> Boolean): Boolean {
+    distinctValues.forEach {
+        if (!predicate(it)) {
+            return false
+        }
+    }
+
+    return true
+}
+
+/**
+ * Returns `true` if no element matches the given [predicate].
+ * Returns `true` if MultiSet is empty.
+ *
+ * @param predicate (E) -> [Boolean]
+ * @return [Boolean]: `true` if the MultiSet is empty or no elements match the predicate, `false` otherwise
+ */
+inline fun <E> MultiSet<E>.none(predicate: (E) -> Boolean): Boolean {
+    distinctValues.forEach {
+        if (predicate(it)) {
+            return false
+        }
+    }
+
+    return true
+}
+
+/**
  * Returns an element yielding the smallest value of the given function or `null` if there are no elements.
  * May not always return the same element if there are multiple elements which yield the smallest value.
  *
  * @param selector (E) -> R: function to compare elements
+ * @return [E]?: a value that yields the smallest value from [selector], or `null` if the MultiSet is empty
  */
 inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNull(selector: (E) -> R): E? {
     if (isEmpty()) {
@@ -160,6 +212,7 @@ inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNull(selector: (E) -> R): E
  * May not always return the same element if there are multiple elements which yield the largest value.
  *
  * @param selector (E) -> R: function to compare elements
+ * @return [E]?: a value that yields the largest value from [selector], or `null` if the MultiSet is empty
  */
 inline fun <E, R : Comparable<R>> MultiSet<E>.maxByOrNull(selector: (E) -> R): E? {
     if (isEmpty()) {

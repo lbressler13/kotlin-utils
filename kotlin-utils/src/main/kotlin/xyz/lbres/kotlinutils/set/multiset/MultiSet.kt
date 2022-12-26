@@ -45,7 +45,4 @@ interface MultiSet<E> : Collection<E> {
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     infix fun intersect(other: MultiSet<E>): MultiSet<E>
-
-    // fun any(anyFunction: (E) -> Boolean): Boolean
-    // fun all(allFunction: (E) -> Boolean): Boolean
 }

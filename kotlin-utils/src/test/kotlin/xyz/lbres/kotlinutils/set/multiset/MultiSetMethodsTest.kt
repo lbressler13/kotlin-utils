@@ -13,6 +13,10 @@ internal class MultiSetMethodsTest {
     @Test fun testFilterToSet() = runFilterToSetTests()
     @Test fun testFilterNotToSet() = runFilterNotToSetTests()
 
+    @Test fun testAny() = runAnyTests()
+    @Test fun testAll() = runAllTests()
+    @Test fun testNone() = runNoneTests()
+
     @Test fun testMinBy() = runMinByTests()
     @Test fun testMaxBy() = runMaxByTests()
 }
