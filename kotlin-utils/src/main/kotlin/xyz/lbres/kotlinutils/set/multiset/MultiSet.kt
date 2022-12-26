@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+// TODO still need to have original interface functions
+
 /**
  * Interface for set that allows multiple occurrences of a value.
  * The interface supports only read access to the values.
@@ -50,6 +52,4 @@ interface MultiSet<E> : Collection<E> {
     // fun maxByOrNull(maxFunction: (E, E) -> Int): E?
     // fun any(anyFunction: (E) -> Boolean): Boolean
     // fun all(allFunction: (E) -> Boolean): Boolean
-
-    // fun random(): E?
 }

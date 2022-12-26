@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.inline
+package xyz.lbres.kotlinutils.set.multiset.methods
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
