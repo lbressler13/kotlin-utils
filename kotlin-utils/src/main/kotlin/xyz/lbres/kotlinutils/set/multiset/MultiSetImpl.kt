@@ -151,68 +151,6 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     }
 
     /**
-     * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
-     *
-     * @param transform (E) -> T: transformation function
-     * @return [MultiSet]<T>: new MultiSet with transformed values
-     */
-    override fun <T> map(transform: (E) -> T): MultiSet<T> {
-        val newCounts: MutableMap<T, Int> = mutableMapOf()
-
-        countsMap.forEach {
-            val mappedValue = transform(it.key)
-            val count = it.value
-            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
-        }
-
-        return MultiSetImpl(newCounts)
-    }
-
-    /**
-     * Create a new MultiSet containing only elements that match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
-     */
-    override fun filter(predicate: (E) -> Boolean): MultiSet<E> {
-        val newCounts = countsMap.filterKeys(predicate)
-        return MultiSetImpl(newCounts)
-    }
-
-    /**
-     * Create a new MultiSet containing only elements that do not match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
-     */
-    override fun filterNot(predicate: (E) -> Boolean): MultiSet<E> {
-        val newCounts = countsMap.filterKeys { !predicate(it) }
-        return MultiSetImpl(newCounts)
-    }
-
-    /**
-     * Accumulates value starting with [initial] value and applying [operation] from left to right
-     * to current accumulator value and each element.
-     *
-     * Returns the specified [initial] value if the collection is empty.
-     *
-     * @param initial [T]: initial value for applying operation
-     * @param [operation] (T, E) -> T: function that takes current accumulator value and an element, and calculates the next accumulator value.
-     * @return [T]: the accumulated value, or [initial] if the MultiSet is empty
-     */
-    override fun <T> fold(initial: T, operation: (T, E) -> T): T {
-        var acc = initial
-
-        countsMap.forEach {
-            val value = it.key
-            val count = it.value
-            repeat(count) { acc = operation(acc, value) }
-        }
-
-        return acc
-    }
-
-    /**
      * If the current set contains 0 elements.
      *
      * @return [Boolean]: `true` if the set contains 0 elements, `false` otherwise
