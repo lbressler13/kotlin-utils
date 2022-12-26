@@ -150,8 +150,6 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         return MultiSetImpl(newCounts)
     }
 
-    override fun random(): E = initialElements.random()
-
     /**
      * If the current set contains 0 elements.
      *

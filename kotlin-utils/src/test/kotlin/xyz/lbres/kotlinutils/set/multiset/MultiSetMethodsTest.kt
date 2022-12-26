@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import org.junit.Test
-import xyz.lbres.kotlinutils.set.multiset.inline.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.methods.* // ktlint-disable no-wildcard-imports no-unused-imports
 
-internal class MultiSetInlineTest {
+internal class MultiSetMethodsTest {
     @Test fun testMap() = runMapTests()
     @Test fun testFilter() = runFilterTests()
     @Test fun testFilterNot() = runFilterNotTests()

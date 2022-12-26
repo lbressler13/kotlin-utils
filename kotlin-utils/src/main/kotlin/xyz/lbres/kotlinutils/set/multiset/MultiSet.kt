@@ -52,6 +52,4 @@ interface MultiSet<E> : Collection<E> {
     // fun maxByOrNull(maxFunction: (E, E) -> Int): E?
     // fun any(anyFunction: (E) -> Boolean): Boolean
     // fun all(allFunction: (E) -> Boolean): Boolean
-
-    fun random(): E
 }

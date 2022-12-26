@@ -275,27 +275,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         return MutableMultiSetImpl(newCounts)
     }
 
-    override fun random(): E {
-        if (!listUpdated) {
-            updateList()
-        }
-
-        return list.random()
-    }
-
-    override fun popRandom(): E? {
-        if (isEmpty()) {
-            return null
-        }
-
-        updateList()
-        val element = random()
-        remove(element)
-        listUpdated = false
-
-        return element
-    }
-
     /**
      * Update the values of [list] and [string] to match the current values in the set.
      */

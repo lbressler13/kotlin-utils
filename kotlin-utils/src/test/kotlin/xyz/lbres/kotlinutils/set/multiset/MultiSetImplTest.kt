@@ -19,8 +19,6 @@ internal class MultiSetImplTest {
     @Test fun testIsEmpty() = runImmutableIsEmptyTests()
     @Test fun testGetCountOf() = runImmutableGetCountOfTests()
 
-    @Test fun testRandom() = runImmutableRandomTests()
-
     @Test
     fun testIterator() {
         var set: MultiSet<Int> = multiSetOf()
