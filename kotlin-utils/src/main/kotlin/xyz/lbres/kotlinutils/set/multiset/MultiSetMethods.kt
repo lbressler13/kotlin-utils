@@ -163,3 +163,33 @@ inline fun <E> MultiSet<E>.all(predicate: (E) -> Boolean): Boolean = distinctVal
  * @return [Boolean]
  */
 inline fun <E> MultiSet<E>.none(predicate: (E) -> Boolean): Boolean = distinctValues.none(predicate)
+
+/**
+ * Returns an element yielding the smallest value of the given function or `null` if there are no elements.
+ * May not always return the same element if there are multiple elements which yield the smallest value.
+ *
+ * @param selector (E) -> R: function to compare elements
+ */
+inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNull(selector: (E) -> R): E? {
+    if (isEmpty()) {
+        return null
+    }
+
+    val result = distinctValues.associateWith(selector).minByOrNull { it.value }
+    return result?.key
+}
+
+/**
+ * Returns an element yielding the largest value of the given function or `null` if there are no elements.
+ * May not always return the same element if there are multiple elements which yield the largest value.
+ *
+ * @param selector (E) -> R: function to compare elements
+ */
+inline fun <E, R : Comparable<R>> MultiSet<E>.maxByOrNull(selector: (E) -> R): E? {
+    if (isEmpty()) {
+        return null
+    }
+
+    val result = distinctValues.associateWith(selector).maxByOrNull { it.value }
+    return result?.key
+}

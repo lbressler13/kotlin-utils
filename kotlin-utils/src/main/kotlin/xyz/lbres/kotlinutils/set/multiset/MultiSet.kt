@@ -1,7 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-// TODO still need to have original interface functions
-
 /**
  * Interface for set that allows multiple occurrences of a value.
  * The interface supports only read access to the values.
@@ -47,7 +45,4 @@ interface MultiSet<E> : Collection<E> {
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     infix fun intersect(other: MultiSet<E>): MultiSet<E>
-
-    // fun minByOrNull(minFunction: (E, E) -> Int): E?
-    // fun maxByOrNull(maxFunction: (E, E) -> Int): E?
 }

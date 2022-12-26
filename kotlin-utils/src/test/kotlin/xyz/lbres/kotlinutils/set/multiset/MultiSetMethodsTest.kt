@@ -16,4 +16,7 @@ internal class MultiSetMethodsTest {
     @Test fun testAny() = runAnyTests()
     @Test fun testAll() = runAllTests()
     @Test fun testNone() = runNoneTests()
+
+    @Test fun testMinBy() = runMinByTests()
+    @Test fun testMaxBy() = runMaxByTests()
 }
