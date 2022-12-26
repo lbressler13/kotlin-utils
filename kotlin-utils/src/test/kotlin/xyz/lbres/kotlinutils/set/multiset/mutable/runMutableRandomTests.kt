@@ -2,7 +2,11 @@ package xyz.lbres.kotlinutils.set.multiset.mutable
 
 import xyz.lbres.kotlinutils.list.mutablelist.ext.popRandom
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
-import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertNotEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 internal fun runMutableRandomTests() {
     assertFailsWith<NoSuchElementException> { mutableMultiSetOf<Int>().random() }
@@ -96,7 +100,7 @@ private fun <T> runSingleRandomTest(values: MutableMultiSet<T>) {
 
     val errorThreshold = 15
     for (value in values) {
-        val probability = (values.getCountOf(value).toFloat() / totalProbabilities* repeats).toInt()
+        val probability = (values.getCountOf(value).toFloat() / totalProbabilities * repeats).toInt()
         val allowedRange = (probability - errorThreshold)..(probability + errorThreshold)
         assertTrue(results.getCountOf(value) in allowedRange)
     }

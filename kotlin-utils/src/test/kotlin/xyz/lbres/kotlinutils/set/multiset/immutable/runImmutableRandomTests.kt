@@ -45,7 +45,7 @@ private fun <T> runSingleRandomTest(values: MultiSet<T>) {
 
     val errorThreshold = 15
     for (value in values) {
-        val probability = (values.getCountOf(value).toFloat() / totalProbabilities* repeats).toInt()
+        val probability = (values.getCountOf(value).toFloat() / totalProbabilities * repeats).toInt()
         val allowedRange = (probability - errorThreshold)..(probability + errorThreshold)
         assertTrue(results.getCountOf(value) in allowedRange)
     }

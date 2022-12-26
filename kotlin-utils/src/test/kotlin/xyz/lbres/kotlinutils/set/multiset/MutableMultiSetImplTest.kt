@@ -26,11 +26,6 @@ internal class MutableMultiSetImplTest {
     @Test fun testIsEmpty() = runMutableIsEmptyTests()
     @Test fun testGetCountOf() = runMutableGetCountOfTests()
 
-    @Test fun testMap() = runMutableMapTests()
-    @Test fun testFilter() = runMutableFilterTests()
-    @Test fun testFilterNot() = runMutableFilterNotTests()
-    @Test fun testFold() = runMutableFoldTests()
-
     @Test fun testRandom() = runMutableRandomTests()
     @Test fun testPopRandom() = runPopRandomTests()
 
