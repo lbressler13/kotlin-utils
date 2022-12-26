@@ -66,14 +66,3 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
         }
     }
 }
-
-// TODO move to general functions
-internal fun repeatUntil(repeats: Int, check: () -> Boolean, action: () -> Unit) {
-    repeat(repeats) {
-        if (check()) {
-            return
-        }
-
-        action()
-    }
-}
