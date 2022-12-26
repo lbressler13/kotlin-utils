@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.immutable
+package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
@@ -8,7 +8,7 @@ private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
 private val e4 = ClassCastException("other message")
 
-internal fun runImmutableFilterTests() {
+internal fun runFilterTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyList<Int>()
     assertEquals(intExpected, intSet.filter { true })
@@ -36,7 +36,7 @@ internal fun runImmutableFilterTests() {
     assertEquals(errorExpected, errorSet.filter { it is ClassCastException }.sortedBy { it.message!! })
 }
 
-internal fun runImmutableFilterNotTests() {
+internal fun runFilterNotTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyList<Int>()
     assertEquals(intExpected, intSet.filterNot { true })
