@@ -142,6 +142,7 @@ inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E
 
 /**
  * Returns an element yielding the smallest value of the given function or `null` if there are no elements.
+ * May not always return the same element if there are multiple elements which yield the smallest value.
  *
  * @param selector (E) -> R: function to compare elements
  */
@@ -156,6 +157,7 @@ inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNull(selector: (E) -> R): E
 
 /**
  * Returns an element yielding the largest value of the given function or `null` if there are no elements.
+ * May not always return the same element if there are multiple elements which yield the largest value.
  *
  * @param selector (E) -> R: function to compare elements
  */
