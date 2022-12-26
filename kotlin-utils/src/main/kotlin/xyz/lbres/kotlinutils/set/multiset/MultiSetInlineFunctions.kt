@@ -1,7 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.general.ternaryIf
-
 /**
  * Create a list with the results of applying the transform function to each value in the current MultiSet.
  *
@@ -26,7 +24,11 @@ inline fun <E, T> MultiSet<E>.map(transform: (E) -> T): List<T> {
 inline fun <E> MultiSet<E>.filter(predicate: (E) -> Boolean): List<E> {
     val list = distinctValues.flatMap { element ->
         val matchesPredicate = predicate(element)
-        ternaryIf(matchesPredicate, List(getCountOf(element)) { element }, emptyList())
+        if (matchesPredicate) {
+            List(getCountOf(element)) { element }
+        } else {
+            emptyList()
+        }
     }
 
     return list
@@ -41,7 +43,11 @@ inline fun <E> MultiSet<E>.filter(predicate: (E) -> Boolean): List<E> {
 inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
     val list = distinctValues.flatMap { element ->
         val matchesPredicate = predicate(element)
-        ternaryIf(matchesPredicate, emptyList(), List(getCountOf(element)) { element })
+        if (matchesPredicate) {
+            emptyList()
+        } else {
+            List(getCountOf(element)) { element }
+        }
     }
 
     return list

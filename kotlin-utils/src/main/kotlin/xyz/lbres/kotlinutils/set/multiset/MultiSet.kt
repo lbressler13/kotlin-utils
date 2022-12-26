@@ -5,8 +5,7 @@ package xyz.lbres.kotlinutils.set.multiset
  * The interface supports only read access to the values.
  * Read/write access is available through the [MutableMultiSet] interface.
  */
-// TODO this should be a collection, not a set
-interface MultiSet<E> : Set<E> {
+interface MultiSet<E> : Collection<E> {
     /**
      * All distinct values contained in the MultiSet
      */
