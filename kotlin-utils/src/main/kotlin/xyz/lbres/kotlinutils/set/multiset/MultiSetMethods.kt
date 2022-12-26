@@ -139,3 +139,31 @@ inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E
 
     return newSet
 }
+
+/**
+ * Returns an element yielding the smallest value of the given function or `null` if there are no elements.
+ *
+ * @param selector (E) -> R: function to compare elements
+ */
+inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNull(selector: (E) -> R): E? {
+    if (isEmpty()) {
+        return null
+    }
+
+    val result = distinctValues.associateWith(selector).minByOrNull { it.value }
+    return result?.key
+}
+
+/**
+ * Returns an element yielding the largest value of the given function or `null` if there are no elements.
+ *
+ * @param selector (E) -> R: function to compare elements
+ */
+inline fun <E, R : Comparable<R>> MultiSet<E>.maxByOrNull(selector: (E) -> R): E? {
+    if (isEmpty()) {
+        return null
+    }
+
+    val result = distinctValues.associateWith(selector).maxByOrNull { it.value }
+    return result?.key
+}
