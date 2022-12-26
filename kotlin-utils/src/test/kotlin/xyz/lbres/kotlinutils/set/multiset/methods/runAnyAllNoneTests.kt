@@ -9,9 +9,10 @@ internal fun runAnyTests() {
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
-    // none
+    // empty
     assertFalse { emptyMultiSet<Int>().any { true } }
 
+    // none
     assertFalse { intSet.any(Int::isNegative) }
     assertFalse { intSet.any { intSet.getCountOf(it) == 2 } }
 
@@ -34,9 +35,10 @@ internal fun runAllTests() {
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
-    // none
+    // empty
     assertTrue { emptyMultiSet<Int>().all { true } }
 
+    // none
     assertFalse { intSet.all(Int::isNegative) }
     assertFalse { intSet.all { intSet.getCountOf(it) == 2 } }
 
@@ -59,9 +61,10 @@ internal fun runNoneTests() {
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
-    // none
+    // empty
     assertTrue { emptyMultiSet<Int>().none { true } }
 
+    // none
     assertTrue { intSet.none(Int::isNegative) }
     assertTrue { intSet.none { intSet.getCountOf(it) == 2 } }
 
