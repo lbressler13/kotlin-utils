@@ -1,9 +1,10 @@
 package xyz.lbres.kotlinutils.set.multiset.methods
 
 import xyz.lbres.kotlinutils.list.mutablelist.ext.popRandom
+import xyz.lbres.kotlinutils.runRandomTest
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -21,57 +22,44 @@ internal fun runPopRandomTests() {
     assertTrue(intSet.isEmpty())
 
     intSet = mutableMultiSetOf(1, 2, 3)
-    try {
-        runSinglePopRandomTest(intSet)
-    } catch (_: Throwable) {
-        runSinglePopRandomTest(intSet)
-    }
+    runSinglePopRandomTest(intSet)
 
     intSet = mutableMultiSetOf(-1, 1, 2, 2, 2, 3, 3)
-    try {
-        runSinglePopRandomTest(intSet)
-    } catch (_: Throwable) {
-        runSinglePopRandomTest(intSet)
-    }
+    runSinglePopRandomTest(intSet)
 
     val stringSet = mutableMultiSetOf("", "", "hello", "world", "goodbye", "", "", "")
-    try {
-        runSinglePopRandomTest(stringSet)
-    } catch (_: Throwable) {
-        runSinglePopRandomTest(stringSet)
-    }
+    runSinglePopRandomTest(stringSet)
 
     val e1 = NullPointerException("Cannot invoke method on null value")
     val e2 = ArithmeticException()
     val e3 = ClassCastException("Cannot cast Int to List")
     val errorSet = mutableMultiSetOf(e1, e2, e3, e3)
-    try {
-        runSinglePopRandomTest(errorSet)
-    } catch (_: Throwable) {
-        runSinglePopRandomTest(errorSet)
-    }
+    runSinglePopRandomTest(errorSet)
 
     val listSet = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf("7"), listOf("7"), listOf("7"))
-    try {
-        runSinglePopRandomTest(listSet)
-    } catch (_: Throwable) {
-        runSinglePopRandomTest(listSet)
-    }
+    runSinglePopRandomTest(listSet)
 }
 
-// TODO borrow from other pop random functions
+/**
+ * Run popRandom test on a single set.
+ * Assumes the set has size >= 2 and has at least 2 distinct values
+ *
+ * @param values [MutableMultiSet]: the value to test
+ */
 private fun <T> runSinglePopRandomTest(values: MutableMultiSet<T>) {
-    val initialList = values.toList()
-    val list = mutableListOf<T>()
-    val repeats = values.size
+    val createResultSet = {
+        val copy = mutableMultiSetOf<T>()
+        copy.addAll(values)
+        val resultSet = mutableMultiSetOf<T>()
+        repeat(values.size) {
+            val result = copy.popRandom()
+            assertNotNull(result)
+            resultSet.add(result)
+        }
 
-    repeat(repeats) {
-        val value = values.popRandom()!!
-        list.add(value)
-        println(Pair(value, list))
-        println(values.toString())
+        resultSet
     }
+    val checkResult: (MutableMultiSet<T>) -> Boolean = { result: MutableMultiSet<T> -> result == values }
 
-    assertTrue(values.isEmpty())
-    assertNotEquals(initialList, list)
+    runRandomTest(createResultSet, checkResult)
 }

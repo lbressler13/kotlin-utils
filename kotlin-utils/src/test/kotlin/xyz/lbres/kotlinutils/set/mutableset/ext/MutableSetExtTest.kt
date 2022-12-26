@@ -45,7 +45,7 @@ internal class MutableSetExtTest {
 
             resultSet
         }
-        val checkResult: (MutableSet<T>) -> Boolean = { it: MutableSet<T> -> it == set }
+        val checkResult: (MutableSet<T>) -> Boolean = { result: MutableSet<T> -> result == set }
 
         runRandomTest(createResultSet, checkResult)
     }
