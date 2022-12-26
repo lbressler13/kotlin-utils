@@ -156,11 +156,11 @@ internal fun runImmutablePlusTests() {
     assertEquals(emptyMultiSet(), intSet1 + intSet2)
     assertEquals(emptyMultiSet(), intSet2 + intSet1)
 
+    // non-empty
     intSet1 = multiSetOf(1, 2, 3, 3)
     assertEquals(intSet1, intSet1 + intSet2)
     assertEquals(intSet1, intSet2 + intSet1)
 
-    // non-empty
     intSet1 = multiSetOf(1)
     intSet2 = multiSetOf(1)
     var expectedInt = multiSetOf(1, 1)
