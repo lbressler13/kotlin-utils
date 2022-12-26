@@ -87,7 +87,7 @@ interface MultiSet<E> : Set<E> {
      * @param [operation] (T, E) -> T: function that takes current accumulator value and an element, and calculates the next accumulator value.
      * @return [T]: the accumulated value, or [initial] if the MultiSet is empty
      */
-    fun <T> fold(initial: T, operation: (acc: T, E) -> T): T
+    // fun <T> fold(initial: T, operation: (acc: T, E) -> T): T
 
     // fun minByOrNull(minFunction: (E, E) -> Int): E?
     // fun maxByOrNull(maxFunction: (E, E) -> Int): E?
@@ -114,6 +114,7 @@ inline fun <E> MultiSet<E>.filter(predicate: (E) -> Boolean): List<E> {
 
     return list
 }
+
 inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
     val list = distinctValues.flatMap { element ->
         val matchesPredicate = predicate(element)
@@ -121,4 +122,16 @@ inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
     }
 
     return list
+}
+
+inline fun <E, T> MultiSet<E>.fold(initial: T, operation: (acc: T, E) -> T): T {
+    var acc = initial
+
+    distinctValues.forEach {
+        val value = it
+        val count = getCountOf(it)
+        repeat(count) { acc = operation(acc, value) }
+    }
+
+    return acc
 }
