@@ -212,6 +212,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         return acc
     }
 
+    override fun random(): E = initialElements.random()
+
     /**
      * If the current set contains 0 elements.
      *

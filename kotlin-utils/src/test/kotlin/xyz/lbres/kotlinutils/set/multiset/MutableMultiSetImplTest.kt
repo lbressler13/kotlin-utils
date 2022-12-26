@@ -31,6 +31,9 @@ internal class MutableMultiSetImplTest {
     @Test fun testFilterNot() = runMutableFilterNotTests()
     @Test fun testFold() = runMutableFoldTests()
 
+    @Test fun testRandom() = runMutableRandomTests()
+    @Test fun testPopRandom() = runPopRandomTests()
+
     @Test
     fun testIterator() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()

@@ -197,17 +197,17 @@ internal fun runClearTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
     set.clear()
     assertEquals(0, set.size)
-    assertEquals(setOf(), set)
+    assertEquals(mutableMultiSetOf(), set)
 
     set = mutableMultiSetOf(1, 2, 3)
     set.clear()
     assertEquals(0, set.size)
-    assertEquals(setOf(), set)
+    assertEquals(mutableMultiSetOf(), set)
 
     set = mutableMultiSetOf(-45, -45, -45, -45)
     set.clear()
     assertEquals(0, set.size)
-    assertEquals(setOf(), set)
+    assertEquals(mutableMultiSetOf(), set)
 }
 
 private fun <T> runSingleMutateTest(

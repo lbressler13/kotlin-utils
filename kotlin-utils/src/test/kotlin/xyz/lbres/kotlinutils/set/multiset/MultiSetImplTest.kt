@@ -24,6 +24,8 @@ internal class MultiSetImplTest {
     @Test fun testFilterNot() = runImmutableFilterNotTests()
     @Test fun testFold() = runImmutableFoldTests()
 
+    @Test fun testRandom() = runImmutableRandomTests()
+
     @Test
     fun testIterator() {
         var set: MultiSet<Int> = multiSetOf()
