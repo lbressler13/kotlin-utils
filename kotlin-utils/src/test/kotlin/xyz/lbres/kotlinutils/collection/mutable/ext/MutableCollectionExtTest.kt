@@ -1,12 +1,14 @@
 package xyz.lbres.kotlinutils.collection.mutable.ext
 
-import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.mutablelist.ext.popRandom
-import xyz.lbres.kotlinutils.runRandomTest
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
 import xyz.lbres.kotlinutils.set.mutableset.ext.popRandom
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 internal class MutableCollectionExtTest {
     @Test
@@ -81,7 +83,6 @@ internal class MutableCollectionExtTest {
         }
         assertEquals(list.sorted(), resultList.sorted())
 
-        // TODO write specific test for this
         list = mutableListOf("1", "1", "1", "2")
         listCopy = mutableListOf("1", "1", "1", "2")
         resultList = mutableListOf()
@@ -92,53 +93,4 @@ internal class MutableCollectionExtTest {
         }
         assertEquals(list.sorted(), resultList.sorted())
     }
-
-    /**
-     * Run popRandom test on a single set.
-     * Assumes the set has size >= 2 and has at least 2 distinct values
-     *
-     * @param values [MutableMultiSet]: the value to test
-     */
-    private fun <T> runSingleSetTest(values: MutableMultiSet<T>, createEmptySet: () -> MutableMultiSet<T>) {
-        val createResultSet = {
-            val copy = createEmptySet()
-            copy.addAll(values)
-            val resultSet = createEmptySet()
-            repeat(values.size) {
-                val result = copy.popRandom()
-                assertNotNull(result)
-                resultSet.add(result)
-            }
-
-            println(resultSet)
-            resultSet
-        }
-        val checkResult: (MutableMultiSet<T>) -> Boolean = { result: MutableMultiSet<T> -> result == values }
-        println(values)
-
-        runRandomTest(createResultSet, checkResult)
-        println()
-    }
-
-    private fun <E, T: MutableCollection<E>> runTest(values: T, equals: (T, T) -> Boolean, createEmpty: () -> T) {
-        val createResultSet = {
-            val copy = createEmpty()
-            copy.addAll(values)
-            val resultSet = createEmpty()
-            repeat(values.size) {
-                val result = copy.popRandom()
-                assertNotNull(result)
-                resultSet.add(result)
-            }
-
-            println(listOf(values, resultSet, values == resultSet))
-            resultSet
-        }
-        val checkResult: (T) -> Boolean = { result: T -> equals(result, values) }
-        println(values)
-
-        runRandomTest(createResultSet, checkResult)
-        println()
-    }
 }
-
