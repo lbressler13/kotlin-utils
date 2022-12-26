@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.general.ternaryIf
+
 // TODO still need to have original interface functions
 
 /**
@@ -57,7 +59,7 @@ interface MultiSet<E> : Set<E> {
      * @param transform (E) -> T: transformation function
      * @return [MultiSet]<T>: new MultiSet with transformed values
      */
-    fun <T> map(transform: (E) -> T): MultiSet<T>
+    // fun <T> map(transform: (E) -> T): MultiSet<T>
 
     /**
      * Create a new MultiSet containing only elements that match the given predicate.
@@ -65,7 +67,7 @@ interface MultiSet<E> : Set<E> {
      * @param predicate (E) -> [Boolean]: predicate to use for filtering
      * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
      */
-    fun filter(predicate: (E) -> Boolean): MultiSet<E>
+    // fun filter(predicate: (E) -> Boolean): MultiSet<E>
 
     /**
      * Create a new MultiSet containing only elements that do not match the given predicate.
@@ -73,7 +75,7 @@ interface MultiSet<E> : Set<E> {
      * @param predicate (E) -> [Boolean]: predicate to use for filtering
      * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
      */
-    fun filterNot(predicate: (E) -> Boolean): MultiSet<E>
+    // fun filterNot(predicate: (E) -> Boolean): MultiSet<E>
 
     /**
      * Accumulates value starting with [initial] value and applying [operation] from left to right
@@ -93,4 +95,30 @@ interface MultiSet<E> : Set<E> {
     // fun all(allFunction: (E) -> Boolean): Boolean
 
     // fun random(): E?
+}
+
+inline fun <E, T> MultiSet<E>.map(transform: (E) -> T): List<T> {
+    val list = distinctValues.flatMap {
+        val transformedValue = transform(it)
+        List(getCountOf(it)) { transformedValue }
+    }
+
+    return list
+}
+
+inline fun <E> MultiSet<E>.filter(predicate: (E) -> Boolean): List<E> {
+    val list = distinctValues.flatMap { element ->
+        val matchesPredicate = predicate(element)
+        ternaryIf(matchesPredicate, List(getCountOf(element)) { element }, emptyList())
+    }
+
+    return list
+}
+inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
+    val list = distinctValues.flatMap { element ->
+        val matchesPredicate = predicate(element)
+        ternaryIf(matchesPredicate, emptyList(), List(getCountOf(element)) { element })
+    }
+
+    return list
 }

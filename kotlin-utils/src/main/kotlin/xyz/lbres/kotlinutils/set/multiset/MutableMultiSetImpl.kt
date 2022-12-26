@@ -281,28 +281,17 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @param transform (E) -> T: transformation function
      * @return [MutableMultiSet]<T>: new MultiSet with transformed values
      */
-    override fun <T> map(transform: (E) -> T): MutableMultiSet<T> {
-        val newCounts: MutableMap<T, Int> = mutableMapOf()
-
-        countsMap.forEach {
-            val mappedValue = transform(it.key)
-            val count = it.value
-            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
-        }
-
-        return MutableMultiSetImpl(newCounts)
-    }
-
-    /**
-     * Create a new MutableMultiSet containing only elements that do not match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MutableMultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
-     */
-    override fun filter(predicate: (E) -> Boolean): MutableMultiSet<E> {
-        val newCounts = countsMap.filterKeys(predicate)
-        return MutableMultiSetImpl(newCounts)
-    }
+//    override fun <T> map(transform: (E) -> T): MutableMultiSet<T> {
+//        val newCounts: MutableMap<T, Int> = mutableMapOf()
+//
+//        countsMap.forEach {
+//            val mappedValue = transform(it.key)
+//            val count = it.value
+//            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
+//        }
+//
+//        return MutableMultiSetImpl(newCounts)
+//    }
 
     /**
      * Create a new MutableMultiSet containing only elements that do not match the given predicate.
@@ -310,10 +299,21 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @param predicate (E) -> [Boolean]: predicate to use for filtering
      * @return [MutableMultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
      */
-    override fun filterNot(predicate: (E) -> Boolean): MutableMultiSet<E> {
-        val newCounts = countsMap.filterKeys { !predicate(it) }
-        return MutableMultiSetImpl(newCounts)
-    }
+//    override fun filter(predicate: (E) -> Boolean): MutableMultiSet<E> {
+//        val newCounts = countsMap.filterKeys(predicate)
+//        return MutableMultiSetImpl(newCounts)
+//    }
+
+    /**
+     * Create a new MutableMultiSet containing only elements that do not match the given predicate.
+     *
+     * @param predicate (E) -> [Boolean]: predicate to use for filtering
+     * @return [MutableMultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
+     */
+//    override fun filterNot(predicate: (E) -> Boolean): MutableMultiSet<E> {
+//        val newCounts = countsMap.filterKeys { !predicate(it) }
+//        return MutableMultiSetImpl(newCounts)
+//    }
 
     /**
      * Accumulates value starting with [initial] value and applying [operation] from left to right

@@ -156,17 +156,17 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @param transform (E) -> T: transformation function
      * @return [MultiSet]<T>: new MultiSet with transformed values
      */
-    override fun <T> map(transform: (E) -> T): MultiSet<T> {
-        val newCounts: MutableMap<T, Int> = mutableMapOf()
-
-        countsMap.forEach {
-            val mappedValue = transform(it.key)
-            val count = it.value
-            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
-        }
-
-        return MultiSetImpl(newCounts)
-    }
+//    override fun <T> map(transform: (E) -> T): MultiSet<T> {
+//        val newCounts: MutableMap<T, Int> = mutableMapOf()
+//
+//        countsMap.forEach {
+//            val mappedValue = transform(it.key)
+//            val count = it.value
+//            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
+//        }
+//
+//        return MultiSetImpl(newCounts)
+//    }
 
     /**
      * Create a new MultiSet containing only elements that match the given predicate.
@@ -174,10 +174,10 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @param predicate (E) -> [Boolean]: predicate to use for filtering
      * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
      */
-    override fun filter(predicate: (E) -> Boolean): MultiSet<E> {
-        val newCounts = countsMap.filterKeys(predicate)
-        return MultiSetImpl(newCounts)
-    }
+//    override fun filter(predicate: (E) -> Boolean): MultiSet<E> {
+//        val newCounts = countsMap.filterKeys(predicate)
+//        return MultiSetImpl(newCounts)
+//    }
 
     /**
      * Create a new MultiSet containing only elements that do not match the given predicate.
@@ -185,10 +185,10 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @param predicate (E) -> [Boolean]: predicate to use for filtering
      * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
      */
-    override fun filterNot(predicate: (E) -> Boolean): MultiSet<E> {
-        val newCounts = countsMap.filterKeys { !predicate(it) }
-        return MultiSetImpl(newCounts)
-    }
+//    override fun filterNot(predicate: (E) -> Boolean): MultiSet<E> {
+//        val newCounts = countsMap.filterKeys { !predicate(it) }
+//        return MultiSetImpl(newCounts)
+//    }
 
     /**
      * Accumulates value starting with [initial] value and applying [operation] from left to right
