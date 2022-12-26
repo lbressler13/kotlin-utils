@@ -67,7 +67,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
      * Initialize stored variables from an existing counts map.
      */
-    private constructor(counts: Map<E, Int>) {
+    internal constructor(counts: Map<E, Int>) {
         countsMap = counts.toMutableMap()
         storedSize = counts.values.fold(0, Int::plus)
 
@@ -274,46 +274,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
 
         return MutableMultiSetImpl(newCounts)
     }
-
-    /**
-     * Create a new MutableMultiSet with the results of applying the transform function to each value in the current MultiSet.
-     *
-     * @param transform (E) -> T: transformation function
-     * @return [MutableMultiSet]<T>: new MultiSet with transformed values
-     */
-//    override fun <T> map(transform: (E) -> T): MutableMultiSet<T> {
-//        val newCounts: MutableMap<T, Int> = mutableMapOf()
-//
-//        countsMap.forEach {
-//            val mappedValue = transform(it.key)
-//            val count = it.value
-//            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
-//        }
-//
-//        return MutableMultiSetImpl(newCounts)
-//    }
-
-    /**
-     * Create a new MutableMultiSet containing only elements that do not match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MutableMultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
-     */
-//    override fun filter(predicate: (E) -> Boolean): MutableMultiSet<E> {
-//        val newCounts = countsMap.filterKeys(predicate)
-//        return MutableMultiSetImpl(newCounts)
-//    }
-
-    /**
-     * Create a new MutableMultiSet containing only elements that do not match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MutableMultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
-     */
-//    override fun filterNot(predicate: (E) -> Boolean): MutableMultiSet<E> {
-//        val newCounts = countsMap.filterKeys { !predicate(it) }
-//        return MutableMultiSetImpl(newCounts)
-//    }
 
     /**
      * Update the values of [list] and [string] to match the current values in the set.

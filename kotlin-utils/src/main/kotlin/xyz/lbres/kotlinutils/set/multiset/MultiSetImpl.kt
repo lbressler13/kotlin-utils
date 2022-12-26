@@ -59,7 +59,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * Initialize stored variables from an existing counts map.
      */
-    private constructor(counts: Map<E, Int>) {
+    internal constructor(counts: Map<E, Int>) {
         countsMap = counts
         size = counts.values.fold(0, Int::plus)
         distinctValues = counts.keys
@@ -149,46 +149,6 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 
         return MultiSetImpl(newCounts)
     }
-
-    /**
-     * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
-     *
-     * @param transform (E) -> T: transformation function
-     * @return [MultiSet]<T>: new MultiSet with transformed values
-     */
-//    override fun <T> map(transform: (E) -> T): MultiSet<T> {
-//        val newCounts: MutableMap<T, Int> = mutableMapOf()
-//
-//        countsMap.forEach {
-//            val mappedValue = transform(it.key)
-//            val count = it.value
-//            newCounts[mappedValue] = count + newCounts.getOrDefault(mappedValue, 0)
-//        }
-//
-//        return MultiSetImpl(newCounts)
-//    }
-
-    /**
-     * Create a new MultiSet containing only elements that match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
-     */
-//    override fun filter(predicate: (E) -> Boolean): MultiSet<E> {
-//        val newCounts = countsMap.filterKeys(predicate)
-//        return MultiSetImpl(newCounts)
-//    }
-
-    /**
-     * Create a new MultiSet containing only elements that do not match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
-     */
-//    override fun filterNot(predicate: (E) -> Boolean): MultiSet<E> {
-//        val newCounts = countsMap.filterKeys { !predicate(it) }
-//        return MultiSetImpl(newCounts)
-//    }
 
     /**
      * If the current set contains 0 elements.
