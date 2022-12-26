@@ -67,7 +67,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
      * Initialize stored variables from an existing counts map.
      */
-    internal constructor(counts: Map<E, Int>) {
+    private constructor(counts: Map<E, Int>) {
         countsMap = counts.toMutableMap()
         storedSize = counts.values.fold(0, Int::plus)
 

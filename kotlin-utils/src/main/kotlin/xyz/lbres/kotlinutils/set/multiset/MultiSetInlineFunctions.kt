@@ -1,13 +1,12 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import xyz.lbres.kotlinutils.general.ternaryIf
 
 /**
- * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
+ * Create a list with the results of applying the transform function to each value in the current MultiSet.
  *
  * @param transform (E) -> T: transformation function
- * @return [MultiSet]<T>: new MultiSet with transformed values
+ * @return [List]<T>: list with transformed values
  */
 inline fun <E, T> MultiSet<E>.map(transform: (E) -> T): List<T> {
     val list = distinctValues.flatMap {
@@ -19,10 +18,10 @@ inline fun <E, T> MultiSet<E>.map(transform: (E) -> T): List<T> {
 }
 
 /**
- * Create a new MultiSet containing only elements that match the given predicate.
+ * Create a list containing only elements that match the given predicate.
  *
  * @param predicate (E) -> [Boolean]: predicate to use for filtering
- * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
+ * @return [List]<E>: list containing only values for which [predicate] returns `true`
  */
 inline fun <E> MultiSet<E>.filter(predicate: (E) -> Boolean): List<E> {
     val list = distinctValues.flatMap { element ->
@@ -34,10 +33,10 @@ inline fun <E> MultiSet<E>.filter(predicate: (E) -> Boolean): List<E> {
 }
 
 /**
- * Create a new MultiSet containing only elements that do not match the given predicate.
+ * Create a list containing only elements that do not match the given predicate.
  *
  * @param predicate (E) -> [Boolean]: predicate to use for filtering
- * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
+ * @return [List]<E>: list containing only values for which [predicate] returns `false`
  */
 inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
     val list = distinctValues.flatMap { element ->
@@ -79,10 +78,11 @@ inline fun <E, T> MultiSet<E>.fold(initial: T, operation: (acc: T, E) -> T): T {
 inline fun <E, T> MultiSet<E>.mapToSet(transform: (E) -> T): MultiSet<T> {
     val newSet: MutableMultiSet<T> = mutableMultiSetOf()
 
-    distinctValues.associateWith {
+    distinctValues.forEach {
         val mappedValue = transform(it)
         val count = getCountOf(it)
-        newSet.addAll(List(count) { mappedValue })
+        // using repeat instead of List(count) to avoid overhead of creating list
+        repeat(count) { newSet.add(mappedValue) }
     }
 
     return newSet
@@ -95,12 +95,18 @@ inline fun <E, T> MultiSet<E>.mapToSet(transform: (E) -> T): MultiSet<T> {
  * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
  */
 inline fun <E> MultiSet<E>.filterToSet(predicate: (E) -> Boolean): MultiSet<E> {
-    val newSet = distinctValues.flatMap {
+    val newSet = mutableMultiSetOf<E>()
+
+    distinctValues.forEach {
         val element = it
         val matchesPredicate = predicate(element)
         val count = getCountOf(element)
-        ternaryIf(matchesPredicate, List(count) { element }, emptyList())
-    }.toMultiSet()
+
+        if (matchesPredicate) {
+            // using repeat instead of List(count) to avoid overhead of creating list
+            repeat(count) { newSet.add(element) }
+        }
+    }
 
     return newSet
 }
@@ -112,12 +118,18 @@ inline fun <E> MultiSet<E>.filterToSet(predicate: (E) -> Boolean): MultiSet<E> {
  * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
  */
 inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E> {
-    val newSet = distinctValues.flatMap {
+    val newSet = mutableMultiSetOf<E>()
+
+    distinctValues.forEach {
         val element = it
         val matchesPredicate = predicate(element)
         val count = getCountOf(element)
-        ternaryIf(matchesPredicate, emptyList(), List(count) { element })
-    }.toMultiSet()
+
+        if (!matchesPredicate) {
+            // using repeat instead of List(count) to avoid overhead of creating list
+            repeat(count) { newSet.add(element) }
+        }
+    }
 
     return newSet
 }

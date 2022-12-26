@@ -59,7 +59,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * Initialize stored variables from an existing counts map.
      */
-    internal constructor(counts: Map<E, Int>) {
+    private constructor(counts: Map<E, Int>) {
         countsMap = counts
         size = counts.values.fold(0, Int::plus)
         distinctValues = counts.keys
