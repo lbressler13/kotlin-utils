@@ -1,9 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.general.ternaryIf
-
-// TODO still need to have original interface functions
-
 /**
  * Interface for set that allows multiple occurrences of a value.
  * The interface supports only read access to the values.
@@ -51,87 +47,10 @@ interface MultiSet<E> : Set<E> {
      */
     infix fun intersect(other: MultiSet<E>): MultiSet<E>
 
-    // TODO these should return lists!!
-
-    /**
-     * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
-     *
-     * @param transform (E) -> T: transformation function
-     * @return [MultiSet]<T>: new MultiSet with transformed values
-     */
-    // fun <T> map(transform: (E) -> T): MultiSet<T>
-
-    /**
-     * Create a new MultiSet containing only elements that match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
-     */
-    // fun filter(predicate: (E) -> Boolean): MultiSet<E>
-
-    /**
-     * Create a new MultiSet containing only elements that do not match the given predicate.
-     *
-     * @param predicate (E) -> [Boolean]: predicate to use for filtering
-     * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
-     */
-    // fun filterNot(predicate: (E) -> Boolean): MultiSet<E>
-
-    /**
-     * Accumulates value starting with [initial] value and applying [operation] from left to right
-     * to current accumulator value and each element.
-     *
-     * Returns the specified [initial] value if the collection is empty.
-     *
-     * @param initial [T]: initial value for applying operation
-     * @param [operation] (T, E) -> T: function that takes current accumulator value and an element, and calculates the next accumulator value.
-     * @return [T]: the accumulated value, or [initial] if the MultiSet is empty
-     */
-    // fun <T> fold(initial: T, operation: (acc: T, E) -> T): T
-
     // fun minByOrNull(minFunction: (E, E) -> Int): E?
     // fun maxByOrNull(maxFunction: (E, E) -> Int): E?
     // fun any(anyFunction: (E) -> Boolean): Boolean
     // fun all(allFunction: (E) -> Boolean): Boolean
 
     // fun random(): E?
-}
-
-inline fun <E, T> MultiSet<E>.map(transform: (E) -> T): List<T> {
-    val list = distinctValues.flatMap {
-        val transformedValue = transform(it)
-        List(getCountOf(it)) { transformedValue }
-    }
-
-    return list
-}
-
-inline fun <E> MultiSet<E>.filter(predicate: (E) -> Boolean): List<E> {
-    val list = distinctValues.flatMap { element ->
-        val matchesPredicate = predicate(element)
-        ternaryIf(matchesPredicate, List(getCountOf(element)) { element }, emptyList())
-    }
-
-    return list
-}
-
-inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
-    val list = distinctValues.flatMap { element ->
-        val matchesPredicate = predicate(element)
-        ternaryIf(matchesPredicate, emptyList(), List(getCountOf(element)) { element })
-    }
-
-    return list
-}
-
-inline fun <E, T> MultiSet<E>.fold(initial: T, operation: (acc: T, E) -> T): T {
-    var acc = initial
-
-    distinctValues.forEach {
-        val value = it
-        val count = getCountOf(it)
-        repeat(count) { acc = operation(acc, value) }
-    }
-
-    return acc
 }

@@ -191,28 +191,6 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 //    }
 
     /**
-     * Accumulates value starting with [initial] value and applying [operation] from left to right
-     * to current accumulator value and each element.
-     *
-     * Returns the specified [initial] value if the collection is empty.
-     *
-     * @param initial [T]: initial value for applying operation
-     * @param [operation] (T, E) -> T: function that takes current accumulator value and an element, and calculates the next accumulator value.
-     * @return [T]: the accumulated value, or [initial] if the MultiSet is empty
-     */
-//    override fun <T> fold(initial: T, operation: (T, E) -> T): T {
-//        var acc = initial
-//
-//        countsMap.forEach {
-//            val value = it.key
-//            val count = it.value
-//            repeat(count) { acc = operation(acc, value) }
-//        }
-//
-//        return acc
-//    }
-
-    /**
      * If the current set contains 0 elements.
      *
      * @return [Boolean]: `true` if the set contains 0 elements, `false` otherwise
