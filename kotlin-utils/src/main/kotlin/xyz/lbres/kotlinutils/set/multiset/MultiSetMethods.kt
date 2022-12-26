@@ -144,6 +144,7 @@ inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E
  * Returns `true` if at least one element matches the given [predicate].
  *
  * @param predicate (E) -> [Boolean]
+ * @return [Boolean]
  */
 inline fun <E> MultiSet<E>.any(predicate: (E) -> Boolean): Boolean = distinctValues.any(predicate)
 
@@ -151,6 +152,7 @@ inline fun <E> MultiSet<E>.any(predicate: (E) -> Boolean): Boolean = distinctVal
  * Returns `true` if all elements match the given [predicate].
  *
  * @param predicate (E) -> [Boolean]
+ * @return [Boolean]
  */
 inline fun <E> MultiSet<E>.all(predicate: (E) -> Boolean): Boolean = distinctValues.all(predicate)
 
@@ -158,5 +160,6 @@ inline fun <E> MultiSet<E>.all(predicate: (E) -> Boolean): Boolean = distinctVal
  * Returns `true` if no element matches the given [predicate].
  *
  * @param predicate (E) -> [Boolean]
+ * @return [Boolean]
  */
 inline fun <E> MultiSet<E>.none(predicate: (E) -> Boolean): Boolean = distinctValues.none(predicate)
