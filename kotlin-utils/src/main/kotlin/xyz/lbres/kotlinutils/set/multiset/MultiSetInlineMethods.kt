@@ -66,10 +66,9 @@ inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
 inline fun <E, T> MultiSet<E>.fold(initial: T, operation: (acc: T, E) -> T): T {
     var acc = initial
 
-    distinctValues.forEach {
-        val value = it
-        val count = getCountOf(it)
-        repeat(count) { acc = operation(acc, value) }
+    distinctValues.forEach { element ->
+        val count = getCountOf(element)
+        repeat(count) { acc = operation(acc, element) }
     }
 
     return acc
@@ -103,8 +102,7 @@ inline fun <E, T> MultiSet<E>.mapToSet(transform: (E) -> T): MultiSet<T> {
 inline fun <E> MultiSet<E>.filterToSet(predicate: (E) -> Boolean): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
 
-    distinctValues.forEach {
-        val element = it
+    distinctValues.forEach { element ->
         val matchesPredicate = predicate(element)
         val count = getCountOf(element)
 
@@ -126,8 +124,7 @@ inline fun <E> MultiSet<E>.filterToSet(predicate: (E) -> Boolean): MultiSet<E> {
 inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
 
-    distinctValues.forEach {
-        val element = it
+    distinctValues.forEach { element ->
         val matchesPredicate = predicate(element)
         val count = getCountOf(element)
 
