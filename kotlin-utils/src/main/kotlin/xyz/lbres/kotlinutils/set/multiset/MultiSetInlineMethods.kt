@@ -66,9 +66,9 @@ inline fun <E> MultiSet<E>.filterNot(predicate: (E) -> Boolean): List<E> {
 inline fun <E, T> MultiSet<E>.fold(initial: T, operation: (acc: T, E) -> T): T {
     var acc = initial
 
-    distinctValues.forEach { value ->
-        val count = getCountOf(value)
-        repeat(count) { acc = operation(acc, value) }
+    distinctValues.forEach { element ->
+        val count = getCountOf(element)
+        repeat(count) { acc = operation(acc, element) }
     }
 
     return acc
