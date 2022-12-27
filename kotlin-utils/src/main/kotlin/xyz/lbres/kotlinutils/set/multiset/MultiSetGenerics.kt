@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import kotlin.math.min
 
 /**
@@ -11,12 +10,14 @@ import kotlin.math.min
  * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
  */
 fun <E> MultiSet<E>.genericPlus(other: MultiSet<E>): MultiSet<E> {
-    val values = (distinctValues + other.distinctValues).flatMap { element ->
+    val newSet = mutableMultiSetOf<E>()
+
+    (distinctValues + other.distinctValues).forEach { element ->
         val totalCount = getCountOf(element) + other.getCountOf(element)
-        List(totalCount) { element }
+        repeat(totalCount) { newSet.add(element) }
     }
 
-    return values.toMultiSet()
+    return newSet
 }
 
 /**
@@ -27,17 +28,16 @@ fun <E> MultiSet<E>.genericPlus(other: MultiSet<E>): MultiSet<E> {
  * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
  */
 fun <E> MultiSet<E>.genericMinus(other: MultiSet<E>): MultiSet<E> {
-    val values = distinctValues.flatMap { element ->
-        val totalCount = getCountOf(element) - other.getCountOf(element)
+    val newSet = mutableMultiSetOf<E>()
 
-        if (totalCount <= 0) {
-            emptyList()
-        } else {
-            List(totalCount) { element }
+    distinctValues.forEach { element ->
+        val totalCount = getCountOf(element) - other.getCountOf(element)
+        if (totalCount > 0) {
+            repeat(totalCount) { newSet.add(element) }
         }
     }
 
-    return values.toMultiSet()
+    return newSet
 }
 
 /**
@@ -48,10 +48,12 @@ fun <E> MultiSet<E>.genericMinus(other: MultiSet<E>): MultiSet<E> {
  * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
  */
 fun <E> MultiSet<E>.genericIntersect(other: MultiSet<E>): MultiSet<E> {
-    val values = (distinctValues intersect other.distinctValues).flatMap { element ->
+    val newSet = mutableMultiSetOf<E>()
+
+    (distinctValues intersect other.distinctValues).forEach { element ->
         val totalCount = min(getCountOf(element), other.getCountOf(element))
-        List(totalCount) { element }
+        repeat(totalCount) { newSet.add(element) }
     }
 
-    return values.toMultiSet()
+    return newSet
 }
