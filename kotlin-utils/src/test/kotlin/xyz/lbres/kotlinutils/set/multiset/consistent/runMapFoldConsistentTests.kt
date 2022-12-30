@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.consistent
 
+import xyz.lbres.kotlinutils.assertEqualsAny
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
@@ -7,6 +8,7 @@ import java.lang.NullPointerException
 import kotlin.math.pow
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
@@ -70,6 +72,18 @@ internal fun runMapConsistentTests() {
         }
     }
     assertEquals(expectedList, listSet.mapConsistent(listMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
+
+    // modified
+    var modString = ""
+    intSet = multiSetOf(1, 1, 2, 1, 3)
+    val modMap: (Int) -> String = {
+        modString += "1"
+        modString
+    }
+    val modOption1 = listOf("1", "1", "1", "11", "111")
+    val modOption2 = listOf("1", "11", "11", "11", "111")
+    val modOption3 = listOf("1", "11", "111", "111", "111")
+    assertEqualsAny(intSet.mapConsistent(modMap), listOf(modOption1, modOption2, modOption3))
 }
 
 internal fun runFoldConsistentTests() {
@@ -110,6 +124,15 @@ internal fun runFoldConsistentTests() {
     val msSet = multiSetOf(multiSetOf(1, 2, 3), multiSetOf(1, 2, 3), emptyMultiSet(), multiSetOf(9), multiSetOf(3, 3, 9, 4), emptyMultiSet())
     val msExpected = multiSetOf(1, 2, 3, 1, 2, 3, 9, 3, 3, 9, 4)
     assertEquals(msExpected, msSet.foldConsistent(emptyMultiSet()) { acc, set -> acc + set })
+
+    var modNumber = 1
+    stringSet = multiSetOf("ab", "ab", "abc")
+    val modFoldFunction: (String, String) -> String = { acc, string ->
+        modNumber *= string.length
+        acc + modNumber.toString()
+    }
+    val actual = stringSet.fold("", modFoldFunction)
+    assertEqualsAny(actual, listOf("2412", "2612", "3612"))
 }
 
 internal fun runMapToSetConsistentTests() {
@@ -170,4 +193,16 @@ internal fun runMapToSetConsistentTests() {
         }
     }
     assertEquals(expectedList, listSet.mapToSetConsistent(listMap))
+
+    // modified
+    var modString = ""
+    intSet = multiSetOf(1, 1, 2, 1, 3)
+    val modMap: (Int) -> String = {
+        modString += "1"
+        modString
+    }
+    val modOption1 = multiSetOf("1", "1", "1", "11", "111")
+    val modOption2 = multiSetOf("1", "11", "11", "11", "111")
+    val modOption3 = multiSetOf("1", "11", "111", "111", "111")
+    assertEqualsAny(intSet.mapToSetConsistent(modMap), listOf(modOption1, modOption2, modOption3))
 }

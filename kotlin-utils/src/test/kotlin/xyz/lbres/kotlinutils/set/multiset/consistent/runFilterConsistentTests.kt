@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.consistent
 
+import xyz.lbres.kotlinutils.assertEqualsAny
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
@@ -34,6 +35,22 @@ internal fun runFilterConsistentTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: List<Exception> = listOf(e3, e4, e4)
     assertEquals(errorExpected, errorSet.filterConsistent { it is ClassCastException }.sortedBy { it.message!! })
+
+    // modified
+    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
+    val intOptions = listOf(listOf(1, 1, 2, 14, 14), listOf(3, 2, 14, 14))
+    var previousOdd = false
+    val intActual = intSet.filterConsistent {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }.sorted()
+    assertEqualsAny(intActual, intOptions)
 }
 
 internal fun runFilterNotConsistentTests() {
@@ -62,6 +79,22 @@ internal fun runFilterNotConsistentTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: List<Exception> = listOf(e1, e1, e2)
     assertEquals(errorExpected, errorSet.filterNotConsistent { it is ClassCastException }.sortedBy { it.message ?: "ZYX" })
+
+    // modified
+    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
+    val intOptions = listOf(listOf(1, 1), listOf(3))
+    var previousOdd = false
+    val intActual = intSet.filterNotConsistent {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }.sorted()
+    assertEqualsAny(intActual, intOptions)
 }
 
 internal fun runFilterToSetConsistentTests() {
@@ -90,6 +123,22 @@ internal fun runFilterToSetConsistentTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: MultiSet<Exception> = multiSetOf(e3, e4, e4)
     assertEquals(errorExpected, errorSet.filterToSetConsistent { it is ClassCastException })
+
+    // modified
+    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
+    val intOptions = listOf(multiSetOf(1, 1, 2, 14, 14), multiSetOf(3, 2, 14, 14))
+    var previousOdd = false
+    val intActual = intSet.filterToSetConsistent {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }
+    assertEqualsAny(intActual, intOptions)
 }
 
 internal fun runFilterNotToSetConsistentTests() {
@@ -118,4 +167,20 @@ internal fun runFilterNotToSetConsistentTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: MultiSet<Exception> = multiSetOf(e1, e1, e2)
     assertEquals(errorExpected, errorSet.filterNotToSetConsistent { it is ClassCastException })
+
+    // modified
+    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
+    val intOptions = listOf(multiSetOf(1, 1), multiSetOf(3))
+    var previousOdd = false
+    val intActual = intSet.filterNotToSetConsistent {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }
+    assertEqualsAny(intActual, intOptions)
 }

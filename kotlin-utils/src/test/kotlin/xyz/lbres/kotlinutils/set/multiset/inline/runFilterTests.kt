@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
+import xyz.lbres.kotlinutils.assertEqualsAny
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
@@ -34,6 +35,22 @@ internal fun runFilterTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: List<Exception> = listOf(e3, e4, e4)
     assertEquals(errorExpected, errorSet.filter { it is ClassCastException }.sortedBy { it.message!! })
+
+    // modified
+    intSet = multiSetOf(1, 1, 2, 14, 14)
+    intExpected = listOf(1, 2, 14, 14)
+    var previousOdd = false
+    val intActual = intSet.filter {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }.sorted()
+    assertEquals(intExpected, intActual)
 }
 
 internal fun runFilterNotTests() {
@@ -62,6 +79,22 @@ internal fun runFilterNotTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: List<Exception> = listOf(e1, e1, e2)
     assertEquals(errorExpected, errorSet.filterNot { it is ClassCastException }.sortedBy { it.message ?: "ZYX" })
+
+    // modified
+    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
+    val intOptions = listOf(listOf(1, 1), listOf(1, 3))
+    var previousOdd = false
+    val intActual = intSet.filterNot {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }.sorted()
+    assertEqualsAny(intActual, intOptions)
 }
 
 internal fun runFilterToSetTests() {
@@ -90,6 +123,22 @@ internal fun runFilterToSetTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: MultiSet<Exception> = multiSetOf(e3, e4, e4)
     assertEquals(errorExpected, errorSet.filterToSet { it is ClassCastException })
+
+    // modified
+    intSet = multiSetOf(1, 1, 2, 14, 14)
+    intExpected = multiSetOf(1, 2, 14, 14)
+    var previousOdd = false
+    val intActual = intSet.filterToSet {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }
+    assertEquals(intExpected, intActual)
 }
 
 internal fun runFilterNotToSetTests() {
@@ -118,4 +167,20 @@ internal fun runFilterNotToSetTests() {
     val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
     val errorExpected: MultiSet<Exception> = multiSetOf(e1, e1, e2)
     assertEquals(errorExpected, errorSet.filterNotToSet { it is ClassCastException })
+
+    // modified
+    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
+    val intOptions = listOf(multiSetOf(1, 1),multiSetOf(1, 3))
+    var previousOdd = false
+    val intActual = intSet.filterNotToSet {
+        when {
+            it % 2 == 0 -> true
+            previousOdd -> false
+            else -> {
+                previousOdd = true
+                true
+            }
+        }
+    }
+    assertEqualsAny(intActual, intOptions)
 }

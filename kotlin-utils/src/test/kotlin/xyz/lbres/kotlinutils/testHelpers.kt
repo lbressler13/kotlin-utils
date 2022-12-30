@@ -66,3 +66,7 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
         }
     }
 }
+
+internal fun <T> assertEqualsAny(value: T, options: List<T>) {
+    assertTrue { options.any { it == value } }
+}

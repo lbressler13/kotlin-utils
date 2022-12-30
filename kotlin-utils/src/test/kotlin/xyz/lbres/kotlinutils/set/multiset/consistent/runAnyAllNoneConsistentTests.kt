@@ -29,6 +29,21 @@ internal fun runAnyConsistentTests() {
     assertTrue { intSet.anyConsistent { intSet.getCountOf(it) > 1 } }
 
     assertTrue { listSet.anyConsistent { it.isEmpty() } }
+
+    // modified
+    var previous4 = false
+    assertFalse {
+        intSet.anyConsistent {
+            when {
+                it == 4 && !previous4 -> {
+                    previous4 = true
+                    false
+                }
+                it == 4 -> true
+                else -> false
+            }
+        }
+    }
 }
 
 internal fun runAllConsistentTests() {
@@ -55,6 +70,21 @@ internal fun runAllConsistentTests() {
     assertFalse { intSet.allConsistent { intSet.getCountOf(it) > 1 } }
 
     assertFalse { listSet.allConsistent { it.isEmpty() } }
+
+    // modified
+    var no4 = true
+    assertTrue {
+        intSet.allConsistent {
+            when {
+                it == 4 && no4 -> {
+                    no4 = false
+                    true
+                }
+                it == 4 -> false
+                else -> true
+            }
+        }
+    }
 }
 
 internal fun runNoneConsistentTests() {
@@ -81,4 +111,19 @@ internal fun runNoneConsistentTests() {
     assertFalse { intSet.noneConsistent { intSet.getCountOf(it) > 1 } }
 
     assertFalse { listSet.noneConsistent { it.isEmpty() } }
+
+    // modified
+    var previous4 = false
+    assertTrue {
+        intSet.noneConsistent {
+            when {
+                it == 4 && !previous4 -> {
+                    previous4 = true
+                    false
+                }
+                it == 4 -> true
+                else -> false
+            }
+        }
+    }
 }

@@ -29,6 +29,21 @@ internal fun runAnyTests() {
     assertTrue { intSet.any { intSet.getCountOf(it) > 1 } }
 
     assertTrue { listSet.any { it.isEmpty() } }
+
+    // modified
+    var no4 = true
+    assertTrue {
+        intSet.any {
+            when {
+                it == 4 && no4 -> {
+                    no4 = false
+                    true
+                }
+                it == 4 -> false
+                else -> true
+            }
+        }
+    }
 }
 
 internal fun runAllTests() {
@@ -55,6 +70,21 @@ internal fun runAllTests() {
     assertFalse { intSet.all { intSet.getCountOf(it) > 1 } }
 
     assertFalse { listSet.all { it.isEmpty() } }
+
+    // modified
+    var no4 = true
+    assertFalse {
+        intSet.all {
+            when {
+                it == 4 && no4 -> {
+                    no4 = false
+                    true
+                }
+                it == 4 -> false
+                else -> true
+            }
+        }
+    }
 }
 
 internal fun runNoneTests() {
@@ -81,4 +111,19 @@ internal fun runNoneTests() {
     assertFalse { intSet.none { intSet.getCountOf(it) > 1 } }
 
     assertFalse { listSet.none { it.isEmpty() } }
+
+    // modified
+    var previous4 = false
+    assertFalse {
+        intSet.none {
+            when {
+                it == 4 && !previous4 -> {
+                    previous4 = true
+                    false
+                }
+                it == 4 -> true
+                else -> false
+            }
+        }
+    }
 }
