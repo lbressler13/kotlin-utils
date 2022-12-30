@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import kotlin.test.Test
 import xyz.lbres.kotlinutils.set.multiset.inline.* // ktlint-disable no-wildcard-imports no-unused-imports
+import kotlin.test.Test
 
 internal class MultiSetInlineMethodsTest {
     @Test fun testMap() = runMapTests()

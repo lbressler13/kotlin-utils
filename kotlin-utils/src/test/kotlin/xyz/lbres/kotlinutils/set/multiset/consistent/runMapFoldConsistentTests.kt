@@ -8,7 +8,6 @@ import java.lang.NullPointerException
 import kotlin.math.pow
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()

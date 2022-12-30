@@ -170,7 +170,7 @@ internal fun runFilterNotToSetTests() {
 
     // modified
     intSet = multiSetOf(1, 1, 3, 2, 14, 14)
-    val intOptions = listOf(multiSetOf(1, 1),multiSetOf(1, 3))
+    val intOptions = listOf(multiSetOf(1, 1), multiSetOf(1, 3))
     var previousOdd = false
     val intActual = intSet.filterNotToSet {
         when {

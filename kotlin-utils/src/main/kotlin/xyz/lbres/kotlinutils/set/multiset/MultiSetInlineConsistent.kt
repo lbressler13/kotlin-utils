@@ -1,5 +1,11 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+/**
+ * Create a list with the results of applying the transform function to each value in the current MultiSet.
+ *
+ * @param transform (E) -> T: transformation function
+ * @return [List]<T>: list with transformed values
+ */
 inline fun <E, T> MultiSet<E>.mapConsistent(transform: (E) -> T): List<T> {
     val list = distinctValues.flatMap {
         val transformedValue = transform(it)
@@ -58,6 +64,7 @@ inline fun <E> MultiSet<E>.filterNotConsistent(predicate: (E) -> Boolean): List<
  * @return [T]: the accumulated value, or [initial] if the MultiSet is empty
  */
 inline fun <E, T> MultiSet<E>.foldConsistent(initial: T, operation: (acc: T, E) -> T): T {
+    // TODO not needed
     var acc = initial
 
     distinctValues.forEach { element ->

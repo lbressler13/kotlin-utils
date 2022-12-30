@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
+import xyz.lbres.kotlinutils.assertEqualsAny
+import xyz.lbres.kotlinutils.runTestWithRetry
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -36,6 +38,23 @@ internal fun runMinByTests() {
         }
     }
     assertEquals(expectedList, actualList)
+
+    // modified
+    val modSet = multiSetOf(1, 1, 4, 4, 6, 6, 6, 8, 8, 8)
+    runTestWithRetry {
+        var pastOdd = false
+        val modActual = modSet.minByOrNull {
+            when {
+                it % 2 == 1 && !pastOdd -> {
+                    pastOdd = true
+                    1000
+                }
+                it % 2 == 1 -> -1000
+                else -> 0
+            }
+        }
+        assertEquals(1, modActual)
+    }
 }
 
 internal fun runMaxByTests() {
@@ -69,4 +88,21 @@ internal fun runMaxByTests() {
         }
     }
     assertEquals(expectedList, actualList)
+
+    val modSet = multiSetOf(1, 1, 4, 4, 6, 6, 6, 8, 8, 8)
+    runTestWithRetry {
+        var pastOdd = false
+        val modActual = modSet.maxByOrNull {
+            when {
+                it % 2 == 1 && !pastOdd -> {
+                    pastOdd = true
+                    -1000
+                }
+                it % 2 == 1 -> 1000
+                else -> 0
+            }
+        }
+        println(modActual)
+        assertEquals(1, modActual)
+    }
 }
