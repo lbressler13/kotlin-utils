@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.assertEqualsAny
+import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
@@ -94,7 +94,7 @@ internal fun runFilterNotTests() {
             }
         }
     }.sorted()
-    assertEqualsAny(intActual, intOptions)
+    assertEqualsAnyOf(intOptions, intActual)
 }
 
 internal fun runFilterToSetTests() {
@@ -182,5 +182,5 @@ internal fun runFilterNotToSetTests() {
             }
         }
     }
-    assertEqualsAny(intActual, intOptions)
+    assertEqualsAnyOf(intOptions, intActual)
 }

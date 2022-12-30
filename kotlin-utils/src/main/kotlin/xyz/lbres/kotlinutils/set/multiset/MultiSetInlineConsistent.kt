@@ -54,28 +54,6 @@ inline fun <E> MultiSet<E>.filterNotConsistent(predicate: (E) -> Boolean): List<
 }
 
 /**
- * Accumulates value starting with [initial] value and applying [operation] from left to right
- * to current accumulator value and each element.
- *
- * Returns the specified [initial] value if the collection is empty.
- *
- * @param initial [T]: initial value for applying operation
- * @param [operation] (T, E) -> T: function that takes current accumulator value and an element, and calculates the next accumulator value.
- * @return [T]: the accumulated value, or [initial] if the MultiSet is empty
- */
-inline fun <E, T> MultiSet<E>.foldConsistent(initial: T, operation: (acc: T, E) -> T): T {
-    // TODO not needed
-    var acc = initial
-
-    distinctValues.forEach { element ->
-        val count = getCountOf(element)
-        repeat(count) { acc = operation(acc, element) }
-    }
-
-    return acc
-}
-
-/**
  * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
  *
  * @param transform (E) -> T: transformation function

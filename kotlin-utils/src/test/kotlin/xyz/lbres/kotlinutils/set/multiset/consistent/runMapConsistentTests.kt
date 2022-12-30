@@ -1,13 +1,11 @@
 package xyz.lbres.kotlinutils.set.multiset.consistent
 
-import xyz.lbres.kotlinutils.assertEqualsAny
+import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import java.lang.NullPointerException
-import kotlin.math.pow
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
@@ -82,56 +80,7 @@ internal fun runMapConsistentTests() {
     val modOption1 = listOf("1", "1", "1", "11", "111")
     val modOption2 = listOf("1", "11", "11", "11", "111")
     val modOption3 = listOf("1", "11", "111", "111", "111")
-    assertEqualsAny(intSet.mapConsistent(modMap), listOf(modOption1, modOption2, modOption3))
-}
-
-internal fun runFoldConsistentTests() {
-    assertFailsWith<ArithmeticException> { multiSetOf(1, 2, 0).foldConsistent(1, Int::div) }
-
-    var intSet = emptyMultiSet<Int>()
-    var intExpected = 0
-    assertEquals(intExpected, intSet.foldConsistent(0, Int::plus))
-
-    intExpected = 10
-    assertEquals(intExpected, intSet.foldConsistent(10, Int::plus))
-
-    intSet = multiSetOf(1, 1, 1, 2, 2, 3, 4, 5)
-    intExpected = 0
-    assertEquals(intExpected, intSet.foldConsistent(0, Int::times))
-
-    intExpected = 720
-    assertEquals(intExpected, intSet.foldConsistent(3, Int::times))
-
-    var stringExpected = "011122345"
-    var foldedString = intSet.foldConsistent("0") { acc, int -> acc + int.toString() }
-    foldedString = foldedString.toCharArray().sorted().joinToString("")
-    assertEquals(stringExpected, foldedString)
-
-    var stringSet = multiSetOf("abc", "ab", "nop", "def", "hijk", "lm", "lm", "lm", "nop")
-    stringExpected = "aadhlllnn"
-    foldedString = stringSet.foldConsistent("") { acc, string -> string[0] + acc }
-    foldedString = foldedString.toCharArray().sorted().joinToString("")
-    assertEquals(stringExpected, foldedString)
-
-    stringSet = multiSetOf("abc", "abc", "de")
-    intExpected = 262144
-    assertEquals(intExpected, stringSet.foldConsistent(2) { acc, string -> acc.toDouble().pow(string.length).toInt() })
-
-    stringExpected = "123123123"
-    assertEquals(stringExpected, stringSet.foldConsistent("") { acc, _ -> acc + "123" })
-
-    val msSet = multiSetOf(multiSetOf(1, 2, 3), multiSetOf(1, 2, 3), emptyMultiSet(), multiSetOf(9), multiSetOf(3, 3, 9, 4), emptyMultiSet())
-    val msExpected = multiSetOf(1, 2, 3, 1, 2, 3, 9, 3, 3, 9, 4)
-    assertEquals(msExpected, msSet.foldConsistent(emptyMultiSet()) { acc, set -> acc + set })
-
-    var modNumber = 1
-    stringSet = multiSetOf("ab", "ab", "abc")
-    val modFoldFunction: (String, String) -> String = { acc, string ->
-        modNumber *= string.length
-        acc + modNumber.toString()
-    }
-    val actual = stringSet.fold("", modFoldFunction)
-    assertEqualsAny(actual, listOf("2412", "2612", "3612"))
+    assertEqualsAnyOf(listOf(modOption1, modOption2, modOption3), intSet.mapConsistent(modMap))
 }
 
 internal fun runMapToSetConsistentTests() {
@@ -203,5 +152,5 @@ internal fun runMapToSetConsistentTests() {
     val modOption1 = multiSetOf("1", "1", "1", "11", "111")
     val modOption2 = multiSetOf("1", "11", "11", "11", "111")
     val modOption3 = multiSetOf("1", "11", "111", "111", "111")
-    assertEqualsAny(intSet.mapToSetConsistent(modMap), listOf(modOption1, modOption2, modOption3))
+    assertEqualsAnyOf(listOf(modOption1, modOption2, modOption3), intSet.mapToSetConsistent(modMap))
 }

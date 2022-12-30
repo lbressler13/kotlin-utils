@@ -7,7 +7,6 @@ class MultiSetInlineConsistentTest {
     @Test fun testMapConsistent() = runMapConsistentTests()
     @Test fun testFilterConsistent() = runFilterConsistentTests()
     @Test fun testFilterNotConsistent() = runFilterNotConsistentTests()
-    @Test fun testFoldConsistent() = runFoldConsistentTests()
 
     @Test fun testMapToSetConsistent() = runMapToSetConsistentTests()
     @Test fun testFilterToSetConsistent() = runFilterToSetConsistentTests()

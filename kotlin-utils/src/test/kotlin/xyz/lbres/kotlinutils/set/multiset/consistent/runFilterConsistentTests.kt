@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.consistent
 
-import xyz.lbres.kotlinutils.assertEqualsAny
+import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
@@ -50,7 +50,7 @@ internal fun runFilterConsistentTests() {
             }
         }
     }.sorted()
-    assertEqualsAny(intActual, intOptions)
+    assertEqualsAnyOf(intOptions, intActual)
 }
 
 internal fun runFilterNotConsistentTests() {
@@ -94,7 +94,7 @@ internal fun runFilterNotConsistentTests() {
             }
         }
     }.sorted()
-    assertEqualsAny(intActual, intOptions)
+    assertEqualsAnyOf(intOptions, intActual)
 }
 
 internal fun runFilterToSetConsistentTests() {
@@ -138,7 +138,7 @@ internal fun runFilterToSetConsistentTests() {
             }
         }
     }
-    assertEqualsAny(intActual, intOptions)
+    assertEqualsAnyOf(intOptions, intActual)
 }
 
 internal fun runFilterNotToSetConsistentTests() {
@@ -182,5 +182,5 @@ internal fun runFilterNotToSetConsistentTests() {
             }
         }
     }
-    assertEqualsAny(intActual, intOptions)
+    assertEqualsAnyOf(intOptions, intActual)
 }

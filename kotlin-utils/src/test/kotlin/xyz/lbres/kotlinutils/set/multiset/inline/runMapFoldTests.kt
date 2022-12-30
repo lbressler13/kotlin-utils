@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.assertEqualsAny
+import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
@@ -129,7 +129,7 @@ internal fun runFoldTests() {
         acc + modNumber.toString()
     }
     val actual = stringSet.fold("", modFoldFunction)
-    assertEqualsAny(actual, listOf("2412", "2612", "3612"))
+    assertEqualsAnyOf(listOf("2412", "2612", "3612"), actual)
 }
 
 internal fun runMapToSetTests() {
