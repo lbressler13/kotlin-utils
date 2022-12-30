@@ -170,13 +170,23 @@ inline fun <E> MultiSet<E>.none(predicate: (E) -> Boolean): Boolean {
  * @return [E]?: a value that yields the smallest value from [selector], or `null` if the MultiSet is empty
  */
 inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNull(selector: (E) -> R): E? {
-    // TODO
-    if (isEmpty()) {
-        return null
+    when (size) {
+        0 -> return null
+        1 -> return distinctValues.first()
     }
 
-    val result = associateWith(selector).minByOrNull { it.value }
-    return result?.key
+    var minPair: Pair<E?, R?> = Pair(null, null)
+
+    forEach {
+        val currentMin = minPair.second
+        val result = selector(it)
+
+        if (currentMin == null || result < currentMin) {
+            minPair = Pair(it, result)
+        }
+    }
+
+    return minPair.first
 }
 
 /**
@@ -189,11 +199,21 @@ inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNull(selector: (E) -> R): E
  * @return [E]?: a value that yields the largest value from [selector], or `null` if the MultiSet is empty
  */
 inline fun <E, R : Comparable<R>> MultiSet<E>.maxByOrNull(selector: (E) -> R): E? {
-    // TODO
-    if (isEmpty()) {
-        return null
+    when (size) {
+        0 -> return null
+        1 -> return distinctValues.first()
     }
 
-    val result = associateWith(selector).maxByOrNull { it.value }
-    return result?.key
+    var maxPair: Pair<E?, R?> = Pair(null, null)
+
+    forEach {
+        val currentMax = maxPair.second
+        val result = selector(it)
+
+        if (currentMax == null || result > currentMax) {
+            maxPair = Pair(it, result)
+        }
+    }
+
+    return maxPair.first
 }
