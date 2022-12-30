@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import org.junit.Test
+import kotlin.test.Test
 import xyz.lbres.kotlinutils.set.multiset.inline.* // ktlint-disable no-wildcard-imports no-unused-imports
 
 internal class MultiSetInlineMethodsTest {
