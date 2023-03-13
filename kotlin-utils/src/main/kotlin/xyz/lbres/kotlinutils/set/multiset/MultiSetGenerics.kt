@@ -3,17 +3,19 @@ package xyz.lbres.kotlinutils.set.multiset
 import kotlin.math.min
 
 /**
- * [MultiSet.plus] implementation that can be used by any MultiSet.
+ * Generic MultiSet plus implementation that can be applied to any two MultiSets.
  * May be less efficient than class-specific implementations.
  *
- * @param other [MultiSet]<E>: values to add to this MultiSet
+ * @param multiSet1 [MultiSet]<E>: first MultiSet in addition
+ * @param multiSet2 [MultiSet]<E>: first MultiSet in addition
  * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
  */
-fun <E> MultiSet<E>.genericPlus(other: MultiSet<E>): MultiSet<E> {
+internal fun <E> genericPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
+    val distinctValues = multiSet1.distinctValues + multiSet2.distinctValues
 
-    (distinctValues + other.distinctValues).forEach { element ->
-        val totalCount = getCountOf(element) + other.getCountOf(element)
+    distinctValues.forEach { element ->
+        val totalCount = multiSet1.getCountOf(element) + multiSet2.getCountOf(element)
         repeat(totalCount) { newSet.add(element) }
     }
 
@@ -21,37 +23,39 @@ fun <E> MultiSet<E>.genericPlus(other: MultiSet<E>): MultiSet<E> {
 }
 
 /**
- * [MultiSet.minus] implementation that can be used by any MultiSet.
+ * Generic MultiSet minus implementation that can be applied to any two MultiSets.
  * May be less efficient than class-specific implementations.
  *
- * @param other [MultiSet]<E>: values to subtract from this MultiSet
- * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
+ * @param multiSet1 [MultiSet]<E>: first MultiSet in subtraction
+ * @param multiSet2 [MultiSet]<E>: first MultiSet in subtraction
+ * @return [MultiSet]<E>: MultiSet containing the items in the first MultiSet but not the second
  */
-fun <E> MultiSet<E>.genericMinus(other: MultiSet<E>): MultiSet<E> {
+internal fun <E> genericMinus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
+    val distinctValues = multiSet1.distinctValues + multiSet2.distinctValues
 
     distinctValues.forEach { element ->
-        val totalCount = getCountOf(element) - other.getCountOf(element)
-        if (totalCount > 0) {
-            repeat(totalCount) { newSet.add(element) }
-        }
+        val totalCount = multiSet1.getCountOf(element) - multiSet2.getCountOf(element)
+        repeat(totalCount) { newSet.add(element) }
     }
 
     return newSet
 }
 
 /**
- * [MultiSet.intersect] implementation that can be used by any MultiSet.
+ * Generic MultiSet intersect implementation that can be applied to any two MultiSets.
  * May be less efficient than class-specific implementations.
  *
- * @param other [MultiSet]<E>: values to intersect with this MultiSet
+ * @param multiSet1 [MultiSet]<E>: first MultiSet in intersect
+ * @param multiSet2 [MultiSet]<E>: first MultiSet in intersect
  * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
  */
-fun <E> MultiSet<E>.genericIntersect(other: MultiSet<E>): MultiSet<E> {
+internal fun <E> genericIntersect(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
+    val distinctValues = multiSet1.distinctValues intersect multiSet2.distinctValues
 
-    (distinctValues intersect other.distinctValues).forEach { element ->
-        val totalCount = min(getCountOf(element), other.getCountOf(element))
+    distinctValues.forEach { element ->
+        val totalCount = min(multiSet1.getCountOf(element), multiSet2.getCountOf(element))
         repeat(totalCount) { newSet.add(element) }
     }
 
