@@ -1,7 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
-
 /**
  * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
  * The [transform] function can return different values for different occurrences of an element.
@@ -11,7 +9,11 @@ import xyz.lbres.kotlinutils.collection.ext.toMultiSet
  * @return [MultiSet]<T>: new MultiSet with transformed values
  */
 inline fun <E, T> MultiSet<E>.mapToSet(transform: (E) -> T): MultiSet<T> {
-    return map(transform).toMultiSet()
+    // avoid overhead of creating list
+    val newSet: MutableMultiSet<T> = mutableMultiSetOf()
+    forEach { newSet.add(transform(it)) }
+
+    return newSet
 }
 
 /**
@@ -23,7 +25,16 @@ inline fun <E, T> MultiSet<E>.mapToSet(transform: (E) -> T): MultiSet<T> {
  * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
  */
 inline fun <E> MultiSet<E>.filterToSet(predicate: (E) -> Boolean): MultiSet<E> {
-    return filter(predicate).toMultiSet()
+    // avoid overhead of creating list
+    val newSet: MutableMultiSet<E> = mutableMultiSetOf()
+
+    forEach {
+        if (predicate(it)) {
+            newSet.add(it)
+        }
+    }
+
+    return newSet
 }
 
 /**
@@ -35,7 +46,16 @@ inline fun <E> MultiSet<E>.filterToSet(predicate: (E) -> Boolean): MultiSet<E> {
  * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
  */
 inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E> {
-    return filterNot(predicate).toMultiSet()
+    // avoid overhead of creating list
+    val newSet: MutableMultiSet<E> = mutableMultiSetOf()
+
+    forEach {
+        if (!predicate(it)) {
+            newSet.add(it)
+        }
+    }
+
+    return newSet
 }
 
 /**
