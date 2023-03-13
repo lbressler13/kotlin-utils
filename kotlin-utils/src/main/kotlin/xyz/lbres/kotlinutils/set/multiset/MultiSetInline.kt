@@ -1,5 +1,43 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.collection.ext.toMultiSet
+
+/**
+ * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
+ * The [transform] function can return different values for different occurrences of an element.
+ * If the function returns the same value for every occurrence of an element, see the more efficient [mapToSetConsistent] method.
+ *
+ * @param transform (E) -> T: transformation function
+ * @return [MultiSet]<T>: new MultiSet with transformed values
+ */
+inline fun <E, T> MultiSet<E>.mapToSet(transform: (E) -> T): MultiSet<T> {
+    return map(transform).toMultiSet()
+}
+
+/**
+ * Create a new MultiSet containing only elements that match the given predicate.
+ * The [predicate] function can return different values for different occurrences of an element.
+ * If the function returns the same value for every occurrence of an element, see the more efficient [filterToSetConsistent] method.
+ *
+ * @param predicate (E) -> [Boolean]: predicate to use for filtering
+ * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
+ */
+inline fun <E> MultiSet<E>.filterToSet(predicate: (E) -> Boolean): MultiSet<E> {
+    return filter(predicate).toMultiSet()
+}
+
+/**
+ * Create a new MultiSet containing only elements that do not match the given predicate.
+ * The [predicate] function can return different values for different occurrences of an element.
+ * If the function returns the same value for every occurrence of an element, see the more efficient [filterNotToSetConsistent] method.
+ *
+ * @param predicate (E) -> [Boolean]: predicate to use for filtering
+ * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
+ */
+inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E> {
+    return filterNot(predicate).toMultiSet()
+}
+
 /**
  * Create a list with the results of applying the transform function to each value in the current MultiSet.
  *

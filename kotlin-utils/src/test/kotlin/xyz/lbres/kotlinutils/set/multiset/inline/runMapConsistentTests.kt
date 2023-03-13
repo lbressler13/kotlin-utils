@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.consistent
+package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.list.IntList

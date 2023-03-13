@@ -4,19 +4,22 @@ import xyz.lbres.kotlinutils.set.multiset.inline.* // ktlint-disable no-wildcard
 import kotlin.test.Test
 
 internal class MultiSetInlineMethodsTest {
-    @Test fun testMap() = runMapTests()
-    @Test fun testFilter() = runFilterTests()
-    @Test fun testFilterNot() = runFilterNotTests()
-    @Test fun testFold() = runFoldTests()
-
     @Test fun testMapToSet() = runMapToSetTests()
     @Test fun testFilterToSet() = runFilterToSetTests()
     @Test fun testFilterNotToSet() = runFilterNotToSetTests()
 
-    @Test fun testAny() = runAnyTests()
-    @Test fun testAll() = runAllTests()
-    @Test fun testNone() = runNoneTests()
+    @Test fun testMapConsistent() = runMapConsistentTests()
+    @Test fun testFilterConsistent() = runFilterConsistentTests()
+    @Test fun testFilterNotConsistent() = runFilterNotConsistentTests()
 
-    @Test fun testMinBy() = runMinByTests()
-    @Test fun testMaxBy() = runMaxByTests()
+    @Test fun testMapToSetConsistent() = runMapToSetConsistentTests()
+    @Test fun testFilterToSetConsistent() = runFilterToSetConsistentTests()
+    @Test fun testFilterNotToSetConsistent() = runFilterNotToSetConsistentTests()
+
+    @Test fun testAnyConsistent() = runAnyConsistentTests()
+    @Test fun testAllConsistent() = runAllConsistentTests()
+    @Test fun testNoneConsistent() = runNoneConsistentTests()
+
+    @Test fun testMinByConsistent() = runMinByConsistentTests()
+    @Test fun testMaxByConsistent() = runMaxByConsistentTests()
 }
