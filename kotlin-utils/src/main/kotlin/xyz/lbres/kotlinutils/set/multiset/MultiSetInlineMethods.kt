@@ -40,8 +40,9 @@ inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E
 
 /**
  * Create a list with the results of applying the transform function to each value in the current MultiSet.
+ * Requires a [transform] function that returns the same value for every occurrence of an element.
  *
- * @param transform (E) -> T: transformation function
+ * @param transform (E) -> T: transformation function, which returns the same value for every occurrence of an element
  * @return [List]<T>: list with transformed values
  */
 inline fun <E, T> MultiSet<E>.mapConsistent(transform: (E) -> T): List<T> {
@@ -55,8 +56,9 @@ inline fun <E, T> MultiSet<E>.mapConsistent(transform: (E) -> T): List<T> {
 
 /**
  * Create a list containing only elements that match the given predicate.
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
  *
- * @param predicate (E) -> [Boolean]: predicate to use for filtering
+ * @param predicate (E) -> [Boolean]: predicate to use for filtering, which returns the same value for every occurrence of an element
  * @return [List]<E>: list containing only values for which [predicate] returns `true`
  */
 inline fun <E> MultiSet<E>.filterConsistent(predicate: (E) -> Boolean): List<E> {
@@ -74,8 +76,9 @@ inline fun <E> MultiSet<E>.filterConsistent(predicate: (E) -> Boolean): List<E> 
 
 /**
  * Create a list containing only elements that do not match the given predicate.
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
  *
- * @param predicate (E) -> [Boolean]: predicate to use for filtering
+ * @param predicate (E) -> [Boolean]: predicate to use for filtering, which returns the same value for every occurrence of an element
  * @return [List]<E>: list containing only values for which [predicate] returns `false`
  */
 inline fun <E> MultiSet<E>.filterNotConsistent(predicate: (E) -> Boolean): List<E> {
@@ -93,8 +96,9 @@ inline fun <E> MultiSet<E>.filterNotConsistent(predicate: (E) -> Boolean): List<
 
 /**
  * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
+ * Requires a [transform] function that returns the same value for every occurrence of an element.
  *
- * @param transform (E) -> T: transformation function
+ * @param transform (E) -> T: transformation function, which returns the same value for every occurrence of an element
  * @return [MultiSet]<T>: new MultiSet with transformed values
  */
 inline fun <E, T> MultiSet<E>.mapToSetConsistent(transform: (E) -> T): MultiSet<T> {
@@ -111,8 +115,9 @@ inline fun <E, T> MultiSet<E>.mapToSetConsistent(transform: (E) -> T): MultiSet<
 }
 /**
  * Create a new MultiSet containing only elements that match the given predicate.
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
  *
- * @param predicate (E) -> [Boolean]: predicate to use for filtering
+ * @param predicate (E) -> [Boolean]: predicate to use for filtering, which returns the same value for every occurrence of an element
  * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `true`
  */
 inline fun <E> MultiSet<E>.filterToSetConsistent(predicate: (E) -> Boolean): MultiSet<E> {
@@ -133,8 +138,9 @@ inline fun <E> MultiSet<E>.filterToSetConsistent(predicate: (E) -> Boolean): Mul
 
 /**
  * Create a new MultiSet containing only elements that do not match the given predicate.
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
  *
- * @param predicate (E) -> [Boolean]: predicate to use for filtering
+ * @param predicate (E) -> [Boolean]: predicate to use for filtering, which returns the same value for every occurrence of an element
  * @return [MultiSet]<E>: MultiSet containing only values for which [predicate] returns `false`
  */
 inline fun <E> MultiSet<E>.filterNotToSetConsistent(predicate: (E) -> Boolean): MultiSet<E> {
@@ -156,8 +162,9 @@ inline fun <E> MultiSet<E>.filterNotToSetConsistent(predicate: (E) -> Boolean): 
 /**
  * Returns `true` if at least one element matches the given [predicate].
  * Returns `false` if MultiSet is empty.
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
  *
- * @param predicate (E) -> [Boolean]
+ * @param predicate (E) -> [Boolean]: function which returns the same value for every occurrence of an element
  * @return [Boolean]: `true` if the MultiSet is non-empty and at least one element matches the predicate, `false` otherwise
  */
 inline fun <E> MultiSet<E>.anyConsistent(predicate: (E) -> Boolean): Boolean {
@@ -173,8 +180,9 @@ inline fun <E> MultiSet<E>.anyConsistent(predicate: (E) -> Boolean): Boolean {
 /**
  * Returns `true` if all elements match the given [predicate].
  * Returns `true` if MultiSet is empty.
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
  *
- * @param predicate (E) -> [Boolean]
+ * @param predicate (E) -> [Boolean]: function which returns the same value for every occurrence of an element
  * @return [Boolean]: `true` if the MultiSet is empty or all elements match the predicate, `false` otherwise
  */
 inline fun <E> MultiSet<E>.allConsistent(predicate: (E) -> Boolean): Boolean {
@@ -190,8 +198,9 @@ inline fun <E> MultiSet<E>.allConsistent(predicate: (E) -> Boolean): Boolean {
 /**
  * Returns `true` if no element matches the given [predicate].
  * Returns `true` if MultiSet is empty.
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
  *
- * @param predicate (E) -> [Boolean]
+ * @param predicate (E) -> [Boolean]: function which returns the same value for every occurrence of an element
  * @return [Boolean]: `true` if the MultiSet is empty or no elements match the predicate, `false` otherwise
  */
 inline fun <E> MultiSet<E>.noneConsistent(predicate: (E) -> Boolean): Boolean {
@@ -207,8 +216,9 @@ inline fun <E> MultiSet<E>.noneConsistent(predicate: (E) -> Boolean): Boolean {
 /**
  * Returns an element yielding the smallest value of the given function or `null` if there are no elements.
  * May not always return the same element if there are multiple elements which yield the smallest value.
+ * Requires a [selector] function that returns the same value for every occurrence of an element.
  *
- * @param selector (E) -> R: function to compare elements
+ * @param selector (E) -> R: function to compare elements, which returns the same value for every occurrence of an element
  * @return [E]?: a value that yields the smallest value from [selector], or `null` if the MultiSet is empty
  */
 inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNullConsistent(selector: (E) -> R): E? {
@@ -223,8 +233,9 @@ inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNullConsistent(selector: (E
 /**
  * Returns an element yielding the largest value of the given function or `null` if there are no elements.
  * May not always return the same element if there are multiple elements which yield the largest value.
+ * Requires a [selector] function that returns the same value for every occurrence of an element.
  *
- * @param selector (E) -> R: function to compare elements
+ * @param selector (E) -> R: function to compare elements, which returns the same value for every occurrence of an element
  * @return [E]?: a value that yields the largest value from [selector], or `null` if the MultiSet is empty
  */
 inline fun <E, R : Comparable<R>> MultiSet<E>.maxByOrNullConsistent(selector: (E) -> R): E? {
