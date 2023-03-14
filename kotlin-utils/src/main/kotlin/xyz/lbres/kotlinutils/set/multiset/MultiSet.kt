@@ -48,7 +48,7 @@ interface MultiSet<E> : Collection<E> {
 
     companion object {
         /**
-         * [MultiSet.plus] implementation that can be used as a default in any [MultiSet] implementation.
+         * [MultiSet.plus] implementation that can be used with any [MultiSet] implementation.
          * May be less efficient than class-specific implementations.
          *
          * @param multiSet1 [MultiSet]<E>: first MultiSet in addition
@@ -58,7 +58,7 @@ interface MultiSet<E> : Collection<E> {
         fun <E> defaultPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> = genericPlus(multiSet1, multiSet2)
 
         /**
-         * [MultiSet.minus] implementation that can be used as a default in any [MultiSet] implementation.
+         * [MultiSet.minus] implementation that can be used with any [MultiSet] implementation.
          * May be less efficient than class-specific implementations.
          *
          * @param multiSet1 [MultiSet]<E>: first MultiSet in subtraction
@@ -68,7 +68,7 @@ interface MultiSet<E> : Collection<E> {
         fun <E> defaultMinus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> = genericMinus(multiSet1, multiSet2)
 
         /**
-         * [MultiSet.minus] implementation that can be used as a default in any [MultiSet] implementation.
+         * [MultiSet.minus] implementation that can be used with any [MultiSet] implementation.
          * May be less efficient than class-specific implementations.
          *
          * @param multiSet1 [MultiSet]<E>: first MultiSet in intersect

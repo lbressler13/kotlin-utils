@@ -4,7 +4,6 @@ import kotlin.math.min
 
 /**
  * Generic MultiSet plus implementation that can be applied to any two MultiSets.
- * May be less efficient than class-specific implementations.
  *
  * @param multiSet1 [MultiSet]<E>: first MultiSet in addition
  * @param multiSet2 [MultiSet]<E>: first MultiSet in addition
@@ -24,7 +23,6 @@ internal fun <E> genericPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): Mu
 
 /**
  * Generic MultiSet minus implementation that can be applied to any two MultiSets.
- * May be less efficient than class-specific implementations.
  *
  * @param multiSet1 [MultiSet]<E>: first MultiSet in subtraction
  * @param multiSet2 [MultiSet]<E>: first MultiSet in subtraction
@@ -44,7 +42,6 @@ internal fun <E> genericMinus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): M
 
 /**
  * Generic MultiSet intersect implementation that can be applied to any two MultiSets.
- * May be less efficient than class-specific implementations.
  *
  * @param multiSet1 [MultiSet]<E>: first MultiSet in intersect
  * @param multiSet2 [MultiSet]<E>: first MultiSet in intersect
