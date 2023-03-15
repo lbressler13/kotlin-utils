@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.int.ext.isZero
-import kotlin.math.max
 import kotlin.math.min
 
 /**
@@ -9,7 +9,7 @@ import kotlin.math.min
  */
 internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
-     * Number of elements in set. References a mutable variable.
+     * Number of elements in set.
      */
     override val size: Int
         get() = _size
@@ -218,8 +218,10 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return true
         }
 
-        val newSet = MutableMultiSetImpl(elements)
-        return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
+        val newSet = elements.toMutableMultiSet()
+        return newSet.distinctValues.all {
+            getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
+        }
     }
 
     /**
@@ -230,11 +232,9 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        val newCounts = countsMap.keys.associateWith {
-            val count = getCountOf(it)
-            val otherCount = other.getCountOf(it)
-            max(count - otherCount, 0)
-        }.filter { it.value > 0 }.toMap()
+        val newCounts = distinctValues.associateWith {
+            getCountOf(it) - other.getCountOf(it)
+        }.filter { it.value > 0 }
 
         return MutableMultiSetImpl(newCounts)
     }
@@ -270,7 +270,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             val count = getCountOf(it)
             val otherCount = other.getCountOf(it)
             min(count, otherCount)
-        }.filter { it.value > 0 }.toMap()
+        }.filter { it.value > 0 }
 
         return MutableMultiSetImpl(newCounts)
     }
