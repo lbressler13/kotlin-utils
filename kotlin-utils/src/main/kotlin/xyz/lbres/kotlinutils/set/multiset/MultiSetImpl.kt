@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import kotlin.math.max
+import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import kotlin.math.min
 
 /**
@@ -41,19 +41,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         initialElements = elements
         string = createString()
 
-        // init counts
-        val mutableMap: MutableMap<E, Int> = mutableMapOf()
-        val mutableValues: MutableSet<E> = mutableSetOf()
-
-        for (element in elements) {
-            val currentCount = mutableMap[element] ?: 0
-            mutableMap[element] = currentCount + 1
-            mutableValues.add(element)
-        }
-
-        // cast to simpler data structures
-        countsMap = mutableMap.toMap()
-        distinctValues = mutableValues.toSet()
+        countsMap = elements.groupBy { it }.map { it.key to it.value.size }.toMap()
+        distinctValues = countsMap.keys
     }
 
     /**
@@ -93,8 +82,10 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             return true
         }
 
-        val newSet = MultiSetImpl(elements)
-        return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
+        val newSet = elements.toMultiSet()
+        return newSet.distinctValues.all {
+            getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
+        }
     }
 
     /**
@@ -105,11 +96,9 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        val newCounts = countsMap.keys.associateWith {
-            val count = getCountOf(it)
-            val otherCount = other.getCountOf(it)
-            max(count - otherCount, 0)
-        }.filter { it.value > 0 }.toMap()
+        val newCounts = distinctValues.associateWith {
+            getCountOf(it) - other.getCountOf(it)
+        }.filter { it.value > 0 }
 
         return MultiSetImpl(newCounts)
     }
@@ -145,7 +134,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             val count = getCountOf(it)
             val otherCount = other.getCountOf(it)
             min(count, otherCount)
-        }.filter { it.value > 0 }.toMap()
+        }.filter { it.value > 0 }
 
         return MultiSetImpl(newCounts)
     }
@@ -179,8 +168,16 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         return try {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
-            return minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
-        } catch (e: Exception) {
+
+            val otherCounts = if (other is MultiSetImpl<*>) {
+                other.countsMap
+            } else {
+                // less efficient method of getting counts
+                other.distinctValues.associateWith { other.getCountOf(it) }
+            }
+
+            countsMap == otherCounts
+        } catch (_: Exception) {
             false
         }
     }

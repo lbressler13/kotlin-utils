@@ -45,4 +45,36 @@ interface MultiSet<E> : Collection<E> {
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     infix fun intersect(other: MultiSet<E>): MultiSet<E>
+
+    companion object {
+        /**
+         * [MultiSet.plus] implementation that can be used with any [MultiSet] implementation.
+         * May be less efficient than class-specific implementations.
+         *
+         * @param multiSet1 [MultiSet]<E>: first MultiSet in addition
+         * @param multiSet2 [MultiSet]<E>: first MultiSet in addition
+         * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
+         */
+        fun <E> defaultPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> = genericMultiSetPlus(multiSet1, multiSet2)
+
+        /**
+         * [MultiSet.minus] implementation that can be used with any [MultiSet] implementation.
+         * May be less efficient than class-specific implementations.
+         *
+         * @param multiSet1 [MultiSet]<E>: first MultiSet in subtraction
+         * @param multiSet2 [MultiSet]<E>: first MultiSet in subtraction
+         * @return [MultiSet]<E>: MultiSet containing the items in the first MultiSet but not the second
+         */
+        fun <E> defaultMinus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> = genericMultiSetMinus(multiSet1, multiSet2)
+
+        /**
+         * [MultiSet.minus] implementation that can be used with any [MultiSet] implementation.
+         * May be less efficient than class-specific implementations.
+         *
+         * @param multiSet1 [MultiSet]<E>: first MultiSet in intersect
+         * @param multiSet2 [MultiSet]<E>: first MultiSet in intersect
+         * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
+         */
+        fun <E> defaultIntersect(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> = genericMultiSetIntersect(multiSet1, multiSet2)
+    }
 }
