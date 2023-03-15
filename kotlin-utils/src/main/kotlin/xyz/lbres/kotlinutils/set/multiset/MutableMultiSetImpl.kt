@@ -327,12 +327,13 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
-            return if (other is MutableMultiSetImpl<*>) {
-                // use more efficient check if possible
-                countsMap == other.countsMap
+            val otherCounts = if (other is MutableMultiSetImpl<*>) {
+                other.countsMap
             } else {
-                minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
+                other.distinctValues.associateWith { other.getCountOf(it) }
             }
+
+            countsMap == otherCounts
         } catch (_: Exception) {
             false
         }
