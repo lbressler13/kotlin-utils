@@ -179,8 +179,14 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         return try {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
-            return minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
-        } catch (e: Exception) {
+
+            return if (other is MultiSetImpl<*>) {
+                // use more efficient check if possible
+                countsMap == other.countsMap
+            } else {
+                minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
+            }
+        } catch (_: Exception) {
             false
         }
     }

@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.immutable
 
-import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -28,6 +28,9 @@ internal fun runImmutableEqualsTests() {
     assertEquals(set1, set2)
     assertEquals(set2, set1)
 
+    var otherSet = TestMultiSet(listOf(1, 2, 3))
+    assertEquals(set1, otherSet)
+
     // not equals
     set1 = multiSetOf()
     set2 = multiSetOf(0)
@@ -45,9 +48,8 @@ internal fun runImmutableEqualsTests() {
     assertNotEquals(set2, set1)
 
     set1 = multiSetOf(-1, 3, 1, -3)
-    set2 = multiSetOf(2, -2)
-    assertNotEquals(set1, set2)
-    assertNotEquals(set2, set1)
+    otherSet = TestMultiSet(listOf(2, -2))
+    assertNotEquals(set1, otherSet)
 
     // other type
     val stringSet1 = multiSetOf("", "abc")
@@ -66,6 +68,9 @@ internal fun runImmutableEqualsTests() {
 
     assertFalse(stringSet1 == set1)
 
+    val otherListSet = TestMultiSet(listOf(listOf(12)))
+    assertNotEquals(listSet2, otherListSet)
+
     // mutable
     set1 = multiSetOf(1, 2, 3)
     var mutableSet = mutableMultiSetOf(1, 2, 3)
@@ -73,6 +78,9 @@ internal fun runImmutableEqualsTests() {
 
     mutableSet = mutableMultiSetOf(1)
     assertNotEquals(set1, mutableSet)
+
+    val otherMutableSet = TestMutableMultiSet(listOf(1, 2, 3))
+    assertEquals(set1, otherMutableSet)
 }
 
 internal fun runImmutableMinusTests() {
@@ -93,6 +101,9 @@ internal fun runImmutableMinusTests() {
     var listSet1 = multiSetOf(listOf(1, 2, 3), listOf(456, 789))
     assertEquals(emptyMultiSet(), listSet1 - listSet1)
 
+    var otherSet = TestMultiSet(listOf(1, 2, 3, 4, 5))
+    assertEquals(emptyMultiSet(), intSet1 - otherSet)
+
     // all shared
     intSet1 = multiSetOf(1, 1, 2, 3, 4, 4, 4)
     intSet2 = multiSetOf(1, 2, 2, 3, 4, 4)
@@ -107,6 +118,11 @@ internal fun runImmutableMinusTests() {
     assertEquals(expectedInt, intSet1 - intSet2)
     expectedInt = multiSetOf(1, 5, 5, 7)
     assertEquals(expectedInt, intSet2 - intSet1)
+
+    intSet1 = multiSetOf(1, 2, 2, 2, 3, 3, 5, 6, 6, 7)
+    otherSet = TestMultiSet(listOf(1, 1, 2, 3, 3, 5, 5, 5, 6, 7, 7))
+    expectedInt = multiSetOf(2, 2, 6)
+    assertEquals(expectedInt, intSet1 - otherSet)
 
     // none shared
     intSet1 = multiSetOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 7, 8)
@@ -147,6 +163,10 @@ internal fun runImmutableMinusTests() {
     assertEquals(expectedCompList, compListSet1 - compListSet2)
     expectedCompList = multiSetOf(listOf(1, 2, 3), listOf())
     assertEquals(expectedCompList, compListSet2 - compListSet1)
+
+    val otherCompListSet: TestMultiSet<List<Comparable<*>>> = TestMultiSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3), listOf()))
+    expectedCompList = multiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+    assertEquals(expectedCompList, compListSet1 - otherCompListSet)
 }
 
 internal fun runImmutablePlusTests() {
@@ -172,6 +192,9 @@ internal fun runImmutablePlusTests() {
     expectedInt = multiSetOf(0, 1, 1, 2, 2, 2, 3, 3, 3)
     assertEquals(expectedInt, intSet1 + intSet2)
     assertEquals(expectedInt, intSet2 + intSet1)
+
+    val otherSet = TestMultiSet(listOf(1, 2, 2, 3, 3, 3))
+    assertEquals(expectedInt, intSet2 + otherSet)
 
     val stringSet1 = multiSetOf("", "hello", "world", "goodbye")
     val stringSet2 = multiSetOf("hi", "no", "bye")
@@ -215,6 +238,9 @@ internal fun runImmutableIntersectTests() {
     assertEquals(emptyMultiSet(), intSet1 intersect intSet2)
     assertEquals(emptyMultiSet(), intSet2 intersect intSet1)
 
+    var otherSet = TestMultiSet(listOf(4, 5, 6, 7, 8))
+    assertEquals(emptyMultiSet(), intSet1 intersect otherSet)
+
     var listSet1 = multiSetOf(listOf(1, 2, 3), listOf(4, 5))
     var listSet2 = multiSetOf(listOf(1, 2), listOf(3, 4, 5))
     assertEquals(emptyMultiSet(), listSet1 intersect listSet2)
@@ -239,6 +265,10 @@ internal fun runImmutableIntersectTests() {
     expectedInt = multiSetOf(-1, 6)
     assertEquals(expectedInt, intSet1 intersect intSet2)
     assertEquals(expectedInt, intSet2 intersect intSet1)
+
+    otherSet = TestMultiSet(listOf(-1, 14, 3, 9, 9, 6))
+    expectedInt = multiSetOf(-1, 6)
+    assertEquals(expectedInt, intSet1 intersect otherSet)
 
     listSet1 = multiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
     listSet2 = multiSetOf(listOf(), listOf(1, 2, 3))

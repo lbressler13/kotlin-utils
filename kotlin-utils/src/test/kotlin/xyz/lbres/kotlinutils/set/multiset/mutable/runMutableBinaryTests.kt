@@ -27,6 +27,9 @@ internal fun runMutableMinusTests() {
     var listSet1 = mutableMultiSetOf(listOf(1, 2, 3), listOf(456, 789))
     assertEquals(emptyMultiSet(), listSet1 - listSet1)
 
+    var otherSet = TestMutableMultiSet(listOf(1, 2, 3, 4, 5))
+    assertEquals(emptyMultiSet(), intSet1 - otherSet)
+
     // all shared
     intSet1 = mutableMultiSetOf(1, 1, 2, 3, 4, 4, 4)
     intSet2 = mutableMultiSetOf(1, 2, 2, 3, 4, 4)
@@ -48,6 +51,11 @@ internal fun runMutableMinusTests() {
     assertEquals(intSet1, intSet1 - intSet2)
     assertEquals(intSet2, intSet2 - intSet1)
 
+    intSet1 = mutableMultiSetOf(1, 2, 2, 2, 3, 3, 5, 6, 6, 7)
+    otherSet = TestMutableMultiSet(listOf(1, 1, 2, 3, 3, 5, 5, 5, 6, 7, 7))
+    expectedInt = mutableMultiSetOf(2, 2, 6)
+    assertEquals(expectedInt, intSet1 - otherSet)
+
     val stringSet1 = mutableMultiSetOf("hello", "world", "goodbye", "world", "hello", "goodbye")
     val stringSet2 = mutableMultiSetOf("greetings", "planet", "farewell", "planet", "greetings", "farewell")
     assertEquals(stringSet1, stringSet1 - stringSet2)
@@ -60,6 +68,11 @@ internal fun runMutableMinusTests() {
     assertEquals(expectedInt, intSet1 - intSet2)
     expectedInt = mutableMultiSetOf(6, 6, 7)
     assertEquals(expectedInt, intSet2 - intSet1)
+
+    intSet1 = mutableMultiSetOf(1, 2, 2, 2, 3, 3, 5, 6, 6, 7)
+    otherSet = TestMutableMultiSet(listOf(1, 1, 2, 3, 3, 5, 5, 5, 6, 7, 7))
+    expectedInt = mutableMultiSetOf(2, 2, 6)
+    assertEquals(expectedInt, intSet1 - otherSet)
 
     listSet1 = mutableMultiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
     val listSet2: MutableMultiSet<List<Int>> = mutableMultiSetOf(listOf(), listOf(1, 2, 3))
@@ -82,11 +95,20 @@ internal fun runMutableMinusTests() {
     compListExpected = mutableMultiSetOf(listOf(1, 2, 3), listOf())
     assertEquals(compListExpected, compListMs2 - compListMs1)
 
+    val otherCompListSet: TestMutableMultiSet<List<Comparable<*>>> = TestMutableMultiSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3), listOf()))
+    compListExpected = mutableMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+    assertEquals(compListExpected, compListMs1 - otherCompListSet)
+
     // with immutable
     intSet1 = mutableMultiSetOf(1, 2, 3, 4)
     val immutable = multiSetOf(1, 4, 4, 5)
     expectedInt = mutableMultiSetOf(2, 3)
     assertEquals(expectedInt, intSet1 - immutable)
+
+    intSet1 = mutableMultiSetOf(1, 2, 3, 4)
+    val immutableOther = TestMultiSet(multiSetOf(1, 4, 4, 5))
+    expectedInt = mutableMultiSetOf(2, 3)
+    assertEquals(expectedInt, intSet1 - immutableOther)
 }
 
 internal fun runMutablePlusTests() {
@@ -109,6 +131,9 @@ internal fun runMutablePlusTests() {
     intSet2 = mutableMultiSetOf(1, 2, 0)
     expected = mutableMultiSetOf(0, 1, 1, 2, 2, 2, 3, 3, 3)
     assertEquals(expected, intSet1 + intSet2)
+
+    val otherSet = TestMutableMultiSet(listOf(1, 2, 2, 3, 3, 3))
+    assertEquals(expected, intSet2 + otherSet)
 
     val sms1 = mutableMultiSetOf("", "hello", "world", "goodbye")
     val sms2 = mutableMultiSetOf("hi", "no", "bye")
@@ -158,6 +183,9 @@ internal fun runMutableIntersectTests() {
     assertEquals(emptyMultiSet(), intSet1 intersect intSet2)
     assertEquals(emptyMultiSet(), intSet2 intersect intSet1)
 
+    var otherSet = TestMutableMultiSet(listOf(4, 5, 6, 7, 8))
+    assertEquals(emptyMultiSet(), intSet1 intersect otherSet)
+
     var listSet1 = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5))
     var listSet2 = mutableMultiSetOf(listOf(1, 2), listOf(3, 4, 5))
     assertEquals(emptyMultiSet(), listSet1 intersect listSet2)
@@ -182,6 +210,10 @@ internal fun runMutableIntersectTests() {
     expectedInt = mutableMultiSetOf(-1, 6)
     assertEquals(expectedInt, intSet1 intersect intSet2)
     assertEquals(expectedInt, intSet2 intersect intSet1)
+
+    otherSet = TestMutableMultiSet(listOf(-1, 14, 3, 9, 9, 6))
+    expectedInt = mutableMultiSetOf(-1, 6)
+    assertEquals(expectedInt, intSet1 intersect otherSet)
 
     listSet1 = mutableMultiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
     listSet2 = mutableMultiSetOf(listOf(), listOf(1, 2, 3))
@@ -221,6 +253,9 @@ internal fun runMutableEqualsTests() {
     assertEquals(set1, set2)
     assertEquals(set2, set1)
 
+    var otherSet = TestMutableMultiSet(listOf(1, 2, 3))
+    assertEquals(set1, otherSet)
+
     // not equals
     set1 = mutableMultiSetOf()
     set2 = mutableMultiSetOf(0)
@@ -238,9 +273,8 @@ internal fun runMutableEqualsTests() {
     assertNotEquals(set2, set1)
 
     set1 = mutableMultiSetOf(-1, 3, 1, -3)
-    set2 = mutableMultiSetOf(2, -2)
-    assertNotEquals(set1, set2)
-    assertNotEquals(set2, set1)
+    otherSet = TestMutableMultiSet(listOf(2, -2))
+    assertNotEquals(set1, otherSet)
 
     // other type
     val stringSet1 = mutableMultiSetOf("", "abc")
