@@ -330,6 +330,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             val otherCounts = if (other is MutableMultiSetImpl<*>) {
                 other.countsMap
             } else {
+                // less efficient method of getting counts
                 other.distinctValues.associateWith { other.getCountOf(it) }
             }
 

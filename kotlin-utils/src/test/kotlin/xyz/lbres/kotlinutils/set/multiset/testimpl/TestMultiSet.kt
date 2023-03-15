@@ -1,4 +1,6 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.testimpl
+
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
 /**
  * Alternate MultiSet implementation to use in testing
@@ -23,6 +25,7 @@ internal class TestMultiSet<E>(collection: Collection<E>) : MultiSet<E> {
             return false
         }
 
+        @Suppress("UNCHECKED_CAST")
         other as MultiSet<E>
         val counts = list.groupBy { it }.map { it.key to it.value.size }.toMap()
         val otherCounts = other.distinctValues.associateWith { other.getCountOf(it) }

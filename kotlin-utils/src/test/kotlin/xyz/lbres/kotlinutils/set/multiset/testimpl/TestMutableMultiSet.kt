@@ -1,4 +1,7 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.testimpl
+
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 
 /**
  * Alternate MutableMultiSet implementation to use in testing

@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.set.multiset.testimpl.TestMultiSet
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

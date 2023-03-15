@@ -172,6 +172,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             val otherCounts = if (other is MultiSetImpl<*>) {
                 other.countsMap
             } else {
+                // less efficient method of getting counts
                 other.distinctValues.associateWith { other.getCountOf(it) }
             }
 

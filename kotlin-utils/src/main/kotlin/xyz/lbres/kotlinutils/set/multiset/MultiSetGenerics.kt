@@ -9,7 +9,7 @@ import kotlin.math.min
  * @param multiSet2 [MultiSet]<E>: first MultiSet in addition
  * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
  */
-internal fun <E> genericPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
+internal fun <E> genericMultiSetPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
     val distinctValues = multiSet1.distinctValues + multiSet2.distinctValues
 
@@ -28,7 +28,7 @@ internal fun <E> genericPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): Mu
  * @param multiSet2 [MultiSet]<E>: first MultiSet in subtraction
  * @return [MultiSet]<E>: MultiSet containing the items in the first MultiSet but not the second
  */
-internal fun <E> genericMinus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
+internal fun <E> genericMultiSetMinus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
     val distinctValues = multiSet1.distinctValues + multiSet2.distinctValues
 
@@ -47,7 +47,7 @@ internal fun <E> genericMinus(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): M
  * @param multiSet2 [MultiSet]<E>: first MultiSet in intersect
  * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
  */
-internal fun <E> genericIntersect(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
+internal fun <E> genericMultiSetIntersect(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {
     val newSet = mutableMultiSetOf<E>()
     val distinctValues = multiSet1.distinctValues intersect multiSet2.distinctValues
 
