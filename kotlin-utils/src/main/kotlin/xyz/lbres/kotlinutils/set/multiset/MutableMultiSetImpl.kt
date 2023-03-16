@@ -217,7 +217,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return true
         }
 
-        val newSet = MultiSetImpl(elements) // less overhead than creating a MutableMultiSet
+        val newSet = MultiSetImpl(elements) // less overhead than creating a MutableMultiSetImpl
         return newSet.distinctValues.all {
             getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
         }

@@ -1,7 +1,5 @@
 package xyz.lbres.kotlinutils.classes.multiset
 
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
-
 /**
  * Code related to MultiSets has been moved to the set/multiset package.
  * This file exists only to avoid breaking existing functionality that uses the class at this path.

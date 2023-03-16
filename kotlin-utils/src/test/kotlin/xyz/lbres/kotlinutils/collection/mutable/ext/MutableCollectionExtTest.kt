@@ -35,7 +35,7 @@ internal class MutableCollectionExtTest {
         assertNull(set.popRandom())
 
         set = mutableSetOf("123", "456", "789")
-        runSinglePopRandomTest(set, set.toMutableSet(), mutableSetOf()) { coll1, coll2 -> assertEquals(coll1, coll2) }
+        runSinglePopRandomTest(set, set.toMutableSet(), mutableSetOf())
 
         val exceptionSet = mutableSetOf(IndexOutOfBoundsException(), ArithmeticException(), ClassCastException())
         runSinglePopRandomTest(exceptionSet, exceptionSet.toMutableSet(), mutableSetOf())
