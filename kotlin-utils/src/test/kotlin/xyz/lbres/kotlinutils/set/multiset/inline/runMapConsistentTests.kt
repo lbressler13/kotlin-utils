@@ -77,10 +77,12 @@ internal fun runMapConsistentTests() {
         modString += "1"
         modString
     }
-    val modOption1 = listOf("1", "1", "1", "11", "111")
-    val modOption2 = listOf("1", "11", "11", "11", "111")
-    val modOption3 = listOf("1", "11", "111", "111", "111")
-    assertEqualsAnyOf(listOf(modOption1, modOption2, modOption3), intSet.mapConsistent(modMap))
+    val resultOptions = listOf(
+        listOf("1", "1", "1", "11", "111"),
+        listOf("1", "11", "11", "11", "111"),
+        listOf("1", "11", "111", "111", "111")
+    )
+    assertEqualsAnyOf(resultOptions, intSet.mapConsistent(modMap))
 }
 
 internal fun runMapToSetConsistentTests() {
@@ -149,8 +151,10 @@ internal fun runMapToSetConsistentTests() {
         modString += "1"
         modString
     }
-    val modOption1 = multiSetOf("1", "1", "1", "11", "111")
-    val modOption2 = multiSetOf("1", "11", "11", "11", "111")
-    val modOption3 = multiSetOf("1", "11", "111", "111", "111")
-    assertEqualsAnyOf(listOf(modOption1, modOption2, modOption3), intSet.mapToSetConsistent(modMap))
+    val resultOptions = listOf(
+        multiSetOf("1", "1", "1", "11", "111"),
+        multiSetOf("1", "11", "11", "11", "111"),
+        multiSetOf("1", "11", "111", "111", "111")
+    )
+    assertEqualsAnyOf(resultOptions, intSet.mapToSetConsistent(modMap))
 }

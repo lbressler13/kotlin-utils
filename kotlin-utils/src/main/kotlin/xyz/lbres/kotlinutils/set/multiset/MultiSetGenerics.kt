@@ -1,9 +1,10 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Generic MultiSet plus implementation that can be applied to any two MultiSets.
+ * Generic [MultiSet.plus] implementation that can be applied to any two MultiSets.
  *
  * @param multiSet1 [MultiSet]<E>: first MultiSet in addition
  * @param multiSet2 [MultiSet]<E>: first MultiSet in addition
@@ -22,7 +23,7 @@ internal fun <E> genericMultiSetPlus(multiSet1: MultiSet<E>, multiSet2: MultiSet
 }
 
 /**
- * Generic MultiSet minus implementation that can be applied to any two MultiSets.
+ * Generic [MultiSet.minus] implementation that can be applied to any two MultiSets.
  *
  * @param multiSet1 [MultiSet]<E>: first MultiSet in subtraction
  * @param multiSet2 [MultiSet]<E>: first MultiSet in subtraction
@@ -33,7 +34,7 @@ internal fun <E> genericMultiSetMinus(multiSet1: MultiSet<E>, multiSet2: MultiSe
     val distinctValues = multiSet1.distinctValues + multiSet2.distinctValues
 
     distinctValues.forEach { element ->
-        val totalCount = multiSet1.getCountOf(element) - multiSet2.getCountOf(element)
+        val totalCount = max(0, multiSet1.getCountOf(element) - multiSet2.getCountOf(element))
         repeat(totalCount) { newSet.add(element) }
     }
 
@@ -41,10 +42,10 @@ internal fun <E> genericMultiSetMinus(multiSet1: MultiSet<E>, multiSet2: MultiSe
 }
 
 /**
- * Generic MultiSet intersect implementation that can be applied to any two MultiSets.
+ * Generic [MultiSet.intersect] implementation that can be applied to any two MultiSets.
  *
- * @param multiSet1 [MultiSet]<E>: first MultiSet in intersect
- * @param multiSet2 [MultiSet]<E>: first MultiSet in intersect
+ * @param multiSet1 [MultiSet]<E>: first MultiSet in intersection
+ * @param multiSet2 [MultiSet]<E>: first MultiSet in intersection
  * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
  */
 internal fun <E> genericMultiSetIntersect(multiSet1: MultiSet<E>, multiSet2: MultiSet<E>): MultiSet<E> {

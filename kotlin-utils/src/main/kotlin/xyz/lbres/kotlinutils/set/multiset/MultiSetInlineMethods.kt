@@ -186,8 +186,7 @@ inline fun <E> MultiSet<E>.filterNotToSetConsistent(predicate: (E) -> Boolean): 
 }
 
 /**
- * Returns `true` if at least one element matches the given [predicate].
- * Returns `false` if MultiSet is empty.
+ * Determine if at least one element matches the given [predicate].
  * Requires a [predicate] function that returns the same value for every occurrence of an element.
  * To use a function that does not return the same value for every occurrence, see [any].
  *
@@ -199,8 +198,7 @@ inline fun <E> MultiSet<E>.anyConsistent(predicate: (E) -> Boolean): Boolean {
 }
 
 /**
- * Returns `true` if all elements match the given [predicate].
- * Returns `true` if MultiSet is empty.
+ * Determine if all elements match the given [predicate].
  * Requires a [predicate] function that returns the same value for every occurrence of an element.
  * To use a function that does not return the same value for every occurrence, see [all].
  *
@@ -212,8 +210,7 @@ inline fun <E> MultiSet<E>.allConsistent(predicate: (E) -> Boolean): Boolean {
 }
 
 /**
- * Returns `true` if no element matches the given [predicate].
- * Returns `true` if MultiSet is empty.
+ * Determine if no element matches the given [predicate].
  * Requires a [predicate] function that returns the same value for every occurrence of an element.
  * To use a function that does not return the same value for every occurrence, see [none].
  *

@@ -17,9 +17,9 @@ internal class TestMutableMultiSet<E>(collection: Collection<E>) : MutableMultiS
     override fun isEmpty(): Boolean = list.isEmpty()
     override fun iterator(): MutableIterator<E> = list.iterator()
     override fun getCountOf(element: E): Int = list.count { it == element }
-    override fun minus(other: MultiSet<E>): MultiSet<E> = MultiSet.defaultMinus(this, other)
-    override fun plus(other: MultiSet<E>): MultiSet<E> = MultiSet.defaultPlus(this, other)
-    override fun intersect(other: MultiSet<E>): MultiSet<E> = MultiSet.defaultIntersect(this, other)
+    override fun minus(other: MultiSet<E>): MultiSet<E> = MultiSet.genericMinus(this, other)
+    override fun plus(other: MultiSet<E>): MultiSet<E> = MultiSet.genericPlus(this, other)
+    override fun intersect(other: MultiSet<E>): MultiSet<E> = MultiSet.genericIntersect(this, other)
     override fun add(element: E): Boolean = list.add(element)
     override fun addAll(elements: Collection<E>): Boolean = list.addAll(elements)
     override fun clear() = list.clear()

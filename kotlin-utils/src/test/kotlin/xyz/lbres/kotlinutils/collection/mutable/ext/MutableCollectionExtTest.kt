@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.collection.mutable.ext
 
+import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.list.mutablelist.ext.popRandom
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
@@ -21,24 +22,10 @@ internal class MutableCollectionExtTest {
         assertTrue(multiSet.isEmpty())
 
         multiSet = mutableMultiSetOf(-1, 1, 2, 2, 2, 3, 3)
-        val multiSetCopy = mutableMultiSetOf(-1, 1, 2, 2, 2, 3, 3)
-        val resultMultiSet = mutableMultiSetOf<Int>()
-        repeat(multiSet.size) {
-            val result = multiSetCopy.popRandom()
-            assertNotNull(result)
-            resultMultiSet.add(result)
-        }
-        assertEquals(multiSet, resultMultiSet)
+        runSinglePopRandomTest(multiSet, multiSet.toMutableMultiSet(), mutableMultiSetOf())
 
         val listMultiSet: MutableMultiSet<List<Comparable<*>>> = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf("7"), listOf("7"), listOf("7"))
-        val listMultiSetCopy: MutableMultiSet<List<Comparable<*>>> = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf("7"), listOf("7"), listOf("7"))
-        val resultListMultiSet: MutableMultiSet<List<Comparable<*>>> = mutableMultiSetOf()
-        repeat(listMultiSet.size) {
-            val result = listMultiSetCopy.popRandom()
-            assertNotNull(result)
-            resultListMultiSet.add(result)
-        }
-        assertEquals(listMultiSet, resultListMultiSet)
+        runSinglePopRandomTest(listMultiSet, listMultiSet.toMutableMultiSet(), mutableMultiSetOf())
 
         var set = mutableSetOf<String>()
         assertNull(set.popRandom())
@@ -48,49 +35,43 @@ internal class MutableCollectionExtTest {
         assertNull(set.popRandom())
 
         set = mutableSetOf("123", "456", "789")
-        val setCopy = mutableSetOf("123", "456", "789")
-        val resultSet = mutableSetOf<String>()
-        repeat(set.size) {
-            val result = setCopy.popRandom()
-            assertNotNull(result)
-            resultSet.add(result)
-        }
-        assertEquals(set, resultSet)
+        runSinglePopRandomTest(set, set.toMutableSet(), mutableSetOf()) { coll1, coll2 -> assertEquals(coll1, coll2) }
 
-        val e1 = IndexOutOfBoundsException()
-        val e2 = ArithmeticException()
-        val e3 = ClassCastException()
-        val exceptionSet = mutableSetOf(e1, e2, e3)
-        val exceptionSetCopy = mutableSetOf(e1, e2, e3)
-        val resultExceptionSet = mutableSetOf<RuntimeException>()
-        repeat(exceptionSet.size) {
-            val result = exceptionSetCopy.popRandom()
-            assertNotNull(result)
-            resultExceptionSet.add(result)
-        }
-        assertEquals(exceptionSet, resultExceptionSet)
+        val exceptionSet = mutableSetOf(IndexOutOfBoundsException(), ArithmeticException(), ClassCastException())
+        runSinglePopRandomTest(exceptionSet, exceptionSet.toMutableSet(), mutableSetOf())
 
         var list = mutableListOf<String>()
         assertNull(list.popRandom())
 
         list = mutableListOf("123", "456")
-        var listCopy = mutableListOf("123", "456")
-        var resultList = mutableListOf<String>()
-        repeat(list.size) {
-            val result = listCopy.popRandom()
-            assertNotNull(result)
-            resultList.add(result)
-        }
-        assertEquals(list.sorted(), resultList.sorted())
+        runSinglePopRandomTest(list, list.toMutableList(), mutableListOf()) { coll1, coll2 -> assertEquals(coll1.sorted(), coll2.sorted()) }
 
         list = mutableListOf("1", "1", "1", "2")
-        listCopy = mutableListOf("1", "1", "1", "2")
-        resultList = mutableListOf()
-        repeat(list.size) {
-            val result = listCopy.popRandom()
-            assertNotNull(result)
-            resultList.add(result)
-        }
-        assertEquals(list.sorted(), resultList.sorted())
+        runSinglePopRandomTest(list, list.toMutableList(), mutableListOf()) { coll1, coll2 -> assertEquals(coll1.sorted(), coll2.sorted()) }
     }
+}
+
+/**
+ * Run a single pop random test
+ *
+ * @param values [MutableCollection]<T>: values in collection
+ * @param copy [MutableCollection]<T>: copy of [values]
+ * @param results [MutableCollection]<T>: collection to store popped values. Expected to be empty
+ * @param equalityAssertion (MutableCollection<T>, MutableCollection<T>) -> Unit: assertion to validate that values and results are equal.
+ * Defaults to [assertEquals].
+ */
+private fun <T> runSinglePopRandomTest(
+    values: MutableCollection<T>,
+    copy: MutableCollection<T>,
+    results: MutableCollection<T>,
+    equalityAssertion: (MutableCollection<T>, MutableCollection<T>) -> Unit = { coll1, coll2 -> assertEquals(coll1, coll2) }
+) {
+    repeat(values.size) {
+        val result = copy.popRandom()
+        assertNotNull(result)
+        results.add(result)
+    }
+
+    equalityAssertion(values, results)
+    assertNull(copy.popRandom())
 }

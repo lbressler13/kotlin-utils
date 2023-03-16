@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.int.ext.isZero
 import kotlin.math.min
 
@@ -218,7 +217,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return true
         }
 
-        val newSet = elements.toMutableMultiSet()
+        val newSet = MultiSetImpl(elements) // less overhead than creating a MutableMultiSet
         return newSet.distinctValues.all {
             getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
         }
@@ -327,14 +326,13 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
-            val otherCounts = if (other is MutableMultiSetImpl<*>) {
-                other.countsMap
-            } else {
-                // less efficient method of getting counts
-                other.distinctValues.associateWith { other.getCountOf(it) }
+            if (other is MutableMultiSetImpl<*>) {
+                return countsMap == other.countsMap
             }
 
-            countsMap == otherCounts
+            // less efficient equality check
+            val otherDistinct = other.distinctValues
+            return distinctValues == otherDistinct && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
         } catch (_: Exception) {
             false
         }

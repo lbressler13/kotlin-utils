@@ -59,7 +59,7 @@ internal fun runAllConsistentTests() {
 
     assertFalse { listSet.allConsistent { it.contains(6) } }
 
-    // allConsistent
+    // all
     assertTrue { intSet.allConsistent { true } }
     assertTrue { intSet.allConsistent { it in 1..7 } }
 

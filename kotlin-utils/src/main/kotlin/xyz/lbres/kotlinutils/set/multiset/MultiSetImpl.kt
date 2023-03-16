@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import kotlin.math.min
 
 /**
@@ -82,7 +81,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             return true
         }
 
-        val newSet = elements.toMultiSet()
+        val newSet = MultiSetImpl(elements)
         return newSet.distinctValues.all {
             getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
         }
@@ -155,10 +154,10 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     override fun getCountOf(element: E): Int = countsMap.getOrDefault(element, 0)
 
     /**
-     * If two ImmutableMultiSets contain the same elements, with the same number of occurrences per element.
+     * If two MultiSets contain the same elements, with the same number of occurrences per element.
      *
      * @param other [Any]?
-     * @return [Boolean]: `true` if [other] is a non-null ImmutableMultiSet which contains the same values as the current set, `false` otherwise
+     * @return [Boolean]: `true` if [other] is a non-null MultiSet which contains the same values as the current set, `false` otherwise
      */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is MultiSet<*>) {
@@ -169,14 +168,13 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
-            val otherCounts = if (other is MultiSetImpl<*>) {
-                other.countsMap
-            } else {
-                // less efficient method of getting counts
-                other.distinctValues.associateWith { other.getCountOf(it) }
+            if (other is MultiSetImpl<*>) {
+                return countsMap == other.countsMap
             }
 
-            countsMap == otherCounts
+            // less efficient equality check
+            val otherDistinct = other.distinctValues
+            return distinctValues == otherDistinct && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
         } catch (_: Exception) {
             false
         }
@@ -202,7 +200,10 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      *
      * @return [Iterator]<E>
      */
-    override fun iterator(): Iterator<E> = initialElements.iterator()
+    override fun iterator(): Iterator<E> {
+        // new iterator
+        return initialElements.toList().iterator()
+    }
 
     /**
      * Get a string representation of the set.

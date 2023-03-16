@@ -9,5 +9,5 @@ package xyz.lbres.kotlinutils.classes.labelled
 
 private const val packageName = "xyz.lbres.kotlinutils.general.labelled"
 
-@Deprecated("Class moved to package $packageName.", ReplaceWith("$packageName.Labelled", "$packageName.Labelled"), DeprecationLevel.ERROR)
+@Deprecated("Class moved to package $packageName.", ReplaceWith("$packageName.Labelled", "$packageName.Labelled"), DeprecationLevel.WARNING)
 data class Labelled<T>(val value: T, val label: String)
