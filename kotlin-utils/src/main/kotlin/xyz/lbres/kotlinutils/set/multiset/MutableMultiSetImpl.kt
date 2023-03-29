@@ -144,7 +144,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * If [elements] contains a single occurrence of a value, only one occurrence of the value will be removed from the set.
      * If there are multiple occurrences, the value will be removed multiple times.
      *
-     * @param elements [Collection<E>]
+     * @param elements [Collection]<E>
      * @return [Boolean]: true if any elements have been removed successfully, false otherwise
      */
     override fun removeAll(elements: Collection<E>): Boolean {

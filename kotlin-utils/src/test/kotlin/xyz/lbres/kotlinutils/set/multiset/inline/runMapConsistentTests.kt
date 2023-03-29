@@ -11,6 +11,22 @@ private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
 
+private val helloWorldMap: (String) -> String = {
+    when (it) {
+        "hello", "hi" -> "greetings"
+        "world" -> "planet"
+        "goodbye" -> "farewell"
+        else -> "leave this planet"
+    }
+}
+private val shortenListMap: (IntList) -> IntList = {
+    if (it.size > 1) {
+        it.copyWithoutLast()
+    } else {
+        it
+    }
+}
+
 internal fun runMapConsistentTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyList<Int>()
@@ -27,14 +43,6 @@ internal fun runMapConsistentTests() {
     assertEquals(expectedString, intSet.mapConsistent { (it - 1).toString() }.sortedBy { it.toInt() })
 
     var stringSet = multiSetOf("hello", "world", "goodbye", "world", "hello", "hi", "world", "wrong")
-    val helloWorldMap: (String) -> String = {
-        when (it) {
-            "hello", "hi" -> "greetings"
-            "world" -> "planet"
-            "goodbye" -> "farewell"
-            else -> "leave this planet"
-        }
-    }
     expectedString = listOf("greetings", "planet", "farewell", "planet", "greetings", "greetings", "planet", "leave this planet")
     assertEquals(expectedString.sorted(), stringSet.mapConsistent { helloWorldMap(it) }.sorted())
 
@@ -61,14 +69,7 @@ internal fun runMapConsistentTests() {
 
     val listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf(7), listOf(7), listOf(7))
     val expectedList = listOf(listOf(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
-    val listMap: (IntList) -> IntList = {
-        if (it.size > 1) {
-            it.copyWithoutLast()
-        } else {
-            it
-        }
-    }
-    assertEquals(expectedList, listSet.mapConsistent(listMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
+    assertEquals(expectedList, listSet.mapConsistent(shortenListMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
 
     // modified
     var modString = ""
@@ -101,14 +102,6 @@ internal fun runMapToSetConsistentTests() {
     assertEquals(expectedString, intSet.mapToSetConsistent { (it - 1).toString() })
 
     var stringSet = multiSetOf("hello", "world", "goodbye", "world", "hello", "hi", "world", "wrong")
-    val helloWorldMap: (String) -> String = {
-        when (it) {
-            "hello", "hi" -> "greetings"
-            "world" -> "planet"
-            "goodbye" -> "farewell"
-            else -> "leave this planet"
-        }
-    }
     expectedString = multiSetOf("greetings", "planet", "farewell", "planet", "greetings", "greetings", "planet", "leave this planet")
     assertEquals(expectedString, stringSet.mapToSetConsistent { helloWorldMap(it) })
 
@@ -135,14 +128,7 @@ internal fun runMapToSetConsistentTests() {
 
     val listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf(7), listOf(7), listOf(7))
     val expectedList = multiSetOf(listOf(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
-    val listMap: (IntList) -> IntList = {
-        if (it.size > 1) {
-            it.copyWithoutLast()
-        } else {
-            it
-        }
-    }
-    assertEquals(expectedList, listSet.mapToSetConsistent(listMap))
+    assertEquals(expectedList, listSet.mapToSetConsistent(shortenListMap))
 
     // modified
     var modString = ""

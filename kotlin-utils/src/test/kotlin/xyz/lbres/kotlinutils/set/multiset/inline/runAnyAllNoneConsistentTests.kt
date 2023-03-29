@@ -32,18 +32,18 @@ internal fun runAnyConsistentTests() {
 
     // modified
     var previous4 = false
-    assertFalse {
-        intSet.anyConsistent {
-            when {
-                it == 4 && !previous4 -> {
-                    previous4 = true
-                    false
-                }
-                it == 4 -> true
-                else -> false
+    val modifiedFn: (Int) -> Boolean = {
+        when {
+            it == 4 && !previous4 -> {
+                previous4 = true
+                false
             }
+            it == 4 -> true
+            else -> false
         }
     }
+    assertFalse(intSet.anyConsistent(modifiedFn))
+    assertTrue(intSet.any(modifiedFn))
 }
 
 internal fun runAllConsistentTests() {
@@ -73,18 +73,18 @@ internal fun runAllConsistentTests() {
 
     // modified
     var no4 = true
-    assertTrue {
-        intSet.allConsistent {
-            when {
-                it == 4 && no4 -> {
-                    no4 = false
-                    true
-                }
-                it == 4 -> false
-                else -> true
+    val modifiedFn: (Int) -> Boolean = {
+        when {
+            it == 4 && no4 -> {
+                no4 = false
+                true
             }
+            it == 4 -> false
+            else -> true
         }
     }
+    assertTrue(intSet.allConsistent(modifiedFn))
+    assertFalse(intSet.all(modifiedFn))
 }
 
 internal fun runNoneConsistentTests() {
@@ -114,16 +114,16 @@ internal fun runNoneConsistentTests() {
 
     // modified
     var previous4 = false
-    assertTrue {
-        intSet.noneConsistent {
-            when {
-                it == 4 && !previous4 -> {
-                    previous4 = true
-                    false
-                }
-                it == 4 -> true
-                else -> false
+    val modifiedFn: (Int) -> Boolean = {
+        when {
+            it == 4 && !previous4 -> {
+                previous4 = true
+                false
             }
+            it == 4 -> true
+            else -> false
         }
     }
+    assertTrue(intSet.noneConsistent(modifiedFn))
+    assertFalse(intSet.none(modifiedFn))
 }

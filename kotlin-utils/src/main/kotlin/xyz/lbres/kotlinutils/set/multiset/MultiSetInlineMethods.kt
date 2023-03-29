@@ -137,6 +137,7 @@ inline fun <E, T> MultiSet<E>.mapToSetConsistent(transform: (E) -> T): MultiSet<
 
     return newSet
 }
+
 /**
  * Create a new MultiSet containing only elements that match the given predicate.
  * Requires a [predicate] function that returns the same value for every occurrence of an element.
@@ -191,7 +192,7 @@ inline fun <E> MultiSet<E>.filterNotToSetConsistent(predicate: (E) -> Boolean): 
  * To use a function that does not return the same value for every occurrence, see [any].
  *
  * @param predicate (E) -> [Boolean]: function which returns the same value for every occurrence of an element
- * @return [Boolean]: `true` if the MultiSet is non-empty and at least one element matches the predicate, `false` otherwise
+ * @return [Boolean]: `true` if the MultiSet is non-empty and at least one element matches the predicate, or `false` otherwise
  */
 inline fun <E> MultiSet<E>.anyConsistent(predicate: (E) -> Boolean): Boolean {
     return distinctValues.any(predicate)
@@ -203,7 +204,7 @@ inline fun <E> MultiSet<E>.anyConsistent(predicate: (E) -> Boolean): Boolean {
  * To use a function that does not return the same value for every occurrence, see [all].
  *
  * @param predicate (E) -> [Boolean]: function which returns the same value for every occurrence of an element
- * @return [Boolean]: `true` if the MultiSet is empty or all elements match the predicate, `false` otherwise
+ * @return [Boolean]: `true` if the MultiSet is empty or all elements match the predicate, or `false` otherwise
  */
 inline fun <E> MultiSet<E>.allConsistent(predicate: (E) -> Boolean): Boolean {
     return distinctValues.all(predicate)
@@ -215,7 +216,7 @@ inline fun <E> MultiSet<E>.allConsistent(predicate: (E) -> Boolean): Boolean {
  * To use a function that does not return the same value for every occurrence, see [none].
  *
  * @param predicate (E) -> [Boolean]: function which returns the same value for every occurrence of an element
- * @return [Boolean]: `true` if the MultiSet is empty or no elements match the predicate, `false` otherwise
+ * @return [Boolean]: `true` if the MultiSet is empty or no elements match the predicate, or `false` otherwise
  */
 inline fun <E> MultiSet<E>.noneConsistent(predicate: (E) -> Boolean): Boolean {
     return distinctValues.none(predicate)
@@ -223,7 +224,6 @@ inline fun <E> MultiSet<E>.noneConsistent(predicate: (E) -> Boolean): Boolean {
 
 /**
  * Returns an element yielding the smallest value of the given function or `null` if there are no elements.
- * May not always return the same element if there are multiple elements which yield the smallest value.
  * Requires a [selector] function that returns the same value for every occurrence of an element.
  * To use a function that does not return the same value for every occurrence, see [minByOrNull].
  *
@@ -240,7 +240,6 @@ inline fun <E, R : Comparable<R>> MultiSet<E>.minByOrNullConsistent(selector: (E
 
 /**
  * Returns an element yielding the largest value of the given function or `null` if there are no elements.
- * May not always return the same element if there are multiple elements which yield the largest value.
  * Requires a [selector] function that returns the same value for every occurrence of an element.
  * To use a function that does not return the same value for every occurrence, see [maxByOrNull].
  *

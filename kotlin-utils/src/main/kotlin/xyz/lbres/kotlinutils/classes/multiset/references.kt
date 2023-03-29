@@ -10,28 +10,28 @@ private const val functionMessage = "Function moved to package $packageName."
 private const val interfaceMessage = "Interface moved to package $packageName."
 
 @Deprecated(interfaceMessage, ReplaceWith("$packageName.MultiSet", "$packageName.MultiSet"), DeprecationLevel.WARNING)
-interface MultiSet<E> : Collection<E> {
-    val distinctValues: Set<E>
-    fun getCountOf(element: E): Int
+interface MultiSet<E> : xyz.lbres.kotlinutils.set.multiset.MultiSet<E> {
+    override val distinctValues: Set<E>
+    override fun getCountOf(element: E): Int
     operator fun minus(other: MultiSet<E>): MultiSet<E>
     operator fun plus(other: MultiSet<E>): MultiSet<E>
     infix fun intersect(other: MultiSet<E>): MultiSet<E>
 }
 
 @Deprecated(interfaceMessage, ReplaceWith("$packageName.MutableMultiSet", "$packageName.MutableMultiSet"), DeprecationLevel.WARNING)
-interface MutableMultiSet<E> : MultiSet<E>, MutableCollection<E>
+interface MutableMultiSet<E> : xyz.lbres.kotlinutils.set.multiset.MutableMultiSet<E>
 
 @Deprecated(functionMessage, ReplaceWith("$packageName.multiSetOf(elements)", "$packageName.multiSetOf"), DeprecationLevel.WARNING)
-fun <E> multiSetOf(vararg elements: E): xyz.lbres.kotlinutils.set.multiset.MultiSet<E> = xyz.lbres.kotlinutils.set.multiset.multiSetOf(*elements)
+fun <E> multiSetOf(vararg elements: E): MultiSet<E> = xyz.lbres.kotlinutils.set.multiset.multiSetOf(*elements) as MultiSet
 
 @Deprecated(functionMessage, ReplaceWith("$packageName.mutableMultiSetOf(elements)", "$packageName.mutableMultiSetOf"), DeprecationLevel.WARNING)
-fun <E> mutableMultiSetOf(vararg elements: E): xyz.lbres.kotlinutils.set.multiset.MutableMultiSet<E> = xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf(*elements)
+fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf(*elements) as MutableMultiSet
 
 @Deprecated(functionMessage, ReplaceWith("$packageName.emptyMultiSet()", "$packageName.emptyMultiSet"), DeprecationLevel.WARNING)
-fun <E> emptyMultiSet(): xyz.lbres.kotlinutils.set.multiset.MultiSet<E> = xyz.lbres.kotlinutils.set.multiset.emptyMultiSet()
+fun <E> emptyMultiSet(): MultiSet<E> = xyz.lbres.kotlinutils.set.multiset.emptyMultiSet<E>() as MultiSet
 
 @Deprecated(functionMessage, ReplaceWith("$packageName.MultiSet(size, init)", "$packageName.MultiSet"), DeprecationLevel.WARNING)
-fun <E> MultiSet(size: Int, init: (Int) -> E): xyz.lbres.kotlinutils.set.multiset.MultiSet<E> = xyz.lbres.kotlinutils.set.multiset.MultiSet(size, init)
+fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = xyz.lbres.kotlinutils.set.multiset.MultiSet(size, init) as MultiSet
 
 @Deprecated(functionMessage, ReplaceWith("$packageName.MutableMultiSet(size, init)", "$packageName.MutableMultiSet"), DeprecationLevel.WARNING)
-fun <E> MutableMultiSet(size: Int, init: (Int) -> E): xyz.lbres.kotlinutils.set.multiset.MutableMultiSet<E> = xyz.lbres.kotlinutils.set.multiset.MutableMultiSet(size, init)
+fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = xyz.lbres.kotlinutils.set.multiset.MutableMultiSet(size, init) as MutableMultiSet
