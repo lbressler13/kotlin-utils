@@ -7,26 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 /**
- * Perform a random action repeatedly, checking to ensure that the result was randomized at least once.
- * Any other assertions about result should be contained in the random action.
- *
- * @param randomAction [() -> T]: randomized action to perform, which generates result
- * @param randomCheck [(T) -> Boolean]: check that result was randomized
- */
-internal fun <T> runRandomTest(randomAction: () -> T, randomCheck: (T) -> Boolean) {
-    var checkPassed = false
-
-    repeat(20) {
-        val result = randomAction()
-        if (randomCheck(result)) {
-            checkPassed = true
-        }
-    }
-
-    assertTrue(checkPassed)
-}
-
-/**
  * Perform a random action repeatedly and collect the results, and check that the distribution of results matches the given weights for the items.
  *
  * @param weightedItems [WeightedList]: items and their weights
@@ -64,5 +44,29 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
                 assertTrue(result.second in (minMatch..maxMatch))
             }
         }
+    }
+}
+
+/**
+ * Assert that a value matches any of the provided options
+ *
+ * @param expectedOptions [List]<T>: list of possible allowed results
+ * @param actual [T]: the actual value
+ */
+internal fun <T> assertEqualsAnyOf(expectedOptions: List<T>, actual: T) {
+    assertTrue { expectedOptions.any { it == actual } }
+}
+
+/**
+ * Run a test, with one retry in the event of failure.
+ * Can be used for tests with a small but non-zero possibility of failure due to randomization.
+ *
+ * @param test () -> [Unit]: test to run
+ */
+internal fun runTestWithRetry(test: () -> Unit) {
+    try {
+        test()
+    } catch (_: Throwable) {
+        test()
     }
 }

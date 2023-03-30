@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.int.ext.isZero
-import kotlin.math.max
 import kotlin.math.min
 
 /**
@@ -9,15 +8,15 @@ import kotlin.math.min
  */
 internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
-     * Number of elements in set. References a mutable variable.
+     * Number of elements in set.
      */
     override val size: Int
-        get() = storedSize
+        get() = _size
 
     /**
      * Mutable variable to store number of elements in the set.
      */
-    private var storedSize: Int
+    private var _size: Int
 
     /**
      * All distinct values contained in the MultiSet, without any counts
@@ -35,7 +34,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * A list containing all elements in the set.
      * Values may not be up-to-date with [countsMap], and are updated only when needed to avoid frequent expensive operations.
      */
-    private val list: MutableList<E>
+    private var list: List<E>
 
     /**
      * Flag to indicate if the elements in the list are up-to-date with the current [countsMap].
@@ -51,7 +50,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Initialize stored variables from a collection of values.
      */
     constructor(elements: Collection<E>) {
-        storedSize = elements.size
+        _size = elements.size
         countsMap = mutableMapOf()
 
         for (element in elements) {
@@ -59,7 +58,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         }
 
         // string and list are initialized in updateList
-        list = mutableListOf()
+        list = emptyList()
         string = ""
         updateList()
     }
@@ -69,10 +68,10 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      */
     private constructor(counts: Map<E, Int>) {
         countsMap = counts.toMutableMap()
-        storedSize = counts.values.fold(0, Int::plus)
+        _size = counts.values.fold(0, Int::plus)
 
         // string and list are initialized in updateList
-        list = mutableListOf()
+        list = emptyList()
         string = ""
         updateList()
     }
@@ -85,7 +84,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      */
     override fun add(element: E): Boolean {
         countsMap[element] = getCountOf(element) + 1
-        storedSize++
+        _size++
         listUpdated = false
         return true
     }
@@ -94,7 +93,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Add all specified elements to the set.
      * If [elements] contains multiple occurrences of the same value, the value will be added multiple times.
      *
-     * @param elements [Collection<E>]
+     * @param elements [Collection]<E>
      * @return [Boolean]: true if any elements have been added successfully, false otherwise
      */
     override fun addAll(elements: Collection<E>): Boolean {
@@ -117,7 +116,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     override fun clear() {
         countsMap.clear()
         listUpdated = false
-        storedSize = 0
+        _size = 0
     }
 
     /**
@@ -136,7 +135,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         }
 
         listUpdated = false
-        storedSize--
+        _size--
         return true
     }
 
@@ -145,7 +144,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * If [elements] contains a single occurrence of a value, only one occurrence of the value will be removed from the set.
      * If there are multiple occurrences, the value will be removed multiple times.
      *
-     * @param elements [Collection<E>]
+     * @param elements [Collection]<E>
      * @return [Boolean]: true if any elements have been removed successfully, false otherwise
      */
     override fun removeAll(elements: Collection<E>): Boolean {
@@ -193,7 +192,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         }
 
         listUpdated = false
-        storedSize = countsMap.values.fold(0, Int::plus)
+        _size = countsMap.values.fold(0, Int::plus)
 
         return true
     }
@@ -218,23 +217,23 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return true
         }
 
-        val newSet = MutableMultiSetImpl(elements)
-        return newSet.countsMap.all { countsMap.contains(it.key) && it.value <= getCountOf(it.key) }
+        val newSet = MultiSetImpl(elements) // less overhead than creating a MutableMultiSetImpl
+        return newSet.distinctValues.all {
+            getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
+        }
     }
 
     /**
      * Create a new MultiSet with values that are in this set but not the other set.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: values to subtract from this MultiSet
-     * @return [MutableMultiSet]<[E]>: MultiSet containing the items in this MultiSet but not the other
+     * @param other [MultiSet]<E>: values to subtract from this MultiSet
+     * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        val newCounts = countsMap.keys.associateWith {
-            val count = getCountOf(it)
-            val otherCount = other.getCountOf(it)
-            max(count - otherCount, 0)
-        }.filter { it.value > 0 }.toMap()
+        val newCounts = distinctValues.associateWith {
+            getCountOf(it) - other.getCountOf(it)
+        }.filter { it.value > 0 }
 
         return MutableMultiSetImpl(newCounts)
     }
@@ -243,8 +242,8 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Create a new MultiSet with all values from both sets.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
-     * @param other [MultiSet]<[E]>: values to add to this MultiSet
-     * @return [MutableMultiSet]<[E]>: MultiSet containing all values from both MultiSets
+     * @param other [MultiSet]<E>: values to add to this MultiSet
+     * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
         val allValues = distinctValues + other.distinctValues
@@ -260,17 +259,17 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Create a new MultiSet with values that are shared between the sets.
      * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
      *
-     * @param other [MultiSet]<[E]>: values to intersect with the MultiSet
-     * @return [MutableMultiSet]<[E]>: MultiSet containing only values that are in both MultiSets
+     * @param other [MultiSet]<E>: values to intersect with the MultiSet
+     * @return [MutableMultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
-    override fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
+    override infix fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
             val count = getCountOf(it)
             val otherCount = other.getCountOf(it)
             min(count, otherCount)
-        }.filter { it.value > 0 }.toMap()
+        }.filter { it.value > 0 }
 
         return MutableMultiSetImpl(newCounts)
     }
@@ -280,12 +279,10 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      */
     private fun updateList() {
         if (!listUpdated) {
-            list.clear()
-
-            countsMap.forEach {
+            list = countsMap.flatMap {
                 val element = it.key
                 val count = it.value
-                repeat(count) { list.add(element) }
+                List(count) { element }
             }
 
             listUpdated = true
@@ -304,7 +301,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      *
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
-    override fun isEmpty(): Boolean = storedSize.isZero()
+    override fun isEmpty(): Boolean = _size.isZero()
 
     /**
      * Get the number of occurrences of a given element.
@@ -317,7 +314,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
      * If two MutableMultiSets contain the same elements, with the same number of occurrences per element.
      *
-     * @param other [Any?]
+     * @param other [Any]?
      * @return [Boolean]: true if [other] is a non-null MultiSet which contains the same values as the current set, false otherwise
      */
     override fun equals(other: Any?): Boolean {
@@ -326,9 +323,17 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         }
 
         return try {
+            @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
-            return minus(other).distinctValues.isEmpty() && other.minus(this).distinctValues.isEmpty()
-        } catch (e: Exception) {
+
+            if (other is MutableMultiSetImpl<*>) {
+                return countsMap == other.countsMap
+            }
+
+            // less efficient equality check
+            val otherDistinct = other.distinctValues
+            return distinctValues == otherDistinct && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
+        } catch (_: Exception) {
             false
         }
     }
@@ -336,11 +341,11 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
      * Get an iterator for the elements in this set.
      *
-     * @return [Iterator<E>]
+     * @return [Iterator]<E>
      */
     override fun iterator(): MutableIterator<E> {
         updateList()
-        return list.iterator()
+        return list.toMutableList().iterator()
     }
 
     /**
