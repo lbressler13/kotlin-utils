@@ -10,13 +10,7 @@ private const val functionMessage = "Function moved to package $packageName."
 private const val interfaceMessage = "Interface moved to package $packageName."
 
 @Deprecated(interfaceMessage, ReplaceWith("$packageName.MultiSet", "$packageName.MultiSet"), DeprecationLevel.WARNING)
-interface MultiSet<E> : xyz.lbres.kotlinutils.set.multiset.MultiSet<E> {
-    override val distinctValues: Set<E>
-    override fun getCountOf(element: E): Int
-    operator fun minus(other: MultiSet<E>): MultiSet<E>
-    operator fun plus(other: MultiSet<E>): MultiSet<E>
-    infix fun intersect(other: MultiSet<E>): MultiSet<E>
-}
+interface MultiSet<E> : xyz.lbres.kotlinutils.set.multiset.MultiSet<E>
 
 @Deprecated(interfaceMessage, ReplaceWith("$packageName.MutableMultiSet", "$packageName.MutableMultiSet"), DeprecationLevel.WARNING)
 interface MutableMultiSet<E> : xyz.lbres.kotlinutils.set.multiset.MutableMultiSet<E>
