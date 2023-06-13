@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.map.mutable.ext
+package xyz.lbres.kotlinutils.map.mutablemap.ext
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 class MutableMapExtTest {
     @Test
     fun testSetAllValues() {
-        // TODO
         // empty map
         var intIntMap: MutableMap<Int, Int> = mutableMapOf()
         var intIntExpected: Map<Int, Int> = mapOf()

@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.intarray.ext
 
 /**
- * Assign all elements to have a given value
+ * Assign all indices to have the same value
  *
  * @param value [Int]: value to assign
  */

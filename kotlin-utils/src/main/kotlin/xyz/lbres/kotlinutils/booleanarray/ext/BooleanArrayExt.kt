@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.booleanarray.ext
 
 /**
- * Assign all elements to have a given value
+ * Assign all indices to have the same value
  *
  * @param value [Boolean]: value to assign
  */

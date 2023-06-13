@@ -1,7 +1,7 @@
-package xyz.lbres.kotlinutils.map.mutable.ext
+package xyz.lbres.kotlinutils.map.mutablemap.ext
 
 /**
- * Assign all elements to have a given value
+ * Assign all keys to have the same value
  *
  * @param value [T]: value to assign
  */

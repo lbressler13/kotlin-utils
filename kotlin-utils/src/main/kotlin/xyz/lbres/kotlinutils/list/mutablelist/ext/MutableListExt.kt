@@ -10,7 +10,7 @@ import xyz.lbres.kotlinutils.collection.mutable.ext.popRandom
 fun <T> MutableList<T>.popRandom(): T? = popRandom()
 
 /**
- * Assign all elements to have a given value
+ * Assign all indices to have the same value
  *
  * @param value [T]: value to assign
  */
