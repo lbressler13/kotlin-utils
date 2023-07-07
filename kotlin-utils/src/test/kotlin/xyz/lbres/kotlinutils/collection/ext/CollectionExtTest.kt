@@ -125,4 +125,9 @@ internal class CollectionExtTest {
         collection = listOf(1, 2, 3)
         assertTrue(collection.isNotNullOrEmpty())
     }
+
+    @Test
+    internal fun testCountElements() {
+        // TODO
+    }
 }

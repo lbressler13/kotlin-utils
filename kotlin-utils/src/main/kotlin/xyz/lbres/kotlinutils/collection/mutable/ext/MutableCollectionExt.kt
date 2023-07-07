@@ -14,3 +14,5 @@ fun <T> MutableCollection<T>.popRandom(): T? {
     remove(element)
     return element
 }
+
+// TODO popRandom with a seed
