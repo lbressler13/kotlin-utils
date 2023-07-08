@@ -15,9 +15,6 @@ internal class TestMultiSet<E>(collection: Collection<E>) : MultiSet<E> {
     override fun isEmpty(): Boolean = list.isEmpty()
     override fun iterator(): Iterator<E> = list.iterator()
     override fun getCountOf(element: E): Int = list.count { it == element }
-    override fun minus(other: MultiSet<E>): MultiSet<E> = MultiSet.genericMinus(this, other)
-    override fun plus(other: MultiSet<E>): MultiSet<E> = MultiSet.genericPlus(this, other)
-    override fun intersect(other: MultiSet<E>): MultiSet<E> = MultiSet.genericIntersect(this, other)
     override fun toString(): String = list.toString()
 
     override fun equals(other: Any?): Boolean {
