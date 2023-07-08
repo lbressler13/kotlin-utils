@@ -46,7 +46,7 @@ fun <E> Collection<E>?.isNotNullOrEmpty() = !this.isNullOrEmpty()
 /**
  * Get number of elements matching a specific value
  *
- * @param element [E]: element to count
+ * @param element [E]: value to match
  * @return [Int]: number of elements with the given value
  */
 fun <E> Collection<E>.countElement(element: E) = this.count { it == element }

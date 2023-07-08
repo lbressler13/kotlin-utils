@@ -10,7 +10,7 @@ fun BooleanArray.setAllValues(value: Boolean) {
 }
 
 /**
- * Determine if all array in collection are `true`
+ * Determine if all values in array are `true`
  *
  * @return [Boolean]: `true` if all values are set to `true`, `false` otherwise
  */

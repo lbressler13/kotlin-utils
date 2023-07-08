@@ -158,5 +158,11 @@ class CollectionExtTest {
         mlist1.clear()
         assertEquals(1, mutablesCollection.countElement(listOf(1, 2, 3)))
         assertEquals(1, mutablesCollection.countElement(emptyList()))
+
+        var nullableList = listOf(1, 2, null, 3, null)
+        assertEquals(2, nullableList.countElement(null))
+
+        nullableList = listOf(null, null, null, null)
+        assertEquals(4, nullableList.countElement(null))
     }
 }
