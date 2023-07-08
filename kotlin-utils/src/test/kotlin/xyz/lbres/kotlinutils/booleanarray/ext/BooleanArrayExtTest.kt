@@ -45,4 +45,9 @@ class BooleanArrayExtTest {
         array.setAllValues(true)
         assertContentEquals(expected, array)
     }
+
+    @Test
+    fun testAll() {
+        // TODO
+    }
 }

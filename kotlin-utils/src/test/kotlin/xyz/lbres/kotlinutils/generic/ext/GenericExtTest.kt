@@ -5,9 +5,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class GenericExtTest {
+class GenericExtTest {
     @Test
-    internal fun testIfNull() {
+    fun testIfNull() {
         var string: String? = "abc"
         var expectedStr = "abc"
         var resultStr = string.ifNull { "abcde" }

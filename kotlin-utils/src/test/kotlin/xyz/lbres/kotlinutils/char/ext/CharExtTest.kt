@@ -5,9 +5,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class CharExtTest {
+class CharExtTest {
     @Test
-    internal fun testIfZero() {
+    fun testIfZero() {
         val getValue = { Char(2) }
 
         var char = Char(0)
@@ -24,7 +24,7 @@ internal class CharExtTest {
     }
 
     @Test
-    internal fun testIsZero() {
+    fun testIsZero() {
         var char = Char(0)
         assertTrue(char.isZero())
 

@@ -6,7 +6,7 @@ import kotlin.test.assertTrue
 
 class ClosedRangeExtTest {
     @Test
-    internal fun testIsSingleValue() {
+    fun testIsSingleValue() {
         // Int
         // single value
         var rangeInt: IntRange = 0..0
@@ -84,7 +84,7 @@ class ClosedRangeExtTest {
     }
 
     @Test
-    internal fun testIsNotSingleValue() {
+    fun testIsNotSingleValue() {
         // Int
         // multiple values
         var rangeInt = 0..1

@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal fun runMutableIsEmptyTests() {
+fun runMutableIsEmptyTests() {
     // empty
     var intSet: MutableMultiSet<Int> = mutableMultiSetOf()
     assertTrue(intSet.isEmpty())
@@ -51,7 +51,7 @@ internal fun runMutableIsEmptyTests() {
     assertTrue(intSet.isEmpty())
 }
 
-internal fun runMutableGetCountOfTests() {
+fun runMutableGetCountOfTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
     var expected = 0
 

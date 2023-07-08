@@ -11,7 +11,7 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-internal fun runMutableMinusTests() {
+fun runMutableMinusTests() {
     // empty
     var intSet1 = mutableMultiSetOf<Int>()
     var intSet2 = mutableMultiSetOf<Int>()
@@ -113,7 +113,7 @@ internal fun runMutableMinusTests() {
     assertEquals(expectedInt, intSet1 - immutableOther)
 }
 
-internal fun runMutablePlusTests() {
+fun runMutablePlusTests() {
     // empty
     var intSet1 = emptyMultiSet<Int>()
     var intSet2 = emptyMultiSet<Int>()
@@ -168,7 +168,7 @@ internal fun runMutablePlusTests() {
     assertEquals(expected, intSet1 + immutable)
 }
 
-internal fun runMutableIntersectTests() {
+fun runMutableIntersectTests() {
     // empty
     var intSet1 = emptyMultiSet<Int>()
 
@@ -236,7 +236,7 @@ internal fun runMutableIntersectTests() {
     assertEquals(expectedInt, intSet1 intersect immutable)
 }
 
-internal fun runMutableEqualsTests() {
+fun runMutableEqualsTests() {
     // equals
     var set1: MutableMultiSet<Int> = mutableMultiSetOf()
     assertEquals(set1, set1)

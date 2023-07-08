@@ -5,9 +5,9 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class BigDecimalExtTest {
+class BigDecimalExtTest {
     @Test
-    internal fun testIsZero() {
+    fun testIsZero() {
         // zero
         var bd = BigDecimal.ZERO
         assertTrue(bd.isZero())
@@ -27,7 +27,7 @@ internal class BigDecimalExtTest {
     }
 
     @Test
-    internal fun testIsNegative() {
+    fun testIsNegative() {
         // zero
         var bd = BigDecimal.ZERO
         assertFalse(bd.isNegative())

@@ -6,7 +6,7 @@ import kotlin.test.assertFailsWith
 
 class CharRangeExtTest {
     @Test
-    internal fun testSize() {
+    fun testSize() {
         // single value
         var range: CharRange = Char(1)..Char(1)
         var expected = 1
@@ -24,7 +24,7 @@ class CharRangeExtTest {
     }
 
     @Test
-    internal fun testGet() {
+    fun testGet() {
         var range: CharRange = Char(0)..Char(0)
         assertFailsWith<IndexOutOfBoundsException> { range.get(1) }
         assertFailsWith<IndexOutOfBoundsException> { range.get(-1) }

@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class LongRangeUtilsTest {
     @Test
-    internal fun testRangeOfLong() {
+    fun testRangeOfLong() {
         var long = 0L
         var expected = 0L..0L
         assertEquals(expected, rangeOfLong(long))

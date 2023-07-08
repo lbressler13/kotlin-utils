@@ -27,7 +27,7 @@ private val shortenListMap: (IntList) -> IntList = {
     }
 }
 
-internal fun runMapConsistentTests() {
+fun runMapConsistentTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyList<Int>()
     assertEquals(expectedInt, intSet.mapConsistent { it * 2 }.sorted())
@@ -86,7 +86,7 @@ internal fun runMapConsistentTests() {
     assertEqualsAnyOf(resultOptions, intSet.mapConsistent(modMap))
 }
 
-internal fun runMapToSetConsistentTests() {
+fun runMapToSetConsistentTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyMultiSet<Int>()
     assertEquals(expectedInt, intSet.mapToSetConsistent { it * 2 })

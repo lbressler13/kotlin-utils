@@ -6,7 +6,7 @@ import kotlin.test.assertFailsWith
 
 class LongRangeExtTest {
     @Test
-    internal fun testSize() {
+    fun testSize() {
         // single value
         var range: LongRange = 1L..1L
         var expected: Long = 1
@@ -34,7 +34,7 @@ class LongRangeExtTest {
     }
 
     @Test
-    internal fun testGet() {
+    fun testGet() {
         var range: LongRange = 0L..0L
         assertFailsWith<IndexOutOfBoundsException> { range.get(1) }
         assertFailsWith<IndexOutOfBoundsException> { range.get(-1) }

@@ -9,9 +9,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class CollectionExtTest {
+class CollectionExtTest {
     @Test
-    internal fun testToMultiSet() {
+    fun testToMultiSet() {
         var collection: Collection<Int> = listOf()
         var expected: MultiSet<Int> = multiSetOf()
         assertEquals(expected, collection.toMultiSet())
@@ -37,7 +37,7 @@ internal class CollectionExtTest {
     }
 
     @Test
-    internal fun testToMutableMultiSet() {
+    fun testToMutableMultiSet() {
         var collection: Collection<Int> = listOf()
         var expected: MutableMultiSet<Int> = mutableMultiSetOf()
         assertEquals(expected, collection.toMutableMultiSet())
@@ -63,7 +63,7 @@ internal class CollectionExtTest {
     }
 
     @Test
-    internal fun testCountNull() {
+    fun testCountNull() {
         var collection: Collection<Int?> = listOf()
         var expected = 0
         assertEquals(expected, collection.countNull())
@@ -86,7 +86,7 @@ internal class CollectionExtTest {
     }
 
     @Test
-    internal fun testCountNotNull() {
+    fun testCountNotNull() {
         var collection: Collection<Int?> = listOf()
         var expected = 0
         assertEquals(expected, collection.countNotNull())
@@ -109,7 +109,7 @@ internal class CollectionExtTest {
     }
 
     @Test
-    internal fun testIsNotNullOrEmpty() {
+    fun testIsNotNullOrEmpty() {
         var collection: Collection<Int?>? = null
         assertFalse(collection.isNotNullOrEmpty())
 
@@ -127,7 +127,36 @@ internal class CollectionExtTest {
     }
 
     @Test
-    internal fun testCountElements() {
-        // TODO
+    fun testCountElements() {
+        var intCollection: Collection<Int> = emptyList()
+        assertEquals(0, intCollection.countElement(0))
+        assertEquals(0, intCollection.countElement(175))
+
+        intCollection = listOf(7)
+        assertEquals(1, intCollection.countElement(7))
+        assertEquals(0, intCollection.countElement(8))
+
+        intCollection = listOf(7, 7, 2, 2, 7, 8, 5, 7)
+        assertEquals(4, intCollection.countElement(7))
+        assertEquals(1, intCollection.countElement(8))
+
+        val mutableList = mutableListOf(7, 8, 9)
+        assertEquals(1, mutableList.countElement(7))
+
+        mutableList.addAll(listOf(7, 7))
+        assertEquals(3, mutableList.countElement(7))
+
+        mutableList.remove(7)
+        assertEquals(2, mutableList.countElement(7))
+
+        val mlist1 = mutableListOf(1, 2, 3)
+        val mlist2 = mutableListOf(1, 2, 3)
+        val mutablesCollection = listOf(mlist1, mlist2)
+        assertEquals(2, mutablesCollection.countElement(listOf(1, 2, 3)))
+        assertEquals(0, mutablesCollection.countElement(emptyList()))
+
+        mlist1.clear()
+        assertEquals(1, mutablesCollection.countElement(listOf(1, 2, 3)))
+        assertEquals(1, mutablesCollection.countElement(emptyList()))
     }
 }

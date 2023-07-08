@@ -6,9 +6,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class BigIntegerExtTest {
+class BigIntegerExtTest {
     @Test
-    internal fun testIsNegative() {
+    fun testIsNegative() {
         var bi = BigInteger.ZERO
         assertFalse { bi.isNegative() }
 
@@ -26,7 +26,7 @@ internal class BigIntegerExtTest {
     }
 
     @Test
-    internal fun testIsZero() {
+    fun testIsZero() {
         var bi = BigInteger.ZERO
         assertTrue { bi.isZero() }
 
@@ -44,7 +44,7 @@ internal class BigIntegerExtTest {
     }
 
     @Test
-    internal fun testIfZero() {
+    fun testIfZero() {
         val getValue = { BigInteger.TWO }
 
         var bi = BigInteger.ZERO

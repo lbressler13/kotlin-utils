@@ -11,7 +11,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-internal class MutableCollectionExtTest {
+class MutableCollectionExtTest {
     @Test
     fun testPopRandom() {
         assertNull(mutableListOf<Int>().popRandom())

@@ -6,9 +6,9 @@ import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class ListExtTest {
+class ListExtTest {
     @Test
-    internal fun testCopyWithReplacement() {
+    fun testCopyWithReplacement() {
         assertFails { listOf<String>().copyWithReplacement(0, "a") }
         assertFails { listOf("a").copyWithReplacement(-1, "b") }
         assertFails { listOf("a", "b").copyWithReplacement(2, "c") }
@@ -52,7 +52,7 @@ internal class ListExtTest {
     }
 
     @Test
-    internal fun testCopyWithLastReplaced() {
+    fun testCopyWithLastReplaced() {
         assertFails { listOf<String>().copyWithLastReplaced("a") }
 
         var l = listOf("a")
@@ -88,7 +88,7 @@ internal class ListExtTest {
     }
 
     @Test
-    internal fun testCopyWithFirstReplaced() {
+    fun testCopyWithFirstReplaced() {
         assertFails { listOf<String>().copyWithFirstReplaced("a") }
 
         var l = listOf("a")
@@ -124,7 +124,7 @@ internal class ListExtTest {
     }
 
     @Test
-    internal fun testCopyWithoutLast() {
+    fun testCopyWithoutLast() {
         assertFails { listOf<String>().copyWithoutLast() }
 
         var listString = listOf("1")
@@ -148,7 +148,7 @@ internal class ListExtTest {
     }
 
     @Test
-    internal fun testIsSingleValue() {
+    fun testIsSingleValue() {
         // single value
         var intList = listOf(5)
         assertTrue(intList.isSingleValue())

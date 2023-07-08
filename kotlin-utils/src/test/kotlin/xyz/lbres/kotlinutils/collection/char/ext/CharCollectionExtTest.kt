@@ -3,14 +3,14 @@ package xyz.lbres.kotlinutils.collection.char.ext
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class CharCollectionExtTest {
+class CharCollectionExtTest {
     private val zero = Char(0)
     private val one = Char(1)
     private val four = Char(4)
     private val five = Char(5)
 
     @Test
-    internal fun testFilterNotZero() {
+    fun testFilterNotZero() {
         var list: List<Char> = listOf()
         var expected: List<Char> = listOf()
         assertEquals(expected, list.filterNotZero())
@@ -29,7 +29,7 @@ internal class CharCollectionExtTest {
     }
 
     @Test
-    internal fun testSum() {
+    fun testSum() {
         var list: List<Char> = emptyList()
         var expected = zero
         assertEquals(expected, list.sum())
@@ -44,7 +44,7 @@ internal class CharCollectionExtTest {
     }
 
     @Test
-    internal fun testProduct() {
+    fun testProduct() {
         var list: List<Char> = emptyList()
         var expected = zero
         assertEquals(expected, list.product())

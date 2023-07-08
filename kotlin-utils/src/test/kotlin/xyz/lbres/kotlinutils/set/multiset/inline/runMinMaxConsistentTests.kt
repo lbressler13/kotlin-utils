@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-internal fun runMinByConsistentTests() {
+fun runMinByConsistentTests() {
     val intSet = multiSetOf(-1, 0, -10, 3, 1, 2, 3, 4, 4, 4)
     val stringSet = multiSetOf("hello", "world", "hi", "bye", "welcome", "planet")
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
@@ -54,7 +54,7 @@ internal fun runMinByConsistentTests() {
     assertEqualsAnyOf(listOf(4, 6, 8), modActual)
 }
 
-internal fun runMaxByConsistentTests() {
+fun runMaxByConsistentTests() {
     val intSet = multiSetOf(-1, 0, -10, 3, 1, 2, 3, 3, 4, 4, 4)
     val stringSet = multiSetOf("hello", "world", "hi", "bye", "welcome", "planet")
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
