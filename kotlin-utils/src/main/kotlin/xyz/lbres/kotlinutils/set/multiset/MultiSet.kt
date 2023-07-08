@@ -26,7 +26,7 @@ interface MultiSet<E> : Collection<E> {
      * @param other [MultiSet]<E>: values to subtract from this MultiSet
      * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
-    operator fun minus(other: MultiSet<E>): MultiSet<E>
+    operator fun minus(other: MultiSet<E>): MultiSet<E> = genericMinus(this, other)
 
     /**
      * Create a new MultiSet with all values from both sets.
@@ -35,7 +35,7 @@ interface MultiSet<E> : Collection<E> {
      * @param other [MultiSet]<E>: values to add to this MultiSet
      * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
      */
-    operator fun plus(other: MultiSet<E>): MultiSet<E>
+    operator fun plus(other: MultiSet<E>): MultiSet<E> = genericPlus(this, other)
 
     /**
      * Create a new MultiSet with values that are shared between the sets.
@@ -44,7 +44,7 @@ interface MultiSet<E> : Collection<E> {
      * @param other [MultiSet]<E>: values to intersect with this MultiSet
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
-    infix fun intersect(other: MultiSet<E>): MultiSet<E>
+    infix fun intersect(other: MultiSet<E>): MultiSet<E> = genericIntersect(this, other)
 
     companion object {
         /**
