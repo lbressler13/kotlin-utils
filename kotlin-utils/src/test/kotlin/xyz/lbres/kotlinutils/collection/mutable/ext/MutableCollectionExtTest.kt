@@ -48,6 +48,32 @@ class MutableCollectionExtTest {
 
         list = mutableListOf("1", "1", "1", "2")
         runSinglePopRandomTest(list, list.toMutableList(), mutableListOf()) { coll1, coll2 -> assertEquals(coll1.sorted(), coll2.sorted()) }
+
+        // long seed
+        set = mutableSetOf("4", "5", "678")
+        var copy = set.toMutableSet()
+        var results: MutableSet<String> = mutableSetOf()
+        repeat(set.size) {
+            val result = copy.popRandom(10L)
+            assertNotNull(result)
+            results.add(result)
+        }
+
+        assertEquals(set, results)
+        assertNull(copy.popRandom())
+
+        // int seed
+        set = mutableSetOf("4", "5", "678")
+        copy = set.toMutableSet()
+        results = mutableSetOf()
+        repeat(set.size) {
+            val result = copy.popRandom(10)
+            assertNotNull(result)
+            results.add(result)
+        }
+
+        assertEquals(set, results)
+        assertNull(copy.popRandom())
     }
 }
 

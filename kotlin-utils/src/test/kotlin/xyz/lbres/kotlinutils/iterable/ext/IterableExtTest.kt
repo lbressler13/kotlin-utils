@@ -7,4 +7,9 @@ class IterableExtTest {
     fun testForEachWith() {
         // TODO
     }
+
+    @Test
+    fun testForEachWithIndexed() {
+        // TODO
+    }
 }
