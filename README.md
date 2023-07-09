@@ -66,8 +66,9 @@ In general, these can still be associated with a single class, as this package d
 
 ```project
 ├── sample                <-- Class that already exists in Kotlin
-│   ├── ext               <-- Extension functions for the class
-│   ├── subclass1         
+│   ├── ext
+│   │   ├── SampleExt.kt  <-- Extension methods for the class
+│   ├── subclass1         <-- Subclass that has the same project structure
 │   ├── subclass2         
 │   ├── SampleAliases.kt  <-- Typealiases related to the class
 │   └── SampleUtils.kt    <-- Helper functions related to the class

@@ -13,13 +13,13 @@ class IterableExtTest {
         intRange1.forEachWith(intRange2) { first, second ->
             intIntPairs.add(Pair(first, second))
         }
-        val intIntExpectedPairs = listOf(
+        val intIntPairsExpected = listOf(
             Pair(5, 0), Pair(5, 1), Pair(5, 2),
             Pair(6, 0), Pair(6, 1), Pair(6, 2),
             Pair(7, 0), Pair(7, 1), Pair(7, 2),
             Pair(8, 0), Pair(8, 1), Pair(8, 2),
         )
-        assertEquals(intIntExpectedPairs, intIntPairs)
+        assertEquals(intIntPairsExpected, intIntPairs)
 
         var intResult = 0
         intRange1.forEachWith(intRange2) { first, second ->
@@ -79,13 +79,13 @@ class IterableExtTest {
         intRange1.forEachWithIndexed(intRange2) { pair1, pair2 ->
             intIntPairs.add(Pair(pair1.index, pair2.value))
         }
-        val intIntExpectedPairs = listOf(
+        val intIntPairsExpected = listOf(
             Pair(0, 0), Pair(0, 1), Pair(0, 2),
             Pair(1, 0), Pair(1, 1), Pair(1, 2),
             Pair(2, 0), Pair(2, 1), Pair(2, 2),
             Pair(3, 0), Pair(3, 1), Pair(3, 2),
         )
-        assertEquals(intIntExpectedPairs, intIntPairs)
+        assertEquals(intIntPairsExpected, intIntPairs)
 
         intRange2 = 11..12
         var intResult = 0

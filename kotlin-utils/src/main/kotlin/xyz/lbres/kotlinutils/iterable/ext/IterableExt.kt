@@ -1,7 +1,8 @@
 package xyz.lbres.kotlinutils.iterable.ext
 
 /**
- * Pairwise forEach method, which iterates through this iterable and [other], and applies the given action to each pair of values
+ * forEach method which iterates through all combinations of elements in this iterable and another iterable,
+ * and applies an action to each pair of values
  *
  * @param other [Iterable]<S>: other value to iterate through
  * @param action (S, T) -> Unit: action to take on each pair of values
@@ -13,7 +14,8 @@ fun <S, T> Iterable<S>.forEachWith(other: Iterable<T>, action: (S, T) -> Unit) {
 }
 
 /**
- * Pairwise forEach method, which iterates through this iterable and [other], and applies the given action to each pair of indexed values
+ * forEachIndexed method which iterates through all combinations of elements in this iterable and another iterable, with indices,
+ * and applies an action to each pair of indexed values
  *
  * @param other [Iterable]<S>: other value to iterate through
  * @param action (IndexedValue<S>, IndexedValue<R>) -> Unit: action to take on each pair of indexed values

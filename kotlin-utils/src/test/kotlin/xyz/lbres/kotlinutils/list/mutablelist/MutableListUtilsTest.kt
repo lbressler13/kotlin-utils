@@ -42,5 +42,8 @@ class MutableListUtilsTest {
         val exception = ArithmeticException()
         val expectedException = mutableListOf(exception, exception, exception)
         assertEquals(expectedException, mutableListOfValue(3, exception))
+
+        val expectedNullable: MutableList<String?> = mutableListOf(null, null, null, null, null)
+        assertEquals<MutableList<String?>>(expectedNullable, mutableListOfValue(5, null))
     }
 }

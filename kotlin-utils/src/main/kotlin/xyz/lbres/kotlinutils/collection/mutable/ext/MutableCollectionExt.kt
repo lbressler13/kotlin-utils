@@ -27,7 +27,7 @@ fun <T> MutableCollection<T>.popRandom(seed: Long): T? = popRandomUtil(seed)
 fun <T> MutableCollection<T>.popRandom(seed: Int): T? = popRandomUtil(seed.toLong())
 
 /**
- * Common function to be used for all popRandom calls, with or without a seed
+ * Common function to use for all popRandom calls, with or without a seed
  *
  * @param seed [Long]?: random seed, can be `null`
  * @return [T]?: an element from the collection, or `null` if the collection is empty

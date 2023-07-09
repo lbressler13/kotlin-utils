@@ -42,5 +42,8 @@ class ListUtilsTest {
         val exception = ArithmeticException()
         val expectedException = listOf(exception, exception, exception)
         assertEquals(expectedException, listOfValue(3, exception))
+
+        val expectedNullable: List<String?> = listOf(null, null, null, null, null)
+        assertEquals(expectedNullable, listOfValue(5, null))
     }
 }

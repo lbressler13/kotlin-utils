@@ -7,6 +7,7 @@ import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
 import xyz.lbres.kotlinutils.set.mutableset.ext.popRandom
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -74,6 +75,22 @@ class MutableCollectionExtTest {
 
         assertEquals(set, results)
         assertNull(copy.popRandom())
+
+        // check order
+        set = mutableSetOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "17", "17", "20")
+        copy = set.toMutableSet()
+        val resultsList1: MutableList<String?> = mutableListOf()
+        val resultsList2: MutableList<String?> = mutableListOf()
+        repeat(set.size) {
+            resultsList1.add(copy.popRandom())
+        }
+        copy = set.toMutableSet()
+        repeat(set.size) {
+            resultsList2.add(copy.popRandom())
+        }
+        assertEquals(set, resultsList1.toSet())
+        assertEquals(set, resultsList2.toSet())
+        assertNotEquals(resultsList1, resultsList2)
     }
 }
 

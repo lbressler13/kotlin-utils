@@ -127,7 +127,7 @@ class CollectionExtTest {
     }
 
     @Test
-    fun testCountElements() {
+    fun testCountElement() {
         var intCollection: Collection<Int> = emptyList()
         assertEquals(0, intCollection.countElement(0))
         assertEquals(0, intCollection.countElement(175))
@@ -140,22 +140,22 @@ class CollectionExtTest {
         assertEquals(4, intCollection.countElement(7))
         assertEquals(1, intCollection.countElement(8))
 
-        val mutableList = mutableListOf(7, 8, 9)
-        assertEquals(1, mutableList.countElement(7))
+        var mutableList1 = mutableListOf(7, 8, 9)
+        assertEquals(1, mutableList1.countElement(7))
 
-        mutableList.addAll(listOf(7, 7))
-        assertEquals(3, mutableList.countElement(7))
+        mutableList1.addAll(listOf(7, 7))
+        assertEquals(3, mutableList1.countElement(7))
 
-        mutableList.remove(7)
-        assertEquals(2, mutableList.countElement(7))
+        mutableList1.remove(7)
+        assertEquals(2, mutableList1.countElement(7))
 
-        val mlist1 = mutableListOf(1, 2, 3)
-        val mlist2 = mutableListOf(1, 2, 3)
-        val mutablesCollection = listOf(mlist1, mlist2)
+        mutableList1 = mutableListOf(1, 2, 3)
+        val mutableList2 = mutableListOf(1, 2, 3)
+        val mutablesCollection = listOf(mutableList1, mutableList2)
         assertEquals(2, mutablesCollection.countElement(listOf(1, 2, 3)))
         assertEquals(0, mutablesCollection.countElement(emptyList()))
 
-        mlist1.clear()
+        mutableList1.clear()
         assertEquals(1, mutablesCollection.countElement(listOf(1, 2, 3)))
         assertEquals(1, mutablesCollection.countElement(emptyList()))
 
