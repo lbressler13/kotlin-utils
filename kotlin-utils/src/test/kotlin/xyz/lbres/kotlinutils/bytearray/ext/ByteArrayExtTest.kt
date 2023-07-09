@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.bytearray.ext
 
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 class ByteArrayExtTest {
     @Test
@@ -29,5 +30,22 @@ class ByteArrayExtTest {
         expected = byteArrayOf(-10, -10, -10, -10)
         array.setAllValues(-10)
         assertContentEquals(expected, array)
+    }
+
+    @Test
+    fun testCountElement() {
+        var array = byteArrayOf()
+        assertEquals(0, array.countElement(0))
+
+        array = byteArrayOf(127)
+        assertEquals(1, array.countElement(127))
+
+        array = byteArrayOf(5, 5, 1, 3, 5, -19, 52)
+        assertEquals(3, array.countElement(5))
+        assertEquals(1, array.countElement(-19))
+
+        array[1] = -19
+        assertEquals(2, array.countElement(5))
+        assertEquals(2, array.countElement(-19))
     }
 }

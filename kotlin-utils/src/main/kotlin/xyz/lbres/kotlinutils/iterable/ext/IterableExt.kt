@@ -37,5 +37,4 @@ fun <S, T> Iterable<S>.forEachWithIndexed(other: Iterable<T>, action: (IndexedVa
  * @param element [T]: value to match
  * @return [Int]: number of elements with the given value
  */
-// TODO move tests here
 fun <T> Iterable<T>.countElement(element: T) = this.count { it == element }
