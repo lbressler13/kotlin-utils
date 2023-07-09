@@ -11,7 +11,7 @@ private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
 private val e4 = ClassCastException("other message")
 
-internal fun runMapToSetTests() {
+fun runMapToSetTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyMultiSet<Int>()
     assertEquals(expectedInt, intSet.mapToSet { it * 2 })
@@ -81,7 +81,7 @@ internal fun runMapToSetTests() {
     assertEquals(expectedString, intSet.mapToSet(modMap))
 }
 
-internal fun runFilterToSetTests() {
+fun runFilterToSetTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyMultiSet<Int>()
     assertEquals(intExpected, intSet.filterToSet { true })
@@ -125,7 +125,7 @@ internal fun runFilterToSetTests() {
     assertEquals(intExpected, intActual)
 }
 
-internal fun runFilterNotToSetTests() {
+fun runFilterNotToSetTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyMultiSet<Int>()
     assertEquals(intExpected, intSet.filterNotToSet { true })

@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.int.ext
 
-import xyz.lbres.kotlinutils.general.ternaryIf
+import xyz.lbres.kotlinutils.general.simpleIf
 
 /**
  * Returns this number if not zero, or the result of calling [getDefaultValue] if it is.
@@ -8,7 +8,7 @@ import xyz.lbres.kotlinutils.general.ternaryIf
  * @param getDefaultValue () -> [Int]
  * @return [Int] the current value, or the default
  */
-fun Int.ifZero(getDefaultValue: () -> Int): Int = ternaryIf(isZero(), getDefaultValue(), this)
+fun Int.ifZero(getDefaultValue: () -> Int): Int = simpleIf(isZero(), getDefaultValue(), this)
 
 /**
  * Unary check to determine if value is zero

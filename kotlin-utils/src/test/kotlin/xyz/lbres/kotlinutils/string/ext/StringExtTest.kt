@@ -6,9 +6,9 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class StringExtTest {
+class StringExtTest {
     @Test
-    internal fun testSubstringTo() {
+    fun testSubstringTo() {
         assertFailsWith<IndexOutOfBoundsException> { "".substringTo(1) }
         assertFailsWith<IndexOutOfBoundsException> { "a".substringTo(-1) }
         assertFailsWith<IndexOutOfBoundsException> { "a b".substringTo(4) }
@@ -34,7 +34,7 @@ internal class StringExtTest {
     }
 
     @Test
-    internal fun testIsInt() {
+    fun testIsInt() {
         // int
         var string = "0"
         assertTrue { string.isInt() }

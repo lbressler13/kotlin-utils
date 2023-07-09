@@ -6,11 +6,11 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-internal class RandomExtTest {
+class RandomExtTest {
     private val random = Random.Default
 
     @Test
-    internal fun testNextBoolean() {
+    fun testNextBoolean() {
         runSingleNextBooleanTest(0f)
         runSingleNextBooleanTest(1f)
 
@@ -36,7 +36,7 @@ internal class RandomExtTest {
     }
 
     @Test
-    internal fun testNextFromWeightedList() {
+    fun testNextFromWeightedList() {
         // errors
         val expectedError = "Weights must total 1"
         assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(listOf()) }

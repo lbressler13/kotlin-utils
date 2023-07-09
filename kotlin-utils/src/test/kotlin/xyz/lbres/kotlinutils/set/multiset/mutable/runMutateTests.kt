@@ -3,7 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset.mutable
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
-internal fun runAddTests() {
+fun runAddTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
 
     var other = 1
@@ -29,7 +29,7 @@ internal fun runAddTests() {
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOther) }
 }
 
-internal fun runAddAllTests() {
+fun runAddAllTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
 
     var other: Collection<Int> = listOf()
@@ -50,7 +50,7 @@ internal fun runAddAllTests() {
     runSingleMutateTest(set, expected, true) { set.addAll(other) }
 }
 
-internal fun runRemoveTests() {
+fun runRemoveTests() {
     // true
     var set = mutableMultiSetOf(1)
     var other = 1
@@ -90,7 +90,7 @@ internal fun runRemoveTests() {
     runSingleMutateTest(set, expected, false) { set.remove(other) }
 }
 
-internal fun runRemoveAllTests() {
+fun runRemoveAllTests() {
     // all success
     var set = mutableMultiSetOf(1, 2, 3, 4)
 
@@ -144,7 +144,7 @@ internal fun runRemoveAllTests() {
     runSingleMutateTest(set, expected, true) { set.removeAll(other) }
 }
 
-internal fun runRetainAllTests() {
+fun runRetainAllTests() {
     // subset
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
     var other: Collection<Int> = listOf(1)
@@ -193,7 +193,7 @@ internal fun runRetainAllTests() {
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
 }
 
-internal fun runClearTests() {
+fun runClearTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
     set.clear()
     assertEquals(0, set.size)

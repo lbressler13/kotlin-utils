@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-import
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal fun runAnyConsistentTests() {
+fun runAnyConsistentTests() {
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
@@ -46,7 +46,7 @@ internal fun runAnyConsistentTests() {
     assertTrue(intSet.any(modifiedFn))
 }
 
-internal fun runAllConsistentTests() {
+fun runAllConsistentTests() {
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
@@ -87,7 +87,7 @@ internal fun runAllConsistentTests() {
     assertFalse(intSet.all(modifiedFn))
 }
 
-internal fun runNoneConsistentTests() {
+fun runNoneConsistentTests() {
     val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 

@@ -3,9 +3,9 @@ package xyz.lbres.kotlinutils.closedrange.intrange
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class IntRangeUtilsTest {
+class IntRangeUtilsTest {
     @Test
-    internal fun testRangeOfInt() {
+    fun testRangeOfInt() {
         var int = 0
         var expected = 0..0
         assertEquals(expected, rangeOfInt(int))

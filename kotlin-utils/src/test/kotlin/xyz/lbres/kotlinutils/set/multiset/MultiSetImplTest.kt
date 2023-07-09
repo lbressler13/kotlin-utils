@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
-internal class MultiSetImplTest {
+class MultiSetImplTest {
     @Test fun testConstructor() = runImmutableConstructorTests()
     @Test fun testEquals() = runImmutableEqualsTests()
 

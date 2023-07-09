@@ -4,7 +4,7 @@ import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-import
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal fun runMutableContainsTests() {
+fun runMutableContainsTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
     assertFalse(set.contains(0))
     assertFalse(set.contains(1000))
@@ -37,7 +37,7 @@ internal fun runMutableContainsTests() {
     assertTrue(set.contains(2))
 }
 
-internal fun runMutableContainsAllTests() {
+fun runMutableContainsAllTests() {
     // equal
     var set1: MutableMultiSet<Int> = mutableMultiSetOf()
     assertTrue(set1.containsAll(set1))

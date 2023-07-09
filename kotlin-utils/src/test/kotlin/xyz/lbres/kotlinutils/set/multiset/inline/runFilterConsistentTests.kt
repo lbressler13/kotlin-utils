@@ -9,7 +9,7 @@ private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
 private val e4 = ClassCastException("other message")
 
-internal fun runFilterConsistentTests() {
+fun runFilterConsistentTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyList<Int>()
     assertEquals(intExpected, intSet.filterConsistent { true })
@@ -53,7 +53,7 @@ internal fun runFilterConsistentTests() {
     assertEqualsAnyOf(intOptions, intActual)
 }
 
-internal fun runFilterNotConsistentTests() {
+fun runFilterNotConsistentTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyList<Int>()
     assertEquals(intExpected, intSet.filterNotConsistent { true })
@@ -97,7 +97,7 @@ internal fun runFilterNotConsistentTests() {
     assertEqualsAnyOf(intOptions, intActual)
 }
 
-internal fun runFilterToSetConsistentTests() {
+fun runFilterToSetConsistentTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyMultiSet<Int>()
     assertEquals(intExpected, intSet.filterToSetConsistent { true })
@@ -141,7 +141,7 @@ internal fun runFilterToSetConsistentTests() {
     assertEqualsAnyOf(intOptions, intActual)
 }
 
-internal fun runFilterNotToSetConsistentTests() {
+fun runFilterNotToSetConsistentTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyMultiSet<Int>()
     assertEquals(intExpected, intSet.filterNotToSetConsistent { true })
