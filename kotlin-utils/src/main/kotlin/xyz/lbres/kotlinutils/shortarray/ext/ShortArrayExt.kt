@@ -8,3 +8,11 @@ package xyz.lbres.kotlinutils.shortarray.ext
 fun ShortArray.setAllValues(value: Short) {
     indices.forEach { set(it, value) }
 }
+
+/**
+ * Get number of elements matching a specific value
+ *
+ * @param element [Short]: value to match
+ * @return [Int]: number of elements with the given value
+ */
+fun ShortArray.countElement(element: Short) = this.count { it == element }

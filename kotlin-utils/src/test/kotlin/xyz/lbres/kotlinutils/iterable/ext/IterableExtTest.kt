@@ -125,4 +125,48 @@ class IterableExtTest {
         intExpected = 0
         assertEquals(intExpected, intResult)
     }
+
+    @Test
+    fun testCountElement() {
+        var intList: Iterable<Int> = emptyList()
+        assertEquals(0, intList.countElement(0))
+        assertEquals(0, intList.countElement(175))
+
+        intList = listOf(7)
+        assertEquals(1, intList.countElement(7))
+        assertEquals(0, intList.countElement(8))
+
+        intList = listOf(7, 7, 2, 2, 7, 8, 5, 7)
+        assertEquals(4, intList.countElement(7))
+        assertEquals(1, intList.countElement(8))
+
+        var mutableList1 = mutableListOf(7, 8, 9)
+        assertEquals(1, mutableList1.countElement(7))
+
+        mutableList1.addAll(listOf(7, 7))
+        assertEquals(3, mutableList1.countElement(7))
+
+        mutableList1.remove(7)
+        assertEquals(2, mutableList1.countElement(7))
+
+        mutableList1 = mutableListOf(1, 2, 3)
+        val mutableList2 = mutableListOf(1, 2, 3)
+        val mutablesCollection = listOf(mutableList1, mutableList2)
+        assertEquals(2, mutablesCollection.countElement(listOf(1, 2, 3)))
+        assertEquals(0, mutablesCollection.countElement(emptyList()))
+
+        mutableList1.clear()
+        assertEquals(1, mutablesCollection.countElement(listOf(1, 2, 3)))
+        assertEquals(1, mutablesCollection.countElement(emptyList()))
+
+        var nullableList = listOf(1, 2, null, 3, null)
+        assertEquals(2, nullableList.countElement(null))
+
+        nullableList = listOf(null, null, null, null)
+        assertEquals(4, nullableList.countElement(null))
+
+        val longRange = 6L..1000L
+        assertEquals(1, longRange.countElement(10L))
+        assertEquals(0, longRange.countElement(2L))
+    }
 }

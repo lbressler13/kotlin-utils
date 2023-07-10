@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.booleanarray.ext
 
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -95,5 +96,24 @@ class BooleanArrayExtTest {
 
         array.setAllValues(true)
         assertTrue(array.all())
+    }
+
+    @Test
+    fun testCountElement() {
+        var array = booleanArrayOf()
+        assertEquals(0, array.countElement(true))
+        assertEquals(0, array.countElement(false))
+
+        array = booleanArrayOf(true)
+        assertEquals(1, array.countElement(true))
+        assertEquals(0, array.countElement(false))
+
+        array = booleanArrayOf(false, false, false, true, true)
+        assertEquals(2, array.countElement(true))
+        assertEquals(3, array.countElement(false))
+
+        array[4] = false
+        assertEquals(1, array.countElement(true))
+        assertEquals(4, array.countElement(false))
     }
 }

@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.longarray.ext
 
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 class LongArrayExtTest {
     @Test
@@ -29,5 +30,22 @@ class LongArrayExtTest {
         expected = longArrayOf(14, 14, 14, 14)
         array.setAllValues(14)
         assertContentEquals(expected, array)
+    }
+
+    @Test
+    fun testCountElement() {
+        var array = longArrayOf()
+        assertEquals(0, array.countElement(0))
+
+        array = longArrayOf(12)
+        assertEquals(1, array.countElement(12))
+
+        array = longArrayOf(400123, 400123, 12, 3, 400123, -19, 15)
+        assertEquals(3, array.countElement(400123))
+        assertEquals(1, array.countElement(-19))
+
+        array[1] = -19
+        assertEquals(2, array.countElement(400123))
+        assertEquals(2, array.countElement(-19))
     }
 }
