@@ -64,21 +64,21 @@ class ArrayExtTest {
 
     @Test
     fun testCountElement() {
-        var intArray1: Array<Int> = arrayOf()
-        assertEquals(0, intArray1.countElement(0))
-        assertEquals(0, intArray1.countElement(175))
+        var intArray: Array<Int> = arrayOf()
+        assertEquals(0, intArray.countElement(0))
+        assertEquals(0, intArray.countElement(175))
 
-        intArray1 = arrayOf(7)
-        assertEquals(1, intArray1.countElement(7))
-        assertEquals(0, intArray1.countElement(8))
+        intArray = arrayOf(7)
+        assertEquals(1, intArray.countElement(7))
+        assertEquals(0, intArray.countElement(8))
 
-        intArray1 = arrayOf(7, 7, 2, 2, 7, 8, 5, 7)
-        assertEquals(4, intArray1.countElement(7))
-        assertEquals(1, intArray1.countElement(8))
+        intArray = arrayOf(7, 7, 2, 2, 7, 8, 5, 7)
+        assertEquals(4, intArray.countElement(7))
+        assertEquals(1, intArray.countElement(8))
 
-        intArray1[1] = 8
-        assertEquals(3, intArray1.countElement(7))
-        assertEquals(2, intArray1.countElement(8))
+        intArray[1] = 8
+        assertEquals(3, intArray.countElement(7))
+        assertEquals(2, intArray.countElement(8))
 
         val mutableList1 = mutableListOf(1, 2, 3)
         val mutableList2 = mutableListOf(1, 2, 3)
