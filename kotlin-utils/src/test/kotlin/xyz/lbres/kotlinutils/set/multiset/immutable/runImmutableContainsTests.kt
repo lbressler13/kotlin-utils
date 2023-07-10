@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.immutable
 
+import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -23,10 +24,24 @@ fun runImmutableContainsTests() {
     val errSet = multiSetOf(ArithmeticException(), error, NumberFormatException())
     assertTrue(errSet.contains(error))
 
-    val listSet = multiSetOf(listOf(), listOf(5, 6), listOf(9, 8, 3))
+    var listSet = multiSetOf(listOf(), listOf(5, 6), listOf(9, 8, 3))
     assertTrue(listSet.contains(listOf()))
     assertTrue(listSet.contains(listOf(9, 8, 3)))
     assertFalse(listSet.contains(listOf(6, 6)))
+
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(1, 2, 3)
+    listSet = multiSetOf(mutableList1, mutableList2)
+    assertFalse(listSet.contains(listOf(1, 2)))
+    println(listSet.distinctValues)
+
+    mutableList1.remove(3)
+    println(listSet.distinctValues)
+    assertTrue(listSet.contains(listOf(1, 2)))
+    assertTrue(listSet.contains(listOf(1, 2, 3)))
+
+    mutableList2.add(0)
+    assertFalse(listSet.contains(listOf(1, 2, 3)))
 }
 
 fun runImmutableContainsAllTests() {
@@ -100,4 +115,18 @@ fun runImmutableContainsAllTests() {
     set2 = multiSetOf(22, 23, 22)
     assertFalse(set1.containsAll(set2))
     assertFalse(set2.containsAll(set1))
+
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(1, 2, 3)
+    val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
+    assertFalse(listSet.containsAll(listOf(listOf(1, 2))))
+    println(listSet.distinctValues)
+
+    mutableList1.remove(3)
+    println(listSet.distinctValues)
+    assertTrue(listSet.contains(listOf(1, 2)))
+    assertTrue(listSet.contains(listOf(1, 2, 3)))
+
+    mutableList2.add(0)
+    assertFalse(listSet.contains(listOf(1, 2, 3)))
 }

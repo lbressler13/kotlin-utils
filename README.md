@@ -2,16 +2,14 @@
 
 [![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
-A collection of reusable functions, classes, and aliases that can be used across various Kotlin and Android projects.
-Android-specific code, such as functions to handle Views, is not included.
+A collection of reusable functions, classes, and aliases that can be used across various Kotlin projects.
 
 ## Purpose
 
-The initial purpose of this package was to avoid copying code between projects.
-The initial code had already been implemented several times, and was collected here as an alternative to repeated copy/paste.
-This prevented unnecessary re-writing and re-testing of code, and also created a central location for any changes and bug fixes.
+This package was initially a collection of functions that had been duplicated across multiple projects.
+It was intended to create a common place to store and test shared code, as well a single place to make any changes and bug fixes.
 
-However, the package has since expanded to include various classes and functions that could be useful in different projects.
+However, the package has since expanded to include various classes and functions that could be useful across projects.
 
 ## Contents
 
@@ -25,21 +23,19 @@ See [here](https://kotlinlang.org/docs/type-aliases.html) for general informatio
 
 Reusable classes and data classes.
 
-### General utils
-
-Functions that are not associated with a specific class.
-
 ### Extension methods
 
 Methods that extend existing classes and interfaces.
-Extensions are added to the broadest possible class/implementation in order to be more widely usable.
 
 See [here](https://kotlinlang.org/docs/extensions.html) for general information about extensions in Kotlin.
 
 ### Helper functions
 
-Functions that aren't extensions of a class, but provide added functionality.
-In general, these can still be associated with a single class, as this package does not store specialized code for different projects.
+Functions that are associated with a specific class, but are not direct extensions of the class.
+
+### General utils
+
+Functions that are not associated with a specific class.
 
 ## Project structure
 
@@ -80,6 +76,7 @@ The full folder structure, including additional subclasses, can be repeated with
 ## Building
 
 The package can be built using an IDE, or with the following command:
+
 ```shell
 ./gradlew build
 ```
@@ -91,9 +88,11 @@ The name will be in the format "kotlin-utils-version", where the version is spec
 
 Unit tests are written using the [Kotlin test](https://kotlinlang.org/api/latest/kotlin.test/) framework.
 Tests must be written for helper functions and extension functions.
-They should also be written for new classes, with the exception of data classes.
+They should also be written for new classes.
+For data classes, any methods other than initialization should be tested.
 
 Tests can be run using an IDE, or with the following command:
+
 ```shell
 ./gradlew test
 ```
@@ -107,14 +106,25 @@ Linting can be run using an IDE, or with the following command:
 ```shell
 ./gradlew ktlintCheck
 ```
+
 This command will verify if the code passes linting, but will not attempt to fix any issues.
 To perform linting and fix issues where possible, run the following command:
+
 ```shell
 ./gradlew ktlintFormat
 ```
+
 This can also be run through an IDE.
 
 ## Importing the package
 
 This package is hosted in the GitHub Packages registry.
 See [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package) for information on importing GitHub packages.
+
+## Development practices
+
+- Util functions and extension methods should be added at the highest possible level.
+For example, if a method is applicable for the `Collection` class, it should be defined as an extension of `Collection`, rather than an extension of a `List`, `Map`, etc.
+- If a method is used for one class, it should also be added to similar classes where it may be useful. For example, a method that is useful for a `List` may also be useful for an `Array`.
+  - Common similarities include various array types, or various range types.
+- When applicable, randomized functions should have the ability to be called with or without a seed.
