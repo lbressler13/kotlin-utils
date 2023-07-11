@@ -1,9 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.int.ext.isZero
 import kotlin.math.min
-
-// TODO lots of cleanup
 
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
@@ -13,12 +10,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Number of elements in set.
      */
     override val size: Int
-        get() = _size // TODO maybe just list.size
-
-    /**
-     * Mutable variable to store number of elements in the set.
-     */
-    private var _size: Int
+        get() = list.size
 
     /**
      * All distinct values contained in the MultiSet, without any counts
@@ -55,7 +47,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * Initialize stored variables from a collection of values.
      */
     constructor(elements: Collection<E>) {
-        _size = elements.size
         countsMap = mutableMapOf()
 
         list = elements.toMutableList()
@@ -72,7 +63,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      */
     private constructor(counts: Map<E, Int>) {
         countsMap = counts.toMutableMap()
-        _size = counts.values.fold(0, Int::plus)
 
         list = countsMap.flatMap {
             val element = it.key
@@ -92,7 +82,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     override fun add(element: E): Boolean {
         updateValues()
         countsMap[element] = getCountWithoutUpdate(element) + 1
-        _size++
         list.add(element)
         return true
     }
@@ -125,7 +114,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     override fun clear() {
         countsMap.clear()
         list.clear()
-        _size = 0
         updateValues()
     }
 
@@ -146,7 +134,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         }
 
         list.remove(element)
-        _size--
         return true
     }
 
@@ -205,8 +192,6 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
                 }
             }
         }
-
-        _size = countsMap.values.fold(0, Int::plus)
 
         return true
     }
@@ -315,7 +300,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      *
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
-    override fun isEmpty(): Boolean = _size.isZero()
+    override fun isEmpty(): Boolean = countsMap.isEmpty()
 
     /**
      * Get the number of occurrences of a given element.
