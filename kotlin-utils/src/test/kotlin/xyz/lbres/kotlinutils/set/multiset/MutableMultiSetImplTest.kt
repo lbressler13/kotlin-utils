@@ -106,7 +106,6 @@ class MutableMultiSetImplTest {
         expected = "[1, 1, 1, 1]"
         assertEquals(expected, set.toString())
 
-        // TODO use anyOf for ordering
         set = mutableMultiSetOf(2, 4, 2, 1)
         expected = "[2, 4, 2, 1]"
         assertEquals(expected, set.toString())

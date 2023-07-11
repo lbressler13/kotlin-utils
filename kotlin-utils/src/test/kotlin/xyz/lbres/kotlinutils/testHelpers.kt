@@ -50,10 +50,10 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
 /**
  * Assert that a value matches any of the provided options
  *
- * @param expectedOptions [List]<T>: list of possible allowed results
+ * @param expectedOptions [Collection]<T>: possible allowed results
  * @param actual [T]: the actual value
  */
-internal fun <T> assertEqualsAnyOf(expectedOptions: List<T>, actual: T) {
+internal fun <T> assertEqualsAnyOf(expectedOptions: Collection<T>, actual: T) {
     assertTrue { expectedOptions.any { it == actual } }
 }
 

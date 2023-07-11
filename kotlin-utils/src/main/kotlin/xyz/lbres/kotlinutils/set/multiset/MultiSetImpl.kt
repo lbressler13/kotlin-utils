@@ -103,9 +103,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 
         updateValues()
         val newSet = MultiSetImpl(elements)
-        // TODO wrapper to only call updateValues once
         return newSet.distinctValues.all {
-            getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
+            getCountWithoutUpdate(it) > 0 && newSet.getCountWithoutUpdate(it) <= getCountWithoutUpdate(it)
         }
     }
 
@@ -120,7 +119,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         updateValues()
 
         val newCounts = distinctValues.associateWith {
-            getCountOf(it) - other.getCountOf(it)
+            getCountWithoutUpdate(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
 
         return MultiSetImpl(newCounts)
@@ -138,7 +137,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
-            getCountOf(it) + other.getCountOf(it)
+            getCountWithoutUpdate(it) + other.getCountOf(it)
         }
 
         return MultiSetImpl(newCounts)
@@ -156,7 +155,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
-            val count = getCountOf(it)
+            val count = getCountWithoutUpdate(it)
             val otherCount = other.getCountOf(it)
             min(count, otherCount)
         }.filter { it.value > 0 }
@@ -179,8 +178,17 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      */
     override fun getCountOf(element: E): Int {
         updateValues()
-        return countsMap.getOrDefault(element, 0)
+        return getCountWithoutUpdate(element)
     }
+
+    /**
+     * Get number of occurrences of a given element, without updating the values in the counts map.
+     * Assumes that values have already been updated.
+     *
+     * @param element [E]
+     * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
+     */
+    private fun getCountWithoutUpdate(element: E): Int = countsMap.getOrDefault(element, 0)
 
     /**
      * If two MultiSets contain the same elements, with the same number of occurrences per element.
@@ -205,7 +213,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 
             // less efficient equality check
             val otherDistinct = other.distinctValues
-            return distinctValues == otherDistinct && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
+            return distinctValues == otherDistinct && distinctValues.all { getCountWithoutUpdate(it) == other.getCountOf(it) }
         } catch (_: Exception) {
             false
         }
