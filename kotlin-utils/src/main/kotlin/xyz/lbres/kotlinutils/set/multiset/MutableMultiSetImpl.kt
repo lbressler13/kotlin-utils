@@ -3,7 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.int.ext.isZero
 import kotlin.math.min
 
-// TODO copy mutables fix to this class
+// TODO lots of cleanup
 
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
@@ -24,24 +24,32 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * All distinct values contained in the MultiSet, without any counts
      */
     override val distinctValues: Set<E>
-        get() = countsMap.keys
+        get() {
+            updateValues()
+            return countsMap.keys
+        }
 
     /**
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than zero.
      */
-    private val countsMap: MutableMap<E, Int>
+    private var countsMap: MutableMap<E, Int>
 
     /**
      * A list containing all elements in the set.
-     * Values may not be up-to-date with [countsMap], and are updated only when needed to avoid frequent expensive operations.
      */
-    private var list: List<E>
+    private var list: MutableList<E>
+
+    /**
+     * Store the hash codes for all the values in the set.
+     * Used to determine if any mutable values have changed.
+     */
+    private var hashCodes: Map<Int, Int>
 
     /**
      * Flag to indicate if the elements in the list are up-to-date with the current [countsMap].
      */
-    private var listUpdated = false
+    // private var listUpdated = false
 
     /**
      * String representation of the set.
@@ -55,14 +63,16 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         _size = elements.size
         countsMap = mutableMapOf()
 
+        list = elements.toMutableList()
+        string = createString()
+        hashCodes = getCurrentHashCodes()
+
         for (element in elements) {
             countsMap[element] = getCountOf(element) + 1
         }
 
         // string and list are initialized in updateList
-        list = emptyList()
-        string = ""
-        updateList()
+        // updateList()
     }
 
     /**
@@ -73,9 +83,15 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         _size = counts.values.fold(0, Int::plus)
 
         // string and list are initialized in updateList
-        list = emptyList()
-        string = ""
-        updateList()
+        // list = emptyList()
+        // updateList()
+        list = countsMap.flatMap {
+            val element = it.key
+            val count = it.value
+            List(count) { element }
+        }.toMutableList()
+        string = createString()
+        hashCodes = getCurrentHashCodes()
     }
 
     /**
@@ -85,9 +101,11 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @return [Boolean]: true if the element has been added successfully, false otherwise
      */
     override fun add(element: E): Boolean {
+        updateValues()
         countsMap[element] = getCountOf(element) + 1
         _size++
-        listUpdated = false
+        list.add(element)
+        // listUpdated = false
         return true
     }
 
@@ -103,6 +121,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return true
         }
 
+        updateValues()
         var someSucceeded = false
 
         for (element in elements) {
@@ -117,8 +136,10 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      */
     override fun clear() {
         countsMap.clear()
-        listUpdated = false
+        list.clear()
+        // listUpdated = false
         _size = 0
+        updateValues()
     }
 
     /**
@@ -128,6 +149,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
     override fun remove(element: E): Boolean {
+        updateValues()
         val currentCount = getCountOf(element)
 
         when (currentCount) {
@@ -136,7 +158,8 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             else -> countsMap[element] = currentCount - 1
         }
 
-        listUpdated = false
+        // listUpdated = false
+        list.remove(element)
         _size--
         return true
     }
@@ -150,6 +173,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @return [Boolean]: true if any elements have been removed successfully, false otherwise
      */
     override fun removeAll(elements: Collection<E>): Boolean {
+        updateValues()
         if (elements.isEmpty()) {
             return true
         }
@@ -171,6 +195,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
+        updateValues()
         val other = MutableMultiSetImpl(elements)
 
         val updatedCounts: MutableMap<E, Int> = mutableMapOf()
@@ -183,15 +208,19 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             updatedCounts[element] = newCount
         }
 
+        list.clear()
         updatedCounts.forEach {
             if (it.value == 0) {
                 countsMap.remove(it.key)
             } else {
                 countsMap[it.key] = it.value
+                repeat(it.value) { _ ->
+                    list.add(it.key)
+                }
             }
         }
 
-        listUpdated = false
+        // listUpdated = false
         _size = countsMap.values.fold(0, Int::plus)
 
         return true
@@ -203,7 +232,10 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @param element [E]
      * @return [Boolean]: true if [element] is in the set, false otherwise
      */
-    override fun contains(element: E): Boolean = countsMap.contains(element)
+    override fun contains(element: E): Boolean {
+        updateValues()
+        return countsMap.contains(element)
+    }
 
     /**
      * Determine if all elements in a collection are contained in the current set.
@@ -217,6 +249,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return true
         }
 
+        updateValues()
         val newSet = MultiSetImpl(elements) // less overhead than creating a MutableMultiSetImpl
         return newSet.distinctValues.all {
             getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
@@ -231,6 +264,7 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
+        updateValues()
         val newCounts = distinctValues.associateWith {
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
@@ -277,23 +311,39 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     /**
      * Update the values of [list] and [string] to match the current values in the set.
      */
-    private fun updateList() {
-        if (!listUpdated) {
-            list = countsMap.flatMap {
-                val element = it.key
-                val count = it.value
-                List(count) { element }
-            }
+//    private fun updateList() {
+//        if (!listUpdated) {
+//            list = countsMap.flatMap {
+//                val element = it.key
+//                val count = it.value
+//                List(count) { element }
+//            }
+//
+//            listUpdated = true
+//
+//            string = if (size == 0) {
+//                "[]"
+//            } else {
+//                val listString = list.joinToString(", ")
+//                "[$listString]"
+//            }
+//        }
+//    }
 
-            listUpdated = true
+    /**
+     * Get hash codes for the elements
+     *
+     * @return [Map]<Int, Int>: hash codes for all elements in the set
+     */
+    private fun getCurrentHashCodes(): Map<Int, Int> {
+        val hashCodeCounts: MutableMap<Int, Int> = mutableMapOf()
 
-            string = if (size == 0) {
-                "[]"
-            } else {
-                val listString = list.joinToString(", ")
-                "[$listString]"
-            }
+        list.forEach {
+            val code = it.hashCode()
+            hashCodeCounts[code] = (hashCodeCounts[code] ?: 0) + 1
         }
+
+        return hashCodeCounts
     }
 
     /**
@@ -309,7 +359,10 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    override fun getCountOf(element: E): Int = countsMap.getOrDefault(element, 0)
+    override fun getCountOf(element: E): Int {
+        updateValues()
+        return countsMap.getOrDefault(element, 0)
+    }
 
     /**
      * If two MutableMultiSets contain the same elements, with the same number of occurrences per element.
@@ -322,11 +375,13 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
             return false
         }
 
+        updateValues()
         return try {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
             if (other is MutableMultiSetImpl<*>) {
+                other.updateValues()
                 return countsMap == other.countsMap
             }
 
@@ -338,13 +393,32 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
         }
     }
 
+    private fun updateValues() {
+        val currentCodes = getCurrentHashCodes()
+        if (currentCodes != hashCodes) {
+            string = createString()
+
+            countsMap = list.groupBy { it }.map { it.key to it.value.size }.toMap().toMutableMap()
+            hashCodes = currentCodes
+        }
+    }
+
+    private fun createString(): String {
+        if (size == 0) {
+            return "[]"
+        }
+
+        val elementsString = list.joinToString(", ")
+        return "[$elementsString]"
+    }
+
     /**
      * Get an iterator for the elements in this set.
      *
      * @return [Iterator]<E>
      */
     override fun iterator(): MutableIterator<E> {
-        updateList()
+        // updateList()
         return list.toMutableList().iterator()
     }
 
@@ -354,7 +428,8 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
      * @return [String]
      */
     override fun toString(): String {
-        updateList()
+        // updateList()
+        updateValues()
         return string
     }
 

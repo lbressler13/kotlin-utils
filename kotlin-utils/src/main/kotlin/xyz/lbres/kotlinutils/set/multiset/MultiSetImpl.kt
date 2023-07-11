@@ -103,6 +103,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 
         updateValues()
         val newSet = MultiSetImpl(elements)
+        // TODO wrapper to only call updateValues once
         return newSet.distinctValues.all {
             getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
         }

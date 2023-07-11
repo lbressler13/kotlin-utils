@@ -106,16 +106,17 @@ class MutableMultiSetImplTest {
         expected = "[1, 1, 1, 1]"
         assertEquals(expected, set.toString())
 
+        // TODO use anyOf for ordering
         set = mutableMultiSetOf(2, 4, 2, 1)
-        expected = "[2, 2, 4, 1]"
+        expected = "[2, 4, 2, 1]"
         assertEquals(expected, set.toString())
 
         set.add(5)
-        expected = "[2, 2, 4, 1, 5]"
+        expected = "[2, 4, 2, 1, 5]"
         assertEquals(expected, set.toString())
 
         set.remove(2)
-        expected = "[2, 4, 1, 5]"
+        expected = "[4, 2, 1, 5]"
         assertEquals(expected, set.toString())
 
         val mutableList1 = mutableListOf(1, 2, 3)

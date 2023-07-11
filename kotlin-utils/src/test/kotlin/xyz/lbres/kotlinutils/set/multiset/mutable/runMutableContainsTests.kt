@@ -34,7 +34,9 @@ fun runMutableContainsTests() {
     set.add(1)
     assertTrue(set.contains(1))
     assertFalse(set.contains(2))
+    set.remove(1)
     set.add(2)
+    println(set.contains(2))
     assertTrue(set.contains(2))
 
     // changing values
