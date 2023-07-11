@@ -25,8 +25,16 @@ fun runAddTests() {
 
     val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"))
     val listOther = listOf("farewell", "goodbye")
-    val listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"))
+    var listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"))
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOther) }
+
+    val mutableList = mutableListOf("goodbye")
+    listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), listOf("goodbye"))
+    runSingleMutateTest(listSet, listExpected, true) { listSet.add(mutableList) }
+
+    mutableList.clear()
+    listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), emptyList())
+    assertEquals(listExpected, listSet)
 }
 
 fun runAddAllTests() {
@@ -88,6 +96,17 @@ fun runRemoveTests() {
     expected = mutableMultiSetOf(2, 3)
     runSingleMutateTest(set, expected, true) { set.remove(other) }
     runSingleMutateTest(set, expected, false) { set.remove(other) }
+
+    // changed value
+    val mutableList = mutableListOf("goodbye")
+    var listSet = mutableMultiSetOf(mutableList, listOf("hello world"))
+    var listExpected = mutableMultiSetOf(listOf("hello", "world"))
+    runSingleMutateTest(listSet, listExpected, true) { listSet.remove(mutableList) }
+
+    listSet = mutableMultiSetOf(mutableList, listOf("hello world"))
+    mutableList.clear()
+    listExpected = mutableMultiSetOf(listOf("hello", "world"))
+    runSingleMutateTest(listSet, listExpected, false) { listSet.remove(mutableList) }
 }
 
 fun runRemoveAllTests() {
@@ -191,6 +210,17 @@ fun runRetainAllTests() {
     other = mutableMultiSetOf(1, 2, 2)
     expected = mutableMultiSetOf(1, 2)
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
+
+    // changed value
+    val mutableList = mutableListOf(1, 4)
+    var listSet = mutableMultiSetOf(mutableList, listOf(1, 2, 3))
+    var listExpected = mutableMultiSetOf(listOf(1, 4))
+    runSingleMutateTest(listSet, listExpected, true) { listSet.retainAll(listOf(mutableList)) }
+
+    listSet = mutableMultiSetOf(mutableList, listOf(1, 2, 3))
+    mutableList.clear()
+    listExpected = mutableMultiSetOf()
+    runSingleMutateTest(listSet, listExpected, true) { listSet.retainAll(listOf(mutableList)) }
 }
 
 fun runClearTests() {

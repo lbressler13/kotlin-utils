@@ -173,24 +173,22 @@ internal class MutableMultiSetImpl<E> : MutableMultiSet<E> {
     override fun retainAll(elements: Collection<E>): Boolean {
         val other = MutableMultiSetImpl(elements)
 
-        val elementsToRemove: MutableSet<E> = mutableSetOf()
+        val updatedCounts: MutableMap<E, Int> = mutableMapOf()
 
-        // update count of each element or mark as needing removal
-        // cannot remove during loop, will throw a ConcurrentModificationException
+        // cannot modify counts during loop, will throw a ConcurrentModificationException
         for (pair in countsMap) {
             val element = pair.key
             val currentCount = pair.value
             val newCount = min(currentCount, other.getCountOf(element))
-
-            if (newCount.isZero()) {
-                elementsToRemove.add(element)
-            } else {
-                countsMap[element] = newCount
-            }
+            updatedCounts[element] = newCount
         }
 
-        for (element in elementsToRemove) {
-            countsMap.remove(element)
+        updatedCounts.forEach {
+            if (it.value == 0) {
+                countsMap.remove(it.key)
+            } else {
+                countsMap[it.key] = it.value
+            }
         }
 
         listUpdated = false
