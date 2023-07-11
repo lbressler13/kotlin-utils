@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
-// TODO update all tests
 class MutableMultiSetImplTest {
     @Test fun testConstructor() = runMutableConstructorTests()
     @Test fun testEquals() = runMutableEqualsTests()

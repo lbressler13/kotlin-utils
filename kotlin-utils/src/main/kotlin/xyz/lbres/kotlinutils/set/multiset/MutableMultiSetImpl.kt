@@ -48,7 +48,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * Initialize stored variables from a collection of values.
      */
     constructor(elements: Collection<E>) {
-        // countsMap = mutableMapOf()
         val mutableCounts: MutableMap<E, Int> = mutableMapOf()
 
         list = elements.toMutableList()
@@ -56,7 +55,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
         hashCodes = getCurrentHashCodes()
 
         for (element in elements) {
-            // mutableCounts[element] = getCountWithoutUpdate(element) + 1
             mutableCounts[element] = mutableCounts.getOrDefault(element, 0) + 1
         }
 
@@ -87,7 +85,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
     override fun add(element: E): Boolean {
         updateValues()
         (countsMap as MutableMap)[element] = getCountWithoutUpdate(element) + 1
-        // countsMap[element] = getCountWithoutUpdate(element) + 1
         list.add(element)
         return true
     }
@@ -202,36 +199,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
         return true
     }
 
-//    /**
-//     * Determine if an element is contained in the current set.
-//     *
-//     * @param element [E]
-//     * @return [Boolean]: true if [element] is in the set, false otherwise
-//     */
-//    override fun contains(element: E): Boolean {
-//        updateValues()
-//        return countsMap.contains(element)
-//    }
-//
-//    /**
-//     * Determine if all elements in a collection are contained in the current set.
-//     * If [elements] contains multiple occurrences of the same value, the function will check if this set contains at least as many occurrences as [elements].
-//     *
-//     * @param elements [Collection<E>]
-//     * @return [Boolean]: true if the current set contains at least as many occurrences of each value as [elements]
-//     */
-//    override fun containsAll(elements: Collection<E>): Boolean {
-//        if (elements.isEmpty()) {
-//            return true
-//        }
-//
-//        updateValues()
-//        val newSet = MultiSetImpl(elements) // less overhead than creating a MutableMultiSetImpl
-//        return newSet.distinctValues.all {
-//            getCountWithoutUpdate(it) > 0 && newSet.getCountOf(it) <= getCountWithoutUpdate(it)
-//        }
-//    }
-
     /**
      * Create a new MultiSet with values that are in this set but not the other set.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
@@ -240,12 +207,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        updateValues()
-        val newCounts = distinctValues.associateWith {
-            getCountWithoutUpdate(it) - other.getCountOf(it)
-        }.filter { it.value > 0 }
-
-        return MutableMultiSetImpl(newCounts)
+        return super<AbstractMultiSet>.minus(other) as MutableMultiSet<E>
     }
 
     /**
@@ -256,33 +218,11 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
-        val allValues = distinctValues + other.distinctValues
-
-        val newCounts = allValues.associateWith {
-            getCountWithoutUpdate(it) + other.getCountOf(it)
-        }
-
-        return MutableMultiSetImpl(newCounts)
+        return super<AbstractMultiSet>.plus(other) as MutableMultiSet<E>
     }
 
-    /**
-     * Create a new MultiSet with values that are shared between the sets.
-     * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
-     *
-     * @param other [MultiSet]<E>: values to intersect with the MultiSet
-     * @return [MutableMultiSet]<E>: MultiSet containing only values that are in both MultiSets
-     */
-    override infix fun intersect(other: MultiSet<E>): MutableMultiSet<E> {
-        updateValues()
-        val allValues = distinctValues + other.distinctValues
-
-        val newCounts = allValues.associateWith {
-            val count = getCountWithoutUpdate(it)
-            val otherCount = other.getCountOf(it)
-            min(count, otherCount)
-        }.filter { it.value > 0 }
-
-        return MutableMultiSetImpl(newCounts)
+    override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> {
+        return MutableMultiSetImpl(counts)
     }
 
     /**
@@ -299,62 +239,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
         }
 
         return hashCodeCounts
-    }
-
-//    /**
-//     * If the current set contains 0 elements.
-//     *
-//     * @return [Boolean]: true if the set contains 0 elements, false otherwise
-//     */
-//    override fun isEmpty(): Boolean = countsMap.isEmpty()
-
-    /**
-     * Get the number of occurrences of a given element.
-     *
-     * @param element [E]
-     * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
-     */
-    override fun getCountOf(element: E): Int {
-        updateValues()
-        return getCountWithoutUpdate(element)
-    }
-
-    /**
-     * Get number of occurrences of a given element, without updating the values in the counts map.
-     * Assumes that values have already been updated.
-     *
-     * @param element [E]
-     * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
-     */
-    // private fun getCountWithoutUpdate(element: E): Int = countsMap.getOrDefault(element, 0)
-
-    /**
-     * If two MutableMultiSets contain the same elements, with the same number of occurrences per element.
-     *
-     * @param other [Any]?
-     * @return [Boolean]: true if [other] is a non-null MultiSet which contains the same values as the current set, false otherwise
-     */
-    override fun equals(other: Any?): Boolean {
-        if (other == null || other !is MultiSet<*>) {
-            return false
-        }
-
-        updateValues()
-        return try {
-            @Suppress("UNCHECKED_CAST")
-            other as MultiSet<E>
-
-//            if (other is MutableMultiSetImpl<*>) {
-//                other.updateValues()
-//                return countsMap == other.countsMap
-//            }
-
-            // less efficient equality check
-            val otherDistinct = other.distinctValues
-            return distinctValues == otherDistinct && distinctValues.all { getCountWithoutUpdate(it) == other.getCountOf(it) }
-        } catch (_: Exception) {
-            false
-        }
     }
 
     override fun updateValues() {
@@ -382,16 +266,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * @return [Iterator]<E>
      */
     override fun iterator(): MutableIterator<E> = list.toMutableList().iterator()
-
-    /**
-     * Get a string representation of the set.
-     *
-     * @return [String]
-     */
-    override fun toString(): String {
-        updateValues()
-        return string
-    }
 
     override fun hashCode(): Int = listOf(javaClass.name, countsMap).hashCode()
 }

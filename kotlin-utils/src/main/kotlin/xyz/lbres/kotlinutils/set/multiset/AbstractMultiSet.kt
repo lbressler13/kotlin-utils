@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import kotlin.math.min
+
 internal abstract class AbstractMultiSet<E>: MultiSet<E> {
     /**
      * Store the number of occurrences of each element in set.
@@ -68,6 +70,92 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
         }
     }
 
+    /**
+     * If two MultiSets contain the same elements, with the same number of occurrences per element.
+     *
+     * @param other [Any]?
+     * @return [Boolean]: true if [other] is a non-null MultiSet which contains the same values as the current set, false otherwise
+     */
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is MultiSet<*>) {
+            return false
+        }
+
+        updateValues()
+        return try {
+            @Suppress("UNCHECKED_CAST")
+            other as MultiSet<E>
+
+            // TODO
+//            if (other is AbstractMultiSet<*>) {
+//                other as AbstractMultiSet<E>
+//                // other.updateValues()
+//                return countsMap == other.countsMap
+//            }
+
+            // less efficient equality check
+            val otherDistinct = other.distinctValues
+            return distinctValues == otherDistinct && distinctValues.all { getCountWithoutUpdate(it) == other.getCountOf(it) }
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Create a new MultiSet with values that are shared between the sets.
+     * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
+     *
+     * @param other [MultiSet]<E>: MultiSet to intersect with current
+     * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
+     */
+    override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
+        updateValues()
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.associateWith {
+            val count = getCountWithoutUpdate(it)
+            val otherCount = other.getCountOf(it)
+            min(count, otherCount)
+        }.filter { it.value > 0 }
+
+        return createFromCountsMap(newCounts)
+    }
+
+    /**
+     * Create a new MultiSet with values that are in this set but not the other set.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
+     *
+     * @param other [MultiSet]<E>: values to subtract from this MultiSet
+     * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
+     */
+    override operator fun minus(other: MultiSet<E>): MultiSet<E> {
+        updateValues()
+        val newCounts = distinctValues.associateWith {
+            getCountWithoutUpdate(it) - other.getCountOf(it)
+        }.filter { it.value > 0 }
+
+        return createFromCountsMap(newCounts)
+    }
+
+    /**
+     * Create a new MultiSet with all values from both sets.
+     * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
+     *
+     * @param other [MultiSet]<E>: values to add to this MultiSet
+     * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
+     */
+    override operator fun plus(other: MultiSet<E>): MultiSet<E> {
+        val allValues = distinctValues + other.distinctValues
+
+        val newCounts = allValues.associateWith {
+            getCountWithoutUpdate(it) + other.getCountOf(it)
+        }
+
+        return createFromCountsMap(newCounts)
+    }
+
+    protected abstract fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E>
+
     protected abstract fun updateValues()
 
     protected abstract fun createString(): String
@@ -80,7 +168,6 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
     override fun isEmpty(): Boolean = countsMap.isEmpty()
-
 
     /**
      * Get a string representation of the set.
