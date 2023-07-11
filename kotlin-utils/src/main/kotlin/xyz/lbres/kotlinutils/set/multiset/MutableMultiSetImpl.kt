@@ -266,6 +266,4 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * @return [Iterator]<E>
      */
     override fun iterator(): MutableIterator<E> = list.toMutableList().iterator()
-
-    override fun hashCode(): Int = listOf(javaClass.name, countsMap).hashCode()
 }

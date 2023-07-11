@@ -131,6 +131,4 @@ internal class MultiSetImpl<E> : AbstractMultiSet<E> {
      * @return [Iterator]<E>
      */
     override fun iterator(): Iterator<E> = initialElements.toList().iterator()
-
-    override fun hashCode(): Int = listOf(javaClass.name, initialElements).hashCode()
 }

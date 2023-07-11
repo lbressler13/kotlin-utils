@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import kotlin.math.min
 
 internal abstract class AbstractMultiSet<E>: MultiSet<E> {
@@ -86,12 +87,11 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
-            // TODO
-//            if (other is AbstractMultiSet<*>) {
-//                other as AbstractMultiSet<E>
-//                // other.updateValues()
-//                return countsMap == other.countsMap
-//            }
+            if (other is AbstractMultiSet<*>) {
+                val finalOther = other.toMultiSet() as AbstractMultiSet<E>
+                finalOther.updateValues()
+                return countsMap == finalOther.countsMap
+            }
 
             // less efficient equality check
             val otherDistinct = other.distinctValues
@@ -177,5 +177,9 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
     override fun toString(): String {
         updateValues()
         return string
+    }
+
+    override fun hashCode(): Int {
+        return countsMap.hashCode()
     }
 }
