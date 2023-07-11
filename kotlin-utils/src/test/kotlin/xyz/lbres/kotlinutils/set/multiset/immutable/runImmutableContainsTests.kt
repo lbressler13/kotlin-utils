@@ -33,10 +33,8 @@ fun runImmutableContainsTests() {
     val mutableList2 = mutableListOf(1, 2, 3)
     listSet = multiSetOf(mutableList1, mutableList2)
     assertFalse(listSet.contains(listOf(1, 2)))
-    println(listSet.distinctValues)
 
     mutableList1.remove(3)
-    println(listSet.distinctValues)
     assertTrue(listSet.contains(listOf(1, 2)))
     assertTrue(listSet.contains(listOf(1, 2, 3)))
 

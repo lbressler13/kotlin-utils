@@ -11,16 +11,22 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      */
     override val size: Int
 
+    private var _distinctValues: Set<E> = emptySet()
+
     /**
      * All distinct values contained in the MultiSet, without any counts
      */
     override val distinctValues: Set<E>
+        get() {
+            updateValues()
+            return _distinctValues
+        }
 
     /**
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than 0.
      */
-    private val countsMap: Map<E, Int>
+    private var countsMap: Map<E, Int>
 
     /**
      * The initial elements that were passed to the constructor.
@@ -30,7 +36,9 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     /**
      * String representation of the set.
      */
-    private val string: String
+    private var string: String
+
+    private var hashCodes: Map<Int, Int> = emptyMap()
 
     /**
      * Initialize stored variables from a collection of values.
@@ -41,7 +49,8 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         string = createString()
 
         countsMap = elements.groupBy { it }.map { it.key to it.value.size }.toMap()
-        distinctValues = countsMap.keys
+        hashCodes = countsMap.map { it.key.hashCode() to it.value }.toMap()
+        _distinctValues = countsMap.keys
     }
 
     /**
@@ -50,7 +59,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     private constructor(counts: Map<E, Int>) {
         countsMap = counts
         size = counts.values.fold(0, Int::plus)
-        distinctValues = counts.keys
+        _distinctValues = counts.keys
 
         initialElements = counts.flatMap {
             val element = it.key
@@ -61,13 +70,27 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         string = createString()
     }
 
+    private fun updateValues() {
+        val currentCodes = countsMap.map { it.key.hashCode() to it.value }.toMap()
+        if (currentCodes != hashCodes) {
+            string = createString()
+
+            countsMap = initialElements.groupBy { it }.map { it.key to it.value.size }.toMap()
+            hashCodes = countsMap.map { it.key.hashCode() to it.value }.toMap()
+            _distinctValues = countsMap.keys
+        }
+    }
+
     /**
      * Determine if an element is contained in the current set.
      *
      * @param element [E]
      * @return [Boolean]: `true` if [element] is in the set, `false` otherwise
      */
-    override fun contains(element: E): Boolean = countsMap.contains(element)
+    override fun contains(element: E): Boolean {
+        updateValues()
+        return countsMap.contains(element)
+    }
 
     /**
      * Determine if all elements in a collection are contained in the current set.
@@ -81,6 +104,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             return true
         }
 
+        updateValues()
         val newSet = MultiSetImpl(elements)
         return newSet.distinctValues.all {
             getCountOf(it) > 0 && newSet.getCountOf(it) <= getCountOf(it)
@@ -95,6 +119,12 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
+        updateValues()
+
+        if (other is MultiSetImpl<*>) {
+            other.updateValues()
+        }
+
         val newCounts = distinctValues.associateWith {
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
@@ -110,6 +140,11 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
+        updateValues()
+        if (other is MultiSetImpl<*>) {
+            other.updateValues()
+        }
+
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
@@ -127,6 +162,11 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
+        updateValues()
+        if (other is MultiSetImpl<*>) {
+            other.updateValues()
+        }
+
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
@@ -151,7 +191,10 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    override fun getCountOf(element: E): Int = countsMap.getOrDefault(element, 0)
+    override fun getCountOf(element: E): Int {
+        updateValues()
+        return countsMap.getOrDefault(element, 0)
+    }
 
     /**
      * If two MultiSets contain the same elements, with the same number of occurrences per element.
@@ -164,11 +207,13 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             return false
         }
 
+        updateValues()
         return try {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
             if (other is MultiSetImpl<*>) {
+                other.updateValues() // TODO: this doesn't work with other implementations of MultiSet
                 return countsMap == other.countsMap
             }
 
@@ -210,7 +255,12 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      *
      * @return [String]
      */
-    override fun toString(): String = string
+    override fun toString(): String {
+        updateValues()
+        return string
+    }
 
-    override fun hashCode(): Int = listOf(javaClass.name, countsMap).hashCode()
+    override fun hashCode(): Int {
+        return listOf(javaClass.name, initialElements).hashCode()
+    }
 }
