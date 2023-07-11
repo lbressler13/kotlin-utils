@@ -3,7 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.int.ext.isZero
 import kotlin.math.min
 
-// TODO mutables fix to this class
+// TODO copy mutables fix to this class
 
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
