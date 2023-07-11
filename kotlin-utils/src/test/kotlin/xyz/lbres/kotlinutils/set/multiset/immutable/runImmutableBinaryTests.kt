@@ -127,6 +127,10 @@ fun runImmutableEqualsTests() {
     setSet2 = multiSetOf(setOf(1, 3))
     assertEquals(setSet1, setSet2)
     assertEquals(setSet2, setSet1)
+
+    mutableSet1.add(2)
+    setSet2 = TestMultiSet(listOf(setOf(1, 3, 2)))
+    assertEquals(setSet2, setSet1)
 }
 
 fun runImmutableMinusTests() {

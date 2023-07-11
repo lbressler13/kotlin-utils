@@ -11,6 +11,9 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      */
     override val size: Int
 
+    /**
+     * Mutable parameter for all distinct values contained in the MultiSet, without any counts
+     */
     private var _distinctValues: Set<E> = emptySet()
 
     /**
@@ -34,11 +37,15 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     private val initialElements: Collection<E>
 
     /**
+     * Store the hash codes for all the values in the set.
+     * Used to determine if any mutable values have changed.
+     */
+    private var hashCodes: Map<Int, Int>
+
+    /**
      * String representation of the set.
      */
     private var string: String
-
-    private var hashCodes: Map<Int, Int> = emptyMap()
 
     /**
      * Initialize stored variables from a collection of values.
@@ -49,7 +56,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         string = createString()
 
         countsMap = elements.groupBy { it }.map { it.key to it.value.size }.toMap()
-        hashCodes = countsMap.map { it.key.hashCode() to it.value }.toMap()
+        hashCodes = getCurrentHashCodes()
         _distinctValues = countsMap.keys
     }
 
@@ -68,17 +75,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
         }
 
         string = createString()
-    }
-
-    private fun updateValues() {
-        val currentCodes = countsMap.map { it.key.hashCode() to it.value }.toMap()
-        if (currentCodes != hashCodes) {
-            string = createString()
-
-            countsMap = initialElements.groupBy { it }.map { it.key to it.value.size }.toMap()
-            hashCodes = countsMap.map { it.key.hashCode() to it.value }.toMap()
-            _distinctValues = countsMap.keys
-        }
+        hashCodes = getCurrentHashCodes()
     }
 
     /**
@@ -121,10 +118,6 @@ internal class MultiSetImpl<E> : MultiSet<E> {
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
         updateValues()
 
-        if (other is MultiSetImpl<*>) {
-            other.updateValues()
-        }
-
         val newCounts = distinctValues.associateWith {
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
@@ -141,10 +134,6 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      */
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
         updateValues()
-        if (other is MultiSetImpl<*>) {
-            other.updateValues()
-        }
-
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
@@ -163,10 +152,6 @@ internal class MultiSetImpl<E> : MultiSet<E> {
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
         updateValues()
-        if (other is MultiSetImpl<*>) {
-            other.updateValues()
-        }
-
         val allValues = distinctValues + other.distinctValues
 
         val newCounts = allValues.associateWith {
@@ -213,7 +198,7 @@ internal class MultiSetImpl<E> : MultiSet<E> {
             other as MultiSet<E>
 
             if (other is MultiSetImpl<*>) {
-                other.updateValues() // TODO: this doesn't work with other implementations of MultiSet
+                other.updateValues()
                 return countsMap == other.countsMap
             }
 
@@ -238,6 +223,36 @@ internal class MultiSetImpl<E> : MultiSet<E> {
 
         val elementsString = initialElements.joinToString(", ")
         return "[$elementsString]"
+    }
+
+    /**
+     * If the hash code values are changed, update all properties related to the values of the set
+     */
+    private fun updateValues() {
+        val currentCodes = getCurrentHashCodes()
+        if (currentCodes != hashCodes) {
+            string = createString()
+
+            countsMap = initialElements.groupBy { it }.map { it.key to it.value.size }.toMap()
+            hashCodes = currentCodes
+            _distinctValues = countsMap.keys
+        }
+    }
+
+    /**
+     * Get hash codes for the elements
+     *
+     * @return [Map]<Int, Int>: hash codes for all elements in the set
+     */
+    private fun getCurrentHashCodes(): Map<Int, Int> {
+        val hashCodeCounts: MutableMap<Int, Int> = mutableMapOf()
+
+        initialElements.forEach {
+            val code = it.hashCode()
+            hashCodeCounts[code] = (hashCodeCounts[code] ?: 0) + 1
+        }
+
+        return hashCodeCounts
     }
 
     /**
