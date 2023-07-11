@@ -25,13 +25,15 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than zero.
      */
-    //private var countsMap: MutableMap<E, Int>
     override var countsMap: Map<E, Int>
 
     /**
      * A list containing all elements in the set.
      */
     private var list: MutableList<E>
+
+    override val hashElements: Collection<E>
+        get() = list
 
     /**
      * Store the hash codes for all the values in the set.
@@ -226,21 +228,9 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
     }
 
     /**
-     * Get hash codes for the elements
-     *
-     * @return [Map]<Int, Int>: hash codes for all elements in the set
+     * If the hash code values are changed, update all properties related to the values of the set.
+     * Overrides default to use mutable map.
      */
-    override fun getCurrentHashCodes(): Map<Int, Int> {
-        val hashCodeCounts: MutableMap<Int, Int> = mutableMapOf()
-
-        list.forEach {
-            val code = it.hashCode()
-            hashCodeCounts[code] = (hashCodeCounts[code] ?: 0) + 1
-        }
-
-        return hashCodeCounts
-    }
-
     override fun updateValues() {
         val currentCodes = getCurrentHashCodes()
         if (currentCodes != hashCodes) {
@@ -249,15 +239,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
             countsMap = list.groupBy { it }.map { it.key to it.value.size }.toMap().toMutableMap()
             hashCodes = currentCodes
         }
-    }
-
-    override fun createString(): String {
-        if (size == 0) {
-            return "[]"
-        }
-
-        val elementsString = list.joinToString(", ")
-        return "[$elementsString]"
     }
 
     /**

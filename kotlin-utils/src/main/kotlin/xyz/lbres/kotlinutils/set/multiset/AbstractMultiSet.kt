@@ -3,7 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import kotlin.math.min
 
-internal abstract class AbstractMultiSet<E>: MultiSet<E> {
+internal abstract class AbstractMultiSet<E> : MultiSet<E> {
     /**
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than zero.
@@ -12,7 +12,7 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
 
     /**
      * Store the hash codes for all the values in the set.
-     * Used to determine if any mutable values have changed.
+     * Used to determine if mutable values have changed.
      */
     protected abstract var hashCodes: Map<Int, Int>
 
@@ -20,6 +20,12 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
      * String representation of the set.
      */
     protected abstract var string: String
+
+    /**
+     * Elements used to generate [hashCodes].
+     * Used to determine if mutable values have changed.
+     */
+    protected abstract val hashElements: Collection<E>
 
     /**
      * Get the number of occurrences of a given element.
@@ -156,11 +162,34 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
 
     protected abstract fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E>
 
-    protected abstract fun updateValues()
+    /**
+     * If the hash code values are changed, update all properties related to the values of the set
+     */
+    protected open fun updateValues() {
+        val currentCodes = getCurrentHashCodes()
+        if (currentCodes != hashCodes) {
+            string = createString()
 
-    protected abstract fun createString(): String
+            countsMap = hashElements.groupBy { it }.map { it.key to it.value.size }.toMap()
+            hashCodes = currentCodes
+        }
+    }
 
-    protected abstract fun getCurrentHashCodes(): Map<Int, Int>
+    /**
+     * Get hash codes for the elements
+     *
+     * @return [Map]<Int, Int>: hash codes for all elements in the set
+     */
+    protected fun getCurrentHashCodes(): Map<Int, Int> {
+        val hashCodeCounts: MutableMap<Int, Int> = mutableMapOf()
+
+        hashElements.forEach {
+            val code = it.hashCode()
+            hashCodeCounts[code] = (hashCodeCounts[code] ?: 0) + 1
+        }
+
+        return hashCodeCounts
+    }
 
     /**
      * If the current set contains 0 elements.
@@ -168,6 +197,21 @@ internal abstract class AbstractMultiSet<E>: MultiSet<E> {
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
     override fun isEmpty(): Boolean = countsMap.isEmpty()
+
+    /**
+     * Create the static string representation of the set.
+     * Stored in a helper so it can be reused in both constructors.
+     *
+     * @return [String]
+     */
+    protected fun createString(): String {
+        if (hashElements.isEmpty()) {
+            return "[]"
+        }
+
+        val elementsString = hashElements.joinToString(", ")
+        return "[$elementsString]"
+    }
 
     /**
      * Get a string representation of the set.
