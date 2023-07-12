@@ -41,7 +41,7 @@ fun runFilterConsistentTests() {
     intSet = multiSetOf(1, 1, 3, 2, 14, 14)
     val intOptions = listOf(listOf(1, 1, 2, 14, 14), listOf(3, 2, 14, 14))
     var previousOdd = false
-    val intActual = intSet.filterConsistent {
+    val intPredicate: (Int) -> Boolean = {
         when {
             it % 2 == 0 -> true
             previousOdd -> false
@@ -50,15 +50,15 @@ fun runFilterConsistentTests() {
                 true
             }
         }
-    }.sorted()
-    assertEqualsAnyOf(intOptions, intActual)
+    }
+    assertEqualsAnyOf(intOptions, intSet.filterConsistent(intPredicate).sorted())
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
 
     var previous12 = false
-    var listActual = listSet.filterConsistent {
+    val listPredicate: (IntList) -> Boolean = {
         if (it.containsAll(listOf(1, 2)) && previous12) {
             true
         } else {
@@ -67,20 +67,12 @@ fun runFilterConsistentTests() {
         }
     }
     val listExpected: List<IntList> = emptyList()
-    assertEquals(listExpected, listActual)
+    assertEquals(listExpected, listSet.filterConsistent(listPredicate))
 
     mutableList1.add(0)
     previous12 = false
-    listActual = listSet.filterConsistent {
-        if (it.containsAll(listOf(1, 2)) && previous12) {
-            true
-        } else {
-            previous12 = true
-            false
-        }
-    }
     val listOptions = listOf(listOf(listOf(1, 2, 3)), listOf(listOf(1, 2, 3, 0)))
-    assertEqualsAnyOf(listOptions, listActual)
+    assertEqualsAnyOf(listOptions, listSet.filterConsistent(listPredicate))
 }
 
 fun runFilterNotConsistentTests() {
@@ -114,7 +106,7 @@ fun runFilterNotConsistentTests() {
     intSet = multiSetOf(1, 1, 3, 2, 14, 14)
     val intOptions = listOf(listOf(1, 1), listOf(3))
     var previousOdd = false
-    val intActual = intSet.filterNotConsistent {
+    val intPredicate: (Int) -> Boolean = {
         when {
             it % 2 == 0 -> true
             previousOdd -> false
@@ -123,15 +115,15 @@ fun runFilterNotConsistentTests() {
                 true
             }
         }
-    }.sorted()
-    assertEqualsAnyOf(intOptions, intActual)
+    }
+    assertEqualsAnyOf(intOptions, intSet.filterNotConsistent(intPredicate).sorted())
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
 
     var previous12 = false
-    var listActual = listSet.filterNotConsistent {
+    val listPredicate: (IntList) -> Boolean = {
         if (it.containsAll(listOf(1, 2)) && previous12) {
             false
         } else {
@@ -140,20 +132,12 @@ fun runFilterNotConsistentTests() {
         }
     }
     val listExpected: List<IntList> = emptyList()
-    assertEquals(listExpected, listActual)
+    assertEquals(listExpected, listSet.filterNotConsistent(listPredicate))
 
     mutableList1.add(0)
     previous12 = false
-    listActual = listSet.filterNotConsistent {
-        if (it.containsAll(listOf(1, 2)) && previous12) {
-            false
-        } else {
-            previous12 = true
-            true
-        }
-    }
     val listOptions = listOf(listOf(listOf(1, 2, 3)), listOf(listOf(1, 2, 3, 0)))
-    assertEqualsAnyOf(listOptions, listActual)
+    assertEqualsAnyOf(listOptions, listSet.filterNotConsistent(listPredicate))
 }
 
 fun runFilterToSetConsistentTests() {
@@ -187,7 +171,7 @@ fun runFilterToSetConsistentTests() {
     intSet = multiSetOf(1, 1, 3, 2, 14, 14)
     val intOptions = listOf(multiSetOf(1, 1, 2, 14, 14), multiSetOf(3, 2, 14, 14))
     var previousOdd = false
-    val intActual = intSet.filterToSetConsistent {
+    val intPredicate: (Int) -> Boolean = {
         when {
             it % 2 == 0 -> true
             previousOdd -> false
@@ -197,14 +181,14 @@ fun runFilterToSetConsistentTests() {
             }
         }
     }
-    assertEqualsAnyOf(intOptions, intActual)
+    assertEqualsAnyOf(intOptions, intSet.filterToSetConsistent(intPredicate))
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
 
     var previous12 = false
-    var listActual = listSet.filterToSetConsistent {
+    val listPredicate: (IntList) -> Boolean = {
         if (it.containsAll(listOf(1, 2)) && previous12) {
             true
         } else {
@@ -213,20 +197,12 @@ fun runFilterToSetConsistentTests() {
         }
     }
     val listExpected: MultiSet<IntList> = emptyMultiSet()
-    assertEquals(listExpected, listActual)
+    assertEquals(listExpected, listSet.filterToSetConsistent(listPredicate))
 
     mutableList1.add(0)
     previous12 = false
-    listActual = listSet.filterToSetConsistent {
-        if (it.containsAll(listOf(1, 2)) && previous12) {
-            true
-        } else {
-            previous12 = true
-            false
-        }
-    }
     val listOptions = listOf(multiSetOf(listOf(1, 2, 3)), multiSetOf(listOf(1, 2, 3, 0)))
-    assertEqualsAnyOf(listOptions, listActual)
+    assertEqualsAnyOf(listOptions, listSet.filterToSetConsistent(listPredicate))
 }
 
 fun runFilterNotToSetConsistentTests() {
@@ -260,7 +236,7 @@ fun runFilterNotToSetConsistentTests() {
     intSet = multiSetOf(1, 1, 3, 2, 14, 14)
     val intOptions = listOf(multiSetOf(1, 1), multiSetOf(3))
     var previousOdd = false
-    val intActual = intSet.filterNotToSetConsistent {
+    val intPredicate: (Int) -> Boolean = {
         when {
             it % 2 == 0 -> true
             previousOdd -> false
@@ -270,14 +246,14 @@ fun runFilterNotToSetConsistentTests() {
             }
         }
     }
-    assertEqualsAnyOf(intOptions, intActual)
+    assertEqualsAnyOf(intOptions, intSet.filterNotToSetConsistent(intPredicate))
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
 
     var previous12 = false
-    var listActual = listSet.filterNotToSetConsistent {
+    val listPredicate: (IntList) -> Boolean = {
         if (it.containsAll(listOf(1, 2)) && previous12) {
             false
         } else {
@@ -286,18 +262,10 @@ fun runFilterNotToSetConsistentTests() {
         }
     }
     val listExpected: MultiSet<IntList> = emptyMultiSet()
-    assertEquals(listExpected, listActual)
+    assertEquals(listExpected, listSet.filterNotToSetConsistent(listPredicate))
 
     mutableList1.add(0)
-    previous12 = false
-    listActual = listSet.filterNotToSetConsistent {
-        if (it.containsAll(listOf(1, 2)) && previous12) {
-            false
-        } else {
-            previous12 = true
-            true
-        }
-    }
     val listOptions = listOf(multiSetOf(listOf(1, 2, 3)), multiSetOf(listOf(1, 2, 3, 0)))
-    assertEqualsAnyOf(listOptions, listActual)
+    previous12 = false
+    assertEqualsAnyOf(listOptions, listSet.filterNotToSetConsistent(listPredicate))
 }

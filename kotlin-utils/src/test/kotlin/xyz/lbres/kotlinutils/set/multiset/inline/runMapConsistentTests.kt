@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.assertEqualsAnyOf
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
@@ -20,11 +21,7 @@ private val helloWorldMap: (String) -> String = {
     }
 }
 private val shortenListMap: (IntList) -> IntList = {
-    if (it.size > 1) {
-        it.copyWithoutLast()
-    } else {
-        it
-    }
+    simpleIf(it.size > 1, { it.copyWithoutLast() }, { it })
 }
 
 fun runMapConsistentTests() {
