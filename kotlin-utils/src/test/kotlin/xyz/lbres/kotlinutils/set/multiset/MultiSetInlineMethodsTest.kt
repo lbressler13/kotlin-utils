@@ -9,17 +9,17 @@ class MultiSetInlineMethodsTest {
     @Test fun testFilterNotToSet() = runFilterNotToSetTests()
 
     @Test fun testMapConsistent() = runMapConsistentTests()
-    @Test fun testFilterConsistent() = runFilterConsistentTests()
-    @Test fun testFilterNotConsistent() = runFilterNotConsistentTests()
+    @Test fun testFilterConsistent() = runFilterConsistentTests() // TODO
+    @Test fun testFilterNotConsistent() = runFilterNotConsistentTests() // TODO
 
     @Test fun testMapToSetConsistent() = runMapToSetConsistentTests()
-    @Test fun testFilterToSetConsistent() = runFilterToSetConsistentTests()
-    @Test fun testFilterNotToSetConsistent() = runFilterNotToSetConsistentTests()
+    @Test fun testFilterToSetConsistent() = runFilterToSetConsistentTests() // TODO
+    @Test fun testFilterNotToSetConsistent() = runFilterNotToSetConsistentTests() // TODO
 
     @Test fun testAnyConsistent() = runAnyConsistentTests()
     @Test fun testAllConsistent() = runAllConsistentTests()
     @Test fun testNoneConsistent() = runNoneConsistentTests()
 
-    @Test fun testMinByConsistent() = runMinByConsistentTests()
-    @Test fun testMaxByConsistent() = runMaxByConsistentTests()
+    @Test fun testMinByConsistent() = runMinByConsistentTests() // TODO
+    @Test fun testMaxByConsistent() = runMaxByConsistentTests() // TODO
 }

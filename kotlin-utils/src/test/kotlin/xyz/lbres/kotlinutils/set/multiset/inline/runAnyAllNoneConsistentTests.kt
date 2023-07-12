@@ -1,12 +1,13 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.int.ext.isNegative
+import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 fun runAnyConsistentTests() {
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -43,11 +44,35 @@ fun runAnyConsistentTests() {
         }
     }
     assertFalse(intSet.anyConsistent(modifiedFn))
+    previous4 = false
     assertTrue(intSet.any(modifiedFn))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    var previous12 = false
+    val modifiedFnList: (IntList) -> Boolean = {
+        when {
+            it.containsAll(listOf(1, 2)) && !previous12 -> {
+                previous12 = true
+                false
+            }
+            it.containsAll(listOf(1, 2)) -> true
+            else -> false
+        }
+    }
+    assertFalse(listSet.anyConsistent(modifiedFnList))
+    previous12 = false
+    assertTrue(listSet.any(modifiedFnList))
+
+    mutableList1.add(0)
+    previous12 = false
+    assertTrue(listSet.anyConsistent(modifiedFnList))
 }
 
 fun runAllConsistentTests() {
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -84,11 +109,35 @@ fun runAllConsistentTests() {
         }
     }
     assertTrue(intSet.allConsistent(modifiedFn))
+    no4 = true
     assertFalse(intSet.all(modifiedFn))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    var no123 = true
+    val modifiedFnList: (IntList) -> Boolean = {
+        when {
+            it == listOf(1, 2, 3) && no123 -> {
+                no123 = false
+                true
+            }
+            it == listOf(1, 2, 3) -> false
+            else -> true
+        }
+    }
+    assertTrue(listSet.allConsistent(modifiedFnList))
+    no123 = true
+    assertFalse(listSet.all(modifiedFnList))
+
+    mutableList1.add(0)
+    no123 = false
+    assertFalse(listSet.allConsistent(modifiedFnList))
 }
 
 fun runNoneConsistentTests() {
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -126,4 +175,27 @@ fun runNoneConsistentTests() {
     }
     assertTrue(intSet.noneConsistent(modifiedFn))
     assertFalse(intSet.none(modifiedFn))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    var previous12 = false
+    val modifiedFnList: (IntList) -> Boolean = {
+        when {
+            it.containsAll(listOf(1, 2)) && !previous12 -> {
+                previous12 = true
+                false
+            }
+            it.containsAll(listOf(1, 2)) -> true
+            else -> false
+        }
+    }
+    assertTrue(listSet.noneConsistent(modifiedFnList))
+    previous12 = false
+    assertFalse(listSet.none(modifiedFnList))
+
+    mutableList1.add(0)
+    previous12 = false
+    assertFalse(listSet.noneConsistent(modifiedFnList))
 }
