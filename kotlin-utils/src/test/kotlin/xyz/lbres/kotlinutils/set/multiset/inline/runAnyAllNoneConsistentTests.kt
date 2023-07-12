@@ -181,7 +181,7 @@ fun runNoneConsistentTests() {
     val mutableList2 = mutableListOf(0, 5, 7)
     listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
     var previous12 = false
-    val modifiedFnList: (IntList) -> Boolean = {
+    val listFn: (IntList) -> Boolean = {
         when {
             it.containsAll(listOf(1, 2)) && !previous12 -> {
                 previous12 = true
@@ -191,11 +191,11 @@ fun runNoneConsistentTests() {
             else -> false
         }
     }
-    assertTrue(listSet.noneConsistent(modifiedFnList))
+    assertTrue(listSet.noneConsistent(listFn))
     previous12 = false
-    assertFalse(listSet.none(modifiedFnList))
+    assertFalse(listSet.none(listFn))
 
     mutableList1.add(0)
     previous12 = false
-    assertFalse(listSet.noneConsistent(modifiedFnList))
+    assertFalse(listSet.noneConsistent(listFn))
 }

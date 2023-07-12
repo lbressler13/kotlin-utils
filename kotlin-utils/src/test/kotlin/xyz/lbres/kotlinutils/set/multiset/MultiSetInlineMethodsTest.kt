@@ -20,6 +20,6 @@ class MultiSetInlineMethodsTest {
     @Test fun testAllConsistent() = runAllConsistentTests()
     @Test fun testNoneConsistent() = runNoneConsistentTests()
 
-    @Test fun testMinByConsistent() = runMinByConsistentTests() // TODO
-    @Test fun testMaxByConsistent() = runMaxByConsistentTests() // TODO
+    @Test fun testMinByConsistent() = runMinByConsistentTests()
+    @Test fun testMaxByConsistent() = runMaxByConsistentTests()
 }
