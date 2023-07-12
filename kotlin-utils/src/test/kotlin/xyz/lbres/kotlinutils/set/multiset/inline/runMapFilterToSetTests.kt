@@ -137,7 +137,7 @@ fun runFilterToSetTests() {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
-    var listExpected  = multiSetOf(listOf(1, 2, 3))
+    var listExpected = multiSetOf(listOf(1, 2, 3))
     assertEquals(listExpected, listSet.filterToSet { it.contains(2) })
 
     mutableList1.remove(2)
@@ -191,7 +191,7 @@ fun runFilterNotToSetTests() {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
-    var listExpected  = multiSetOf(listOf(1, 2, 3))
+    var listExpected = multiSetOf(listOf(1, 2, 3))
     assertEquals(listExpected, listSet.filterNotToSet { it.contains(0) })
 
     mutableList2.add(2)

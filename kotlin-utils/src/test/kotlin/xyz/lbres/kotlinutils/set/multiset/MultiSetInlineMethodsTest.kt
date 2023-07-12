@@ -9,12 +9,12 @@ class MultiSetInlineMethodsTest {
     @Test fun testFilterNotToSet() = runFilterNotToSetTests()
 
     @Test fun testMapConsistent() = runMapConsistentTests()
-    @Test fun testFilterConsistent() = runFilterConsistentTests() // TODO
-    @Test fun testFilterNotConsistent() = runFilterNotConsistentTests() // TODO
+    @Test fun testFilterConsistent() = runFilterConsistentTests()
+    @Test fun testFilterNotConsistent() = runFilterNotConsistentTests()
 
     @Test fun testMapToSetConsistent() = runMapToSetConsistentTests()
-    @Test fun testFilterToSetConsistent() = runFilterToSetConsistentTests() // TODO
-    @Test fun testFilterNotToSetConsistent() = runFilterNotToSetConsistentTests() // TODO
+    @Test fun testFilterToSetConsistent() = runFilterToSetConsistentTests()
+    @Test fun testFilterNotToSetConsistent() = runFilterNotToSetConsistentTests()
 
     @Test fun testAnyConsistent() = runAnyConsistentTests()
     @Test fun testAllConsistent() = runAllConsistentTests()
