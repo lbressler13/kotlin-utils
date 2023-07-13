@@ -23,7 +23,7 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     }
 
     /**
-     * Initialize stored variables from an existing counts map.
+     * Set size and elements from existing counts.
      */
     private constructor(counts: Map<E, Int>) {
         size = counts.values.fold(0, Int::plus)
@@ -35,9 +35,9 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     }
 
     /**
-     * Initialize a new MultiSet from an existing counts map.
+     * Initialize a new MultiSet from existing counts.
      */
-    override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> = MultiSetImpl(counts)
+    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MultiSetImpl(counts)
 
     /**
      * Get an iterator for the elements in this set.

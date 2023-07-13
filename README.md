@@ -2,7 +2,6 @@
 
 [![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
-TODO also java projects?
 A collection of reusable functions, classes, and type aliases that can be used across various Kotlin projects.
 
 ## Contents
@@ -117,7 +116,6 @@ See [here](https://docs.github.com/en/packages/working-with-a-github-packages-re
 ## Development practices
 
 - Util functions and extension methods should be added at the highest possible level.
-For example, if a method is applicable for the `Collection` class, it should be defined as an extension of `Collection`, rather than an extension of a `List`, `Map`, or other child class.
-- If a method is added for one class, it should also be added to similar classes where it may be useful. For example, a method that is useful for a `List` may also be useful for an `Array`.
-  - Common similarities include various array types, or various range types.
-- When applicable, randomized functions should have the ability to be called with or without a seed.
+For example, if a method is applicable for `Collection`, it should be defined as an extension of `Collection`, rather than an extension of `List`, `Map`, or other child classes.
+- If a method is added for one class, it should also be added for similar classes. For example, a method that is useful for `List` may also be useful for `Array`.
+- When applicable, randomized functions should be defined with and without a seed.

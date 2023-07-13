@@ -10,7 +10,7 @@ import kotlin.math.min
  */
 internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     /**
-     * All distinct values contained in the MultiSet, without any counts.
+     * All distinct values contained in the MultiSet.
      */
     override val distinctValues: Set<E>
         get() = elements.toSet()
@@ -38,10 +38,10 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
 
     /**
      * Determine if all elements in a collection are contained in the current set.
-     * If [elements] contains multiple occurrences of the same value, the function will check if this set contains at least as many occurrences as [elements].
+     * If the collection contains multiple occurrences of the same value, the function will check if this set contains at least as many occurrences as the collection.
      *
      * @param elements [Collection]<E>
-     * @return [Boolean]: `true` if the current set contains at least as many occurrences of each value as [elements], `false` otherwise
+     * @return [Boolean]: `true` if the current set contains at least as many occurrences of each value as the collection, `false` otherwise
      */
     override fun containsAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -49,10 +49,10 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
         }
 
         val counts = getCounts()
-        val otherCountsMap = getCounts(elements)
+        val otherCounts = getCounts(elements)
 
-        return otherCountsMap.keys.all {
-            it in counts && otherCountsMap.getOrDefault(it, 0) <= counts[it]!!
+        return otherCounts.all {
+            it.key in counts && it.value <= counts[it.key]!!
         }
     }
 
@@ -78,7 +78,6 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
                 return counts == finalOther.getCounts()
             }
 
-            // less efficient equality check
             val otherDistinct = other.distinctValues
             return distinctValues == otherDistinct && distinctValues.all { counts[it] == other.getCountOf(it) }
         } catch (_: Exception) {
@@ -125,9 +124,9 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @param other [MultiSet]<E>: other set to use in operation
      * @param operation (Int, Int) -> Int: function which takes the count of an element in the current set and the count in the other set as parameters,
      * and returns the new count for the element
-     * @param useAllValues [Boolean]: if all values from both sets should be used to generate the elements. If `false`, only the values from this set will be used.
+     * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
      * Defaults to `true`
-     * @return [MultiSet]<E>: new set, where each element has the number of values specified by the operation
+     * @return [MultiSet]<E>: new set, where each element has the number of occurrences specified by the operation
      */
     private fun genericBinaryOperation(other: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
@@ -151,7 +150,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             }
         }
 
-        return createFromCountsMap(newCounts.filter { it.value > 0 })
+        return createFromCounts(newCounts.filter { it.value > 0 })
     }
 
     /**
@@ -180,9 +179,9 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     }
 
     /**
-     * Initialize a new MultiSet from an existing counts map.
+     * Initialize a new MultiSet from existing counts.
      */
-    protected abstract fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E>
+    protected abstract fun createFromCounts(counts: Map<E, Int>): MultiSet<E>
 
     /**
      * If the current set contains 0 elements.
@@ -207,7 +206,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
 
     override fun hashCode(): Int {
         var result = getCounts().hashCode()
-        result = 31 * result + "MultiSet".hashCode()
+        result = 31 * result + MultiSet.Companion::class.java.name.hashCode()
         return result
     }
 }

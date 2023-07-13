@@ -31,7 +31,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     }
 
     /**
-     * Initialize stored variables from an existing counts map.
+     * Initialize list from existing counts.
      */
     private constructor(counts: Map<E, Int>) {
         list = mutableListOf()
@@ -48,8 +48,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
     override fun add(element: E): Boolean {
-        list.add(element)
-        return true
+        return list.add(element)
     }
 
     /**
@@ -115,14 +114,14 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      */
     override fun retainAll(elements: Collection<E>): Boolean {
         val counts = getCounts()
-        val otherCountsMap = getCounts(elements)
+        val otherCounts = getCounts(elements)
 
         list.clear()
 
         for (pair in counts) {
             val element = pair.key
             val currentCount = pair.value
-            val newCount = min(currentCount, otherCountsMap.getOrDefault(element, 0))
+            val newCount = min(currentCount, otherCounts.getOrDefault(element, 0))
             repeat(newCount) { list.add(element) }
         }
 
@@ -152,9 +151,9 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     }
 
     /**
-     * Initialize a new MultiSet from an existing counts map.
+     * Initialize a new MultiSet from existing counts.
      */
-    override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
+    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
 
     /**
      * Get an iterator for the elements in this set.
