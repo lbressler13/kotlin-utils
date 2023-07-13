@@ -163,7 +163,7 @@ class ListExtTest {
         assertTrue(stringList.isSingleValue())
 
         // not single value
-        intList = listOf()
+        intList = emptyList()
         assertFalse(intList.isSingleValue())
 
         intList = listOf(1, 1)

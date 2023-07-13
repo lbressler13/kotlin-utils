@@ -2,14 +2,8 @@
 
 [![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
-A collection of reusable functions, classes, and aliases that can be used across various Kotlin projects.
-
-## Purpose
-
-This package was initially a collection of functions that had been duplicated across multiple projects.
-It was intended to create a common place to store and test shared code, as well a single place to make any changes and bug fixes.
-
-However, the package has since expanded to include various classes and functions that could be useful across projects.
+TODO also java projects?
+A collection of reusable functions, classes, and type aliases that can be used across various Kotlin projects.
 
 ## Contents
 
@@ -88,8 +82,7 @@ The name will be in the format "kotlin-utils-version", where the version is spec
 
 Unit tests are written using the [Kotlin test](https://kotlinlang.org/api/latest/kotlin.test/) framework.
 Tests must be written for helper functions and extension functions.
-They should also be written for new classes.
-For data classes, any methods other than initialization should be tested.
+They should also be written for new classes, and for custom methods in data classes.
 
 Tests can be run using an IDE, or with the following command:
 
@@ -124,7 +117,7 @@ See [here](https://docs.github.com/en/packages/working-with-a-github-packages-re
 ## Development practices
 
 - Util functions and extension methods should be added at the highest possible level.
-For example, if a method is applicable for the `Collection` class, it should be defined as an extension of `Collection`, rather than an extension of a `List`, `Map`, etc.
-- If a method is used for one class, it should also be added to similar classes where it may be useful. For example, a method that is useful for a `List` may also be useful for an `Array`.
+For example, if a method is applicable for the `Collection` class, it should be defined as an extension of `Collection`, rather than an extension of a `List`, `Map`, or other child class.
+- If a method is added for one class, it should also be added to similar classes where it may be useful. For example, a method that is useful for a `List` may also be useful for an `Array`.
   - Common similarities include various array types, or various range types.
 - When applicable, randomized functions should have the ability to be called with or without a seed.

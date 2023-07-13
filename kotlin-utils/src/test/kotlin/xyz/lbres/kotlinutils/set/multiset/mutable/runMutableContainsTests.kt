@@ -24,8 +24,8 @@ fun runMutableContainsTests() {
     val errSet = mutableMultiSetOf(ArithmeticException(), error, NumberFormatException())
     assertTrue(errSet.contains(error))
 
-    var listSet = mutableMultiSetOf(listOf(), listOf(5, 6), listOf(9, 8, 3))
-    assertTrue(listSet.contains(listOf()))
+    var listSet = mutableMultiSetOf(emptyList(), listOf(5, 6), listOf(9, 8, 3))
+    assertTrue(listSet.contains(emptyList()))
     assertTrue(listSet.contains(listOf(9, 8, 3)))
     assertFalse(listSet.contains(listOf(6, 6)))
 
@@ -36,7 +36,6 @@ fun runMutableContainsTests() {
     assertFalse(set.contains(2))
     set.remove(1)
     set.add(2)
-    println(set.contains(2))
     assertTrue(set.contains(2))
 
     // changing values
@@ -145,10 +144,8 @@ fun runMutableContainsAllTests() {
     val mutableList2 = mutableListOf(1, 2, 3)
     val listSet: MutableMultiSet<IntList> = mutableMultiSetOf(mutableList1, mutableList2)
     assertFalse(listSet.containsAll(listOf(listOf(1, 2))))
-    println(listSet.distinctValues)
 
     mutableList1.remove(3)
-    println(listSet.distinctValues)
     assertTrue(listSet.contains(listOf(1, 2)))
     assertTrue(listSet.contains(listOf(1, 2, 3)))
 

@@ -6,12 +6,12 @@ import kotlin.test.assertEquals
 class LongCollectionExtTest {
     @Test
     fun testFilterNotZero() {
-        var list: List<Long> = listOf()
-        var expected: List<Long> = listOf()
+        var list: List<Long> = emptyList()
+        var expected: List<Long> = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(0, 0, 0)
-        expected = listOf()
+        expected = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(1, 2, 0, 4, 0, 0, 5)

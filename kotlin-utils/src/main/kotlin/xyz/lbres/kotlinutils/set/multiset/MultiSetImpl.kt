@@ -3,7 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class MultiSetImpl<E> : AbstractMultiSet<E> {
+internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     /**
      * Number of elements in set.
      */
@@ -37,15 +37,10 @@ internal class MultiSetImpl<E> : AbstractMultiSet<E> {
         get() = initialElements
 
     /**
-     * Store the hash codes for all the values in the set.
+     * Store the hash codes for all values in the set.
      * Used to determine if any mutable values have changed.
      */
     override var hashCodes: Map<Int, Int>
-
-    /**
-     * String representation of the set.
-     */
-    override var string: String
 
     /**
      * Initialize stored variables from a collection of values.
@@ -53,7 +48,6 @@ internal class MultiSetImpl<E> : AbstractMultiSet<E> {
     constructor(elements: Collection<E>) {
         size = elements.size
         initialElements = elements
-        string = createString()
 
         countsMap = elements.groupBy { it }.map { it.key to it.value.size }.toMap()
         hashCodes = getCurrentHashCodes()
@@ -72,13 +66,13 @@ internal class MultiSetImpl<E> : AbstractMultiSet<E> {
             List(count) { element }
         }
 
-        string = createString()
         hashCodes = getCurrentHashCodes()
     }
 
-    override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> {
-        return MultiSetImpl(counts)
-    }
+    /**
+     * Initialize a new MultiSet from an existing counts map.
+     */
+    override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> = MultiSetImpl(counts)
 
     /**
      * Get an iterator for the elements in this set.

@@ -5,7 +5,7 @@ import kotlin.math.min
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> {
+internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -32,19 +32,18 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      */
     private var list: MutableList<E>
 
+    /**
+     * Elements used to generate [hashCodes].
+     * Used to determine if mutable values have changed.
+     */
     override val hashElements: Collection<E>
         get() = list
 
     /**
-     * Store the hash codes for all the values in the set.
+     * Store the hash codes for all values in the set.
      * Used to determine if any mutable values have changed.
      */
     override var hashCodes: Map<Int, Int>
-
-    /**
-     * String representation of the set.
-     */
-    override var string: String
 
     /**
      * Initialize stored variables from a collection of values.
@@ -53,7 +52,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
         val mutableCounts: MutableMap<E, Int> = mutableMapOf()
 
         list = elements.toMutableList()
-        string = createString()
         hashCodes = getCurrentHashCodes()
 
         for (element in elements) {
@@ -68,13 +66,11 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      */
     private constructor(counts: Map<E, Int>) {
         countsMap = counts.toMutableMap()
+        list = mutableListOf()
 
-        list = countsMap.flatMap {
-            val element = it.key
-            val count = it.value
-            List(count) { element }
-        }.toMutableList()
-        string = createString()
+        counts.forEach {
+            repeat(it.value) { _ -> list.add(it.key) }
+        }
         hashCodes = getCurrentHashCodes()
     }
 
@@ -209,7 +205,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSet>.minus(other) as MutableMultiSet<E>
+        return super<AbstractMultiSetImpl>.minus(other) as MutableMultiSet<E>
     }
 
     /**
@@ -220,12 +216,13 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
      * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSet>.plus(other) as MutableMultiSet<E>
+        return super<AbstractMultiSetImpl>.plus(other) as MutableMultiSet<E>
     }
 
-    override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> {
-        return MutableMultiSetImpl(counts)
-    }
+    /**
+     * Initialize a new MultiSet from an existing counts map.
+     */
+    override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
 
     /**
      * If the hash code values are changed, update all properties related to the values of the set.
@@ -234,8 +231,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
     override fun updateValues() {
         val currentCodes = getCurrentHashCodes()
         if (currentCodes != hashCodes) {
-            string = createString()
-
             countsMap = list.groupBy { it }.map { it.key to it.value.size }.toMap().toMutableMap()
             hashCodes = currentCodes
         }

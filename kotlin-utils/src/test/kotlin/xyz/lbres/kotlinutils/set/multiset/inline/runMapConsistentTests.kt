@@ -64,8 +64,8 @@ fun runMapConsistentTests() {
     val expectedStringNull = listOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     assertEquals(expectedStringNull, errorSet.mapConsistent { it.message }.sortedBy { it ?: "null" })
 
-    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf(7), listOf(7), listOf(7))
-    val expectedList = listOf(listOf(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
+    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
+    val expectedList = listOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
     assertEquals(expectedList, listSet.mapConsistent(shortenListMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
 
     // modified
@@ -154,8 +154,8 @@ fun runMapToSetConsistentTests() {
     val expectedStringNull = multiSetOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     assertEquals(expectedStringNull, errorSet.mapToSetConsistent { it.message })
 
-    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf(7), listOf(7), listOf(7))
-    val expectedList = multiSetOf(listOf(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
+    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
+    val expectedList = multiSetOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
     assertEquals(expectedList, listSet.mapToSetConsistent(shortenListMap))
 
     // modified

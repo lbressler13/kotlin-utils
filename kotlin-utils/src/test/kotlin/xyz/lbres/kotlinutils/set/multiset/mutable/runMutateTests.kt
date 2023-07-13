@@ -40,7 +40,7 @@ fun runAddTests() {
 fun runAddAllTests() {
     var set: MutableMultiSet<Int> = mutableMultiSetOf()
 
-    var other: Collection<Int> = listOf()
+    var other: Collection<Int> = emptyList()
     var expected: MutableMultiSet<Int> = mutableMultiSetOf()
     runSingleMutateTest(set, expected, true) { set.addAll(other) }
 
@@ -116,7 +116,7 @@ fun runRemoveAllTests() {
     // all success
     var set = mutableMultiSetOf(1, 2, 3, 4)
 
-    var other: Collection<Int> = listOf()
+    var other: Collection<Int> = emptyList()
     var expected = mutableMultiSetOf(1, 2, 3, 4)
     runSingleMutateTest(set, expected, true) { set.removeAll(other) }
 

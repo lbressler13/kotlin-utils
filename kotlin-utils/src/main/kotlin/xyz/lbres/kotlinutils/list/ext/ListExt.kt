@@ -11,7 +11,7 @@ package xyz.lbres.kotlinutils.list.ext
 fun <T> List<T>.copyWithReplacement(index: Int, value: T): List<T> {
     val before: List<T> = subList(0, index)
     val after: List<T> = if (index == lastIndex) {
-        listOf()
+        emptyList()
     } else {
         subList(index + 1, size)
     }

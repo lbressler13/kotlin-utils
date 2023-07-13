@@ -39,7 +39,7 @@ class RandomExtTest {
     fun testNextFromWeightedList() {
         // errors
         val expectedError = "Weights must total 1"
-        assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(listOf()) }
+        assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(emptyList()) }
 
         var list = listOf(
             Pair(1, 0.1f),

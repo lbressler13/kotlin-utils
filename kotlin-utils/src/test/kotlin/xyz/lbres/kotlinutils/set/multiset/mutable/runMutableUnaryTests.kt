@@ -104,7 +104,6 @@ fun runMutableGetCountOfTests() {
 
     mutableList1.remove(3)
 
-    // println(listSet.distinctValues)
     listValue = listOf(1, 2, 3)
     expected = 1
     assertEquals(expected, listSet.getCountOf(listValue))

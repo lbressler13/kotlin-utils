@@ -3,7 +3,10 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import kotlin.math.min
 
-internal abstract class AbstractMultiSet<E> : MultiSet<E> {
+/**
+ * Partial MultiSet implementation with functionality that can be shared by [MultiSetImpl] and [MutableMultiSetImpl]
+ */
+internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     /**
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than zero.
@@ -11,15 +14,10 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
     protected abstract var countsMap: Map<E, Int>
 
     /**
-     * Store the hash codes for all the values in the set.
+     * Store the hash codes for all values in the set.
      * Used to determine if mutable values have changed.
      */
     protected abstract var hashCodes: Map<Int, Int>
-
-    /**
-     * String representation of the set.
-     */
-    protected abstract var string: String
 
     /**
      * Elements used to generate [hashCodes].
@@ -40,7 +38,7 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
 
     /**
      * Get number of occurrences of a given element, without updating the values in the counts map.
-     * Assumes that values have already been updated.
+     * Assumes that counts map is up-to-date.
      *
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
@@ -81,7 +79,7 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
      * If two MultiSets contain the same elements, with the same number of occurrences per element.
      *
      * @param other [Any]?
-     * @return [Boolean]: true if [other] is a non-null MultiSet which contains the same values as the current set, false otherwise
+     * @return [Boolean]: `true` if [other] is a non-null MultiSet which contains the same values as the current set, `false` otherwise
      */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is MultiSet<*>) {
@@ -93,8 +91,9 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
-            if (other is AbstractMultiSet<*>) {
-                val finalOther = other.toMultiSet() as AbstractMultiSet<E>
+            // more efficient equality check for AbstractMultiSetImpl
+            if (other is AbstractMultiSetImpl<*>) {
+                val finalOther = other.toMultiSet() as AbstractMultiSetImpl<E>
                 finalOther.updateValues()
                 return countsMap == finalOther.countsMap
             }
@@ -116,9 +115,8 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
         updateValues()
-        val allValues = distinctValues + other.distinctValues
 
-        val newCounts = allValues.associateWith {
+        val newCounts = distinctValues.associateWith {
             val count = getCountWithoutUpdate(it)
             val otherCount = other.getCountOf(it)
             min(count, otherCount)
@@ -160,16 +158,12 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
         return createFromCountsMap(newCounts)
     }
 
-    protected abstract fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E>
-
     /**
      * If the hash code values are changed, update all properties related to the values of the set
      */
     protected open fun updateValues() {
         val currentCodes = getCurrentHashCodes()
         if (currentCodes != hashCodes) {
-            string = createString()
-
             countsMap = hashElements.groupBy { it }.map { it.key to it.value.size }.toMap()
             hashCodes = currentCodes
         }
@@ -192,6 +186,11 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
     }
 
     /**
+     * Initialize a new MultiSet from an existing counts map.
+     */
+    protected abstract fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E>
+
+    /**
      * If the current set contains 0 elements.
      *
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
@@ -199,12 +198,11 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
     override fun isEmpty(): Boolean = countsMap.isEmpty()
 
     /**
-     * Create the static string representation of the set.
-     * Stored in a helper so it can be reused in both constructors.
+     * Get a string representation of the set.
      *
      * @return [String]
      */
-    protected fun createString(): String {
+    override fun toString(): String {
         if (hashElements.isEmpty()) {
             return "[]"
         }
@@ -213,17 +211,5 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
         return "[$elementsString]"
     }
 
-    /**
-     * Get a string representation of the set.
-     *
-     * @return [String]
-     */
-    override fun toString(): String {
-        updateValues()
-        return string
-    }
-
-    override fun hashCode(): Int {
-        return countsMap.hashCode()
-    }
+    override fun hashCode(): Int = countsMap.hashCode()
 }

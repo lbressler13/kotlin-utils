@@ -11,12 +11,12 @@ class CharCollectionExtTest {
 
     @Test
     fun testFilterNotZero() {
-        var list: List<Char> = listOf()
-        var expected: List<Char> = listOf()
+        var list: List<Char> = emptyList()
+        var expected: List<Char> = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(zero, zero, zero)
-        expected = listOf()
+        expected = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(one, Char(2), zero, four, zero, zero, five)

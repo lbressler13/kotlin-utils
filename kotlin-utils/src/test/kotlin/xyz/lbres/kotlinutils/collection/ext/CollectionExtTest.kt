@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 class CollectionExtTest {
     @Test
     fun testToMultiSet() {
-        var collection: Collection<Int> = listOf()
+        var collection: Collection<Int> = emptyList()
         var expected: MultiSet<Int> = multiSetOf()
         assertEquals(expected, collection.toMultiSet())
 
@@ -31,14 +31,14 @@ class CollectionExtTest {
         expected = multiSetOf(1, 2, 1, 4)
         assertEquals(expected, collection.toMultiSet())
 
-        val listCollection = listOf(listOf(), listOf(1, 2), listOf(10000))
-        val listExpected = multiSetOf(listOf(), listOf(1, 2), listOf(10000))
+        val listCollection = listOf(emptyList(), listOf(1, 2), listOf(10000))
+        val listExpected = multiSetOf(emptyList(), listOf(1, 2), listOf(10000))
         assertEquals(listExpected, listCollection.toMultiSet())
     }
 
     @Test
     fun testToMutableMultiSet() {
-        var collection: Collection<Int> = listOf()
+        var collection: Collection<Int> = emptyList()
         var expected: MutableMultiSet<Int> = mutableMultiSetOf()
         assertEquals(expected, collection.toMutableMultiSet())
 
@@ -57,14 +57,14 @@ class CollectionExtTest {
         expected = mutableMultiSetOf(1, 2, 1, 4)
         assertEquals(expected, collection.toMutableMultiSet())
 
-        val listCollection = listOf(listOf(), listOf(1, 2), listOf(10000))
-        val listExpected = mutableMultiSetOf(listOf(), listOf(1, 2), listOf(10000))
+        val listCollection = listOf(emptyList(), listOf(1, 2), listOf(10000))
+        val listExpected = mutableMultiSetOf(emptyList(), listOf(1, 2), listOf(10000))
         assertEquals(listExpected, listCollection.toMutableMultiSet())
     }
 
     @Test
     fun testCountNull() {
-        var collection: Collection<Int?> = listOf()
+        var collection: Collection<Int?> = emptyList()
         var expected = 0
         assertEquals(expected, collection.countNull())
 
@@ -87,7 +87,7 @@ class CollectionExtTest {
 
     @Test
     fun testCountNotNull() {
-        var collection: Collection<Int?> = listOf()
+        var collection: Collection<Int?> = emptyList()
         var expected = 0
         assertEquals(expected, collection.countNotNull())
 
@@ -113,7 +113,7 @@ class CollectionExtTest {
         var collection: Collection<Int?>? = null
         assertFalse(collection.isNotNullOrEmpty())
 
-        collection = setOf()
+        collection = emptySet()
         assertFalse(collection.isNotNullOrEmpty())
 
         collection = listOf(1)

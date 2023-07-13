@@ -4,7 +4,7 @@ import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-import
 import kotlin.test.assertEquals
 
 fun runImmutableConstructorTests() {
-    var set: MultiSet<Int> = MultiSetImpl(listOf())
+    var set: MultiSet<Int> = MultiSetImpl(emptyList())
     var expectedSize = 0
     var expectedDistinct = emptySet<Int>()
     assertEquals(expectedSize, set.size)

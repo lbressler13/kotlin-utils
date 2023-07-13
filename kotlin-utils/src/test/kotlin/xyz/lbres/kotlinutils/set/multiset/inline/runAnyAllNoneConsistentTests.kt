@@ -7,7 +7,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 fun runAnyConsistentTests() {
-    var listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -72,7 +72,7 @@ fun runAnyConsistentTests() {
 }
 
 fun runAllConsistentTests() {
-    var listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -137,7 +137,7 @@ fun runAllConsistentTests() {
 }
 
 fun runNoneConsistentTests() {
-    var listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
