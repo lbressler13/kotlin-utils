@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.immutable
+package xyz.lbres.kotlinutils.set.multiset.impl.mutable
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
@@ -6,33 +6,54 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-fun runImmutableIsEmptyTests() {
+fun runMutableIsEmptyTests() {
     // empty
-    var intSet: MultiSet<Int> = multiSetOf()
+    var intSet: MutableMultiSet<Int> = mutableMultiSetOf()
     assertTrue(intSet.isEmpty())
 
-    var stringSet: MultiSet<String> = multiSetOf()
+    var stringSet: MutableMultiSet<String> = mutableMultiSetOf()
     assertTrue(stringSet.isEmpty())
 
     // not empty
-    intSet = multiSetOf(0)
+    intSet = mutableMultiSetOf(0)
     assertFalse(intSet.isEmpty())
 
-    intSet = multiSetOf(1000, -1000, 4, 2, 4)
+    intSet = mutableMultiSetOf(1000, -1000, 4, 2, 4)
     assertFalse(intSet.isEmpty())
 
-    intSet = multiSetOf(3, 3, 3)
+    intSet = mutableMultiSetOf(3, 3, 3)
     assertFalse(intSet.isEmpty())
 
-    stringSet = multiSetOf("123", "abc")
+    stringSet = mutableMultiSetOf("123", "abc")
     assertFalse(stringSet.isEmpty())
 
-    stringSet = multiSetOf("abcdefg", "abcdefg")
+    stringSet = mutableMultiSetOf("abcdefg", "abcdefg")
     assertFalse(stringSet.isEmpty())
+
+    // remove elements
+    intSet = mutableMultiSetOf(1)
+    intSet.remove(1)
+    assertTrue(intSet.isEmpty())
+
+    intSet = mutableMultiSetOf(1, 1)
+    intSet.remove(1)
+    assertFalse(intSet.isEmpty())
+    intSet.remove(1)
+    assertTrue(intSet.isEmpty())
+
+    intSet = mutableMultiSetOf(2, 3)
+    intSet.remove(3)
+    assertFalse(intSet.isEmpty())
+    intSet.remove(2)
+    assertTrue(intSet.isEmpty())
+
+    intSet = mutableMultiSetOf(2, 3)
+    intSet.clear()
+    assertTrue(intSet.isEmpty())
 }
 
-fun runImmutableGetCountOfTests() {
-    var set: MultiSet<Int> = multiSetOf()
+fun runMutableGetCountOfTests() {
+    var set: MutableMultiSet<Int> = mutableMultiSetOf()
     var expected = 0
 
     var value = 0
@@ -41,7 +62,7 @@ fun runImmutableGetCountOfTests() {
     value = 100
     assertEquals(expected, set.getCountOf(value))
 
-    set = multiSetOf(2)
+    set = mutableMultiSetOf(2)
 
     value = 2
     expected = 1
@@ -51,7 +72,7 @@ fun runImmutableGetCountOfTests() {
     expected = 0
     assertEquals(expected, set.getCountOf(value))
 
-    set = multiSetOf(1, 1, 2, 1, -4, 5, 2)
+    set = mutableMultiSetOf(1, 1, 2, 1, -4, 5, 2)
 
     value = 1
     expected = 3
@@ -71,7 +92,7 @@ fun runImmutableGetCountOfTests() {
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(1, 2, 3)
-    val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
+    val listSet: MutableMultiSet<IntList> = mutableMultiSetOf(mutableList1, mutableList2)
 
     var listValue = listOf(1, 2, 3)
     expected = 2

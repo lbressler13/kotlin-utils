@@ -1,8 +1,9 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.iterable.ext.countElement
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import kotlin.math.min
 
 /**
@@ -101,7 +102,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
      *
      * @param other [MultiSet]<E>: values to subtract from this MultiSet
-     * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
+     * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
         return genericBinaryOperation(other, Int::minus, useAllValues = false)
@@ -112,7 +113,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
      *
      * @param other [MultiSet]<E>: values to add to this MultiSet
-     * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
+     * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
         return genericBinaryOperation(other, Int::plus)
@@ -206,7 +207,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
 
     override fun hashCode(): Int {
         var result = getCounts().hashCode()
-        result = 31 * result + MultiSet.Companion::class.java.name.hashCode()
+        result = 31 * result + MultiSet::class.java.name.hashCode()
         return result
     }
 }

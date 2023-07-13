@@ -1,4 +1,6 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.impl
+
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
 /**
  * Set implementation that allows multiple occurrences of the same value.
