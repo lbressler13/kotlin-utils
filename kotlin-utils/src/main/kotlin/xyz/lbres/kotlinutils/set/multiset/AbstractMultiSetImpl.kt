@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.collection.ext.toMultiSet
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import kotlin.math.min
 
@@ -93,7 +94,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
-        return genericBinaryOperation(other) { count, otherCount -> min(count, otherCount) }
+        return genericBinaryOperation(other, { count, otherCount -> min(count, otherCount) }, useAllValues = false)
     }
 
     /**
@@ -104,7 +105,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        return genericBinaryOperation(other, Int::minus)
+        return genericBinaryOperation(other, Int::minus, useAllValues = false)
     }
 
     /**
@@ -124,14 +125,16 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @param other [MultiSet]<E>: other set to use in operation
      * @param operation (Int, Int) -> Int: function which takes the count of an element in the current set and the count in the other set as parameters,
      * and returns the new count for the element
+     * @param useAllValues [Boolean]: if all values from both sets should be used to generate the elements. If `false`, only the values from this set will be used.
+     * Defaults to `true`
      * @return [MultiSet]<E>: new set, where each element has the number of values specified by the operation
      */
-    private fun genericBinaryOperation(other: MultiSet<E>, operation: (Int, Int) -> Int): MultiSet<E> {
+    private fun genericBinaryOperation(other: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
 
         val newCounts: Map<E, Int> = if (other is AbstractMultiSetImpl<E>) {
             val otherCounts = other.getCounts()
-            val allValues = counts.keys + otherCounts.keys
+            val allValues = simpleIf(useAllValues, { counts.keys + otherCounts.keys }, { counts.keys })
 
             allValues.associateWith {
                 val count = counts.getOrDefault(it, 0)
@@ -139,7 +142,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
                 operation(count, otherCount)
             }
         } else {
-            val allValues = counts.keys + other.distinctValues
+            val allValues = simpleIf(useAllValues, { counts.keys + other.distinctValues }, { counts.keys })
 
             allValues.associateWith {
                 val count = counts.getOrDefault(it, 0)
