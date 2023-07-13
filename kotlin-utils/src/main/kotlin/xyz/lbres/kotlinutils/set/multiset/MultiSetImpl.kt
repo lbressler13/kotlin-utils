@@ -10,23 +10,16 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     override val size: Int
 
     /**
-     * The initial elements that were passed to the constructor.
+     * Elements in the set.
      */
-    private val initialElements: Collection<E>
-
-    /**
-     * Elements used to generate [hashCodes].
-     * Used to determine if mutable values have changed.
-     */
-    override val hashElements: Collection<E>
-        get() = initialElements
+    override val elements: Collection<E>
 
     /**
      * Initialize stored variables from a collection of values.
      */
     constructor(elements: Collection<E>) {
         size = elements.size
-        initialElements = elements
+        this.elements = elements
     }
 
     /**
@@ -35,10 +28,9 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     private constructor(counts: Map<E, Int>) {
         size = counts.values.fold(0, Int::plus)
 
-        initialElements = counts.flatMap {
-            val element = it.key
-            val count = it.value
-            List(count) { element }
+        elements = mutableListOf()
+        counts.forEach {
+            repeat(it.value) { _ -> elements.add(it.key) }
         }
     }
 
@@ -52,5 +44,5 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
      *
      * @return [Iterator]<E>
      */
-    override fun iterator(): Iterator<E> = initialElements.toList().iterator()
+    override fun iterator(): Iterator<E> = elements.toList().iterator()
 }

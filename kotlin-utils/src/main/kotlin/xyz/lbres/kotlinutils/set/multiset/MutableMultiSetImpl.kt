@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.iterable.ext.countElement
 import kotlin.math.min
 
 /**
@@ -14,15 +13,14 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
         get() = list.size
 
     /**
-     * A list containing all elements in the set.
+     * List containing all elements in the set.
      */
-    private var list: MutableList<E>
+    private val list: MutableList<E>
 
     /**
-     * Elements used to generate [hashCodes].
-     * Used to determine if mutable values have changed.
+     * Elements in the set.
      */
-    override val hashElements: Collection<E>
+    override val elements: Collection<E>
         get() = list
 
     /**
@@ -36,7 +34,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * Initialize stored variables from an existing counts map.
      */
     private constructor(counts: Map<E, Int>) {
-        // TODO is this constructor needed?
         list = mutableListOf()
 
         counts.forEach {
@@ -48,7 +45,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * Add one occurrence of the specified element to the set.
      *
      * @param element [E]
-     * @return [Boolean]: true if the element has been added successfully, false otherwise
+     * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
     override fun add(element: E): Boolean {
         list.add(element)
@@ -60,7 +57,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * If [elements] contains multiple occurrences of the same value, the value will be added multiple times.
      *
      * @param elements [Collection]<E>
-     * @return [Boolean]: true if any elements have been added successfully, false otherwise
+     * @return [Boolean]: `true` if any elements have been added successfully, `false` otherwise
      */
     override fun addAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -68,10 +65,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
         }
 
         var someSucceeded = false
-
-        for (element in elements) {
-            someSucceeded = add(element) || someSucceeded
-        }
+        elements.forEach { someSucceeded = add(it) || someSucceeded }
 
         return someSucceeded
     }
@@ -90,14 +84,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
     override fun remove(element: E): Boolean {
-        val currentCount = list.countElement(element)
-
-        if (currentCount == 0) {
-            return false
-        }
-
-        list.remove(element)
-        return true
+        return list.remove(element)
     }
 
     /**
@@ -114,11 +101,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
         }
 
         var someSucceeded = false
-
-        // TODO don't generate countsMap and use bulk remove
-        for (element in elements) {
-            someSucceeded = remove(element) || someSucceeded
-        }
+        elements.forEach { someSucceeded = remove(it) || someSucceeded }
 
         return someSucceeded
     }
@@ -131,29 +114,16 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
-        val countsMap = createCountsMap()
-        val otherCountsMap = createCountsMap(elements)
+        val counts = getCounts()
+        val otherCountsMap = getCounts(elements)
 
-        val updatedCounts: MutableMap<E, Int> = mutableMapOf()
+        list.clear()
 
-        // cannot modify counts during loop, will throw a ConcurrentModificationException
-        for (pair in countsMap) {
+        for (pair in counts) {
             val element = pair.key
             val currentCount = pair.value
             val newCount = min(currentCount, otherCountsMap.getOrDefault(element, 0))
-            updatedCounts[element] = newCount
-        }
-
-        list.clear()
-        updatedCounts.forEach {
-            if (it.value == 0) {
-                (countsMap as MutableMap).remove(it.key)
-            } else {
-                (countsMap as MutableMap)[it.key] = it.value
-                repeat(it.value) { _ ->
-                    list.add(it.key)
-                }
-            }
+            repeat(newCount) { list.add(element) }
         }
 
         return true
@@ -185,11 +155,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * Initialize a new MultiSet from an existing counts map.
      */
     override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
-
-    /**
-     * Convert counts to a mutable map
-     */
-    override fun finalizeCounts(counts: Map<E, Int>): Map<E, Int> = counts.toMutableMap()
 
     /**
      * Get an iterator for the elements in this set.

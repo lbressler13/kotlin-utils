@@ -5,20 +5,19 @@ import xyz.lbres.kotlinutils.iterable.ext.countElement
 import kotlin.math.min
 
 /**
- * Partial MultiSet implementation with functionality that can be shared by [MultiSetImpl] and [MutableMultiSetImpl]
+ * Partial MultiSet implementation with functionality that can be shared by [MultiSetImpl] and [MutableMultiSetImpl].
  */
 internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     /**
-     * All distinct values contained in the MultiSet, without any counts
+     * All distinct values contained in the MultiSet, without any counts.
      */
     override val distinctValues: Set<E>
-        get() = hashElements.toSet()
+        get() = elements.toSet()
 
     /**
-     * Elements used to generate [hashCodes].
-     * Used to determine if mutable values have changed.
+     * Elements in the set.
      */
-    protected abstract val hashElements: Collection<E>
+    protected abstract val elements: Collection<E>
 
     /**
      * Get the number of occurrences of a given element.
@@ -26,7 +25,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    override fun getCountOf(element: E): Int = hashElements.countElement(element)
+    override fun getCountOf(element: E): Int = elements.countElement(element)
 
     /**
      * Determine if an element is contained in the current set.
@@ -34,7 +33,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @param element [E]
      * @return [Boolean]: `true` if [element] is in the set, `false` otherwise
      */
-    override fun contains(element: E): Boolean = hashElements.contains(element)
+    override fun contains(element: E): Boolean = elements.contains(element)
 
     /**
      * Determine if all elements in a collection are contained in the current set.
@@ -48,11 +47,11 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             return true
         }
 
-        val countsMap = createCountsMap()
-        val otherCountsMap = createCountsMap(elements)
+        val counts = getCounts()
+        val otherCountsMap = getCounts(elements)
 
         return otherCountsMap.keys.all {
-            it in countsMap && otherCountsMap.getOrDefault(it, 0) <= countsMap[it]!!
+            it in counts && otherCountsMap.getOrDefault(it, 0) <= counts[it]!!
         }
     }
 
@@ -67,7 +66,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             return false
         }
 
-        val countsMap = createCountsMap()
+        val counts = getCounts()
         return try {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
@@ -75,12 +74,12 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             // more efficient equality check for AbstractMultiSetImpl
             if (other is AbstractMultiSetImpl<*>) {
                 val finalOther = other.toMultiSet() as AbstractMultiSetImpl<E>
-                return countsMap == finalOther.createCountsMap()
+                return counts == finalOther.getCounts()
             }
 
             // less efficient equality check
             val otherDistinct = other.distinctValues
-            return distinctValues == otherDistinct && distinctValues.all { countsMap[it] == other.getCountOf(it) }
+            return distinctValues == otherDistinct && distinctValues.all { counts[it] == other.getCountOf(it) }
         } catch (_: Exception) {
             false
         }
@@ -94,14 +93,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
-        val countsMap = createCountsMap()
-        val newCounts = countsMap.keys.associateWith {
-            val count = countsMap[it]!!
-            val otherCount = other.getCountOf(it)
-            min(count, otherCount)
-        }.filter { it.value > 0 }
-
-        return createFromCountsMap(newCounts)
+        return genericBinaryOperation(other) { count, otherCount -> min(count, otherCount) }
     }
 
     /**
@@ -112,12 +104,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        val countsMap = createCountsMap()
-        val newCounts = countsMap.keys.associateWith {
-            countsMap[it]!! - other.getCountOf(it)
-        }.filter { it.value > 0 }
-
-        return createFromCountsMap(newCounts)
+        return genericBinaryOperation(other, Int::minus)
     }
 
     /**
@@ -128,32 +115,62 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
-        val countsMap = createCountsMap()
-        val allValues = countsMap.keys + other.distinctValues
-
-        val newCounts = allValues.associateWith {
-            countsMap.getOrDefault(it, 0) + other.getCountOf(it)
-        }
-
-        return createFromCountsMap(newCounts)
+        return genericBinaryOperation(other, Int::plus)
     }
 
     /**
-     * Perform any modifications on generated counts before assigning to countsMap property.
-     * Default is to perform no modifications. Can be overwritten.
+     * Execute a binary operation with another MultiSet, with special handling for the case when [other] is an AbstractMultiSetImpl.
      *
-     * @param counts [Map]<E, Int>: generated counts
-     * @return [Map]<E, Int>: modified counts map
+     * @param other [MultiSet]<E>: other set to use in operation
+     * @param operation (Int, Int) -> Int: function which takes the count of an element in the current set and the count in the other set as parameters,
+     * and returns the new count for the element
+     * @return [MultiSet]<E>: new set, where each element has the number of values specified by the operation
      */
-    protected open fun finalizeCounts(counts: Map<E, Int>): Map<E, Int> = counts
+    private fun genericBinaryOperation(other: MultiSet<E>, operation: (Int, Int) -> Int): MultiSet<E> {
+        val counts = getCounts()
 
-    protected fun createCountsMap(): Map<E, Int> = createCountsMap(hashElements)
+        val newCounts: Map<E, Int> = if (other is AbstractMultiSetImpl<E>) {
+            val otherCounts = other.getCounts()
+            val allValues = counts.keys + otherCounts.keys
 
-    protected fun createCountsMap(elements: Collection<E>): Map<E, Int> {
+            allValues.associateWith {
+                val count = counts.getOrDefault(it, 0)
+                val otherCount = otherCounts.getOrDefault(it, 0)
+                operation(count, otherCount)
+            }
+        } else {
+            val allValues = counts.keys + other.distinctValues
+
+            allValues.associateWith {
+                val count = counts.getOrDefault(it, 0)
+                val otherCount = other.getCountOf(it)
+                operation(count, otherCount)
+            }
+        }
+
+        return createFromCountsMap(newCounts.filter { it.value > 0 })
+    }
+
+    /**
+     * Creating a mapping of each element in the set to the number of occurrences of the element.
+     *
+     * @return [Map]<E, Int>: mapping where keys are distinct values in the set,
+     * and values are the number of occurrences of the element
+     */
+    protected fun getCounts(): Map<E, Int> = getCounts(elements)
+
+    /**
+     * Creating a mapping of each element in a collection to the number of occurrences of the element.
+     *
+     * @param elements [Collection]<E>: collection to generate map for
+     * @return [Map]<E, Int>: mapping where keys are distinct values from [elements],
+     * and values are the number of occurrences of the element
+     */
+    protected fun getCounts(elements: Collection<E>): Map<E, Int> {
         val counts: MutableMap<E, Int> = mutableMapOf()
 
         elements.forEach {
-            counts[it] = (counts[it] ?: 0) + 1
+            counts[it] = counts.getOrDefault(it, 0) + 1
         }
 
         return counts
@@ -169,7 +186,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      *
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
-    override fun isEmpty(): Boolean = hashElements.isEmpty() // countsMap.isEmpty()
+    override fun isEmpty(): Boolean = elements.isEmpty()
 
     /**
      * Get a string representation of the set.
@@ -177,16 +194,16 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [String]
      */
     override fun toString(): String {
-        if (hashElements.isEmpty()) {
+        if (elements.isEmpty()) {
             return "[]"
         }
 
-        val elementsString = hashElements.joinToString(", ")
+        val elementsString = elements.joinToString(", ")
         return "[$elementsString]"
     }
 
     override fun hashCode(): Int {
-        var result = createCountsMap().hashCode()
+        var result = getCounts().hashCode()
         result = 31 * result + "MultiSet".hashCode()
         return result
     }
