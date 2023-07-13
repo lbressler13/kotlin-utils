@@ -14,6 +14,15 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     protected abstract var countsMap: Map<E, Int>
 
     /**
+     * All distinct values contained in the MultiSet, without any counts
+     */
+    override val distinctValues: Set<E>
+        get() {
+            updateValues()
+            return countsMap.keys
+        }
+
+    /**
      * Store the hash codes for all values in the set.
      * Used to determine if mutable values have changed.
      */
@@ -159,12 +168,22 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     }
 
     /**
+     * Perform any modifications on generated counts before assigning to countsMap property.
+     * Default is to perform no modifications. Can be overwritten.
+     *
+     * @param counts [Map]<E, Int>: generated counts
+     * @return [Map]<E, Int>: modified counts map
+     */
+    protected open fun finalizeCounts(counts: Map<E, Int>): Map<E, Int> = counts
+
+    /**
      * If the hash code values are changed, update all properties related to the values of the set
      */
-    protected open fun updateValues() {
+    protected fun updateValues() {
         val currentCodes = getCurrentHashCodes()
         if (currentCodes != hashCodes) {
-            countsMap = hashElements.groupBy { it }.map { it.key to it.value.size }.toMap()
+            val counts = hashElements.groupBy { it }.map { it.key to it.value.size }.toMap()
+            countsMap = finalizeCounts(counts)
             hashCodes = currentCodes
         }
     }
@@ -211,5 +230,9 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
         return "[$elementsString]"
     }
 
-    override fun hashCode(): Int = countsMap.hashCode()
+    override fun hashCode(): Int {
+        var result = countsMap.hashCode()
+        result = 31 * result + "MultiSet".hashCode()
+        return result
+    }
 }

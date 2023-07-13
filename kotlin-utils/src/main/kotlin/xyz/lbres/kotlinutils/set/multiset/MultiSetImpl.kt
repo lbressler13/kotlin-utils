@@ -10,15 +10,6 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     override val size: Int
 
     /**
-     * All distinct values contained in the MultiSet, without any counts
-     */
-    override val distinctValues: Set<E>
-        get() {
-            updateValues()
-            return countsMap.keys
-        }
-
-    /**
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than 0.
      */

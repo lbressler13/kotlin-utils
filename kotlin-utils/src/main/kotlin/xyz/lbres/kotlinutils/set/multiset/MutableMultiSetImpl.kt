@@ -13,15 +13,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
         get() = list.size
 
     /**
-     * All distinct values contained in the MultiSet, without any counts
-     */
-    override val distinctValues: Set<E>
-        get() {
-            updateValues()
-            return countsMap.keys
-        }
-
-    /**
      * Store the number of occurrences of each element in set.
      * Counts are guaranteed to be greater than zero.
      */
@@ -225,16 +216,9 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     override fun createFromCountsMap(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
 
     /**
-     * If the hash code values are changed, update all properties related to the values of the set.
-     * Overrides default to use mutable map.
+     * Convert counts to a mutable map
      */
-    override fun updateValues() {
-        val currentCodes = getCurrentHashCodes()
-        if (currentCodes != hashCodes) {
-            countsMap = list.groupBy { it }.map { it.key to it.value.size }.toMap().toMutableMap()
-            hashCodes = currentCodes
-        }
-    }
+    override fun finalizeCounts(counts: Map<E, Int>): Map<E, Int> = counts.toMutableMap()
 
     /**
      * Get an iterator for the elements in this set.
