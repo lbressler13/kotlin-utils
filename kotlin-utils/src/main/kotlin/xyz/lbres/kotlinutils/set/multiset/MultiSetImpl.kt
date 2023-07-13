@@ -9,12 +9,6 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
      */
     override val size: Int
 
-//    /**
-//     * Store the number of occurrences of each element in set.
-//     * Counts are guaranteed to be greater than 0.
-//     */
-//    override var countsMap: Map<E, Int>
-
     /**
      * The initial elements that were passed to the constructor.
      */
@@ -27,28 +21,18 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     override val hashElements: Collection<E>
         get() = initialElements
 
-//    /**
-//     * Store the hash codes for all values in the set.
-//     * Used to determine if any mutable values have changed.
-//     */
-//    override var hashCodes: Map<Int, Int>
-
     /**
      * Initialize stored variables from a collection of values.
      */
     constructor(elements: Collection<E>) {
         size = elements.size
         initialElements = elements
-
-        // countsMap = elements.groupBy { it }.map { it.key to it.value.size }.toMap()
-        // hashCodes = getCurrentHashCodes()
     }
 
     /**
      * Initialize stored variables from an existing counts map.
      */
     private constructor(counts: Map<E, Int>) {
-        // countsMap = counts
         size = counts.values.fold(0, Int::plus)
 
         initialElements = counts.flatMap {
@@ -56,8 +40,6 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
             val count = it.value
             List(count) { element }
         }
-
-        // hashCodes = getCurrentHashCodes()
     }
 
     /**
