@@ -2,7 +2,7 @@
 
 [![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
-A collection of reusable functions, classes, and type aliases that can be used across various Kotlin projects.
+A collection of reusable functions, classes, and typealiases that can be used across various Kotlin projects.
 
 ## Contents
 
@@ -24,11 +24,7 @@ See [here](https://kotlinlang.org/docs/extensions.html) for general information 
 
 ### Helper functions
 
-Functions that are associated with a specific class, but are not direct extensions of the class.
-
-### General utils
-
-Functions that are not associated with a specific class.
+Functions that are not a direct extension of any class.
 
 ## Project structure
 
@@ -80,7 +76,7 @@ The name will be in the format "kotlin-utils-version", where the version is spec
 ## Testing
 
 Unit tests are written using the [Kotlin test](https://kotlinlang.org/api/latest/kotlin.test/) framework.
-Tests must be written for helper functions and extension functions.
+Tests must be written for helper functions and extension methods.
 They should also be written for new classes, and for custom methods in data classes.
 
 Tests can be run using an IDE, or with the following command:

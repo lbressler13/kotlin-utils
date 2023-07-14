@@ -146,9 +146,9 @@ fun runMutableContainsAllTests() {
     assertFalse(listSet.containsAll(listOf(listOf(1, 2))))
 
     mutableList1.remove(3)
-    assertTrue(listSet.contains(listOf(1, 2)))
-    assertTrue(listSet.contains(listOf(1, 2, 3)))
+    assertTrue(listSet.containsAll(listOf(listOf(1, 2))))
+    assertTrue(listSet.containsAll(listOf(listOf(1, 2, 3))))
 
     mutableList2.add(0)
-    assertFalse(listSet.contains(listOf(1, 2, 3)))
+    assertFalse(listSet.containsAll(listOf(listOf(1, 2, 3))))
 }

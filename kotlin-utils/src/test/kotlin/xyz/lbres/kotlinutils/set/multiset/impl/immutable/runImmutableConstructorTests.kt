@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.impl.immutable
 
-import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.test.assertEquals
 

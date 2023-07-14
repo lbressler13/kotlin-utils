@@ -14,25 +14,25 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     /**
      * Elements in the set.
      */
-    override val elements: Collection<E>
+    override val values: Collection<E>
 
     /**
-     * Initialize stored variables from a collection of values.
+     * Initialize set from a collection of values.
      */
     constructor(elements: Collection<E>) {
         size = elements.size
-        this.elements = elements
+        this.values = elements
     }
 
     /**
-     * Set size and elements from existing counts.
+     * Initialize set from existing counts.
      */
     private constructor(counts: Map<E, Int>) {
         size = counts.values.fold(0, Int::plus)
 
-        elements = mutableListOf()
+        values = mutableListOf()
         counts.forEach {
-            repeat(it.value) { _ -> elements.add(it.key) }
+            repeat(it.value) { _ -> values.add(it.key) }
         }
     }
 
@@ -46,5 +46,5 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
      *
      * @return [Iterator]<E>
      */
-    override fun iterator(): Iterator<E> = elements.toList().iterator()
+    override fun iterator(): Iterator<E> = values.toList().iterator()
 }

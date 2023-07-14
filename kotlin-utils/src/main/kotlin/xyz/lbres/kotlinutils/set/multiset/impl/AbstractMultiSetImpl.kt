@@ -14,12 +14,12 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * All distinct values contained in the MultiSet.
      */
     override val distinctValues: Set<E>
-        get() = elements.toSet()
+        get() = values.toSet()
 
     /**
      * Elements in the set.
      */
-    protected abstract val elements: Collection<E>
+    protected abstract val values: Collection<E>
 
     /**
      * Get the number of occurrences of a given element.
@@ -27,7 +27,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    override fun getCountOf(element: E): Int = elements.countElement(element)
+    override fun getCountOf(element: E): Int = values.countElement(element)
 
     /**
      * Determine if an element is contained in the current set.
@@ -35,7 +35,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @param element [E]
      * @return [Boolean]: `true` if [element] is in the set, `false` otherwise
      */
-    override fun contains(element: E): Boolean = elements.contains(element)
+    override fun contains(element: E): Boolean = values.contains(element)
 
     /**
      * Determine if all elements in a collection are contained in the current set.
@@ -120,16 +120,15 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     }
 
     /**
-     * Execute a binary operation with another MultiSet, with special handling for the case when [other] is an AbstractMultiSetImpl.
+     * Execute a binary operation with another MultiSet, with special handling for the case for an AbstractMultiSetImpl.
      *
      * @param other [MultiSet]<E>: other set to use in operation
-     * @param operation (Int, Int) -> Int: function which takes the count of an element in the current set and the count in the other set as parameters,
-     * and returns the new count for the element
+     * @param operation (Int, Int) -> Int: function which uses the count of an element in this set and the count in another set, and returns the new count for the element
      * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
      * Defaults to `true`
-     * @return [MultiSet]<E>: new set, where each element has the number of occurrences specified by the operation
+     * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation
      */
-    private fun genericBinaryOperation(other: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
+    private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
 
         val newCounts: Map<E, Int> = if (other is AbstractMultiSetImpl<E>) {
@@ -155,12 +154,12 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     }
 
     /**
-     * Creating a mapping of each element in the set to the number of occurrences of the element.
+     * Create a mapping of each element in the set to the number of occurrences of the element.
      *
-     * @return [Map]<E, Int>: mapping where keys are distinct values in the set,
-     * and values are the number of occurrences of the element
+     * @return [Map]<E, Int>: mapping where keys are distinct elements in the set,
+     * and values are the number of occurrences of the element in [values]
      */
-    protected fun getCounts(): Map<E, Int> = getCounts(elements)
+    protected fun getCounts(): Map<E, Int> = getCounts(values)
 
     /**
      * Creating a mapping of each element in a collection to the number of occurrences of the element.
@@ -189,7 +188,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      *
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
-    override fun isEmpty(): Boolean = elements.isEmpty()
+    override fun isEmpty(): Boolean = values.isEmpty()
 
     /**
      * Get a string representation of the set.
@@ -197,14 +196,19 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [String]
      */
     override fun toString(): String {
-        if (elements.isEmpty()) {
+        if (values.isEmpty()) {
             return "[]"
         }
 
-        val elementsString = elements.joinToString(", ")
+        val elementsString = values.joinToString(", ")
         return "[$elementsString]"
     }
 
+    /**
+     * Generate hash code for set.
+     *
+     * @return [Int]
+     */
     override fun hashCode(): Int {
         var result = getCounts().hashCode()
         result = 31 * result + MultiSet::class.java.name.hashCode()

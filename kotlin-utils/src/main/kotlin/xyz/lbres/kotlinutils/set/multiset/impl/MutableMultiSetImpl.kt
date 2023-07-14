@@ -22,18 +22,18 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     /**
      * Elements in the set.
      */
-    override val elements: Collection<E>
+    override val values: Collection<E>
         get() = list
 
     /**
-     * Initialize stored variables from a collection of values.
+     * Initialize set from existing counts.
      */
     constructor(elements: Collection<E>) {
         list = elements.toMutableList()
     }
 
     /**
-     * Initialize list from existing counts.
+     * Initialize set from existing counts.
      */
     private constructor(counts: Map<E, Int>) {
         list = mutableListOf()

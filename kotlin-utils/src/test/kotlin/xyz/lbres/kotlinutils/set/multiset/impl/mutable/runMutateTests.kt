@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.impl.mutable
 
+import xyz.lbres.kotlinutils.list.StringList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
@@ -56,6 +57,19 @@ fun runAddAllTests() {
     other = mutableMultiSetOf(2, 2, 3, 3)
     expected = mutableMultiSetOf(1, 2, 2, 2, 3, 3, 3)
     runSingleMutateTest(set, expected, true) { set.addAll(other) }
+
+    // changed value
+    val mutableList1 = mutableListOf("goodbye")
+    val mutableList2 = mutableListOf("hello", "world")
+    val listSet: MutableMultiSet<StringList> = mutableMultiSetOf(mutableList1, listOf("goodbye"))
+    val listOther: MutableMultiSet<StringList> = mutableMultiSetOf(listOf("farewell", "goodbye"), mutableList2)
+    var listExpected: MutableMultiSet<StringList> = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), listOf("goodbye"))
+
+    runSingleMutateTest(listSet, listExpected, true) { listSet.addAll(listOther) }
+
+    mutableList1.clear()
+    listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), emptyList())
+    assertEquals(listExpected, listSet)
 }
 
 fun runRemoveTests() {
@@ -164,6 +178,24 @@ fun runRemoveAllTests() {
     other = listOf(5, 5, 5)
     expected = mutableMultiSetOf(6)
     runSingleMutateTest(set, expected, true) { set.removeAll(other) }
+
+    // changed value
+    val mutableList = mutableListOf("goodbye")
+    var listSet = mutableMultiSetOf(mutableList, listOf("hello world"), listOf("goodbye"))
+    var listExpected = mutableMultiSetOf(listOf("hello world"))
+    runSingleMutateTest(listSet, listExpected, true) { listSet.removeAll(listOf(listOf("goodbye"), listOf("goodbye"))) }
+
+    listSet = mutableMultiSetOf(mutableList, listOf("hello world"))
+    mutableList.clear()
+    listExpected = mutableMultiSetOf(emptyList(), listOf("hello world"))
+    runSingleMutateTest(listSet, listExpected, false) { listSet.removeAll(listOf(listOf("goodbye"))) }
+
+    listExpected = mutableMultiSetOf(emptyList(), listOf("hello world"))
+    runSingleMutateTest(listSet, listExpected, false) { listSet.removeAll(listOf(listOf("123"))) }
+
+    mutableList.add("123")
+    listExpected = mutableMultiSetOf(listOf("hello world"))
+    runSingleMutateTest(listSet, listExpected, true) { listSet.removeAll(listOf(listOf("123"))) }
 }
 
 fun runRetainAllTests() {
