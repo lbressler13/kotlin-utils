@@ -180,7 +180,7 @@ class MultiSetGenericsTest {
         assertEquals(expectedInt, genericMultiSetIntersect(intSet2, intSet1))
 
         listSet1 = multiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
-        listSet2 = multiSetOf(listOf(), listOf(1, 2, 3))
+        listSet2 = multiSetOf(emptyList(), listOf(1, 2, 3))
         expectedList = multiSetOf(listOf(1, 2, 3))
         assertEquals(expectedList, genericMultiSetIntersect(listSet1, listSet2))
         assertEquals(expectedList, genericMultiSetIntersect(listSet2, listSet1))

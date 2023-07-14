@@ -1,5 +1,6 @@
-package xyz.lbres.kotlinutils.set.multiset.mutable
+package xyz.lbres.kotlinutils.set.multiset.impl.mutable
 
+import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -23,8 +24,8 @@ fun runMutableContainsTests() {
     val errSet = mutableMultiSetOf(ArithmeticException(), error, NumberFormatException())
     assertTrue(errSet.contains(error))
 
-    val listSet = mutableMultiSetOf(listOf(), listOf(5, 6), listOf(9, 8, 3))
-    assertTrue(listSet.contains(listOf()))
+    var listSet = mutableMultiSetOf(emptyList(), listOf(5, 6), listOf(9, 8, 3))
+    assertTrue(listSet.contains(emptyList()))
     assertTrue(listSet.contains(listOf(9, 8, 3)))
     assertFalse(listSet.contains(listOf(6, 6)))
 
@@ -33,8 +34,22 @@ fun runMutableContainsTests() {
     set.add(1)
     assertTrue(set.contains(1))
     assertFalse(set.contains(2))
+    set.remove(1)
     set.add(2)
     assertTrue(set.contains(2))
+
+    // changing values
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(1, 2, 3)
+    listSet = mutableMultiSetOf(mutableList1, mutableList2)
+    assertFalse(listSet.contains(listOf(1, 2)))
+
+    mutableList1.remove(3)
+    assertTrue(listSet.contains(listOf(1, 2)))
+    assertTrue(listSet.contains(listOf(1, 2, 3)))
+
+    mutableList2.add(0)
+    assertFalse(listSet.contains(listOf(1, 2, 3)))
 }
 
 fun runMutableContainsAllTests() {
@@ -123,4 +138,17 @@ fun runMutableContainsAllTests() {
     set2.add(3)
     assertTrue(set1.containsAll(set2))
     assertTrue(set2.containsAll(set1))
+
+    // changing values
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(1, 2, 3)
+    val listSet: MutableMultiSet<IntList> = mutableMultiSetOf(mutableList1, mutableList2)
+    assertFalse(listSet.containsAll(listOf(listOf(1, 2))))
+
+    mutableList1.remove(3)
+    assertTrue(listSet.containsAll(listOf(listOf(1, 2))))
+    assertTrue(listSet.containsAll(listOf(listOf(1, 2, 3))))
+
+    mutableList2.add(0)
+    assertFalse(listSet.containsAll(listOf(listOf(1, 2, 3))))
 }

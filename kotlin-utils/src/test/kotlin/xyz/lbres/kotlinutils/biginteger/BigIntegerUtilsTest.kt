@@ -167,7 +167,7 @@ class BigIntegerUtilsTest {
         val one = BigInteger.ONE
 
         // empty list
-        var l: List<BigInteger> = listOf()
+        var l: List<BigInteger> = emptyList()
         var expected = one
         assertEquals(expected, getListGCD(l))
 

@@ -2,16 +2,7 @@
 
 [![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
-A collection of reusable functions, classes, and aliases that can be used across various Kotlin and Android projects.
-Android-specific code, such as functions to handle Views, is not included.
-
-## Purpose
-
-The initial purpose of this package was to avoid copying code between projects.
-The initial code had already been implemented several times, and was collected here as an alternative to repeated copy/paste.
-This prevented unnecessary re-writing and re-testing of code, and also created a central location for any changes and bug fixes.
-
-However, the package has since expanded to include various classes and functions that could be useful in different projects.
+A collection of reusable functions, classes, and typealiases that can be used across various Kotlin projects.
 
 ## Contents
 
@@ -25,21 +16,15 @@ See [here](https://kotlinlang.org/docs/type-aliases.html) for general informatio
 
 Reusable classes and data classes.
 
-### General utils
-
-Functions that are not associated with a specific class.
-
 ### Extension methods
 
 Methods that extend existing classes and interfaces.
-Extensions are added to the broadest possible class/implementation in order to be more widely usable.
 
 See [here](https://kotlinlang.org/docs/extensions.html) for general information about extensions in Kotlin.
 
 ### Helper functions
 
-Functions that aren't extensions of a class, but provide added functionality.
-In general, these can still be associated with a single class, as this package does not store specialized code for different projects.
+Functions that are not a direct extension of any class.
 
 ## Project structure
 
@@ -80,6 +65,7 @@ The full folder structure, including additional subclasses, can be repeated with
 ## Building
 
 The package can be built using an IDE, or with the following command:
+
 ```shell
 ./gradlew build
 ```
@@ -90,10 +76,11 @@ The name will be in the format "kotlin-utils-version", where the version is spec
 ## Testing
 
 Unit tests are written using the [Kotlin test](https://kotlinlang.org/api/latest/kotlin.test/) framework.
-Tests must be written for helper functions and extension functions.
-They should also be written for new classes, with the exception of data classes.
+Tests must be written for helper functions and extension methods.
+They should also be written for new classes, and for custom methods in data classes.
 
 Tests can be run using an IDE, or with the following command:
+
 ```shell
 ./gradlew test
 ```
@@ -107,14 +94,24 @@ Linting can be run using an IDE, or with the following command:
 ```shell
 ./gradlew ktlintCheck
 ```
+
 This command will verify if the code passes linting, but will not attempt to fix any issues.
 To perform linting and fix issues where possible, run the following command:
+
 ```shell
 ./gradlew ktlintFormat
 ```
+
 This can also be run through an IDE.
 
 ## Importing the package
 
 This package is hosted in the GitHub Packages registry.
 See [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package) for information on importing GitHub packages.
+
+## Development practices
+
+- Util functions and extension methods should be added at the highest possible level.
+For example, if a method is applicable for `Collection`, it should be defined as an extension of `Collection`, rather than an extension of `List`, `Map`, or other child classes.
+- If a method is added for one class, it should also be added for similar classes. For example, a method that is useful for `List` may also be useful for `Array`.
+- When applicable, randomized functions should be defined with and without a seed.

@@ -7,12 +7,12 @@ import kotlin.test.assertEquals
 class IntCollectionExtTest {
     @Test
     fun testFilterNotZero() {
-        var list: List<Int> = listOf()
-        var expected: List<Int> = listOf()
+        var list: List<Int> = emptyList()
+        var expected: List<Int> = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(0, 0, 0)
-        expected = listOf()
+        expected = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(1, 2, 0, 4, 0, 0, 5)

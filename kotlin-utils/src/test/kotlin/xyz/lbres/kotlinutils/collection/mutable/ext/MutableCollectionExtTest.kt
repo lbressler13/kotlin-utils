@@ -26,7 +26,7 @@ class MutableCollectionExtTest {
         multiSet = mutableMultiSetOf(-1, 1, 2, 2, 2, 3, 3)
         runSinglePopRandomTest(multiSet, multiSet.toMutableMultiSet(), mutableMultiSetOf())
 
-        val listMultiSet: MutableMultiSet<List<Comparable<*>>> = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf("7"), listOf("7"), listOf("7"))
+        val listMultiSet: MutableMultiSet<List<Comparable<*>>> = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf("7"), listOf("7"), listOf("7"))
         runSinglePopRandomTest(listMultiSet, listMultiSet.toMutableMultiSet(), mutableMultiSetOf())
 
         var set = mutableSetOf<String>()

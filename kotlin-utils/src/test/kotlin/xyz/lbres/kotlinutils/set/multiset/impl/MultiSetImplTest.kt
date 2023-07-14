@@ -1,6 +1,8 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.impl
 
-import xyz.lbres.kotlinutils.set.multiset.immutable.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.list.IntList
+import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.impl.immutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -42,6 +44,27 @@ class MultiSetImplTest {
             values.add(iter.next())
         }
         assertEquals(expected.sorted(), values.sorted())
+
+        val mutableList1 = mutableListOf(1, 2, 3)
+        val mutableList2 = mutableListOf(0, 5, 7)
+        val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
+
+        var listIter = listSet.iterator()
+        var listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
+        var listValues: MutableList<IntList> = mutableListOf()
+        while (listIter.hasNext()) {
+            listValues.add(listIter.next())
+        }
+        assertEquals(listExpected, listValues)
+
+        mutableList2.clear()
+        listIter = listSet.iterator()
+        listExpected = listOf(listOf(1, 2, 3), emptyList())
+        listValues = mutableListOf()
+        while (listIter.hasNext()) {
+            listValues.add(listIter.next())
+        }
+        assertEquals(listExpected, listValues)
     }
 
     @Test
@@ -61,5 +84,16 @@ class MultiSetImplTest {
         set = multiSetOf(2, 4, 2, 1)
         expected = "[2, 4, 2, 1]"
         assertEquals(expected, set.toString())
+
+        val mutableList1 = mutableListOf(1, 2, 3)
+        val mutableList2 = mutableListOf(0, 5, 7)
+        val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
+
+        expected = "[[1, 2, 3], [0, 5, 7]]"
+        assertEquals(expected, listSet.toString())
+
+        mutableList2.clear()
+        expected = "[[1, 2, 3], []]"
+        assertEquals(expected, listSet.toString())
     }
 }
