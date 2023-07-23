@@ -2,7 +2,7 @@
 
 [![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
-A collection of reusable functions, classes, and typealiases that can be used across various Kotlin projects.
+A collection of reusable functions, classes, and typealiases that can be used in Kotlin projects.
 
 ## Contents
 
@@ -95,7 +95,6 @@ Linting can be run using an IDE, or with the following command:
 ./gradlew ktlintCheck
 ```
 
-This command will verify if the code passes linting, but will not attempt to fix any issues.
 To perform linting and fix issues where possible, run the following command:
 
 ```shell

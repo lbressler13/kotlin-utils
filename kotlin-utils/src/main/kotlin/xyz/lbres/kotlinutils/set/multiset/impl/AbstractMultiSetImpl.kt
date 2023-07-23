@@ -120,7 +120,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     }
 
     /**
-     * Execute a binary operation with another MultiSet, with special handling for the case for an AbstractMultiSetImpl.
+     * Execute a binary operation with another MultiSet, with special handling for the case of another AbstractMultiSetImpl.
      *
      * @param other [MultiSet]<E>: other set to use in operation
      * @param operation (Int, Int) -> Int: function which uses the count of an element in this set and the count in another set, and returns the new count for the element
