@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
  * @param weightedItems [WeightedList]: items and their weights
  * @param randomAction [() -> T]: randomized action to perform repeatedly in order to collect results
  */
-internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction: () -> T) {
+fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction: () -> T) {
     val iterations = 1000
     val errorRange = 0.075f
 
@@ -28,8 +28,7 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
     // check result distribution for each item
     for (item in weightedItems) {
         val weight = item.second
-        val result: Pair<T, Int> =
-            results.find { it.first == item.first } ?: Pair(item.first, 0)
+        val result: Pair<T, Int> = results.find { it.first == item.first } ?: Pair(item.first, 0)
 
         when (weight) {
             0f -> assertEquals(0, result.second)
@@ -53,7 +52,7 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
  * @param expectedOptions [Collection]<T>: possible allowed results
  * @param actual [T]: the actual value
  */
-internal fun <T> assertEqualsAnyOf(expectedOptions: Collection<T>, actual: T) {
+fun <T> assertEqualsAnyOf(expectedOptions: Collection<T>, actual: T) {
     assertTrue { expectedOptions.any { it == actual } }
 }
 
@@ -63,7 +62,7 @@ internal fun <T> assertEqualsAnyOf(expectedOptions: Collection<T>, actual: T) {
  *
  * @param test () -> [Unit]: test to run
  */
-internal fun runTestWithRetry(test: () -> Unit) {
+fun runTestWithRetry(test: () -> Unit) {
     try {
         test()
     } catch (_: Throwable) {
