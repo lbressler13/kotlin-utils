@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils
+package xyz.lbres.kotlinutils.test
 
 import xyz.lbres.kotlinutils.list.WeightedList
 import kotlin.math.max
