@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 
 class LongExtTest {
     @Test
-    internal fun testIfZero() {
+    fun testIfZero() {
         val getValue = { 2L }
 
         var long = 0L
@@ -28,7 +28,7 @@ class LongExtTest {
     }
 
     @Test
-    internal fun testIsNegative() {
+    fun testIsNegative() {
         var long = 0L
         assertFalse(long.isNegative())
 
@@ -46,7 +46,7 @@ class LongExtTest {
     }
 
     @Test
-    internal fun testIsZero() {
+    fun testIsZero() {
         var long = 0L
         assertTrue(long.isZero())
 

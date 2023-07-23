@@ -4,9 +4,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-internal class IntRangeExtTest {
+class IntRangeExtTest {
     @Test
-    internal fun testSize() {
+    fun testSize() {
         // single value
         var range = 1..1
         var expected = 1
@@ -34,7 +34,7 @@ internal class IntRangeExtTest {
     }
 
     @Test
-    internal fun testGet() {
+    fun testGet() {
         var range = 0..0
         assertFailsWith<IndexOutOfBoundsException> { range.get(1) }
         assertFailsWith<IndexOutOfBoundsException> { range.get(-1) }

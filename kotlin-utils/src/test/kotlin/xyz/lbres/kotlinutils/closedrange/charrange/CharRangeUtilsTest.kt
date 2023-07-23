@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class CharRangeUtilsTest {
     @Test
-    internal fun testRangeOfChar() {
+    fun testRangeOfChar() {
         var char = Char(0)
         var expected = Char(0)..Char(0)
         assertEquals(expected, rangeOfChar(char))

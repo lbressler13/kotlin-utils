@@ -1,13 +1,15 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class MultiSetUtilsTest {
+class MultiSetUtilsTest {
     @Test
     fun testMultiSetOf() {
         var set: MultiSet<Int> = multiSetOf()
-        var expected: MultiSet<Int> = MultiSetImpl(listOf())
+        var expected: MultiSet<Int> = MultiSetImpl(emptyList())
         assertEquals(expected, set)
 
         set = multiSetOf(1)
@@ -38,7 +40,7 @@ internal class MultiSetUtilsTest {
     @Test
     fun testMutableMultiSetOf() {
         var set: MutableMultiSet<Int> = mutableMultiSetOf()
-        var expected: MutableMultiSet<Int> = MutableMultiSetImpl(listOf())
+        var expected: MutableMultiSet<Int> = MutableMultiSetImpl(emptyList())
         assertEquals(expected, set)
 
         set = mutableMultiSetOf(1)

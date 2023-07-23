@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.collection.long.ext
 
-import xyz.lbres.kotlinutils.general.ternaryIf
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.long.ext.isZero
 
 /**
@@ -22,4 +22,4 @@ fun Collection<Long>.sum(): Long = fold(0, Long::plus)
  *
  * @return [Long]: product of numbers in collection, or 0 if collection is empty
  */
-fun Collection<Long>.product(): Long = ternaryIf(isEmpty(), 0, fold(1, Long::times))
+fun Collection<Long>.product(): Long = simpleIf(isEmpty(), 0, fold(1, Long::times))

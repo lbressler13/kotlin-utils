@@ -1,11 +1,10 @@
 package xyz.lbres.kotlinutils.collection.ext
 
-import xyz.lbres.kotlinutils.generic.ext.isNotNull
-import xyz.lbres.kotlinutils.generic.ext.isNull
+import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.MutableMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 
 /**
  * Create a MultiSet with the elements in the current collection.
@@ -26,14 +25,14 @@ fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetI
  *
  * @return [Int]
  */
-fun <E> Collection<E?>.countNull(): Int = count { it.isNull() }
+fun <E> Collection<E?>.countNull(): Int = countElement(null)
 
 /**
  * Count number of elements in the collection that are not null.
  *
  * @return [Int]
  */
-fun <E> Collection<E?>.countNotNull(): Int = count { it.isNotNull() }
+fun <E> Collection<E?>.countNotNull(): Int = size - countNull()
 
 /**
  * Check if a collection is not null and is not empty.

@@ -35,8 +35,8 @@ internal class TestMutableMultiSet<E>(collection: Collection<E>) : MutableMultiS
 
         @Suppress("UNCHECKED_CAST")
         other as MultiSet<E>
-        val counts = list.groupBy { it }.map { it.key to it.value }.toMap()
-        val otherCounts = other.distinctValues.associateWith { other.getCountOf(it) }
+        val counts: Map<E, Int> = list.groupBy { it }.map { it.key to it.value.size }.toMap()
+        val otherCounts: Map<E, Int> = other.distinctValues.associateWith { other.getCountOf(it) }
         return counts == otherCounts
     }
 }

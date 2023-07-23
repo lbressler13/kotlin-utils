@@ -1,12 +1,13 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.int.ext.isNegative
+import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal fun runAnyConsistentTests() {
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+fun runAnyConsistentTests() {
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -32,7 +33,7 @@ internal fun runAnyConsistentTests() {
 
     // modified
     var previous4 = false
-    val modifiedFn: (Int) -> Boolean = {
+    val intPredicate: (Int) -> Boolean = {
         when {
             it == 4 && !previous4 -> {
                 previous4 = true
@@ -42,12 +43,36 @@ internal fun runAnyConsistentTests() {
             else -> false
         }
     }
-    assertFalse(intSet.anyConsistent(modifiedFn))
-    assertTrue(intSet.any(modifiedFn))
+    assertFalse(intSet.anyConsistent(intPredicate))
+    previous4 = false
+    assertTrue(intSet.any(intPredicate))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    var previous12 = false
+    val modifiedPredicateList: (IntList) -> Boolean = {
+        when {
+            it.containsAll(listOf(1, 2)) && !previous12 -> {
+                previous12 = true
+                false
+            }
+            it.containsAll(listOf(1, 2)) -> true
+            else -> false
+        }
+    }
+    assertFalse(listSet.anyConsistent(modifiedPredicateList))
+    previous12 = false
+    assertTrue(listSet.any(modifiedPredicateList))
+
+    mutableList1.add(0)
+    previous12 = false
+    assertTrue(listSet.anyConsistent(modifiedPredicateList))
 }
 
-internal fun runAllConsistentTests() {
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+fun runAllConsistentTests() {
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -73,7 +98,7 @@ internal fun runAllConsistentTests() {
 
     // modified
     var no4 = true
-    val modifiedFn: (Int) -> Boolean = {
+    val intPredicate: (Int) -> Boolean = {
         when {
             it == 4 && no4 -> {
                 no4 = false
@@ -83,12 +108,36 @@ internal fun runAllConsistentTests() {
             else -> true
         }
     }
-    assertTrue(intSet.allConsistent(modifiedFn))
-    assertFalse(intSet.all(modifiedFn))
+    assertTrue(intSet.allConsistent(intPredicate))
+    no4 = true
+    assertFalse(intSet.all(intPredicate))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    var no123 = true
+    val modifiedPredicateList: (IntList) -> Boolean = {
+        when {
+            it == listOf(1, 2, 3) && no123 -> {
+                no123 = false
+                true
+            }
+            it == listOf(1, 2, 3) -> false
+            else -> true
+        }
+    }
+    assertTrue(listSet.allConsistent(modifiedPredicateList))
+    no123 = true
+    assertFalse(listSet.all(modifiedPredicateList))
+
+    mutableList1.add(0)
+    no123 = false
+    assertFalse(listSet.allConsistent(modifiedPredicateList))
 }
 
-internal fun runNoneConsistentTests() {
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+fun runNoneConsistentTests() {
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
     val intSet = multiSetOf(1, 2, 3, 4, 4, 4)
 
     // empty
@@ -114,7 +163,7 @@ internal fun runNoneConsistentTests() {
 
     // modified
     var previous4 = false
-    val modifiedFn: (Int) -> Boolean = {
+    val intPredicate: (Int) -> Boolean = {
         when {
             it == 4 && !previous4 -> {
                 previous4 = true
@@ -124,6 +173,29 @@ internal fun runNoneConsistentTests() {
             else -> false
         }
     }
-    assertTrue(intSet.noneConsistent(modifiedFn))
-    assertFalse(intSet.none(modifiedFn))
+    assertTrue(intSet.noneConsistent(intPredicate))
+    assertFalse(intSet.none(intPredicate))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    var previous12 = false
+    val listPredicate: (IntList) -> Boolean = {
+        when {
+            it.containsAll(listOf(1, 2)) && !previous12 -> {
+                previous12 = true
+                false
+            }
+            it.containsAll(listOf(1, 2)) -> true
+            else -> false
+        }
+    }
+    assertTrue(listSet.noneConsistent(listPredicate))
+    previous12 = false
+    assertFalse(listSet.none(listPredicate))
+
+    mutableList1.add(0)
+    previous12 = false
+    assertFalse(listSet.noneConsistent(listPredicate))
 }

@@ -5,9 +5,9 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class IntExtTest {
+class IntExtTest {
     @Test
-    internal fun testIfZero() {
+    fun testIfZero() {
         val getValue = { 2 }
 
         var int = 0
@@ -28,7 +28,7 @@ internal class IntExtTest {
     }
 
     @Test
-    internal fun testIsNegative() {
+    fun testIsNegative() {
         var int = 0
         assertFalse(int.isNegative())
 
@@ -46,7 +46,7 @@ internal class IntExtTest {
     }
 
     @Test
-    internal fun testIsZero() {
+    fun testIsZero() {
         var int = 0
         assertTrue(int.isZero())
 

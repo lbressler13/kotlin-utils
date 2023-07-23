@@ -4,9 +4,9 @@ import java.math.BigInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class BigIntegerUtilsTest {
+class BigIntegerUtilsTest {
     @Test
-    internal fun testGetGcd() {
+    fun testGetGcd() {
         val zero = BigInteger.ZERO
         val one = BigInteger.ONE
 
@@ -163,11 +163,11 @@ internal class BigIntegerUtilsTest {
     }
 
     @Test
-    internal fun testListGCD() {
+    fun testListGCD() {
         val one = BigInteger.ONE
 
         // empty list
-        var l: List<BigInteger> = listOf()
+        var l: List<BigInteger> = emptyList()
         var expected = one
         assertEquals(expected, getListGCD(l))
 

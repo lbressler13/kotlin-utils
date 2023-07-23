@@ -3,15 +3,15 @@ package xyz.lbres.kotlinutils.collection.long.ext
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class LongCollectionExtTest {
+class LongCollectionExtTest {
     @Test
-    internal fun testFilterNotZero() {
-        var list: List<Long> = listOf()
-        var expected: List<Long> = listOf()
+    fun testFilterNotZero() {
+        var list: List<Long> = emptyList()
+        var expected: List<Long> = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(0, 0, 0)
-        expected = listOf()
+        expected = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(1, 2, 0, 4, 0, 0, 5)
@@ -28,7 +28,7 @@ internal class LongCollectionExtTest {
     }
 
     @Test
-    internal fun testSum() {
+    fun testSum() {
         var list: List<Long> = emptyList()
         var expected = 0L
         assertEquals(expected, list.sum())
@@ -55,7 +55,7 @@ internal class LongCollectionExtTest {
     }
 
     @Test
-    internal fun testProduct() {
+    fun testProduct() {
         var list: List<Long> = emptyList()
         var expected = 0L
         assertEquals(expected, list.product())

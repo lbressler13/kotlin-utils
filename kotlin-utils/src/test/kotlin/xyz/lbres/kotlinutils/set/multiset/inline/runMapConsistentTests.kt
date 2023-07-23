@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.assertEqualsAnyOf
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
@@ -20,14 +21,10 @@ private val helloWorldMap: (String) -> String = {
     }
 }
 private val shortenListMap: (IntList) -> IntList = {
-    if (it.size > 1) {
-        it.copyWithoutLast()
-    } else {
-        it
-    }
+    simpleIf(it.size > 1, { it.copyWithoutLast() }, { it })
 }
 
-internal fun runMapConsistentTests() {
+fun runMapConsistentTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyList<Int>()
     assertEquals(expectedInt, intSet.mapConsistent { it * 2 }.sorted())
@@ -67,8 +64,8 @@ internal fun runMapConsistentTests() {
     val expectedStringNull = listOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     assertEquals(expectedStringNull, errorSet.mapConsistent { it.message }.sortedBy { it ?: "null" })
 
-    val listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf(7), listOf(7), listOf(7))
-    val expectedList = listOf(listOf(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
+    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
+    val expectedList = listOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
     assertEquals(expectedList, listSet.mapConsistent(shortenListMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
 
     // modified
@@ -78,15 +75,46 @@ internal fun runMapConsistentTests() {
         modString += "1"
         modString
     }
-    val resultOptions = listOf(
+    var resultOptions = listOf(
         listOf("1", "1", "1", "11", "111"),
         listOf("1", "11", "11", "11", "111"),
         listOf("1", "11", "111", "111", "111")
     )
     assertEqualsAnyOf(resultOptions, intSet.mapConsistent(modMap))
+
+    modString = ""
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    val modMapList: (IntList) -> String = {
+        modString += "1"
+        modString
+    }
+
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    resultOptions = listOf(
+        listOf("1", "1", "11"),
+        listOf("1", "11", "11")
+    )
+    assertEqualsAnyOf(resultOptions, listSet.mapConsistent(modMapList))
+
+    modString = ""
+    mutableList1.clear()
+    resultOptions = listOf(
+        listOf("1", "11", "111"),
+    )
+    assertEqualsAnyOf(resultOptions, listSet.mapConsistent(modMapList))
+
+    modString = ""
+    mutableList2.clear()
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    resultOptions = listOf(
+        listOf("1", "1", "11"),
+        listOf("1", "11", "11")
+    )
+    assertEqualsAnyOf(resultOptions, listSet.mapConsistent(modMapList))
 }
 
-internal fun runMapToSetConsistentTests() {
+fun runMapToSetConsistentTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyMultiSet<Int>()
     assertEquals(expectedInt, intSet.mapToSetConsistent { it * 2 })
@@ -126,8 +154,8 @@ internal fun runMapToSetConsistentTests() {
     val expectedStringNull = multiSetOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     assertEquals(expectedStringNull, errorSet.mapToSetConsistent { it.message })
 
-    val listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf(7), listOf(7), listOf(7))
-    val expectedList = multiSetOf(listOf(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
+    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
+    val expectedList = multiSetOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
     assertEquals(expectedList, listSet.mapToSetConsistent(shortenListMap))
 
     // modified
@@ -137,10 +165,41 @@ internal fun runMapToSetConsistentTests() {
         modString += "1"
         modString
     }
-    val resultOptions = listOf(
+    var resultOptions = listOf(
         multiSetOf("1", "1", "1", "11", "111"),
         multiSetOf("1", "11", "11", "11", "111"),
         multiSetOf("1", "11", "111", "111", "111")
     )
     assertEqualsAnyOf(resultOptions, intSet.mapToSetConsistent(modMap))
+
+    modString = ""
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    val modMapList: (IntList) -> String = {
+        modString += "1"
+        modString
+    }
+
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    resultOptions = listOf(
+        multiSetOf("1", "1", "11"),
+        multiSetOf("1", "11", "11")
+    )
+    assertEqualsAnyOf(resultOptions, listSet.mapToSetConsistent(modMapList))
+
+    modString = ""
+    mutableList1.clear()
+    resultOptions = listOf(
+        multiSetOf("1", "11", "111"),
+    )
+    assertEqualsAnyOf(resultOptions, listSet.mapToSetConsistent(modMapList))
+
+    modString = ""
+    mutableList2.clear()
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+    resultOptions = listOf(
+        multiSetOf("1", "1", "11"),
+        multiSetOf("1", "11", "11")
+    )
+    assertEqualsAnyOf(resultOptions, listSet.mapToSetConsistent(modMapList))
 }

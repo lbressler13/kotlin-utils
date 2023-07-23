@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.shortarray.ext
 
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 class ShortArrayExtTest {
     @Test
@@ -29,5 +30,22 @@ class ShortArrayExtTest {
         expected = shortArrayOf(14, 14, 14, 14)
         array.setAllValues(14)
         assertContentEquals(expected, array)
+    }
+
+    @Test
+    fun testCountElement() {
+        var array = shortArrayOf()
+        assertEquals(0, array.countElement(0))
+
+        array = shortArrayOf(12)
+        assertEquals(1, array.countElement(12))
+
+        array = shortArrayOf(4013, 4013, 12, 3, 4013, -19, 15)
+        assertEquals(3, array.countElement(4013))
+        assertEquals(1, array.countElement(-19))
+
+        array[1] = -19
+        assertEquals(2, array.countElement(4013))
+        assertEquals(2, array.countElement(-19))
     }
 }

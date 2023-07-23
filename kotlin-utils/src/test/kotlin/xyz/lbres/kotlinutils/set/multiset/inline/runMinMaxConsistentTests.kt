@@ -1,15 +1,16 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.assertEqualsAnyOf
+import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-internal fun runMinByConsistentTests() {
+fun runMinByConsistentTests() {
     val intSet = multiSetOf(-1, 0, -10, 3, 1, 2, 3, 4, 4, 4)
     val stringSet = multiSetOf("hello", "world", "hi", "bye", "welcome", "planet")
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
 
     assertNull(emptyMultiSet<Int>().minByOrNullConsistent { it })
 
@@ -29,19 +30,19 @@ internal fun runMinByConsistentTests() {
     assertEquals(expectedString, actualString)
 
     val expectedList = listOf(1, 2, 3)
-    val actualList = listSet.minByOrNullConsistent {
+    var listSelector: (IntList) -> Int = {
         if (it.isEmpty()) {
             1000
         } else {
             it.last()
         }
     }
-    assertEquals(expectedList, actualList)
+    assertEquals(expectedList, listSet.minByOrNullConsistent(listSelector))
 
     // modified
     val modSet = multiSetOf(1, 1, 4, 4, 6, 6, 6, 8, 8, 8)
     var pastOdd = false
-    val modActual = modSet.minByOrNullConsistent {
+    val intSelector: (Int) -> Int = {
         when {
             it % 2 == 1 && !pastOdd -> {
                 pastOdd = true
@@ -51,13 +52,35 @@ internal fun runMinByConsistentTests() {
             else -> 0
         }
     }
-    assertEqualsAnyOf(listOf(4, 6, 8), modActual)
+    assertEqualsAnyOf(listOf(4, 6, 8), modSet.minByOrNullConsistent(intSelector))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+
+    var past12 = false
+    listSelector = {
+        when {
+            it.containsAll(listOf(1, 2)) && !past12 -> {
+                past12 = true
+                1000
+            }
+            it.containsAll(listOf(1, 2)) -> -1000
+            else -> 0
+        }
+    }
+    assertEquals(listOf(0, 5, 7), listSet.minByOrNullConsistent(listSelector))
+
+    mutableList1.add(0)
+    past12 = false
+    assertEqualsAnyOf(listOf(listOf(1, 2, 3), listOf(1, 2, 3, 0)), listSet.minByOrNullConsistent(listSelector))
 }
 
-internal fun runMaxByConsistentTests() {
+fun runMaxByConsistentTests() {
     val intSet = multiSetOf(-1, 0, -10, 3, 1, 2, 3, 3, 4, 4, 4)
     val stringSet = multiSetOf("hello", "world", "hi", "bye", "welcome", "planet")
-    val listSet = multiSetOf(listOf(), listOf(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
+    var listSet = multiSetOf(emptyList(), emptyList(), listOf(1, 2, 3, 4), listOf(1, 2, 3), listOf(5))
 
     assertNull(emptyMultiSet<Int>().maxByOrNullConsistent { it })
 
@@ -77,19 +100,19 @@ internal fun runMaxByConsistentTests() {
     assertEquals(expectedString, actualString)
 
     val expectedList = listOf(5)
-    val actualList = listSet.maxByOrNullConsistent {
+    var listSelector: (IntList) -> Int = {
         if (it.isEmpty()) {
             -1000
         } else {
             it.last()
         }
     }
-    assertEquals(expectedList, actualList)
+    assertEquals(expectedList, listSet.maxByOrNullConsistent(listSelector))
 
     // modified
     val modSet = multiSetOf(1, 1, 4, 4, 6, 6, 6, 8, 8, 8)
     var pastOdd = false
-    val modActual = modSet.maxByOrNullConsistent {
+    val intSelector: (Int) -> Int = {
         when {
             it % 2 == 1 && !pastOdd -> {
                 pastOdd = true
@@ -99,5 +122,27 @@ internal fun runMaxByConsistentTests() {
             else -> 0
         }
     }
-    assertEqualsAnyOf(listOf(4, 6, 8), modActual)
+    assertEqualsAnyOf(listOf(4, 6, 8), modSet.maxByOrNullConsistent(intSelector))
+
+    // mutable list
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
+
+    var past12 = false
+    listSelector = {
+        when {
+            it.containsAll(listOf(1, 2)) && !past12 -> {
+                past12 = true
+                -1000
+            }
+            it.containsAll(listOf(1, 2)) -> 1000
+            else -> 0
+        }
+    }
+    assertEquals(listOf(0, 5, 7), listSet.maxByOrNullConsistent(listSelector))
+
+    mutableList1.add(0)
+    past12 = false
+    assertEqualsAnyOf(listOf(listOf(1, 2, 3), listOf(1, 2, 3, 0)), listSet.maxByOrNullConsistent(listSelector))
 }

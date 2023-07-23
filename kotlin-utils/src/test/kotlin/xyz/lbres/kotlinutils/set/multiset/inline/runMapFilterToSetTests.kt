@@ -11,7 +11,7 @@ private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
 private val e4 = ClassCastException("other message")
 
-internal fun runMapToSetTests() {
+fun runMapToSetTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyMultiSet<Int>()
     assertEquals(expectedInt, intSet.mapToSet { it * 2 })
@@ -59,8 +59,8 @@ internal fun runMapToSetTests() {
     val expectedStringNull = multiSetOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     assertEquals(expectedStringNull, errorSet.mapToSet { it.message })
 
-    val listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(), listOf(7), listOf(7), listOf(7))
-    val expectedList = multiSetOf(listOf(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
+    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
+    val expectedList = multiSetOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
     val listMap: (IntList) -> IntList = {
         if (it.size > 1) {
             it.copyWithoutLast()
@@ -79,9 +79,19 @@ internal fun runMapToSetTests() {
     }
     expectedString = multiSetOf("1", "11", "111", "1111", "11111")
     assertEquals(expectedString, intSet.mapToSet(modMap))
+
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    listSet = multiSetOf(mutableList1, mutableList2)
+    expectedInt = multiSetOf(3, 3)
+    assertEquals(expectedInt, listSet.mapToSet { it.size })
+
+    mutableList1.remove(2)
+    expectedInt = multiSetOf(3, 2)
+    assertEquals(expectedInt, listSet.mapToSet { it.size })
 }
 
-internal fun runFilterToSetTests() {
+fun runFilterToSetTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyMultiSet<Int>()
     assertEquals(intExpected, intSet.filterToSet { true })
@@ -123,9 +133,19 @@ internal fun runFilterToSetTests() {
         }
     }
     assertEquals(intExpected, intActual)
+
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
+    var listExpected = multiSetOf(listOf(1, 2, 3))
+    assertEquals(listExpected, listSet.filterToSet { it.contains(2) })
+
+    mutableList1.remove(2)
+    listExpected = emptyMultiSet()
+    assertEquals(listExpected, listSet.filterToSet { it.contains(2) })
 }
 
-internal fun runFilterNotToSetTests() {
+fun runFilterNotToSetTests() {
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyMultiSet<Int>()
     assertEquals(intExpected, intSet.filterNotToSet { true })
@@ -167,4 +187,14 @@ internal fun runFilterNotToSetTests() {
         }
     }
     assertEqualsAnyOf(intOptions, intActual)
+
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
+    var listExpected = multiSetOf(listOf(1, 2, 3))
+    assertEquals(listExpected, listSet.filterNotToSet { it.contains(0) })
+
+    mutableList2.add(2)
+    listExpected = emptyMultiSet()
+    assertEquals(listExpected, listSet.filterNotToSet { it.contains(2) })
 }

@@ -6,13 +6,13 @@ import kotlin.test.assertEquals
 
 class IntCollectionExtTest {
     @Test
-    internal fun testFilterNotZero() {
-        var list: List<Int> = listOf()
-        var expected: List<Int> = listOf()
+    fun testFilterNotZero() {
+        var list: List<Int> = emptyList()
+        var expected: List<Int> = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(0, 0, 0)
-        expected = listOf()
+        expected = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(1, 2, 0, 4, 0, 0, 5)
@@ -29,7 +29,7 @@ class IntCollectionExtTest {
     }
 
     @Test
-    internal fun testSum() {
+    fun testSum() {
         var list: IntList = emptyList()
         var expected = 0
         assertEquals(expected, list.sum())
@@ -56,7 +56,7 @@ class IntCollectionExtTest {
     }
 
     @Test
-    internal fun testProduct() {
+    fun testProduct() {
         var list: IntList = emptyList()
         var expected = 0
         assertEquals(expected, list.product())

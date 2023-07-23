@@ -16,7 +16,7 @@ fun String.substringTo(index: Int): String = substring(0, index)
  */
 fun String.isInt(): Boolean {
     return try {
-        Integer.parseInt(this)
+        toInt()
         true
     } catch (e: Exception) {
         false
