@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
@@ -68,19 +67,10 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             return false
         }
 
-        val counts = getCounts()
         return try {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
-
-            // more efficient equality check for AbstractMultiSetImpl
-            if (other is AbstractMultiSetImpl<*>) {
-                val finalOther = other.toMultiSet() as AbstractMultiSetImpl<E>
-                return counts == finalOther.getCounts()
-            }
-
-            val otherDistinct = other.distinctValues
-            return distinctValues == otherDistinct && distinctValues.all { counts[it] == other.getCountOf(it) }
+            getCounts() == getCounts(other)
         } catch (_: Exception) {
             false
         }
@@ -162,7 +152,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     protected fun getCounts(): Map<E, Int> = getCounts(values)
 
     /**
-     * Creating a mapping of each element in a collection to the number of occurrences of the element.
+     * Create a mapping of each element in a collection to the number of occurrences of the element.
      *
      * @param elements [Collection]<E>: collection to generate map for
      * @return [Map]<E, Int>: mapping where keys are distinct values from [elements],

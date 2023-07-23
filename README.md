@@ -2,7 +2,7 @@
 
 [![Build and Test](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml/badge.svg?branch=main)](https://github.com/lbressler13/kotlin-utils/actions/workflows/main_checks.yml)
 
-A collection of reusable functions, classes, and typealiases that can be used in Kotlin projects.
+A collection of reusable functions, classes, and typealiases for use in Kotlin projects.
 
 ## Contents
 
@@ -22,9 +22,10 @@ Methods that extend existing classes and interfaces.
 
 See [here](https://kotlinlang.org/docs/extensions.html) for general information about extensions in Kotlin.
 
-### Helper functions
+### Util functions
 
 Functions that are not a direct extension of any class.
+Helper functions may still be associated with a class.
 
 ## Project structure
 
@@ -53,7 +54,7 @@ Functions that are not a direct extension of any class.
 ├── sample                <-- Class that already exists in Kotlin
 │   ├── ext
 │   │   ├── SampleExt.kt  <-- Extension methods for the class
-│   ├── subclass1         <-- Subclass that has the same project structure
+│   ├── subclass1         <-- Subclass with the same project structure
 │   ├── subclass2         
 │   ├── SampleAliases.kt  <-- Typealiases related to the class
 │   └── SampleUtils.kt    <-- Helper functions related to the class

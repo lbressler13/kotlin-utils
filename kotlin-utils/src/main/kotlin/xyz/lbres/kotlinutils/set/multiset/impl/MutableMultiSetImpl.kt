@@ -65,10 +65,10 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
             return true
         }
 
-        var someSucceeded = false
-        elements.forEach { someSucceeded = add(it) || someSucceeded }
+        var anySucceeded = false
+        elements.forEach { anySucceeded = add(it) || anySucceeded }
 
-        return someSucceeded
+        return anySucceeded
     }
 
     /**
@@ -101,10 +101,10 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
             return true
         }
 
-        var someSucceeded = false
-        elements.forEach { someSucceeded = remove(it) || someSucceeded }
+        var anySucceeded = false
+        elements.forEach { anySucceeded = remove(it) || anySucceeded }
 
-        return someSucceeded
+        return anySucceeded
     }
 
     /**

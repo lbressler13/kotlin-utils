@@ -17,6 +17,20 @@ fun BooleanArray.setAllValues(value: Boolean) {
 fun BooleanArray.all() = all { it }
 
 /**
+ * Determine if none of the values in array are `true`
+ *
+ * @return [Boolean]: `true` if no values are set to `true`, `false` otherwise
+ */
+fun BooleanArray.none() = none { it }
+
+/**
+ * Determine if any of the values in array are `true`
+ *
+ * @return [Boolean]: `true` if any values are set to `true`, `false` otherwise
+ */
+fun BooleanArray.any() = any { it }
+
+/**
  * Get number of elements matching a specific value
  *
  * @param element [Boolean]: value to match
