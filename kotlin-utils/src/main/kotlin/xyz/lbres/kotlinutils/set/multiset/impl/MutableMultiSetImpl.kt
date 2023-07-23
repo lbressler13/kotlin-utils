@@ -26,7 +26,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
         get() = list
 
     /**
-     * Initialize set from existing counts.
+     * Initialize set from a collection of values.
      */
     constructor(elements: Collection<E>) {
         list = elements.toMutableList()
@@ -153,14 +153,14 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     }
 
     /**
-     * Initialize a new MultiSet from existing counts.
+     * Initialize a new MutableMultiSet from existing counts.
      */
     override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
 
     /**
      * Get an iterator for the elements in this set.
      *
-     * @return [Iterator]<E>
+     * @return [MutableIterator]<E>
      */
     override fun iterator(): MutableIterator<E> = list.toMutableList().iterator()
 }

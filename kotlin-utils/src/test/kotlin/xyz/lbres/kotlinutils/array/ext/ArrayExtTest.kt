@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.array.ext
 
+import xyz.lbres.kotlinutils.list.IntList
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -82,13 +83,13 @@ class ArrayExtTest {
 
         val mutableList1 = mutableListOf(1, 2, 3)
         val mutableList2 = mutableListOf(1, 2, 3)
-        val mutablesArray = arrayOf(mutableList1, mutableList2)
-        assertEquals(2, mutablesArray.countElement(mutableListOf(1, 2, 3)))
-        assertEquals(0, mutablesArray.countElement(mutableListOf()))
+        val mutablesArray: Array<IntList> = arrayOf(mutableList1, mutableList2)
+        assertEquals(2, mutablesArray.countElement(listOf(1, 2, 3)))
+        assertEquals(0, mutablesArray.countElement(listOf()))
 
         mutableList1.clear()
-        assertEquals(1, mutablesArray.countElement(mutableListOf(1, 2, 3)))
-        assertEquals(1, mutablesArray.countElement(mutableListOf()))
+        assertEquals(1, mutablesArray.countElement(listOf(1, 2, 3)))
+        assertEquals(1, mutablesArray.countElement(listOf()))
 
         var nullableArray = arrayOf(1, 2, null, 3, null)
         assertEquals(2, nullableArray.countElement(null))

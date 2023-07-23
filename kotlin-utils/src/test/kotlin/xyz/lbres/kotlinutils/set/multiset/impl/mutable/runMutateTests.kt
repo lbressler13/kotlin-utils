@@ -255,6 +255,7 @@ fun runRetainAllTests() {
     listSet = mutableMultiSetOf(mutableList, listOf(1, 2, 3))
     mutableList.clear()
     listExpected = mutableMultiSetOf(emptyList())
+    runSingleMutateTest(listSet, listExpected, false) { listSet.retainAll(listOf(listOf(1, 4))) }
     runSingleMutateTest(listSet, listExpected, true) { listSet.retainAll(listOf(emptyList())) }
 }
 
