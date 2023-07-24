@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.test
+package xyz.lbres.kotlinutils
 
 import xyz.lbres.kotlinutils.list.WeightedList
 import kotlin.math.max
@@ -43,29 +43,5 @@ fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction: () -> T
                 assertTrue(result.second in (minMatch..maxMatch))
             }
         }
-    }
-}
-
-/**
- * Assert that a value matches any of the provided options
- *
- * @param expectedOptions [Collection]<T>: possible allowed results
- * @param actual [T]: the actual value
- */
-fun <T> assertEqualsAnyOf(expectedOptions: Collection<T>, actual: T) {
-    assertTrue { expectedOptions.any { it == actual } }
-}
-
-/**
- * Run a test, with one retry in the event of failure.
- * Can be used for tests with a small but non-zero possibility of failure due to randomization.
- *
- * @param test () -> [Unit]: test to run
- */
-fun runTestWithRetry(test: () -> Unit) {
-    try {
-        test()
-    } catch (_: Throwable) {
-        test()
     }
 }
