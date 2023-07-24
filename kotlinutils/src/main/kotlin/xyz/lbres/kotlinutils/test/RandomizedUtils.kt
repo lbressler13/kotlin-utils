@@ -25,8 +25,8 @@ fun runTestWithRetry(test: () -> Unit) {
  * @param randomAction [() -> T]: generate a single result, and perform any assertions about that result
  * @param randomCheck [(T) -> Boolean]: check if a result meets criteria for randomization
  */
-fun <T> runRandomTest(randomAction: () -> T, randomCheck: (T) -> Boolean) {
-    runRandomTest(20, randomAction, randomCheck)
+fun <T> runRandomCheck(randomAction: () -> T, randomCheck: (T) -> Boolean) {
+    runRandomCheck(20, randomAction, randomCheck)
 }
 
 /**
@@ -37,7 +37,7 @@ fun <T> runRandomTest(randomAction: () -> T, randomCheck: (T) -> Boolean) {
  * @param randomAction [() -> T]: generate a single result, and perform any assertions about that result
  * @param randomCheck [(T) -> Boolean]: check if a result meets criteria for randomization
  */
-fun <T> runRandomTest(iterations: Int, randomAction: () -> T, randomCheck: (T) -> Boolean) {
+fun <T> runRandomCheck(iterations: Int, randomAction: () -> T, randomCheck: (T) -> Boolean) {
     var checkPassed = false
 
     repeat(iterations) {
@@ -51,7 +51,8 @@ fun <T> runRandomTest(iterations: Int, randomAction: () -> T, randomCheck: (T) -
 }
 
 /**
- * Repeatedly generate a random value, and check that the results are evenly distributed
+ * Repeatedly generate a random value, and check that the results are evenly distributed.
+ * Allows 33% variation from exactly equal distribution for each value.
  *
  * @param values [Iterable]<T>: all possible values
  * @param iterations [Int]: number of times to generate value
@@ -66,7 +67,7 @@ fun <T> checkDistributedResults(values: Iterable<T>, iterations: Int, getValue: 
  *
  * @param values [Iterable]<T>: all possible values
  * @param iterations [Int]: number of times to generate value
- * @param errorMargin [Float]
+ * @param errorMargin [Float]: allowed variation from exact equal distribution, expected to be between 0 and 1
  * @param getValue ([Iterable]<T>) -> T: function that takes [values] as parameter, and uses it to randomly generate a value
  */
 fun <T> checkDistributedResults(values: Iterable<T>, iterations: Int, errorMargin: Float, getValue: (Iterable<T>) -> T) {
