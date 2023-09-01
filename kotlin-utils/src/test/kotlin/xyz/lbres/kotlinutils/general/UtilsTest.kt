@@ -91,64 +91,52 @@ class UtilsTest {
         val charIndexFn: (Int) -> Char = { "1234"[it] }
 
         // without exceptions param
-
-        var expectedInt = 0
         var resultInt = tryOrDefault(0) { divFn(0) }
-        assertEquals(expectedInt, resultInt)
+        assertEquals(0, resultInt)
 
-        expectedInt = 10
         resultInt = tryOrDefault(0) { divFn(1) }
-        assertEquals(expectedInt, resultInt)
+        assertEquals(10, resultInt)
 
-        expectedInt = -1
         resultInt = tryOrDefault(-1) { listMaxFn(emptyList()) }
-        assertEquals(expectedInt, resultInt)
+        assertEquals(-1, resultInt)
 
-        expectedInt = 7
         resultInt = tryOrDefault(-1) { listMaxFn(listOf(1, 3, 5, 7)) }
-        assertEquals(expectedInt, resultInt)
+        assertEquals(7, resultInt)
 
-        var expectedChar = '-'
         var resultChar = tryOrDefault('-') { charIndexFn(4) }
-        assertEquals(expectedChar, resultChar)
+        assertEquals('-', resultChar)
 
-        expectedChar = '4'
         resultChar = tryOrDefault('-') { charIndexFn(3) }
-        assertEquals(expectedChar, resultChar)
+        assertEquals('4', resultChar)
 
         // with exceptions param
         var exceptions: List<KClass<out Exception>> = listOf(ArithmeticException::class)
-        expectedInt = 0
         resultInt = tryOrDefault(0, exceptions) { divFn(0) }
-        assertEquals(expectedInt, resultInt)
+        assertEquals(0, resultInt)
 
         exceptions = listOf(NullPointerException::class, NumberFormatException::class)
         assertFailsWith<ArithmeticException> { tryOrDefault(0, exceptions) { divFn(0) } }
         assertFailsWith<ArithmeticException> { tryOrDefault(0, emptyList()) { divFn(0) } }
 
-        expectedInt = 10
         resultInt = tryOrDefault(0, exceptions) { divFn(1) }
-        assertEquals(expectedInt, resultInt)
+        assertEquals(10, resultInt)
 
         exceptions = listOf(NullPointerException::class, IndexOutOfBoundsException::class)
-        expectedChar = '-'
         resultChar = tryOrDefault('-', exceptions) { charIndexFn(4) }
-        assertEquals(expectedChar, resultChar)
+        assertEquals('-', resultChar)
 
         exceptions = listOf(NullPointerException::class, ClassCastException::class)
         assertFailsWith<IndexOutOfBoundsException> { tryOrDefault('-', exceptions) { charIndexFn(4) } }
 
-        expectedChar = '4'
         resultChar = tryOrDefault('-') { charIndexFn(3) }
-        assertEquals(expectedChar, resultChar)
+        assertEquals('4', resultChar)
 
         // custom exception
         class CustomException : Exception()
         exceptions = listOf(CustomException::class)
-        expectedChar = 'X'
 
         resultChar = tryOrDefault('X') { throw CustomException() }
-        assertEquals(expectedChar, resultChar)
+        assertEquals('X', resultChar)
 
         exceptions = listOf(NullPointerException::class, ClassCastException::class)
         assertFailsWith<CustomException> { tryOrDefault('X', exceptions) { throw CustomException() } }
