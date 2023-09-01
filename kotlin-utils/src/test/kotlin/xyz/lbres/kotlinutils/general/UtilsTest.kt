@@ -1,6 +1,8 @@
 package xyz.lbres.kotlinutils.general
 
 import xyz.lbres.kotlinutils.int.ext.isNegative
+import xyz.lbres.kotlinutils.int.ext.isZero
+import xyz.lbres.kotlinutils.list.IntList
 import kotlin.math.sqrt
 import kotlin.reflect.KClass
 import kotlin.test.Test
@@ -68,12 +70,12 @@ class UtilsTest {
         val numerator = 4
         var denominator = 0
         expectedInt = 0
-        resultInt = simpleIf(denominator == 0, { 0 }, { numerator / denominator })
+        resultInt = simpleIf(denominator.isZero(), { 0 }, { numerator / denominator })
         assertEquals(expectedInt, resultInt)
 
         denominator = 2
         expectedInt = 2
-        resultInt = simpleIf(denominator == 0, { 0 }, { numerator / denominator })
+        resultInt = simpleIf(denominator.isZero(), { 0 }, { numerator / denominator })
         assertEquals(expectedInt, resultInt)
 
         // no return
@@ -83,65 +85,72 @@ class UtilsTest {
     }
 
     @Test
-    fun testTryDefault() {
-        // without exceptions
+    fun testTryOrDefault() {
+        val divFn: (Int) -> Int = { 10 / it }
+        val listMaxFn: (IntList) -> Int = { it.maxOrNull()!! }
+        val charIndexFn: (Int) -> Char = { "1234"[it] }
+
+        // without exceptions param
+
         var expectedInt = 0
-        var resultInt = tryDefault(0) { 10 / 0 }
+        var resultInt = tryOrDefault(0) { divFn(0) }
         assertEquals(expectedInt, resultInt)
 
         expectedInt = 10
-        resultInt = tryDefault(0) { 10 / 1 }
+        resultInt = tryOrDefault(0) { divFn(1) }
         assertEquals(expectedInt, resultInt)
 
         expectedInt = -1
-        resultInt = tryDefault(-1) { emptyList<Int>().maxOrNull()!! }
+        resultInt = tryOrDefault(-1) { listMaxFn(emptyList()) }
         assertEquals(expectedInt, resultInt)
 
         expectedInt = 7
-        resultInt = tryDefault(-1) { listOf(1, 3, 5, 7).maxOrNull()!! }
+        resultInt = tryOrDefault(-1) { listMaxFn(listOf(1, 3, 5, 7)) }
         assertEquals(expectedInt, resultInt)
 
         var expectedChar = '-'
-        var resultChar = tryDefault('-') { "1234"[4] }
+        var resultChar = tryOrDefault('-') { charIndexFn(4) }
         assertEquals(expectedChar, resultChar)
 
         expectedChar = '4'
-        resultChar = tryDefault('-') { "1234"[3] }
+        resultChar = tryOrDefault('-') { charIndexFn(3) }
         assertEquals(expectedChar, resultChar)
 
-        // with exceptions list
+        // with exceptions param
         var exceptions: List<KClass<out Exception>> = listOf(ArithmeticException::class)
         expectedInt = 0
-        resultInt = tryDefault(0, exceptions) { 10 / 0 }
+        resultInt = tryOrDefault(0, exceptions) { divFn(0) }
         assertEquals(expectedInt, resultInt)
 
         exceptions = listOf(NullPointerException::class, NumberFormatException::class)
-        assertFailsWith<ArithmeticException> { tryDefault(0, exceptions) { 10 / 0 } }
-        assertFailsWith<ArithmeticException> { tryDefault(0, emptyList()) { 10 / 0 } }
+        assertFailsWith<ArithmeticException> { tryOrDefault(0, exceptions) { divFn(0) } }
+        assertFailsWith<ArithmeticException> { tryOrDefault(0, emptyList()) { divFn(0) } }
 
         expectedInt = 10
-        resultInt = tryDefault(0, exceptions) { 10 / 1 }
+        resultInt = tryOrDefault(0, exceptions) { divFn(1) }
         assertEquals(expectedInt, resultInt)
 
         exceptions = listOf(NullPointerException::class, IndexOutOfBoundsException::class)
         expectedChar = '-'
-        resultChar = tryDefault('-', exceptions) { "1234"[4] }
+        resultChar = tryOrDefault('-', exceptions) { charIndexFn(4) }
         assertEquals(expectedChar, resultChar)
 
         exceptions = listOf(NullPointerException::class, ClassCastException::class)
-        assertFailsWith<IndexOutOfBoundsException> { tryDefault('-', exceptions) { "1234"[4] } }
+        assertFailsWith<IndexOutOfBoundsException> { tryOrDefault('-', exceptions) { charIndexFn(4) } }
 
         expectedChar = '4'
-        resultChar = tryDefault('-') { "1234"[3] }
+        resultChar = tryOrDefault('-') { charIndexFn(3) }
         assertEquals(expectedChar, resultChar)
 
+        // custom exception
         class CustomException : Exception()
         exceptions = listOf(CustomException::class)
         expectedChar = 'X'
-        resultChar = tryDefault('X') { throw CustomException() }
+
+        resultChar = tryOrDefault('X') { throw CustomException() }
         assertEquals(expectedChar, resultChar)
 
         exceptions = listOf(NullPointerException::class, ClassCastException::class)
-        assertFailsWith<CustomException> { tryDefault('X', exceptions) { throw CustomException() } }
+        assertFailsWith<CustomException> { tryOrDefault('X', exceptions) { throw CustomException() } }
     }
 }

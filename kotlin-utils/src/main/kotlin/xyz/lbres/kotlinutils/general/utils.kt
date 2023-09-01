@@ -42,7 +42,7 @@ fun <T> simpleIf(check: Boolean, trueMethod: () -> T, falseMethod: () -> T): T {
  * @param defaultValue [T]: default value to return if [function] throws any exception
  * @param function () -> [T]: function to execute
  */
-fun <T> tryDefault(defaultValue: T, function: () -> T): T {
+fun <T> tryOrDefault(defaultValue: T, function: () -> T): T {
     return try {
         function()
     } catch (_: Exception) {
@@ -58,7 +58,7 @@ fun <T> tryDefault(defaultValue: T, function: () -> T): T {
  * All other exceptions will be thrown.
  * @param function () -> [T]: function to execute
  */
-fun <T> tryDefault(defaultValue: T, exceptions: List<KClass<out Exception>>, function: () -> T): T {
+fun <T> tryOrDefault(defaultValue: T, exceptions: List<KClass<out Exception>>, function: () -> T): T {
     return try {
         function()
     } catch (e: Exception) {

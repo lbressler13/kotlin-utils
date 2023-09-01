@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.general.simpleIf
-import xyz.lbres.kotlinutils.general.tryDefault
+import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import kotlin.math.min
@@ -68,7 +68,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             return false
         }
 
-        return tryDefault(false) {
+        return tryOrDefault(false) {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
             getCounts() == getCounts(other)
