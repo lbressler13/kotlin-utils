@@ -34,6 +34,28 @@ fun <T> simpleIf(check: Boolean, trueMethod: () -> T, falseMethod: () -> T): T {
     }
 }
 
+fun <T> tryDefault(defaultValue: T, function: () -> T): T {
+    return try {
+        function()
+    } catch (_: Exception) {
+        defaultValue
+    }
+}
+
+fun <T> tryDefault(defaultValue: T, exceptions: List<Class<out Exception>>, function: () -> T): T {
+    return try {
+        function()
+    } catch (e: Exception) {
+        for (exceptionClass in exceptions) {
+            if (exceptionClass.isInstance(e)) {
+                return defaultValue
+            }
+        }
+
+        throw e
+    }
+}
+
 /**
  * Function to perform a simple boolean check, and return a value based on the result
  *

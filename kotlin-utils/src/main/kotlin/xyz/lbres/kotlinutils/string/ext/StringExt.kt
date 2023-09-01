@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.string.ext
 
+import xyz.lbres.kotlinutils.general.tryDefault
+
 /**
  * Substring function which uses end index instead of start index
  *
@@ -15,10 +17,8 @@ fun String.substringTo(index: Int): String = substring(0, index)
  * @return [Boolean]: true if string can be parsed as Int, false otherwise
  */
 fun String.isInt(): Boolean {
-    return try {
+    return tryDefault(false) {
         toInt()
         true
-    } catch (e: Exception) {
-        false
     }
 }
