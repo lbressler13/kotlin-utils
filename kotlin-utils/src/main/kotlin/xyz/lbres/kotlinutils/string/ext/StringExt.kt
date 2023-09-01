@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.string.ext
 
+import xyz.lbres.kotlinutils.general.tryOrDefault
+
 /**
  * Substring function which uses end index instead of start index
  *
@@ -23,10 +25,8 @@ fun String.countElement(element: Char) = this.count { it == element }
  * @return [Boolean]: true if string can be parsed as Int, false otherwise
  */
 fun String.isInt(): Boolean {
-    return try {
+    return tryOrDefault(false) {
         toInt()
         true
-    } catch (e: Exception) {
-        false
     }
 }

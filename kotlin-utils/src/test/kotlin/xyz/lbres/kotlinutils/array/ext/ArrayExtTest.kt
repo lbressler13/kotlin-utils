@@ -65,7 +65,7 @@ class ArrayExtTest {
 
     @Test
     fun testCountElement() {
-        var intArray: Array<Int> = arrayOf()
+        var intArray: Array<Int> = emptyArray()
         assertEquals(0, intArray.countElement(0))
         assertEquals(0, intArray.countElement(175))
 
@@ -85,11 +85,11 @@ class ArrayExtTest {
         val mutableList2 = mutableListOf(1, 2, 3)
         val mutablesArray: Array<IntList> = arrayOf(mutableList1, mutableList2)
         assertEquals(2, mutablesArray.countElement(listOf(1, 2, 3)))
-        assertEquals(0, mutablesArray.countElement(listOf()))
+        assertEquals(0, mutablesArray.countElement(emptyList()))
 
         mutableList1.clear()
         assertEquals(1, mutablesArray.countElement(listOf(1, 2, 3)))
-        assertEquals(1, mutablesArray.countElement(listOf()))
+        assertEquals(1, mutablesArray.countElement(emptyList()))
 
         var nullableArray = arrayOf(1, 2, null, 3, null)
         assertEquals(2, nullableArray.countElement(null))
