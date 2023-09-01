@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.general
 
+import kotlin.reflect.KClass
+
 /**
  * Function to perform a simple boolean check, and return a value based on the result.
  * Values are computed before check occurs.
@@ -42,7 +44,7 @@ fun <T> tryDefault(defaultValue: T, function: () -> T): T {
     }
 }
 
-fun <T> tryDefault(defaultValue: T, exceptions: List<Class<out Exception>>, function: () -> T): T {
+fun <T> tryDefault(defaultValue: T, exceptions: List<KClass<out Exception>>, function: () -> T): T {
     return try {
         function()
     } catch (e: Exception) {

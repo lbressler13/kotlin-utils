@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.general
 
 import xyz.lbres.kotlinutils.int.ext.isNegative
 import kotlin.math.sqrt
+import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -109,12 +110,12 @@ class UtilsTest {
         assertEquals(expectedChar, resultChar)
 
         // with exceptions list
-        var exceptions: List<Class<out Exception>> = listOf(ArithmeticException::class.java)
+        var exceptions: List<KClass<out Exception>> = listOf(ArithmeticException::class)
         expectedInt = 0
         resultInt = tryDefault(0, exceptions) { 10 / 0 }
         assertEquals(expectedInt, resultInt)
 
-        exceptions = listOf(NullPointerException::class.java, NumberFormatException::class.java)
+        exceptions = listOf(NullPointerException::class, NumberFormatException::class)
         assertFailsWith<ArithmeticException> { tryDefault(0, exceptions) { 10 / 0 } }
         assertFailsWith<ArithmeticException> { tryDefault(0, emptyList()) { 10 / 0 } }
 
@@ -122,12 +123,12 @@ class UtilsTest {
         resultInt = tryDefault(0, exceptions) { 10 / 1 }
         assertEquals(expectedInt, resultInt)
 
-        exceptions = listOf(NullPointerException::class.java, IndexOutOfBoundsException::class.java)
+        exceptions = listOf(NullPointerException::class, IndexOutOfBoundsException::class)
         expectedChar = '-'
         resultChar = tryDefault('-', exceptions) { "1234"[4] }
         assertEquals(expectedChar, resultChar)
 
-        exceptions = listOf(NullPointerException::class.java, ClassCastException::class.java)
+        exceptions = listOf(NullPointerException::class, ClassCastException::class)
         assertFailsWith<IndexOutOfBoundsException> { tryDefault('-', exceptions) { "1234"[4] } }
 
         expectedChar = '4'
