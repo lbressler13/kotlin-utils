@@ -12,6 +12,14 @@ import xyz.lbres.kotlinutils.general.tryDefault
 fun String.substringTo(index: Int): String = substring(0, index)
 
 /**
+ * Get number of characters matching a specific value
+ *
+ * @param element [Char]: value to match
+ * @return [Int]: number of characters with the given value
+ */
+fun String.countElement(element: Char) = this.count { it == element }
+
+/**
  * Determine if string can be parsed as Int
  *
  * @return [Boolean]: true if string can be parsed as Int, false otherwise
