@@ -134,5 +134,14 @@ class UtilsTest {
         expectedChar = '4'
         resultChar = tryDefault('-') { "1234"[3] }
         assertEquals(expectedChar, resultChar)
+
+        class CustomException : Exception()
+        exceptions = listOf(CustomException::class)
+        expectedChar = 'X'
+        resultChar = tryDefault('X') { throw CustomException() }
+        assertEquals(expectedChar, resultChar)
+
+        exceptions = listOf(NullPointerException::class, ClassCastException::class)
+        assertFailsWith<CustomException> { tryDefault('X', exceptions) { throw CustomException() } }
     }
 }
