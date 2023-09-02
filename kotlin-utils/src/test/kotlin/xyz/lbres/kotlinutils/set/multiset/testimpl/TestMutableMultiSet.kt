@@ -6,7 +6,8 @@ import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 /**
  * Alternate MutableMultiSet implementation to use in testing
  */
-internal class TestMutableMultiSet<E>(collection: Collection<E>) : MutableMultiSet<E> {
+@Suppress("EqualsOrHashCode")
+class TestMutableMultiSet<E>(collection: Collection<E>) : MutableMultiSet<E> {
     private val list: MutableList<E> = collection.toMutableList()
     override val size: Int = collection.size
     override val distinctValues: MutableSet<E>

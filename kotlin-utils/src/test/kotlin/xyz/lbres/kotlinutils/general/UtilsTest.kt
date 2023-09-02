@@ -9,6 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
+@Suppress("BooleanLiteralArgument", "KotlinConstantConditions")
 class UtilsTest {
     @Test
     fun testSimpleIf() {

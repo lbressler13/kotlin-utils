@@ -22,7 +22,7 @@ class LongRangeExtTest {
         expected = 90
         assertEquals(expected, range.size())
 
-        // postive + negative
+        // positive + negative
         range = -1000L..1000L
         expected = 2001
         assertEquals(expected, range.size())

@@ -12,18 +12,18 @@ import java.math.BigInteger
  * @return [BigInteger] the positive greatest common divisor of [val1] and [val2]
  */
 fun getGCD(val1: BigInteger, val2: BigInteger): BigInteger {
-    val aval1 = val1.abs()
-    val aval2 = val2.abs()
+    val abs1 = val1.abs()
+    val abs2 = val2.abs()
 
     when {
-        aval1.isZero() && aval2.isZero() -> return BigInteger.ONE
-        aval1.isZero() -> return aval2
-        aval2.isZero() -> return aval1
-        aval1 == aval2 -> return aval1
+        abs1.isZero() && abs2.isZero() -> return BigInteger.ONE
+        abs1.isZero() -> return abs2
+        abs2.isZero() -> return abs1
+        abs1 == abs2 -> return abs1
     }
 
-    var sum = aval1.max(aval2)
-    var value = aval1.min(aval2)
+    var sum = abs1.max(abs2)
+    var value = abs1.min(abs2)
     var finished = false
 
     while (!finished) {
