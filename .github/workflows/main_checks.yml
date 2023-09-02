@@ -7,32 +7,14 @@ on:
       - "main"
 
 jobs:
-  lint:
-    name: "Linting"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Linting
-        run: ./gradlew ktlintCheck
-
-  test:
-    name: "Unit Tests"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Unit Tests
-        run: ./gradlew test
+  basic-checks:
+    name: "Lint and Test"
+    uses: ./.github/workflows/basic_checks.yml
 
   build:
     name: "Build"
     runs-on: ubuntu-latest
-    needs: ["lint", "test"]
+    needs: "basic-checks"
 
     steps:
       - name: Checkout
