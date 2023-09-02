@@ -19,6 +19,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Generate Gradle State
+        run: ./gradlew compileKotlin
+
   lint:
     name: "Linting"
     runs-on: ubuntu-latest
