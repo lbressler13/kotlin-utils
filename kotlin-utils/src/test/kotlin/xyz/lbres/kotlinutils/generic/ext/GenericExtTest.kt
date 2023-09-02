@@ -5,12 +5,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress("KotlinConstantConditions")
 class GenericExtTest {
     @Test
     fun testIfNull() {
         var string: String? = "abc"
         var expectedStr = "abc"
-        var resultStr = string.ifNull { "abcde" }
+        var resultStr = string.ifNull { "xyz" }
         assertEquals(expectedStr, resultStr)
 
         string = "abc"
@@ -20,12 +21,12 @@ class GenericExtTest {
 
         string = ""
         expectedStr = ""
-        resultStr = string.ifNull { "abcde" }
+        resultStr = string.ifNull { "xyz" }
         assertEquals(expectedStr, resultStr)
 
         string = null
-        expectedStr = "abcde"
-        resultStr = string.ifNull { "abcde" }
+        expectedStr = "xyz"
+        resultStr = string.ifNull { "xyz" }
         assertEquals(expectedStr, resultStr)
 
         val nonnull = "123"

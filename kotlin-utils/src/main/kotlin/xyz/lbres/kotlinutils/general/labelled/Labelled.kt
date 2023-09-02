@@ -6,6 +6,7 @@ package xyz.lbres.kotlinutils.general.labelled
  * @param value [T]
  * @param label [String]
  */
+@Suppress("Unused")
 data class Labelled<T>(
     val value: T,
     val label: String

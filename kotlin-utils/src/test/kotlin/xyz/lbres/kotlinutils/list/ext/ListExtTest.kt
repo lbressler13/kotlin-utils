@@ -33,8 +33,8 @@ class ListExtTest {
             .copyWithReplacement(2, "farewell")
             .copyWithReplacement(0, "hey")
             .copyWithReplacement(3, "what's up")
-            .copyWithReplacement(1, "byeeee")
-        expectedString = listOf("hey", "byeeee", "farewell", "what's up")
+            .copyWithReplacement(1, "bye")
+        expectedString = listOf("hey", "bye", "farewell", "what's up")
         assertEquals(expectedString, listString)
 
         val listInt = listOf(0, 1, 1, 2, 3, 6, 8)
