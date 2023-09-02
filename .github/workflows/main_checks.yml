@@ -8,7 +8,7 @@ on:
 
 jobs:
   basic-checks:
-    name: "Lint and Test"
+    name: "Basic Checks"
     uses: ./.github/workflows/basic_checks.yml
 
   build:
