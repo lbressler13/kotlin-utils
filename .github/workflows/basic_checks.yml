@@ -8,24 +8,9 @@ on:
       - "main"
 
 jobs:
-  caches:
-    name: "Initialize Caches"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
-      - name: Generate Gradle State
-        run: ./gradlew compileKotlin
-
   lint:
     name: "Linting"
     runs-on: ubuntu-latest
-    needs: "caches"
 
     steps:
       - name: Checkout
@@ -37,7 +22,6 @@ jobs:
   test:
     name: "Unit Tests"
     runs-on: ubuntu-latest
-    needs: "caches"
 
     steps:
       - name: Checkout
