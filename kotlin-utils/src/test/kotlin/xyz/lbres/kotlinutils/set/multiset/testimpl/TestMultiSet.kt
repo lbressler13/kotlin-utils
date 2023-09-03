@@ -5,7 +5,8 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 /**
  * Alternate MultiSet implementation to use in testing
  */
-internal class TestMultiSet<E>(collection: Collection<E>) : MultiSet<E> {
+@Suppress("EqualsOrHashCode")
+class TestMultiSet<E>(collection: Collection<E>) : MultiSet<E> {
     private val list: List<E> = collection.toList()
     override val size: Int = collection.size
     override val distinctValues: Set<E> = collection.toSet()

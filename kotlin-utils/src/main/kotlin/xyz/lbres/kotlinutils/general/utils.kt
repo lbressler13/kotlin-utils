@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.general
 
+import kotlin.reflect.KClass
+
 /**
  * Function to perform a simple boolean check, and return a value based on the result.
  * Values are computed before check occurs.
@@ -31,6 +33,42 @@ fun <T> simpleIf(check: Boolean, trueMethod: () -> T, falseMethod: () -> T): T {
         trueMethod()
     } else {
         falseMethod()
+    }
+}
+
+/**
+ * Try to execute a function, and return a default value if the function throws any exception
+ *
+ * @param defaultValue [T]: default value to return if any exception is thrown
+ * @param function () -> [T]: function to execute
+ */
+fun <T> tryOrDefault(defaultValue: T, function: () -> T): T {
+    return try {
+        function()
+    } catch (_: Exception) {
+        defaultValue
+    }
+}
+
+/**
+ * Try to execute a function, and return a default value if the function throws any of the given exceptions
+ *
+ * @param defaultValue [T]: default value to return if an exception from [exceptions] is thrown
+ * @param exceptions List<KClass<out Exception>>: list of exception classes for which [defaultValue] should be returned.
+ * All other exceptions will be thrown.
+ * @param function () -> [T]: function to execute
+ */
+fun <T> tryOrDefault(defaultValue: T, exceptions: List<KClass<out Exception>>, function: () -> T): T {
+    return try {
+        function()
+    } catch (e: Exception) {
+        for (exceptionClass in exceptions) {
+            if (exceptionClass.isInstance(e)) {
+                return defaultValue
+            }
+        }
+
+        throw e
     }
 }
 

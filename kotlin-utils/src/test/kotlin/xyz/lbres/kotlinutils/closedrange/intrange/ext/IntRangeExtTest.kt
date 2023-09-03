@@ -22,7 +22,7 @@ class IntRangeExtTest {
         expected = 90
         assertEquals(expected, range.size())
 
-        // postive + negative
+        // positive + negative
         range = -1000..1000
         expected = 2001
         assertEquals(expected, range.size())

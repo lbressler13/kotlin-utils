@@ -34,6 +34,27 @@ class StringExtTest {
     }
 
     @Test
+    fun testCountElement() {
+        var string = ""
+        assertEquals(0, string.countElement('-'))
+        assertEquals(0, string.countElement('a'))
+
+        string = "hello world"
+        assertEquals(0, string.countElement('a'))
+        assertEquals(1, string.countElement('e'))
+        assertEquals(3, string.countElement('l'))
+
+        string = "%#\\%   \n \\.$?'' \" 919"
+        assertEquals(6, string.countElement(' '))
+        assertEquals(2, string.countElement('\\'))
+        assertEquals(2, string.countElement('\''))
+        assertEquals(1, string.countElement('"'))
+        assertEquals(2, string.countElement('9'))
+        assertEquals(1, string.countElement('$'))
+        assertEquals(1, string.countElement('\n'))
+    }
+
+    @Test
     fun testIsInt() {
         // int
         var string = "0"

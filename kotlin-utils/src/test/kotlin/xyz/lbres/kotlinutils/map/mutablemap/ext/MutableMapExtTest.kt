@@ -8,7 +8,7 @@ class MutableMapExtTest {
     fun testSetAllValues() {
         // empty map
         var intIntMap: MutableMap<Int, Int> = mutableMapOf()
-        var intIntExpected: Map<Int, Int> = mapOf()
+        var intIntExpected: Map<Int, Int> = emptyMap()
         intIntMap.setAllValues(1)
         assertEquals(intIntExpected, intIntMap)
 

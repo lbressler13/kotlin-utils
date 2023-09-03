@@ -5,6 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress("KotlinConstantConditions")
 class LongExtTest {
     @Test
     fun testIfZero() {

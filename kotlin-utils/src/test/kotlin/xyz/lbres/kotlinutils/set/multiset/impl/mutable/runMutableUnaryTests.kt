@@ -27,7 +27,7 @@ fun runMutableIsEmptyTests() {
     stringSet = mutableMultiSetOf("123", "abc")
     assertFalse(stringSet.isEmpty())
 
-    stringSet = mutableMultiSetOf("abcdefg", "abcdefg")
+    stringSet = mutableMultiSetOf("hello world", "hello world")
     assertFalse(stringSet.isEmpty())
 
     // remove elements

@@ -9,6 +9,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress("KotlinConstantConditions")
 class CollectionExtTest {
     @Test
     fun testToMultiSet() {
