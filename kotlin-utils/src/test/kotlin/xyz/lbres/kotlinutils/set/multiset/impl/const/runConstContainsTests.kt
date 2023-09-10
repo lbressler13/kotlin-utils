@@ -23,7 +23,7 @@ fun runConstContainsTests() {
     val errSet = constMultiSetOf(ArithmeticException(), error, NumberFormatException())
     assertTrue(errSet.contains(error))
 
-    var listSet = constMultiSetOf(emptyList(), listOf(5, 6), listOf(9, 8, 3))
+    val listSet = constMultiSetOf(emptyList(), listOf(5, 6), listOf(9, 8, 3))
     assertTrue(listSet.contains(emptyList()))
     assertTrue(listSet.contains(listOf(9, 8, 3)))
     assertFalse(listSet.contains(listOf(6, 6)))

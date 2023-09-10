@@ -29,14 +29,14 @@ fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetI
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toConstMultiSet(): ConstMultiSet<E> = ConstMultiSetImpl(this) // TODO unit tests
+fun <E> Collection<E>.toConstMultiSet(): ConstMultiSet<E> = ConstMultiSetImpl(this)
 
 /**
  * Create a MutableMultiSet with the elements in the current collection.
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMutableConstMultiSet(): MutableConstMultiSet<E> = MutableConstMultiSetImpl(this) // TODO unit tests
+fun <E> Collection<E>.toMutableConstMultiSet(): MutableConstMultiSet<E> = MutableConstMultiSetImpl(this)
 
 /**
  * Count number of elements in the collection that are null.
