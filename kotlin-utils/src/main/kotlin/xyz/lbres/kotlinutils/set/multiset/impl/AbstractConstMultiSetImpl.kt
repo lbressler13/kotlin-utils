@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import kotlin.math.min
 
 internal abstract class AbstractConstMultiSetImpl<E> : ConstMultiSet<E> {
-    protected abstract val counts: HashMap<E, Int>
+    protected abstract val counts: Map<E, Int>
 
     private var string: String = ""
     private var hashCode: Int = 0
@@ -48,7 +48,7 @@ internal abstract class AbstractConstMultiSetImpl<E> : ConstMultiSet<E> {
         val newCounts = values.associateWith {
             getCountOf(it) + other.getCountOf(it)
         }
-        return createFromCounts(newCounts as HashMap)
+        return createFromCounts(newCounts)
     }
 
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
@@ -58,7 +58,7 @@ internal abstract class AbstractConstMultiSetImpl<E> : ConstMultiSet<E> {
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
 
-        return createFromCounts(newCounts as HashMap)
+        return createFromCounts(newCounts)
     }
 
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
@@ -67,16 +67,16 @@ internal abstract class AbstractConstMultiSetImpl<E> : ConstMultiSet<E> {
         val newCounts = values.associateWith {
             min(getCountOf(it), other.getCountOf(it))
         }
-        return createFromCounts(newCounts as HashMap)
+        return createFromCounts(newCounts)
     }
 
     /**
      * Initialize a new MultiSet from existing counts.
      */
-    protected abstract fun createFromCounts(counts: HashMap<E, Int>): MultiSet<E>
+    protected abstract fun createFromCounts(counts: Map<E, Int>): MultiSet<E>
 
     protected fun initializeValues(elements: Collection<E>) {
-        val elementsString = elements.joinToString(",")
+        val elementsString = elements.joinToString(", ")
         string = "[$elementsString]"
 
         hashCode = counts.hashCode()

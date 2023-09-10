@@ -15,7 +15,7 @@ internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
 
     override val distinctValues: Set<E>
 
-    override val counts: HashMap<E, Int>
+    override val counts: Map<E, Int>
 
     private val elements: Collection<E>
 
@@ -28,7 +28,7 @@ internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
         val map = elements.groupBy { it }.map {
             it.key to it.value.size
         }.toMap()
-        counts = map as HashMap
+        counts = map as Map
         distinctValues = counts.keys
 
         this.elements = elements
@@ -38,7 +38,7 @@ internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
     /**
      * Initialize set from existing counts.
      */
-    private constructor(counts: HashMap<E, Int>) {
+    private constructor(counts: Map<E, Int>) {
         this.counts = counts
         size = counts.values.fold(0, Int::plus)
         distinctValues = counts.keys
@@ -48,7 +48,7 @@ internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
         }
     }
 
-    override fun createFromCounts(counts: HashMap<E, Int>): MultiSet<E> {
+    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> {
         return ConstMultiSetImpl(counts)
     }
 
