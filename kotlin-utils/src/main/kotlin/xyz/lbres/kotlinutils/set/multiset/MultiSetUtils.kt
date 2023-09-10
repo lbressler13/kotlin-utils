@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 
 /**
@@ -28,13 +29,13 @@ fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = MutableMulti
  */
 fun <E> constMultiSetOf(vararg elements: E): ConstMultiSet<E> = ConstMultiSetImpl(elements.toList())
 
-///**
-// * Create a ConstMutableMultiSet containing the given elements.
-// *
-// * @param elements [E]: variable number of elements to include in set
-// * @return [ConstMutableMultiSet]<E>
-// */
-//fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl(elements.toList())
+/**
+ * Create a MutableConstMultiSet containing the given elements.
+ *
+ * @param elements [E]: variable number of elements to include in set
+ * @return [MutableConstMultiSet]<E>
+ */
+fun <E> mutableConstMultiSetOf(vararg elements: E): MutableConstMultiSet<E> = MutableConstMultiSetImpl(elements.toList())
 
 /**
  * Create a MultiSet containing 0 elements.
@@ -80,12 +81,12 @@ fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = Mutab
 @Suppress("FunctionName")
 fun <E> ConstMultiSet(size: Int, init: (Int) -> E): ConstMultiSet<E> = ConstMultiSetImpl((0 until size).map(init))
 
-///**
-// * Create a ConstMultiSet of a given size, using [init] to generate each element in the set.
-// *
-// * @param size [Int]: size of set to create
-// * @param init ([Int]) -> E: initialization function, used to create each element based on its index
-// * @return [ConstMutableMultiSet]<E>
-// */
-//@Suppress("FunctionName")
-//fun <E> ConstMutableMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl((0 until size).map(init))
+/**
+ * Create a ConstMultiSet of a given size, using [init] to generate each element in the set.
+ *
+ * @param size [Int]: size of set to create
+ * @param init ([Int]) -> E: initialization function, used to create each element based on its index
+ * @return [MutableConstMultiSet]<E>
+ */
+@Suppress("FunctionName")
+fun <E> MutableConstMultiSet(size: Int, init: (Int) -> E): MutableConstMultiSet<E> = MutableConstMultiSetImpl((0 until size).map(init))

@@ -73,7 +73,7 @@ class ConstMultiSetImplTest {
         assertEquals(expected, set.toString())
 
         set = constMultiSetOf(2, 4, 2, 1)
-        expected = "[2, 4, 2, 1]"
+        expected = "[2, 2, 4, 1]"
         assertEquals(expected, set.toString())
 
         val list1 = listOf(1, 2, 3)

@@ -3,13 +3,11 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.mapConsistent
 import kotlin.math.min
 
 internal abstract class AbstractConstMultiSetImpl<E> : ConstMultiSet<E> {
     protected abstract val counts: Map<E, Int>
-
-    private var string: String = ""
-    private var hashCode: Int = 0
 
     override fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
 
@@ -75,15 +73,15 @@ internal abstract class AbstractConstMultiSetImpl<E> : ConstMultiSet<E> {
      */
     protected abstract fun createFromCounts(counts: Map<E, Int>): MultiSet<E>
 
-    protected fun initializeValues(elements: Collection<E>) {
-        val elementsString = elements.joinToString(", ")
-        string = "[$elementsString]"
+    override fun isEmpty(): Boolean = size == 0
 
-        hashCode = counts.hashCode()
-        hashCode = 31 * hashCode + MultiSet::class.java.name.hashCode()
+    override fun toString(): String {
+        val elementsString = mapConsistent { it.toString() }.joinToString(", ")
+        return "[$elementsString]"
     }
 
-    override fun isEmpty(): Boolean = size == 0
-    override fun hashCode(): Int = hashCode
-    override fun toString(): String = string
+    override fun hashCode(): Int {
+        val hashCode = counts.hashCode()
+        return 31 * hashCode + MultiSet::class.java.name.hashCode()
+    }
 }

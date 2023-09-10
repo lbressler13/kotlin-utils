@@ -17,7 +17,7 @@ internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
 
     override val counts: Map<E, Int>
 
-    private val elements: Collection<E>
+    private val elements: List<E>
 
     /**
      * Initialize set from a collection of values.
@@ -25,14 +25,12 @@ internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
     internal constructor(elements: Collection<E>) {
         size = elements.size
 
-        val map = elements.groupBy { it }.map {
+        counts = elements.groupBy { it }.map {
             it.key to it.value.size
         }.toMap()
-        counts = map as Map
         distinctValues = counts.keys
 
-        this.elements = elements
-        initializeValues(elements)
+        this.elements = elements.toList()
     }
 
     /**

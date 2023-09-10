@@ -111,7 +111,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * Retain only elements that are present in [elements].
      * If [elements] contains multiple occurrences of the same value, the value will retain up to that number of occurrences.
      *
-     * @param elements [Collection<E>]
+     * @param elements [Collection]<E>
      * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
