@@ -62,10 +62,6 @@ internal class MutableConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E>, Mutab
     }
 
     override fun remove(element: E): Boolean {
-        if (isEmpty()) {
-            return true
-        }
-
         return when (getCountOf(element)) {
             0 -> false
             1 -> {
@@ -123,5 +119,11 @@ internal class MutableConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E>, Mutab
         return super<AbstractConstMultiSetImpl>.plus(other) as MutableConstMultiSetImpl<E>
     }
 
-    override fun iterator(): MutableIterator<E> = toMutableList().iterator()
+    override fun iterator(): MutableIterator<E> {
+        val list: MutableList<E> = mutableListOf() // TODO store this
+        counts.forEach {
+            repeat(it.value) { _ -> list.add(it.key) }
+        }
+        return list.iterator()
+    }
 }
