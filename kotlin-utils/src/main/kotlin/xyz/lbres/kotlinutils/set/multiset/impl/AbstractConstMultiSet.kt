@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.mapConsistent
 import kotlin.math.min
 
-internal abstract class AbstractConstMultiSetImpl<E> : MultiSet<E> {
+internal abstract class AbstractConstMultiSet<E> : MultiSet<E> {
     protected abstract val counts: Map<E, Int>
 
     override fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
@@ -13,7 +13,7 @@ internal abstract class AbstractConstMultiSetImpl<E> : MultiSet<E> {
     override fun contains(element: E): Boolean = counts.contains(element)
 
     override fun containsAll(elements: Collection<E>): Boolean {
-        val otherSet = ConstMultiSetImpl(elements) as AbstractConstMultiSetImpl<E>
+        val otherSet = ConstMultiSet(elements) as AbstractConstMultiSet<E>
         val elementsCounts = otherSet.counts
 
         return elementsCounts.all {

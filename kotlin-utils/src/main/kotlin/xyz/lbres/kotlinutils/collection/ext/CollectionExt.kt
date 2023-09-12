@@ -3,38 +3,38 @@ package xyz.lbres.kotlinutils.collection.ext
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MutableConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.StandardMultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableStandardMultiSet
 
 /**
  * Create a MultiSet with the elements in the current collection.
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMultiSet(): MultiSet<E> = MultiSetImpl(this)
+fun <E> Collection<E>.toMultiSet(): MultiSet<E> = StandardMultiSet(this)
 
 /**
  * Create a MutableMultiSet with the elements in the current collection.
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetImpl(this)
+fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableStandardMultiSet(this)
 
 /**
  * Create a MultiSet with the elements in the current collection.
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toConstMultiSet(): MultiSet<E> = ConstMultiSetImpl(this)
+fun <E> Collection<E>.toConstMultiSet(): MultiSet<E> = ConstMultiSet(this)
 
 /**
  * Create a MutableMultiSet with the elements in the current collection.
  *
  * @return [MultiSet<E>]
  */
-fun <E> Collection<E>.toMutableConstMultiSet(): MutableMultiSet<E> = MutableConstMultiSetImpl(this)
+fun <E> Collection<E>.toMutableConstMultiSet(): MutableMultiSet<E> = MutableConstMultiSet(this)
 
 /**
  * Count number of elements in the collection that are null.

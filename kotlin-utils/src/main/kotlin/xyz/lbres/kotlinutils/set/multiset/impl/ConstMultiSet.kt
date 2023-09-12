@@ -7,7 +7,7 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
  * Multi set implementation where values are assumed to be constant.
  * Behavior is not defined if mutable values are changed.
  */
-internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
+internal class ConstMultiSet<E> : AbstractConstMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -47,7 +47,7 @@ internal class ConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E> {
     }
 
     override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> {
-        return ConstMultiSetImpl(counts)
+        return ConstMultiSet(counts)
     }
 
     override fun iterator(): Iterator<E> = elements.iterator()

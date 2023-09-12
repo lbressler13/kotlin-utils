@@ -7,7 +7,7 @@ import kotlin.math.min
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet<E> {
+internal class MutableStandardMultiSet<E> : AbstractStandardMultiSet<E>, MutableMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -138,7 +138,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSetImpl>.minus(other) as MutableMultiSet<E>
+        return super<AbstractStandardMultiSet>.minus(other) as MutableMultiSet<E>
     }
 
     /**
@@ -149,13 +149,13 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSetImpl>.plus(other) as MutableMultiSet<E>
+        return super<AbstractStandardMultiSet>.plus(other) as MutableMultiSet<E>
     }
 
     /**
      * Initialize a new MutableMultiSet from existing counts.
      */
-    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
+    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MutableStandardMultiSet(counts)
 
     /**
      * Get an iterator for the elements in this set.

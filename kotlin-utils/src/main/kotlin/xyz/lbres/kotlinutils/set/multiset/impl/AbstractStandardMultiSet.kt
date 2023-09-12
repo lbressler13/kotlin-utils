@@ -7,9 +7,9 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import kotlin.math.min
 
 /**
- * Partial MultiSet implementation with functionality that can be shared by [MultiSetImpl] and [MutableMultiSetImpl].
+ * Partial MultiSet implementation with functionality that can be shared by [StandardMultiSet] and [MutableStandardMultiSet].
  */
-internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
+internal abstract class AbstractStandardMultiSet<E> : MultiSet<E> {
     /**
      * All distinct values contained in the MultiSet.
      */
@@ -120,7 +120,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
 
-        val newCounts: Map<E, Int> = if (other is AbstractMultiSetImpl<E>) {
+        val newCounts: Map<E, Int> = if (other is AbstractStandardMultiSet<E>) {
             val otherCounts = other.getCounts()
             val allValues = simpleIf(useAllValues, { counts.keys + otherCounts.keys }, { counts.keys })
 
