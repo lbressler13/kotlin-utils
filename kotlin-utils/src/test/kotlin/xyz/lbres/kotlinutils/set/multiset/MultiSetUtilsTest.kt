@@ -72,8 +72,8 @@ class MultiSetUtilsTest {
 
     @Test
     fun testConstMultiSetOf() {
-        var set: ConstMultiSet<Int> = constMultiSetOf()
-        var expected: ConstMultiSet<Int> = ConstMultiSetImpl(emptyList())
+        var set: MultiSet<Int> = constMultiSetOf()
+        var expected: MultiSet<Int> = ConstMultiSetImpl(emptyList())
         assertEquals(expected, set)
 
         set = constMultiSetOf(1)
@@ -103,31 +103,31 @@ class MultiSetUtilsTest {
 
     @Test
     fun testMutableConstMultiSetOf() {
-        var set: MutableConstMultiSet<Int> = mutableConstMultiSetOf()
-        var expected: MutableConstMultiSet<Int> = MutableConstMultiSetImpl(emptyList())
+        var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+        var expected: MutableMultiSet<Int> = MutableConstMultiSetImpl(emptyList())
         assertEquals(expected, set)
 
-        set = mutableConstMultiSetOf(1)
+        set = constMutableMultiSetOf(1)
         expected = MutableConstMultiSetImpl(listOf(1))
         assertEquals(expected, set)
 
-        set = mutableConstMultiSetOf(1, 2, 3, 4)
+        set = constMutableMultiSetOf(1, 2, 3, 4)
         expected = MutableConstMultiSetImpl(listOf(1, 2, 3, 4))
         assertEquals(expected, set)
 
-        set = mutableConstMultiSetOf(1, 1, 1)
+        set = constMutableMultiSetOf(1, 1, 1)
         expected = MutableConstMultiSetImpl(listOf(1, 1, 1))
         assertEquals(expected, set)
 
-        val stringSet = mutableConstMultiSetOf("", "hello", "world")
+        val stringSet = constMutableMultiSetOf("", "hello", "world")
         val stringExpected = MutableConstMultiSetImpl(listOf("", "hello", "world"))
         assertEquals(stringExpected, stringSet)
 
-        val listSet = mutableConstMultiSetOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97))
+        val listSet = constMutableMultiSetOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97))
         val listExpected = MutableConstMultiSetImpl(listOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97)))
         assertEquals(listExpected, listSet)
 
-        val compListSet = mutableConstMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+        val compListSet = constMutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
         val compListSetExpected = MutableConstMultiSetImpl(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
         assertEquals(compListSetExpected, compListSet)
     }
@@ -136,13 +136,6 @@ class MultiSetUtilsTest {
     fun testEmptyMultiSet() {
         val set = emptyMultiSet<Int>()
         val expected = multiSetOf<Int>()
-        assertEquals(expected, set)
-    }
-
-    @Test
-    fun testEmptyConstMultiSet() {
-        val set = emptyConstMultiSet<Int>()
-        val expected = constMultiSetOf<Int>()
         assertEquals(expected, set)
     }
 
@@ -198,62 +191,6 @@ class MultiSetUtilsTest {
         set = MutableMultiSet(8) { values[it] }
         expectedSize = 8
         expected = MutableMultiSetImpl(values)
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-    }
-
-    @Test
-    fun testConstMultiSet() {
-        var set = ConstMultiSet(0) { 1 }
-        var expectedSize = 0
-        var expected: ConstMultiSet<Int> = emptyConstMultiSet()
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        set = ConstMultiSet(5) { 2 }
-        expectedSize = 5
-        expected = ConstMultiSetImpl(listOf(2, 2, 2, 2, 2))
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        set = ConstMultiSet(4) { 3 * it }
-        expectedSize = 4
-        expected = ConstMultiSetImpl(listOf(0, 3, 6, 9))
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
-        set = ConstMultiSet(8) { values[it] }
-        expectedSize = 8
-        expected = ConstMultiSetImpl(values)
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-    }
-
-    @Test
-    fun testMutableConstMultiSet() {
-        var set = MutableConstMultiSet(0) { 5 }
-        var expectedSize = 0
-        var expected: MutableConstMultiSet<Int> = mutableConstMultiSetOf()
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        set = MutableConstMultiSet(5) { 2 }
-        expectedSize = 5
-        expected = MutableConstMultiSetImpl(listOf(2, 2, 2, 2, 2))
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        set = MutableConstMultiSet(4) { 3 * it }
-        expectedSize = 4
-        expected = MutableConstMultiSetImpl(listOf(0, 3, 6, 9))
-        assertEquals(expectedSize, set.size)
-        assertEquals(expected, set)
-
-        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
-        set = MutableConstMultiSet(8) { values[it] }
-        expectedSize = 8
-        expected = MutableConstMultiSetImpl(values)
         assertEquals(expectedSize, set.size)
         assertEquals(expected, set)
     }

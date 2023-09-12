@@ -8,52 +8,52 @@ import kotlin.test.assertTrue
 
 fun runMutableConstIsEmptyTests() {
     // empty
-    var intSet: MutableConstMultiSet<Int> = mutableConstMultiSetOf()
+    var intSet: MutableMultiSet<Int> = constMutableMultiSetOf()
     assertTrue(intSet.isEmpty())
 
-    var stringSet: MutableConstMultiSet<String> = mutableConstMultiSetOf()
+    var stringSet: MutableMultiSet<String> = constMutableMultiSetOf()
     assertTrue(stringSet.isEmpty())
 
     // not empty
-    intSet = mutableConstMultiSetOf(0)
+    intSet = constMutableMultiSetOf(0)
     assertFalse(intSet.isEmpty())
 
-    intSet = mutableConstMultiSetOf(1000, -1000, 4, 2, 4)
+    intSet = constMutableMultiSetOf(1000, -1000, 4, 2, 4)
     assertFalse(intSet.isEmpty())
 
-    intSet = mutableConstMultiSetOf(3, 3, 3)
+    intSet = constMutableMultiSetOf(3, 3, 3)
     assertFalse(intSet.isEmpty())
 
-    stringSet = mutableConstMultiSetOf("123", "abc")
+    stringSet = constMutableMultiSetOf("123", "abc")
     assertFalse(stringSet.isEmpty())
 
-    stringSet = mutableConstMultiSetOf("hello world", "hello world")
+    stringSet = constMutableMultiSetOf("hello world", "hello world")
     assertFalse(stringSet.isEmpty())
 
     // remove elements
-    intSet = mutableConstMultiSetOf(1)
+    intSet = constMutableMultiSetOf(1)
     intSet.remove(1)
     assertTrue(intSet.isEmpty())
 
-    intSet = mutableConstMultiSetOf(1, 1)
+    intSet = constMutableMultiSetOf(1, 1)
     intSet.remove(1)
     assertFalse(intSet.isEmpty())
     intSet.remove(1)
     assertTrue(intSet.isEmpty())
 
-    intSet = mutableConstMultiSetOf(2, 3)
+    intSet = constMutableMultiSetOf(2, 3)
     intSet.remove(3)
     assertFalse(intSet.isEmpty())
     intSet.remove(2)
     assertTrue(intSet.isEmpty())
 
-    intSet = mutableConstMultiSetOf(2, 3)
+    intSet = constMutableMultiSetOf(2, 3)
     intSet.clear()
     assertTrue(intSet.isEmpty())
 }
 
 fun runMutableConstGetCountOfTests() {
-    var set: MutableConstMultiSet<Int> = mutableConstMultiSetOf()
+    var set: MutableMultiSet<Int> = constMutableMultiSetOf()
     var expected = 0
 
     var value = 0
@@ -62,7 +62,7 @@ fun runMutableConstGetCountOfTests() {
     value = 100
     assertEquals(expected, set.getCountOf(value))
 
-    set = mutableConstMultiSetOf(2)
+    set = constMutableMultiSetOf(2)
 
     value = 2
     expected = 1
@@ -72,7 +72,7 @@ fun runMutableConstGetCountOfTests() {
     expected = 0
     assertEquals(expected, set.getCountOf(value))
 
-    set = mutableConstMultiSetOf(1, 1, 2, 1, -4, 5, 2)
+    set = constMutableMultiSetOf(1, 1, 2, 1, -4, 5, 2)
 
     value = 1
     expected = 3
@@ -92,7 +92,7 @@ fun runMutableConstGetCountOfTests() {
 
     val list1 = listOf(1, 2, 3)
     val list2 = listOf(1, 2, 3)
-    val listSet: MutableConstMultiSet<IntList> = mutableConstMultiSetOf(list1, list2)
+    val listSet: MutableMultiSet<IntList> = constMutableMultiSetOf(list1, list2)
 
     var listValue = listOf(1, 2, 3)
     expected = 2

@@ -14,7 +14,7 @@ private val e3 = IllegalArgumentException()
 
 fun runConstEqualsTests() {
     // equals
-    var set1: ConstMultiSet<Int> = constMultiSetOf()
+    var set1: MultiSet<Int> = constMultiSetOf()
     assertEquals(set1, set1)
 
     set1 = constMultiSetOf(3)
@@ -88,24 +88,24 @@ fun runConstEqualsTests() {
 
 fun runConstMinusTests() {
     // empty
-    var intSet1 = emptyConstMultiSet<Int>()
-    var intSet2 = emptyConstMultiSet<Int>()
-    assertEquals(emptyConstMultiSet(), intSet1 - intSet2)
-    assertEquals(emptyConstMultiSet(), intSet2 - intSet1)
+    var intSet1 = constMultiSetOf<Int>()
+    var intSet2 = constMultiSetOf<Int>()
+    assertEquals(constMultiSetOf(), intSet1 - intSet2)
+    assertEquals(constMultiSetOf(), intSet2 - intSet1)
 
     intSet1 = constMultiSetOf(1, 2, 3, 3)
     assertEquals(intSet1, intSet1 - intSet2)
-    assertEquals(emptyConstMultiSet(), intSet2 - intSet1)
+    assertEquals(constMultiSetOf(), intSet2 - intSet1)
 
     // equal
     intSet1 = constMultiSetOf(1, 2, 3, 4, 5)
-    assertEquals(emptyConstMultiSet(), intSet1 - intSet1)
+    assertEquals(constMultiSetOf(), intSet1 - intSet1)
 
     var listSet1 = constMultiSetOf(listOf(1, 2, 3), listOf(456, 789))
-    assertEquals(emptyConstMultiSet(), listSet1 - listSet1)
+    assertEquals(constMultiSetOf(), listSet1 - listSet1)
 
     var otherSet = TestMultiSet(listOf(1, 2, 3, 4, 5))
-    assertEquals(emptyConstMultiSet(), intSet1 - otherSet)
+    assertEquals(constMultiSetOf(), intSet1 - otherSet)
 
     // all shared
     intSet1 = constMultiSetOf(1, 1, 2, 3, 4, 4, 4)
@@ -174,10 +174,10 @@ fun runConstMinusTests() {
 
 fun runConstPlusTests() {
     // empty
-    var intSet1 = emptyConstMultiSet<Int>()
-    var intSet2 = emptyConstMultiSet<Int>()
-    assertEquals(emptyConstMultiSet(), intSet1 + intSet2)
-    assertEquals(emptyConstMultiSet(), intSet2 + intSet1)
+    var intSet1 = constMultiSetOf<Int>()
+    var intSet2 = constMultiSetOf<Int>()
+    assertEquals(constMultiSetOf(), intSet1 + intSet2)
+    assertEquals(constMultiSetOf(), intSet2 + intSet1)
 
     // non-empty
     intSet1 = constMultiSetOf(1, 2, 3, 3)
@@ -226,28 +226,28 @@ fun runConstPlusTests() {
 
 fun runConstIntersectTests() {
     // empty
-    var intSet1 = emptyConstMultiSet<Int>()
+    var intSet1 = constMultiSetOf<Int>()
 
-    var intSet2 = emptyConstMultiSet<Int>()
-    assertEquals(emptyConstMultiSet(), intSet1 intersect intSet2)
+    var intSet2 = constMultiSetOf<Int>()
+    assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
 
     intSet2 = constMultiSetOf(1, 2, 3)
-    assertEquals(emptyConstMultiSet(), intSet1 intersect intSet2)
-    assertEquals(emptyConstMultiSet(), intSet2 intersect intSet1)
+    assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
+    assertEquals(constMultiSetOf(), intSet2 intersect intSet1)
 
     // none shared
     intSet1 = constMultiSetOf(1, 2, 3)
     intSet2 = constMultiSetOf(4, 5, 6, 7, 8)
-    assertEquals(emptyConstMultiSet(), intSet1 intersect intSet2)
-    assertEquals(emptyConstMultiSet(), intSet2 intersect intSet1)
+    assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
+    assertEquals(constMultiSetOf(), intSet2 intersect intSet1)
 
     var otherSet = TestMultiSet(listOf(4, 5, 6, 7, 8))
-    assertEquals(emptyConstMultiSet(), intSet1 intersect otherSet)
+    assertEquals(constMultiSetOf(), intSet1 intersect otherSet)
 
     var listSet1 = constMultiSetOf(listOf(1, 2, 3), listOf(4, 5))
     var listSet2 = constMultiSetOf(listOf(1, 2), listOf(3, 4, 5))
-    assertEquals(emptyConstMultiSet(), listSet1 intersect listSet2)
-    assertEquals(emptyConstMultiSet(), listSet2 intersect listSet1)
+    assertEquals(constMultiSetOf(), listSet1 intersect listSet2)
+    assertEquals(constMultiSetOf(), listSet2 intersect listSet1)
 
     // all shared
     intSet1 = constMultiSetOf(1, 2, 3)

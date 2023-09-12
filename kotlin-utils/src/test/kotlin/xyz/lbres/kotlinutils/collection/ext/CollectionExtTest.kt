@@ -1,12 +1,10 @@
 package xyz.lbres.kotlinutils.collection.ext
 
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.MutableConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.constMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.constMutableMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
-import xyz.lbres.kotlinutils.set.multiset.mutableConstMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -70,7 +68,7 @@ class CollectionExtTest {
     @Test
     fun testToConstMultiSet() {
         var collection: Collection<Int> = emptyList()
-        var expected: ConstMultiSet<Int> = constMultiSetOf()
+        var expected: MultiSet<Int> = constMultiSetOf()
         assertEquals(expected, collection.toConstMultiSet())
 
         expected = constMultiSetOf(1, 2, 3)
@@ -96,10 +94,10 @@ class CollectionExtTest {
     @Test
     fun testToMutableConstMultiSet() {
         var collection: Collection<Int> = emptyList()
-        var expected: MutableConstMultiSet<Int> = mutableConstMultiSetOf()
+        var expected: MutableMultiSet<Int> = constMutableMultiSetOf()
         assertEquals(expected, collection.toMutableConstMultiSet())
 
-        expected = mutableConstMultiSetOf(1, 2, 3)
+        expected = constMutableMultiSetOf(1, 2, 3)
 
         collection = listOf(1, 2, 3)
         assertEquals(expected, collection.toMutableConstMultiSet())
@@ -111,11 +109,11 @@ class CollectionExtTest {
         assertEquals(expected, collection.toMutableConstMultiSet())
 
         collection = listOf(1, 1, 2, 4)
-        expected = mutableConstMultiSetOf(1, 2, 1, 4)
+        expected = constMutableMultiSetOf(1, 2, 1, 4)
         assertEquals(expected, collection.toMutableConstMultiSet())
 
         val listCollection = listOf(emptyList(), listOf(1, 2), listOf(10000))
-        val listExpected = mutableConstMultiSetOf(emptyList(), listOf(1, 2), listOf(10000))
+        val listExpected = constMutableMultiSetOf(emptyList(), listOf(1, 2), listOf(10000))
         assertEquals(listExpected, listCollection.toMutableConstMultiSet())
     }
 

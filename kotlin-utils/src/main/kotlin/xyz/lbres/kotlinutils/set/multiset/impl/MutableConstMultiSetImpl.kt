@@ -1,11 +1,10 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.MutableConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.math.min
 
-internal class MutableConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E>, MutableConstMultiSet<E> {
+internal class MutableConstMultiSetImpl<E> : AbstractConstMultiSetImpl<E>, MutableMultiSet<E> {
     /**
      * Number of elements in set.
      */

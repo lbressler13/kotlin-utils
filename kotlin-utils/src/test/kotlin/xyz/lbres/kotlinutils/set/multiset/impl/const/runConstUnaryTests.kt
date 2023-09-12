@@ -8,10 +8,10 @@ import kotlin.test.assertTrue
 
 fun runConstIsEmptyTests() {
     // empty
-    var intSet: ConstMultiSet<Int> = constMultiSetOf()
+    var intSet: MultiSet<Int> = constMultiSetOf()
     assertTrue(intSet.isEmpty())
 
-    var stringSet: ConstMultiSet<String> = constMultiSetOf()
+    var stringSet: MultiSet<String> = constMultiSetOf()
     assertTrue(stringSet.isEmpty())
 
     // not empty
@@ -32,7 +32,7 @@ fun runConstIsEmptyTests() {
 }
 
 fun runConstGetCountOfTests() {
-    var set: ConstMultiSet<Int> = constMultiSetOf()
+    var set: MultiSet<Int> = constMultiSetOf()
     var expected = 0
 
     var value = 0
@@ -71,7 +71,7 @@ fun runConstGetCountOfTests() {
 
     val list1 = mutableListOf(1, 2, 3)
     val list2 = mutableListOf(1, 2, 3)
-    val listSet: ConstMultiSet<IntList> = constMultiSetOf(list1, list2)
+    val listSet: MultiSet<IntList> = constMultiSetOf(list1, list2)
 
     var listValue = listOf(1, 2, 3)
     expected = 2

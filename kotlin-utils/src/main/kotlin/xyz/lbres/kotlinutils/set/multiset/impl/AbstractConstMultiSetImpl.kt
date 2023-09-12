@@ -1,12 +1,11 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.general.tryOrDefault
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.mapConsistent
 import kotlin.math.min
 
-internal abstract class AbstractConstMultiSetImpl<E> : ConstMultiSet<E> {
+internal abstract class AbstractConstMultiSetImpl<E> : MultiSet<E> {
     protected abstract val counts: Map<E, Int>
 
     override fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
