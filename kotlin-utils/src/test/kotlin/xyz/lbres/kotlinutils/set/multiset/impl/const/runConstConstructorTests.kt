@@ -1,11 +1,11 @@
 package xyz.lbres.kotlinutils.set.multiset.impl.const
 
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
 import kotlin.test.assertEquals
 
 fun runConstConstructorTests() {
-    var set: MultiSet<Int> = ConstMultiSetImpl(emptyList())
+    var set: ConstMultiSet<Int> = ConstMultiSetImpl(emptyList())
     var expectedSize = 0
     var expectedDistinct = emptySet<Int>()
     assertEquals(expectedSize, set.size)

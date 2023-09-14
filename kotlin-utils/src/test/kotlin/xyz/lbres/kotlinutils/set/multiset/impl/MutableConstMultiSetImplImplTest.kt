@@ -30,7 +30,7 @@ class MutableConstMultiSetImplImplTest {
 
     @Test
     fun testIterator() {
-        var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+        var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
         var iter = set.iterator()
         assertFalse(iter.hasNext())
 
@@ -72,7 +72,7 @@ class MutableConstMultiSetImplImplTest {
 
         val mutableList1 = mutableListOf(1, 2, 3)
         val mutableList2 = mutableListOf(0, 5, 7)
-        val listSet: MutableMultiSet<IntList> = constMutableMultiSetOf(mutableList1, mutableList2)
+        val listSet: ConstMutableMultiSet<IntList> = constMutableMultiSetOf(mutableList1, mutableList2)
 
         var listIter = listSet.iterator()
         var listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
@@ -94,7 +94,7 @@ class MutableConstMultiSetImplImplTest {
 
     @Test
     fun testToString() {
-        var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+        var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
         var expected = "[]"
         assertEquals(expected, set.toString())
 
@@ -120,7 +120,7 @@ class MutableConstMultiSetImplImplTest {
 
         val list1 = listOf(1, 2, 3)
         val list2 = listOf(0, 5, 7)
-        val listSet: MutableMultiSet<IntList> = constMutableMultiSetOf(list1, list2)
+        val listSet: ConstMutableMultiSet<IntList> = constMutableMultiSetOf(list1, list2)
 
         expected = "[[1, 2, 3], [0, 5, 7]]"
         assertEquals(expected, listSet.toString())

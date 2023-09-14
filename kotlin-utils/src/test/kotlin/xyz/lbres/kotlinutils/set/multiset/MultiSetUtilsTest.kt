@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.StandardMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableStandardMultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.StandardMultiSet
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -136,6 +136,13 @@ class MultiSetUtilsTest {
     fun testEmptyMultiSet() {
         val set = emptyMultiSet<Int>()
         val expected = multiSetOf<Int>()
+        assertEquals(expected, set)
+    }
+
+    @Test
+    fun testEmptyConstMultiSet() {
+        val set = emptyConstMultiSet<Int>()
+        val expected = constMultiSetOf<Int>()
         assertEquals(expected, set)
     }
 

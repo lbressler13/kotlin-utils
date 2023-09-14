@@ -4,7 +4,7 @@ import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-import
 import kotlin.test.assertEquals
 
 fun runAddTests() {
-    var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
 
     var other = 1
     var expected = constMutableMultiSetOf(1)
@@ -23,7 +23,7 @@ fun runAddTests() {
     expected = constMutableMultiSetOf(-1, 3, -5, 4, 1000, 17, 15)
     runSingleMutateTest(set, expected, true) { set.add(other) }
 
-    val listSet: MutableMultiSet<List<String>> = constMutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"))
+    val listSet: ConstMutableMultiSet<List<String>> = constMutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"))
     val listOther = listOf("farewell", "goodbye")
     var listExpected = constMutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"))
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOther) }
@@ -34,10 +34,10 @@ fun runAddTests() {
 }
 
 fun runAddAllTests() {
-    var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
 
     var other: Collection<Int> = emptyList()
-    var expected: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var expected: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     runSingleMutateTest(set, expected, true) { set.addAll(other) }
 
     other = setOf(4)
@@ -58,7 +58,7 @@ fun runRemoveTests() {
     // true
     var set = constMutableMultiSetOf(1)
     var other = 1
-    var expected: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var expected: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     runSingleMutateTest(set, expected, true) { set.remove(other) }
 
     set = constMutableMultiSetOf(1, 1, 1)
@@ -150,9 +150,9 @@ fun runRemoveAllTests() {
 
 fun runRetainAllTests() {
     // subset
-    var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     var other: Collection<Int> = listOf(1)
-    var expected: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var expected: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
 
     set = constMutableMultiSetOf(1)
@@ -198,7 +198,7 @@ fun runRetainAllTests() {
 }
 
 fun runClearTests() {
-    var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     set.clear()
     assertEquals(0, set.size)
     assertEquals(constMutableMultiSetOf(), set)
@@ -215,8 +215,8 @@ fun runClearTests() {
 }
 
 private fun <T> runSingleMutateTest(
-    set: MutableMultiSet<T>,
-    expected: MutableMultiSet<T>,
+    set: ConstMutableMultiSet<T>,
+    expected: ConstMutableMultiSet<T>,
     success: Boolean = true,
     op: () -> Boolean
 ) {

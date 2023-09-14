@@ -5,7 +5,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 fun runMutableConstContainsTests() {
-    var set: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     assertFalse(set.contains(0))
     assertFalse(set.contains(1000))
     assertFalse(set.contains(-1000))
@@ -40,7 +40,7 @@ fun runMutableConstContainsTests() {
 
 fun runMutableConstContainsAllTests() {
     // equal
-    var set1: MutableMultiSet<Int> = constMutableMultiSetOf()
+    var set1: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     assertTrue(set1.containsAll(set1))
 
     set1 = constMutableMultiSetOf(-445)

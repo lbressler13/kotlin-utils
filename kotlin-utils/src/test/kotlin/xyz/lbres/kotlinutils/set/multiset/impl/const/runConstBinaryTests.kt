@@ -14,7 +14,7 @@ private val e3 = IllegalArgumentException()
 
 fun runConstEqualsTests() {
     // equals
-    var set1: MultiSet<Int> = constMultiSetOf()
+    var set1: ConstMultiSet<Int> = constMultiSetOf()
     assertEquals(set1, set1)
 
     set1 = constMultiSetOf(3)
@@ -147,22 +147,22 @@ fun runConstMinusTests() {
     assertEquals(expectedInt, intSet2 - intSet1)
 
     listSet1 = constMultiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
-    val listSet2: MultiSet<List<Int>> = constMultiSetOf(emptyList(), listOf(1, 2, 3))
+    val listSet2: ConstMultiSet<List<Int>> = constMultiSetOf(emptyList(), listOf(1, 2, 3))
     var expectedList = constMultiSetOf(listOf(1, 2, 3), listOf(2, 3, 4))
     assertEquals(expectedList, listSet1 - listSet2)
     expectedList = constMultiSetOf(emptyList())
     assertEquals(expectedList, listSet2 - listSet1)
 
-    val errorSet1: MultiSet<Exception> = constMultiSetOf(e1, e2, e1, e1, e2)
-    val errorSet2: MultiSet<Exception> = constMultiSetOf(e1, e3, e3, e1, e1)
-    var expectedError: MultiSet<Exception> = constMultiSetOf(e2, e2)
+    val errorSet1: ConstMultiSet<Exception> = constMultiSetOf(e1, e2, e1, e1, e2)
+    val errorSet2: ConstMultiSet<Exception> = constMultiSetOf(e1, e3, e3, e1, e1)
+    var expectedError: ConstMultiSet<Exception> = constMultiSetOf(e2, e2)
     assertEquals(expectedError, errorSet1 - errorSet2)
     expectedError = constMultiSetOf(e3, e3)
     assertEquals(expectedError, errorSet2 - errorSet1)
 
-    val compListSet1: MultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-    val compListSet2: MultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-    var expectedCompList: MultiSet<List<Comparable<*>>> = constMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+    val compListSet1: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListSet2: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+    var expectedCompList: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
     assertEquals(expectedCompList, compListSet1 - compListSet2)
     expectedCompList = constMultiSetOf(listOf(1, 2, 3), emptyList())
     assertEquals(expectedCompList, compListSet2 - compListSet1)
@@ -211,15 +211,15 @@ fun runConstPlusTests() {
     assertEquals(expectedList, listSet1 + listSet2)
     assertEquals(expectedList, listSet2 + listSet1)
 
-    val errorSet1: MultiSet<Exception> = constMultiSetOf(e1, e2, e1, e2)
-    val errorSet2: MultiSet<Exception> = constMultiSetOf(e1, e3, e3, e2, e1, e1)
-    val expectedError: MultiSet<Exception> = constMultiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
+    val errorSet1: ConstMultiSet<Exception> = constMultiSetOf(e1, e2, e1, e2)
+    val errorSet2: ConstMultiSet<Exception> = constMultiSetOf(e1, e3, e3, e2, e1, e1)
+    val expectedError: ConstMultiSet<Exception> = constMultiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
     assertEquals(expectedError, errorSet1 + errorSet2)
     assertEquals(expectedError, errorSet2 + errorSet1)
 
-    val compListSet1: MultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-    val compListSet2: MultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-    val expectedCompList: MultiSet<List<Comparable<*>>> = constMultiSetOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListSet1: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListSet2: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+    val expectedCompList: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
     assertEquals(expectedCompList, compListSet1 + compListSet2)
     assertEquals(expectedCompList, compListSet2 + compListSet1)
 }
@@ -279,9 +279,9 @@ fun runConstIntersectTests() {
     assertEquals(expectedList, listSet1 intersect listSet2)
     assertEquals(expectedList, listSet2 intersect listSet1)
 
-    val errorSet1: MultiSet<Exception> = constMultiSetOf(e1, e2, e1, e2)
-    val errorSet2: MultiSet<Exception> = constMultiSetOf(e1, e3, e3, e2, e1, e1)
-    val expectedError: MultiSet<Exception> = constMultiSetOf(e1, e1, e2)
+    val errorSet1: ConstMultiSet<Exception> = constMultiSetOf(e1, e2, e1, e2)
+    val errorSet2: ConstMultiSet<Exception> = constMultiSetOf(e1, e3, e3, e2, e1, e1)
+    val expectedError: ConstMultiSet<Exception> = constMultiSetOf(e1, e1, e2)
     assertEquals(expectedError, errorSet1 intersect errorSet2)
     assertEquals(expectedError, errorSet2 intersect errorSet1)
 }

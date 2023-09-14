@@ -2,8 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.StandardMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableStandardMultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.StandardMultiSet
 
 /**
  * Create a MultiSet containing the given elements.
@@ -27,7 +27,7 @@ fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = MutableStand
  * @param elements [E]: variable number of elements to include in set
  * @return [MultiSet]<E>
  */
-fun <E> constMultiSetOf(vararg elements: E): MultiSet<E> = ConstMultiSetImpl(elements.toList())
+fun <E> constMultiSetOf(vararg elements: E): ConstMultiSet<E> = ConstMultiSetImpl(elements.toList())
 
 /**
  * Create a MutableMultiSet containing the given elements.
@@ -35,7 +35,7 @@ fun <E> constMultiSetOf(vararg elements: E): MultiSet<E> = ConstMultiSetImpl(ele
  * @param elements [E]: variable number of elements to include in set
  * @return [MutableMultiSet]<E>
  */
-fun <E> constMutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = MutableConstMultiSetImpl(elements.toList())
+fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = MutableConstMultiSetImpl(elements.toList())
 
 /**
  * Create a MultiSet containing 0 elements.
@@ -43,6 +43,13 @@ fun <E> constMutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = Mutable
  * @return [MultiSet]<E>
  */
 fun <E> emptyMultiSet(): MultiSet<E> = StandardMultiSet(emptyList())
+
+/**
+ * Create a MultiSet containing 0 elements.
+ *
+ * @return [MultiSet]<E>
+ */
+fun <E> emptyConstMultiSet(): ConstMultiSet<E> = ConstMultiSetImpl(emptyList())
 
 /**
  * Create a MultiSet of a given size, using [init] to generate each element in the set.
