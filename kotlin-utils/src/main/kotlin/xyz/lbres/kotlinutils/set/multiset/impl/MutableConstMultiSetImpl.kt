@@ -1,10 +1,12 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
+import xyz.lbres.kotlinutils.set.multiset.AbstractConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.math.min
 
-internal class MutableConstMultiSet<E> : AbstractConstMultiSet<E>, MutableMultiSet<E> {
+internal class MutableConstMultiSetImpl<E> : ConstMutableMultiSet<E>, AbstractConstMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -40,8 +42,8 @@ internal class MutableConstMultiSet<E> : AbstractConstMultiSet<E>, MutableMultiS
         _size = counts.values.fold(0, Int::plus)
     }
 
-    override fun createFromCounts(counts: Map<E, Int>): MutableConstMultiSet<E> {
-        return MutableConstMultiSet(counts)
+    override fun createFromCounts(counts: Map<E, Int>): MutableConstMultiSetImpl<E> {
+        return MutableConstMultiSetImpl(counts)
     }
 
     override fun add(element: E): Boolean {
@@ -88,7 +90,7 @@ internal class MutableConstMultiSet<E> : AbstractConstMultiSet<E>, MutableMultiS
     }
 
     override fun retainAll(elements: Collection<E>): Boolean {
-        val elementsSet = ConstMultiSet(elements)
+        val elementsSet = ConstMultiSetImpl(elements)
 
         val newCounts: MutableMap<E, Int> = mutableMapOf()
 
@@ -111,11 +113,11 @@ internal class MutableConstMultiSet<E> : AbstractConstMultiSet<E>, MutableMultiS
     }
 
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractConstMultiSet>.minus(other) as MutableConstMultiSet<E>
+        return super<AbstractConstMultiSet>.minus(other) as MutableConstMultiSetImpl<E>
     }
 
-    override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractConstMultiSet>.plus(other) as MutableConstMultiSet<E>
+    override operator fun plus(other: MultiSet<E>): MutableConstMultiSetImpl<E> {
+        return super<AbstractConstMultiSet>.plus(other) as MutableConstMultiSetImpl<E>
     }
 
     override fun iterator(): MutableIterator<E> {

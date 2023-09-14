@@ -7,7 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
-class MutableConstMultiSetImplTest {
+class MutableConstMultiSetImplImplTest {
     @Test fun testConstructor() = runMutableConstConstructorTests()
     @Test fun testEquals() = runMutableConstEqualsTests()
 

@@ -1,13 +1,14 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.list.listOfValue
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.AbstractConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
 
 /**
  * Multi set implementation where values are assumed to be constant.
  * Behavior is not defined if mutable values are changed.
  */
-internal class ConstMultiSet<E> : AbstractConstMultiSet<E> {
+internal class ConstMultiSetImpl<E> : AbstractConstMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -46,8 +47,8 @@ internal class ConstMultiSet<E> : AbstractConstMultiSet<E> {
         }
     }
 
-    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> {
-        return ConstMultiSet(counts)
+    override fun createFromCounts(counts: Map<E, Int>): ConstMultiSet<E> {
+        return ConstMultiSetImpl(counts)
     }
 
     override fun iterator(): Iterator<E> = elements.iterator()

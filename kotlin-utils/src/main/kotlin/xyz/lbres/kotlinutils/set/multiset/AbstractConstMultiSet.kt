@@ -1,11 +1,12 @@
-package xyz.lbres.kotlinutils.set.multiset.impl
+package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.collection.ext.toMultiSet
+import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.general.tryOrDefault
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.mapConsistent
+import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
 import kotlin.math.min
 
-internal abstract class AbstractConstMultiSet<E> : MultiSet<E> {
+internal abstract class AbstractConstMultiSet<E> : ConstMultiSet<E> {
     protected abstract val counts: Map<E, Int>
 
     override fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
@@ -13,7 +14,7 @@ internal abstract class AbstractConstMultiSet<E> : MultiSet<E> {
     override fun contains(element: E): Boolean = counts.contains(element)
 
     override fun containsAll(elements: Collection<E>): Boolean {
-        val otherSet = ConstMultiSet(elements) as AbstractConstMultiSet<E>
+        val otherSet = ConstMultiSetImpl(elements) as AbstractConstMultiSet<E>
         val elementsCounts = otherSet.counts
 
         return elementsCounts.all {
@@ -35,11 +36,12 @@ internal abstract class AbstractConstMultiSet<E> : MultiSet<E> {
         return tryOrDefault(false) {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
+
             distinctValues == other.distinctValues && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
         }
     }
 
-    override operator fun plus(other: MultiSet<E>): MultiSet<E> {
+    override operator fun plus(other: MultiSet<E>): ConstMultiSet<E> {
         val values = distinctValues + other.distinctValues
 
         val newCounts = values.associateWith {
@@ -70,7 +72,15 @@ internal abstract class AbstractConstMultiSet<E> : MultiSet<E> {
     /**
      * Initialize a new MultiSet from existing counts.
      */
-    protected abstract fun createFromCounts(counts: Map<E, Int>): MultiSet<E>
+    protected abstract fun createFromCounts(counts: Map<E, Int>): ConstMultiSet<E>
+
+    private fun convertCounts(set: ConstMultiSet<E>): MultiSet<E> {
+        return if (set is MutableMultiSet<*>) {
+            set.toMutableMultiSet()
+        } else {
+            set.toMultiSet()
+        }
+    }
 
     override fun isEmpty(): Boolean = size == 0
 
