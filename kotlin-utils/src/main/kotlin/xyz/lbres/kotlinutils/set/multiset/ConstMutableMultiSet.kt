@@ -12,20 +12,6 @@ abstract class ConstMutableMultiSet<E> protected constructor(): MutableMultiSet<
 
     abstract override val manager: ConstMultiSetManager<E>
 
-//    /**
-//     * Initialize set from a collection of values.
-//     */
-//    internal constructor(elements: Collection<E>) : super(elements) {
-//        manager = ConstMultiSetManager(elements, true)
-//    }
-//
-//    /**
-//     * Initialize set from existing counts.
-//     */
-//    internal constructor(counts: Map<E, Int>) : super(counts) {
-//        manager = ConstMultiSetManager(counts, true)
-//    }
-
     override fun getCountOf(element: E): Int = manager.getCountOf(element)
     override fun contains(element: E): Boolean = manager.contains(element)
     override fun containsAll(elements: Collection<E>): Boolean = manager.containsAll(elements)

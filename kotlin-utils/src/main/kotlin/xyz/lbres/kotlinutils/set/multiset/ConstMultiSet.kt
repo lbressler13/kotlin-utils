@@ -15,20 +15,6 @@ abstract class ConstMultiSet<E> protected constructor() : MultiSet<E> {
 
     abstract val manager: ConstMultiSetManager<E>
 
-//    /**
-//     * Initialize set from a collection of values.
-//     */
-//    internal constructor(elements: Collection<E>) {
-//        manager = ConstMultiSetManager(elements, false)
-//    }
-//
-//    /**
-//     * Initialize set from existing counts.
-//     */
-//    internal constructor(counts: Map<E, Int>) {
-//        manager = ConstMultiSetManager(counts, false)
-//    }
-
     override fun getCountOf(element: E): Int = manager.getCountOf(element)
     override fun contains(element: E): Boolean = manager.contains(element)
     override fun containsAll(elements: Collection<E>): Boolean = manager.containsAll(elements)
