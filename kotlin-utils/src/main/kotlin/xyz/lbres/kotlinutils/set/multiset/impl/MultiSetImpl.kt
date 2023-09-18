@@ -27,7 +27,7 @@ internal class MultiSetImpl<E> : AbstractMultiSet<E> {
     /**
      * Initialize set from existing counts.
      */
-    private constructor(counts: Map<E, Int>) {
+    internal constructor(counts: Map<E, Int>) {
         size = counts.values.fold(0, Int::plus)
 
         values = mutableListOf()

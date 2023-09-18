@@ -3,8 +3,12 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.list.listOfValue
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.math.min
 
+// TODO cleanup unit tests
+
+@Suppress("EqualsOrHashCode")
 internal class ConstManager<E> {
 
     private val mutable: Boolean
@@ -61,22 +65,26 @@ internal class ConstManager<E> {
     }
 
     fun add(element: E): Boolean {
+        validateMutate("add")
         counts[element] = getCountOf(element) + 1
         _size++
         return true
     }
 
     fun addAll(elements: Collection<E>): Boolean {
+        validateMutate("addAll")
         elements.forEach(this::add)
         return true
     }
 
     fun clear() {
+        validateMutate("clear")
         counts.clear()
         _size = 0
     }
 
     fun remove(element: E): Boolean {
+        validateMutate("remove")
         return when (getCountOf(element)) {
             0 -> false
             1 -> {
@@ -93,6 +101,7 @@ internal class ConstManager<E> {
     }
 
     fun removeAll(elements: Collection<E>): Boolean {
+        validateMutate("removeAll")
         if (elements.isEmpty()) {
             return true
         }
@@ -104,7 +113,8 @@ internal class ConstManager<E> {
     }
 
     fun retainAll(elements: Collection<E>): Boolean {
-        val elementsSet = ConstMultiSet(elements)
+        validateMutate("retainAll")
+        val elementsSet = MultiSetImpl(elements)
 
         val newCounts: MutableMap<E, Int> = mutableMapOf()
 
@@ -133,7 +143,7 @@ internal class ConstManager<E> {
             getCountOf(it) + other.getCountOf(it)
         }
 
-        return simpleIf(mutable, { ConstMutableMultiSet(newCounts) }, { ConstMultiSet(newCounts) })
+        return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
     operator fun minus(other: MultiSet<E>): MultiSet<E> {
@@ -142,7 +152,7 @@ internal class ConstManager<E> {
         val newCounts = values.associateWith {
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
-        return simpleIf(mutable, { ConstMutableMultiSet(newCounts) }, { ConstMultiSet(newCounts) })
+        return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
     infix fun intersect(other: MultiSet<E>): MultiSet<E> {
@@ -151,7 +161,7 @@ internal class ConstManager<E> {
         val newCounts = values.associateWith {
             min(getCountOf(it), other.getCountOf(it))
         }
-        return simpleIf(mutable, { ConstMutableMultiSet(newCounts) }, { ConstMultiSet(newCounts) })
+        return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
     fun iterator(): MutableIterator<E> {
@@ -214,6 +224,12 @@ internal class ConstManager<E> {
         elementsString = elementsString.substring(0 until elementsString.lastIndex - 1)
 
         return "[$elementsString]"
+    }
+
+    private fun validateMutate(mutation: String) {
+        if (!mutable) {
+            throw UnsupportedOperationException("Mutations cannot be performed on this object. Invalid operation: $mutation.")
+        }
     }
 
     override fun toString(): String = simpleIf(mutable, { createString(counts) }, { immutableString })
