@@ -10,7 +10,7 @@ import kotlin.math.min
 // TODO cleanup unit tests
 
 @Suppress("EqualsOrHashCode")
-class ConstMultiSetManager<E> : MultiSetManager {
+internal class ConstMultiSetManager<E> : MultiSetManager<E> {
 
     private val mutable: Boolean
 

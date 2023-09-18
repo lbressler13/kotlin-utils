@@ -4,35 +4,20 @@ import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
 
 abstract class ConstMutableMultiSet<E> protected constructor(): MutableMultiSet<E>, ConstMultiSet<E>() {
-    override val size: Int
-        get() = manager.size
+    private val constManager: ConstMultiSetManager<E>
+        get() = manager as ConstMultiSetManager<E>
 
-    override val distinctValues: Set<E>
-        get() = manager.distinctValues
+    override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> = constManager.plus(other).toMutableMultiSet()
+    override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> = constManager.minus(other).toMutableMultiSet()
+    override infix fun intersect(other: MultiSet<E>): MutableMultiSet<E> = constManager.intersect(other).toMutableMultiSet()
 
-    abstract override val manager: ConstMultiSetManager<E>
+    override fun add(element: E): Boolean = constManager.add(element)
+    override fun addAll(elements: Collection<E>): Boolean = constManager.addAll(elements)
+    override fun remove(element: E): Boolean = constManager.remove(element)
+    override fun removeAll(elements: Collection<E>): Boolean = constManager.removeAll(elements)
+    override fun retainAll(elements: Collection<E>): Boolean = constManager.retainAll(elements)
 
-    override fun getCountOf(element: E): Int = manager.getCountOf(element)
-    override fun contains(element: E): Boolean = manager.contains(element)
-    override fun containsAll(elements: Collection<E>): Boolean = manager.containsAll(elements)
+    override fun clear() { constManager.clear() }
 
-    override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> = manager.plus(other).toMutableMultiSet()
-    override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> = manager.minus(other).toMutableMultiSet()
-    override infix fun intersect(other: MultiSet<E>): MutableMultiSet<E> = manager.intersect(other).toMutableMultiSet()
-
-    override fun isEmpty(): Boolean = manager.isEmpty()
-
-    override fun add(element: E): Boolean = manager.add(element)
-    override fun addAll(elements: Collection<E>): Boolean = manager.addAll(elements)
-    override fun remove(element: E): Boolean = manager.remove(element)
-    override fun removeAll(elements: Collection<E>): Boolean = manager.removeAll(elements)
-    override fun retainAll(elements: Collection<E>): Boolean = manager.retainAll(elements)
-
-    override fun clear() { manager.clear() }
-
-    override fun equals(other: Any?): Boolean = manager.eq(other)
-    override fun hashCode(): Int = manager.hashCode()
-    override fun toString(): String = manager.toString()
-
-    override fun iterator(): MutableIterator<E> = manager.getMutableIterator()
+    override fun iterator(): MutableIterator<E> = constManager.getMutableIterator()
 }
