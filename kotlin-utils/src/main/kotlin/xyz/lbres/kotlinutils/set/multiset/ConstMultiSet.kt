@@ -6,28 +6,28 @@ import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
  * Multi set implementation where values are assumed to be constant.
  * Behavior is not defined if mutable values are changed.
  */
-open class ConstMultiSet<E> : MultiSet<E> {
+abstract class ConstMultiSet<E> protected constructor() : MultiSet<E> {
     override val size: Int
         get() = manager.size
 
     override val distinctValues: Set<E>
         get() = manager.distinctValues
 
-    private val manager: ConstMultiSetManager<E>
+    abstract val manager: ConstMultiSetManager<E>
 
-    /**
-     * Initialize set from a collection of values.
-     */
-    internal constructor(elements: Collection<E>) {
-        manager = ConstMultiSetManager(elements, false)
-    }
-
-    /**
-     * Initialize set from existing counts.
-     */
-    internal constructor(counts: Map<E, Int>) {
-        manager = ConstMultiSetManager(counts, false)
-    }
+//    /**
+//     * Initialize set from a collection of values.
+//     */
+//    internal constructor(elements: Collection<E>) {
+//        manager = ConstMultiSetManager(elements, false)
+//    }
+//
+//    /**
+//     * Initialize set from existing counts.
+//     */
+//    internal constructor(counts: Map<E, Int>) {
+//        manager = ConstMultiSetManager(counts, false)
+//    }
 
     override fun getCountOf(element: E): Int = manager.getCountOf(element)
     override fun contains(element: E): Boolean = manager.contains(element)

@@ -3,28 +3,28 @@ package xyz.lbres.kotlinutils.set.multiset
 import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
 
-class ConstMutableMultiSet<E> : MutableMultiSet<E>, ConstMultiSet<E> {
+abstract class ConstMutableMultiSet<E> protected constructor(): MutableMultiSet<E>, ConstMultiSet<E>() {
     override val size: Int
         get() = manager.size
 
     override val distinctValues: Set<E>
         get() = manager.distinctValues
 
-    private val manager: ConstMultiSetManager<E>
+    abstract override val manager: ConstMultiSetManager<E>
 
-    /**
-     * Initialize set from a collection of values.
-     */
-    internal constructor(elements: Collection<E>) : super(elements) {
-        manager = ConstMultiSetManager(elements, true)
-    }
-
-    /**
-     * Initialize set from existing counts.
-     */
-    internal constructor(counts: Map<E, Int>) : super(counts) {
-        manager = ConstMultiSetManager(counts, true)
-    }
+//    /**
+//     * Initialize set from a collection of values.
+//     */
+//    internal constructor(elements: Collection<E>) : super(elements) {
+//        manager = ConstMultiSetManager(elements, true)
+//    }
+//
+//    /**
+//     * Initialize set from existing counts.
+//     */
+//    internal constructor(counts: Map<E, Int>) : super(counts) {
+//        manager = ConstMultiSetManager(counts, true)
+//    }
 
     override fun getCountOf(element: E): Int = manager.getCountOf(element)
     override fun contains(element: E): Boolean = manager.contains(element)
