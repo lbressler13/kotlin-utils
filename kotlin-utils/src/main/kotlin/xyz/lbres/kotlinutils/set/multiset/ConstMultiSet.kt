@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
+
 /**
  * Multi set implementation where values are assumed to be constant.
  * Behavior is not defined if mutable values are changed.

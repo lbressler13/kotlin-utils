@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.impl.standardimpl.immutable
+package xyz.lbres.kotlinutils.set.multiset.impl.immutable
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl

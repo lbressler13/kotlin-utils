@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
 
 class ConstMutableMultiSet<E> : MutableMultiSet<E>, ConstMultiSet<E> {
     override val size: Int

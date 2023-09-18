@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.impl.standardimpl.mutable
+package xyz.lbres.kotlinutils.set.multiset.impl.mutable
 
 import xyz.lbres.kotlinutils.list.StringList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports

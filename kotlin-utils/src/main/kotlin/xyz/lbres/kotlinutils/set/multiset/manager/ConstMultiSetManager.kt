@@ -1,8 +1,9 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.manager
 
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.list.listOfValue
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.math.min
 
