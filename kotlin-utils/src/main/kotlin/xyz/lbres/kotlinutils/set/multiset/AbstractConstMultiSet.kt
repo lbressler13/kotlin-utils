@@ -1,13 +1,9 @@
-package xyz.lbres.kotlinutils.set.multiset.impl.constimpl
+package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.general.tryOrDefault
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSetInt
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.mapConsistent
 import kotlin.math.min
 
-internal abstract class AbstractConstMultiSet<E> : ConstMultiSetInt<E> {
+sealed class AbstractConstMultiSet<E> : MultiSet<E> {
     protected abstract val counts: Map<E, Int>
 
     override fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
@@ -15,7 +11,7 @@ internal abstract class AbstractConstMultiSet<E> : ConstMultiSetInt<E> {
     override fun contains(element: E): Boolean = counts.contains(element)
 
     override fun containsAll(elements: Collection<E>): Boolean {
-        val otherSet = ConstMultiSetImpl(elements) as AbstractConstMultiSet<E>
+        val otherSet = ConstMultiSet(elements) as AbstractConstMultiSet<E>
         val elementsCounts = otherSet.counts
 
         return elementsCounts.all {
@@ -42,7 +38,7 @@ internal abstract class AbstractConstMultiSet<E> : ConstMultiSetInt<E> {
         }
     }
 
-    override operator fun plus(other: MultiSet<E>): ConstMultiSet<E> {
+    override operator fun plus(other: MultiSet<E>): MultiSet<E> {
         val values = distinctValues + other.distinctValues
 
         val newCounts = values.associateWith {
@@ -73,7 +69,7 @@ internal abstract class AbstractConstMultiSet<E> : ConstMultiSetInt<E> {
     /**
      * Initialize a new MultiSet from existing counts.
      */
-    protected abstract fun createFromCounts(counts: Map<E, Int>): ConstMultiSet<E>
+    protected abstract fun createFromCounts(counts: Map<E, Int>): MultiSet<E>
 
     override fun isEmpty(): Boolean = size == 0
 

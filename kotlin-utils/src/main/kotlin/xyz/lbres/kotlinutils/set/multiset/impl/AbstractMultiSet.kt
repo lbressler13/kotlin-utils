@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.impl.standard
+package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault

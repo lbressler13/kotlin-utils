@@ -1,29 +1,28 @@
 package xyz.lbres.kotlinutils.set.multiset.impl.constimpl.immutable
 
 import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.impl.constimpl.ConstMultiSetImpl
 import kotlin.test.assertEquals
 
 fun runConstConstructorTests() {
-    var set: ConstMultiSet<Int> = ConstMultiSetImpl(emptyList())
+    var set: ConstMultiSet<Int> = ConstMultiSet(emptyList())
     var expectedSize = 0
     var expectedDistinct = emptySet<Int>()
     assertEquals(expectedSize, set.size)
     assertEquals(expectedDistinct, set.distinctValues)
 
-    set = ConstMultiSetImpl(setOf(-12))
+    set = ConstMultiSet(setOf(-12))
     expectedSize = 1
     expectedDistinct = setOf(-12)
     assertEquals(expectedSize, set.size)
     assertEquals(expectedDistinct, set.distinctValues)
 
-    set = ConstMultiSetImpl(listOf(10, 10, 10, 10))
+    set = ConstMultiSet(listOf(10, 10, 10, 10))
     expectedSize = 4
     expectedDistinct = setOf(10)
     assertEquals(expectedSize, set.size)
     assertEquals(expectedDistinct, set.distinctValues)
 
-    set = ConstMultiSetImpl(listOf(-12, 18, 4, 10000, 25, 25, -1, 0, 5, 25))
+    set = ConstMultiSet(listOf(-12, 18, 4, 10000, 25, 25, -1, 0, 5, 25))
     expectedSize = 10
     expectedDistinct = setOf(-12, 18, 4, 10000, 25, -1, 0, 5)
     assertEquals(expectedSize, set.size)
@@ -32,19 +31,19 @@ fun runConstConstructorTests() {
     val e1 = ArithmeticException()
     val e2 = NullPointerException()
     val e3 = ArithmeticException()
-    val errSet = ConstMultiSetImpl(setOf(e1, e2, e3))
+    val errSet = ConstMultiSet(setOf(e1, e2, e3))
     expectedSize = 3
     val expectedErrDistinct = setOf(e1, e2, e3)
     assertEquals(expectedSize, errSet.size)
     assertEquals(expectedErrDistinct, errSet.distinctValues)
 
-    val listSet = ConstMultiSetImpl(listOf(listOf(1, 3, 4), listOf(55, 66, 77)))
+    val listSet = ConstMultiSet(listOf(listOf(1, 3, 4), listOf(55, 66, 77)))
     expectedSize = 2
     val expectedListDistinct = setOf(listOf(1, 3, 4), listOf(55, 66, 77))
     assertEquals(expectedSize, listSet.size)
     assertEquals(expectedListDistinct, listSet.distinctValues)
 
-    val compListSet = ConstMultiSetImpl(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
+    val compListSet = ConstMultiSet(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
     expectedSize = 3
     val expectedCompListDistinct = setOf(listOf(1, 2, 3), listOf("abc", "def"))
     assertEquals(expectedSize, compListSet.size)
