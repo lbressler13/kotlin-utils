@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.list.listOfValue
-import xyz.lbres.kotlinutils.set.multiset.AbstractConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
 
 /**
