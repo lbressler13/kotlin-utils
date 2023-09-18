@@ -9,6 +9,9 @@ import kotlin.math.min
 
 // TODO cleanup unit tests
 
+/**
+ * Manager for a mutable or immutable const MultiSet implementation
+ */
 @Suppress("EqualsOrHashCode")
 internal class ConstMultiSetManager<E> : MultiSetManager<E> {
 
