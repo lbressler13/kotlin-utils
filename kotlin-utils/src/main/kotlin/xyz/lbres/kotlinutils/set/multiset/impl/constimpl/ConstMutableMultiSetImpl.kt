@@ -1,11 +1,11 @@
-package xyz.lbres.kotlinutils.set.multiset.impl
+package xyz.lbres.kotlinutils.set.multiset.impl.constimpl
 
 import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSetInt
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.math.min
 
-internal class MutableConstMultiSetImpl<E> : ConstMutableMultiSetInt<E>, AbstractConstMultiSet<E> {
+internal class ConstMutableMultiSetImpl<E> : ConstMutableMultiSetInt<E>, AbstractConstMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -41,8 +41,8 @@ internal class MutableConstMultiSetImpl<E> : ConstMutableMultiSetInt<E>, Abstrac
         _size = counts.values.fold(0, Int::plus)
     }
 
-    override fun createFromCounts(counts: Map<E, Int>): MutableConstMultiSetImpl<E> {
-        return MutableConstMultiSetImpl(counts)
+    override fun createFromCounts(counts: Map<E, Int>): ConstMutableMultiSetImpl<E> {
+        return ConstMutableMultiSetImpl(counts)
     }
 
     override fun add(element: E): Boolean {
@@ -112,11 +112,11 @@ internal class MutableConstMultiSetImpl<E> : ConstMutableMultiSetInt<E>, Abstrac
     }
 
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractConstMultiSet>.minus(other) as MutableConstMultiSetImpl<E>
+        return super<AbstractConstMultiSet>.minus(other) as ConstMutableMultiSetImpl<E>
     }
 
-    override operator fun plus(other: MultiSet<E>): MutableConstMultiSetImpl<E> {
-        return super<AbstractConstMultiSet>.plus(other) as MutableConstMultiSetImpl<E>
+    override operator fun plus(other: MultiSet<E>): ConstMutableMultiSetImpl<E> {
+        return super<AbstractConstMultiSet>.plus(other) as ConstMutableMultiSetImpl<E>
     }
 
     override fun iterator(): MutableIterator<E> {

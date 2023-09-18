@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.impl
+package xyz.lbres.kotlinutils.set.multiset.impl.constimpl
 
 import xyz.lbres.kotlinutils.list.listOfValue
 import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet

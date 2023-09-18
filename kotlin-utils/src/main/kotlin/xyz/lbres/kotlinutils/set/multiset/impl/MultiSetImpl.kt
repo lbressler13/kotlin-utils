@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class StandardMultiSet<E> : AbstractStandardMultiSet<E> {
+internal class MultiSetImpl<E> : AbstractMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -39,7 +39,7 @@ internal class StandardMultiSet<E> : AbstractStandardMultiSet<E> {
     /**
      * Initialize a new MultiSet from existing counts.
      */
-    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = StandardMultiSet(counts)
+    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MultiSetImpl(counts)
 
     /**
      * Get an iterator for the elements in this set.
