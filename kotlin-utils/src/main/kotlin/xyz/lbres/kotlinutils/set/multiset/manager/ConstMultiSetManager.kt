@@ -2,22 +2,19 @@ package xyz.lbres.kotlinutils.set.multiset.manager
 
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
-import xyz.lbres.kotlinutils.list.listOfValue
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.math.min
 
 // TODO cleanup unit tests
+// TODO fix packages
 
 /**
- * Manager for a mutable or immutable const MultiSet implementation
+ * Manager for a mutable or immutable MultiSet implementation where values of elements are assumed to be constant.
+ * Behavior is not defined if mutable values are changed.
  */
 @Suppress("EqualsOrHashCode")
-internal class ConstMultiSetManager<E> : MultiSetManager<E> {
-
-    private val mutable: Boolean
-
-    private val initialElements: Collection<E>
+internal class ConstMultiSetManager<E>(private val initialElements: Collection<E>, private val mutable: Boolean) : MultiSetManager<E>() {
 
     private val mutableElements: MutableList<E> = mutableListOf()
     private var mutableElementsUpdated: Boolean = false
@@ -34,29 +31,14 @@ internal class ConstMultiSetManager<E> : MultiSetManager<E> {
     internal val size: Int
         get() = _size
 
-    internal constructor(initialElements: Collection<E>, mutable: Boolean) {
+    init {
         _size = initialElements.size
         initialElements.forEach {
             counts[it] = counts.getOrDefault(it, 0) + 1
         }
 
-        this.initialElements = initialElements
         immutableDistinctValues = counts.keys
         immutableString = createString(counts)
-
-        this.mutable = mutable
-    }
-
-    internal constructor(counts: Map<E, Int>, mutable: Boolean) {
-        _size = counts.values.fold(0, Int::plus)
-        immutableDistinctValues = counts.keys
-        counts.forEach { this.counts[it.key] = it.value }
-
-        this.initialElements = counts.keys.fold(emptyList()) { acc, element ->
-            acc + listOfValue(counts[element]!!, element)
-        }
-        immutableString = createString(counts)
-        this.mutable = mutable
     }
 
     internal fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
