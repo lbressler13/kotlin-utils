@@ -1,8 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset.impl.constimpl
 
 import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
-import xyz.lbres.kotlinutils.set.multiset.impl.constimpl.immutable.*
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.constMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.impl.constimpl.immutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

@@ -1,10 +1,10 @@
 package xyz.lbres.kotlinutils.set.multiset.impl.constimpl
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
-import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.general.tryOrDefault
-import xyz.lbres.kotlinutils.set.multiset.*
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.ConstMultiSetInt
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.mapConsistent
 import kotlin.math.min
 
 internal abstract class AbstractConstMultiSet<E> : ConstMultiSetInt<E> {
@@ -74,14 +74,6 @@ internal abstract class AbstractConstMultiSet<E> : ConstMultiSetInt<E> {
      * Initialize a new MultiSet from existing counts.
      */
     protected abstract fun createFromCounts(counts: Map<E, Int>): ConstMultiSet<E>
-
-    private fun convertCounts(set: ConstMultiSet<E>): MultiSet<E> {
-        return if (set is MutableMultiSet<*>) {
-            set.toMutableMultiSet()
-        } else {
-            set.toMultiSet()
-        }
-    }
 
     override fun isEmpty(): Boolean = size == 0
 

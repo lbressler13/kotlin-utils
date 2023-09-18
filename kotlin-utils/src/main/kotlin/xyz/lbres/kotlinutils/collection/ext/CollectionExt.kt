@@ -5,8 +5,8 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.constimpl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.constimpl.ConstMutableMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.standard.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.standard.MutableMultiSetImpl
 
 /**
  * Create a MultiSet with the elements in the current collection.

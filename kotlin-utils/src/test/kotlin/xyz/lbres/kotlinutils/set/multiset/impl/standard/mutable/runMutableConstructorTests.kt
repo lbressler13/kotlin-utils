@@ -1,7 +1,7 @@
-package xyz.lbres.kotlinutils.set.multiset.impl.mutable
+package xyz.lbres.kotlinutils.set.multiset.impl.standard.mutable
 
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.standard.MutableMultiSetImpl
 import kotlin.test.assertEquals
 
 fun runMutableConstructorTests() {

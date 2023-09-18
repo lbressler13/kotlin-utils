@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.set.multiset.impl.constimpl.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.constimpl.ConstMutableMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.standard.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.standard.MutableMultiSetImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
