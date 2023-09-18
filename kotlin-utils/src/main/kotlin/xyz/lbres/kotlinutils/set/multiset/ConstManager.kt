@@ -15,6 +15,9 @@ internal class ConstManager<E> {
 
     private val initialElements: Collection<E>
 
+    private val mutableElements: MutableList<E> = mutableListOf()
+    private var mutableElementsUpdated: Boolean = false
+
     private val immutableDistinctValues: Set<E>
     private val immutableString: String
 
@@ -42,7 +45,7 @@ internal class ConstManager<E> {
 
     constructor(counts: Map<E, Int>, mutable: Boolean) {
         _size = counts.values.fold(0, Int::plus)
-        immutableDistinctValues= counts.keys
+        immutableDistinctValues = counts.keys
         counts.forEach { this.counts[it.key] = it.value }
 
         this.initialElements = counts.keys.fold(emptyList()) { acc, element ->
@@ -68,12 +71,14 @@ internal class ConstManager<E> {
         validateMutate("add")
         counts[element] = getCountOf(element) + 1
         _size++
+        mutableElementsUpdated = false
         return true
     }
 
     fun addAll(elements: Collection<E>): Boolean {
         validateMutate("addAll")
         elements.forEach(this::add)
+        mutableElementsUpdated = false
         return true
     }
 
@@ -81,10 +86,12 @@ internal class ConstManager<E> {
         validateMutate("clear")
         counts.clear()
         _size = 0
+        mutableElementsUpdated = false
     }
 
     fun remove(element: E): Boolean {
         validateMutate("remove")
+        mutableElementsUpdated = false
         return when (getCountOf(element)) {
             0 -> false
             1 -> {
@@ -109,11 +116,13 @@ internal class ConstManager<E> {
         var anySucceeded = false
         elements.forEach { anySucceeded = remove(it) || anySucceeded }
 
+        mutableElementsUpdated = false
         return anySucceeded
     }
 
     fun retainAll(elements: Collection<E>): Boolean {
         validateMutate("retainAll")
+        mutableElementsUpdated = false
         val elementsSet = MultiSetImpl(elements)
 
         val newCounts: MutableMap<E, Int> = mutableMapOf()
@@ -200,11 +209,14 @@ internal class ConstManager<E> {
     fun getImmutableIterator(): Iterator<E> = initialElements.iterator()
 
     fun getMutableIterator(): MutableIterator<E> {
-        val list: MutableList<E> = mutableListOf() // TODO store this
-        counts.forEach {
-            repeat(it.value) { _ -> list.add(it.key) }
+        if (!mutableElementsUpdated) {
+            mutableElements.clear()
+            counts.forEach {
+                repeat(it.value) { _ -> mutableElements.add(it.key) }
+            }
+            mutableElementsUpdated = true
         }
-        return list.iterator()
+        return mutableElements.iterator()
     }
 
     override fun hashCode(): Int {

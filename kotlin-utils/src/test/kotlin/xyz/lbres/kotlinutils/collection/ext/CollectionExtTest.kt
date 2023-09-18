@@ -1,6 +1,13 @@
 package xyz.lbres.kotlinutils.collection.ext
 
-import xyz.lbres.kotlinutils.set.multiset.*
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.constMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.constMutableMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.multiSetOf
+import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

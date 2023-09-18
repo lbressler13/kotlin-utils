@@ -24,7 +24,7 @@ class ConstMutableMultiSet<E> : MutableMultiSet<E>, ConstMultiSet<E> {
     /**
      * Initialize set from existing counts.
      */
-    constructor(counts: Map<E, Int>): super(counts) {
+    constructor(counts: Map<E, Int>) : super(counts) {
         manager = ConstManager(counts, true)
     }
 
