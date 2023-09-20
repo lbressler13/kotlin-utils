@@ -197,7 +197,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
     }
 
     fun iterator(): Iterator<E> {
-        return if(mutable) {
+        return if (mutable) {
             updateMutableValues()
             mutableElements.iterator()
         } else {

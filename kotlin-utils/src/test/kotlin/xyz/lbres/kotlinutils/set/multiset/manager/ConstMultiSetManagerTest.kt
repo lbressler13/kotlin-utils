@@ -13,10 +13,10 @@ class ConstMultiSetManagerTest {
 
     @Test fun testClear() = runClearTests()
     @Test fun testAdd() = runAddTests()
-//    @Test fun testAddAll() = runAddAllTests()
+    @Test fun testAddAll() = runAddAllTests()
     @Test fun testRemove() = runRemoveTests()
-//    @Test fun testRemoveAll() = runRemoveAllTests()
-//    @Test fun testRetainAll() = runRetainAllTests()
+    @Test fun testRemoveAll() = runRemoveAllTests()
+    @Test fun testRetainAll() = runRetainAllTests()
 
 //    @Test fun testMinus() = runMinusTests()
 //    @Test fun testPlus() = runPlusTests()
@@ -34,7 +34,6 @@ class ConstMultiSetManagerTest {
         manager = ConstMultiSetManager(emptyList(), true)
         iter = manager.iterator()
         assertFalse(iter.hasNext())
-
 
         manager = ConstMultiSetManager(listOf(1, 2, 3, 4), false)
         iter = manager.iterator()
