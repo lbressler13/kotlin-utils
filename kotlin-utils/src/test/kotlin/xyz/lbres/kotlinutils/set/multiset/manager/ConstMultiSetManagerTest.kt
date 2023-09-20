@@ -6,10 +6,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 class ConstMultiSetManagerTest {
-    @Test fun testConstructor() = runConstructorTests()
+    @Test fun testInitialization() = runInitializationTests()
 
-//    @Test fun testContains() = runContainsTests()
-//    @Test fun testContainsAll() = runContainsAllTests()
+    @Test fun testContains() = runContainsTests()
+    @Test fun testContainsAll() = runContainsAllTests()
 
 //    @Test fun testClear() = runClearTests()
 //    @Test fun testAdd() = runAddTests()

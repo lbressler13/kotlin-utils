@@ -2,7 +2,7 @@ package xyz.lbres.kotlinutils.set.multiset.manager
 
 import kotlin.test.assertEquals
 
-fun runConstructorTests() {
+fun runInitializationTests() {
     var manager: ConstMultiSetManager<Int> = ConstMultiSetManager(emptyList(), false)
     assertEquals(0, manager.size)
     assertEquals(emptySet(), manager.distinctValues)
