@@ -11,10 +11,10 @@ class ConstMultiSetManagerTest {
     @Test fun testContains() = runContainsTests()
     @Test fun testContainsAll() = runContainsAllTests()
 
-//    @Test fun testClear() = runClearTests()
-//    @Test fun testAdd() = runAddTests()
+    @Test fun testClear() = runClearTests()
+    @Test fun testAdd() = runAddTests()
 //    @Test fun testAddAll() = runAddAllTests()
-//    @Test fun testRemove() = runRemoveTests()
+    @Test fun testRemove() = runRemoveTests()
 //    @Test fun testRemoveAll() = runRemoveAllTests()
 //    @Test fun testRetainAll() = runRetainAllTests()
 
