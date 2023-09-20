@@ -17,6 +17,7 @@ import kotlin.math.min
 internal class ConstMultiSetManager<E>(private val initialElements: Collection<E>, private val mutable: Boolean) : MultiSetManager<E>() {
 
     private val mutableElements: MutableList<E> = mutableListOf()
+    private var mutableString: String = ""
     private var mutableElementsUpdated: Boolean = false
 
     private val immutableDistinctValues: Set<E>
@@ -28,7 +29,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         get() = simpleIf(mutable, { counts.keys }, { immutableDistinctValues })
 
     private var _size: Int
-    internal val size: Int
+    val size: Int
         get() = _size
 
     init {
@@ -41,11 +42,11 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         immutableString = createString(counts)
     }
 
-    internal fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
+    fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
 
-    internal fun contains(element: E): Boolean = counts.contains(element)
+    fun contains(element: E): Boolean = counts.contains(element)
 
-    internal fun containsAll(elements: Collection<E>): Boolean {
+    fun containsAll(elements: Collection<E>): Boolean {
         val otherCounts = createCounts(elements)
 
         return otherCounts.all {
@@ -53,7 +54,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         }
     }
 
-    internal fun add(element: E): Boolean {
+    fun add(element: E): Boolean {
         validateMutate("add")
         counts[element] = getCountOf(element) + 1
         _size++
@@ -61,21 +62,21 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         return true
     }
 
-    internal fun addAll(elements: Collection<E>): Boolean {
+    fun addAll(elements: Collection<E>): Boolean {
         validateMutate("addAll")
         elements.forEach(this::add)
         mutableElementsUpdated = false
         return true
     }
 
-    internal fun clear() {
+    fun clear() {
         validateMutate("clear")
         counts.clear()
         _size = 0
         mutableElementsUpdated = false
     }
 
-    internal fun remove(element: E): Boolean {
+    fun remove(element: E): Boolean {
         validateMutate("remove")
         mutableElementsUpdated = false
         return when (getCountOf(element)) {
@@ -93,7 +94,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         }
     }
 
-    internal fun removeAll(elements: Collection<E>): Boolean {
+    fun removeAll(elements: Collection<E>): Boolean {
         validateMutate("removeAll")
         if (elements.isEmpty()) {
             return true
@@ -106,7 +107,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         return anySucceeded
     }
 
-    internal fun retainAll(elements: Collection<E>): Boolean {
+    fun retainAll(elements: Collection<E>): Boolean {
         validateMutate("retainAll")
         mutableElementsUpdated = false
         val elementsSet = MultiSetImpl(elements)
@@ -131,7 +132,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         return true
     }
 
-    internal operator fun plus(other: MultiSet<E>): MultiSet<E> {
+    operator fun plus(other: MultiSet<E>): MultiSet<E> {
         val values = distinctValues + other.distinctValues
 
         val newCounts = values.associateWith {
@@ -141,7 +142,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
-    internal operator fun minus(other: MultiSet<E>): MultiSet<E> {
+    operator fun minus(other: MultiSet<E>): MultiSet<E> {
         val values = distinctValues + other.distinctValues
 
         val newCounts = values.associateWith {
@@ -150,7 +151,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
-    internal infix fun intersect(other: MultiSet<E>): MultiSet<E> {
+    infix fun intersect(other: MultiSet<E>): MultiSet<E> {
         val values = distinctValues intersect other.distinctValues
 
         val newCounts = values.associateWith {
@@ -159,17 +160,9 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
-    internal fun iterator(): MutableIterator<E> {
-        val list: MutableList<E> = mutableListOf() // TODO store this
-        counts.forEach {
-            repeat(it.value) { _ -> list.add(it.key) }
-        }
-        return list.iterator()
-    }
+    fun isEmpty(): Boolean = size == 0
 
-    internal fun isEmpty(): Boolean = size == 0
-
-    internal fun eq(other: Any?): Boolean {
+    fun eq(other: Any?): Boolean {
         if (other == null || other !is MultiSet<*>) {
             return false
         }
@@ -192,17 +185,24 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         return newCounts
     }
 
-    internal fun getImmutableIterator(): Iterator<E> = initialElements.iterator()
-
-    internal fun getMutableIterator(): MutableIterator<E> {
+    private fun updateMutableValues() {
         if (!mutableElementsUpdated) {
             mutableElements.clear()
             counts.forEach {
                 repeat(it.value) { _ -> mutableElements.add(it.key) }
             }
+            mutableString = createString(counts)
             mutableElementsUpdated = true
         }
-        return mutableElements.iterator()
+    }
+
+    fun iterator(): Iterator<E> {
+        return if(mutable) {
+            updateMutableValues()
+            mutableElements.iterator()
+        } else {
+            initialElements.iterator()
+        }
     }
 
     override fun hashCode(): Int {
@@ -230,5 +230,12 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         }
     }
 
-    override fun toString(): String = simpleIf(mutable, { createString(counts) }, { immutableString })
+    override fun toString(): String {
+        return if (mutable) {
+            updateMutableValues()
+            mutableString
+        } else {
+            immutableString
+        }
+    }
 }

@@ -95,5 +95,5 @@ abstract class ConstMutableMultiSet<E> protected constructor() : MutableMultiSet
      *
      * @return [MutableIterator]<E>
      */
-    override fun iterator(): MutableIterator<E> = constManager.getMutableIterator()
+    override fun iterator(): MutableIterator<E> = constManager.iterator() as MutableIterator<E>
 }
