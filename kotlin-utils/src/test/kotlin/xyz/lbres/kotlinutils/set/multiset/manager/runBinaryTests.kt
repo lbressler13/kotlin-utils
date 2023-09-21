@@ -57,7 +57,13 @@ fun runMinusTests() {
     runSingleBinaryOpTest(manager, values2) { it - MultiSetImpl(values) }
 
     val stringManager = ConstMultiSetManager(listOf("hello", "world", "goodbye"), true)
-    runSingleBinaryOpTest(stringManager, listOf("hello", "world", "goodbye")) { it - multiSetOf("hello world", "farewell", "planet") }
+    runSingleBinaryOpTest(stringManager, listOf("hello", "world", "goodbye")) {
+        it - multiSetOf(
+            "hello world",
+            "farewell",
+            "planet"
+        )
+    }
 
     // some shared
     values = listOf(1, 1, 2, 3, 4, 5, 5)
@@ -87,128 +93,89 @@ fun runMinusTests() {
     runSingleBinaryOpTest(compListManager, compListExpected) { it - MultiSetImpl(compListValues) }
 }
 
-// fun runPlusTests() {
-//    // empty
-//    var intSet1 = constMultiSetOf<Int>()
-//    var intSet2 = constMultiSetOf<Int>()
-//    assertEquals(constMultiSetOf(), intSet1 + intSet2)
-//    assertEquals(constMultiSetOf(), intSet2 + intSet1)
-//
-//    intSet1 = constMutableMultiSetOf(1, 2, 3, 3)
-//    assertEquals(intSet1, intSet1 + intSet2)
-//
-//    // non-empty
-//    intSet1 = constMutableMultiSetOf(1)
-//    intSet2 = constMutableMultiSetOf(1)
-//    var expected = constMutableMultiSetOf(1, 1)
-//    assertEquals(expected, intSet1 + intSet2)
-//
-//    intSet1 = constMutableMultiSetOf(1, 2, 2, 3, 3, 3)
-//    intSet2 = constMutableMultiSetOf(1, 2, 0)
-//    expected = constMutableMultiSetOf(0, 1, 1, 2, 2, 2, 3, 3, 3)
-//    assertEquals(expected, intSet1 + intSet2)
-//
-//    val otherSet = TestMutableMultiSet(listOf(1, 2, 2, 3, 3, 3))
-//    assertEquals(expected, intSet2 + otherSet)
-//
-//    val sms1 = constMutableMultiSetOf("", "hello", "world", "goodbye")
-//    val sms2 = constMutableMultiSetOf("hi", "no", "bye")
-//    val sExpected = constMutableMultiSetOf("", "bye", "goodbye", "hello", "hi", "no", "world")
-//    assertEquals(sExpected, sms1 + sms2)
-//    assertEquals(sExpected, sms2 + sms1)
-//
-//    val listSet1 = constMutableMultiSetOf(listOf(-3), listOf(2, 3, 4), listOf(1, 2, 3))
-//    val listSet2 = constMutableMultiSetOf(emptyList(), listOf(1, 2, 3))
-//    val expectedList = constMutableMultiSetOf(emptyList(), listOf(-3), listOf(1, 2, 3), listOf(1, 2, 3), listOf(2, 3, 4))
-//    assertEquals(expectedList, listSet1 + listSet2)
-//    assertEquals(expectedList, listSet2 + listSet1)
-//
-//    val errorSet1: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e2, e1, e2)
-//    val errorSet2: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e3, e3, e2, e1, e1)
-//    val expectedError: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
-//    assertEquals(expectedError, errorSet1 + errorSet2)
-//    assertEquals(expectedError, errorSet2 + errorSet1)
-//
-//    val compListMs1: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-//    val compListMs2: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-//    val compListExpected: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-//    assertEquals(compListExpected, compListMs1 + compListMs2)
-//    assertEquals(compListExpected, compListMs2 + compListMs1)
-//
-//    // with immutable
-//    intSet1 = constMutableMultiSetOf(1, 2, 3)
-//    val immutable = multiSetOf(1, 4, 5)
-//    expected = constMutableMultiSetOf(1, 1, 2, 3, 4, 5)
-//    assertEquals(expected, intSet1 + immutable)
-// }
-//
-// fun runIntersectTests() {
-//    // empty
-//    var intSet1 = constMultiSetOf<Int>()
-//
-//    var intSet2 = constMultiSetOf<Int>()
-//    assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
-//
-//    intSet2 = constMutableMultiSetOf(1, 2, 3)
-//    assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
-//    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet2 intersect intSet1)
-//
-//    // none shared
-//    intSet1 = constMutableMultiSetOf(1, 2, 3)
-//    intSet2 = constMutableMultiSetOf(4, 5, 6, 7, 8)
-//    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet1 intersect intSet2)
-//    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet2 intersect intSet1)
-//
-//    var otherSet = TestMutableMultiSet(listOf(4, 5, 6, 7, 8))
-//    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet1 intersect otherSet)
-//
-//    var listSet1 = constMutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5))
-//    var listSet2 = constMutableMultiSetOf(listOf(1, 2), listOf(3, 4, 5))
-//    assertEquals<MultiSet<IntList>>(constMultiSetOf(), listSet1 intersect listSet2)
-//    assertEquals<MultiSet<IntList>>(constMultiSetOf(), listSet2 intersect listSet1)
-//
-//    // all shared
-//    intSet1 = constMutableMultiSetOf(1, 2, 3)
-//    intSet2 = constMutableMultiSetOf(1, 2, 3)
-//    var expectedInt = constMutableMultiSetOf(1, 2, 3)
-//    assertEquals(expectedInt, intSet1 intersect intSet2)
-//    assertEquals(expectedInt, intSet2 intersect intSet1)
-//
-//    intSet1 = constMutableMultiSetOf(1, 1, 2, 2, 3, 3)
-//    intSet2 = constMutableMultiSetOf(1, 2, 2, 2, 3)
-//    expectedInt = constMutableMultiSetOf(1, 2, 2, 3)
-//    assertEquals(expectedInt, intSet1 intersect intSet2)
-//    assertEquals(expectedInt, intSet2 intersect intSet1)
-//
-//    // some shared
-//    intSet1 = constMutableMultiSetOf(1, 2, 2, 4, 5, 6, 7, -1, 10)
-//    intSet2 = constMutableMultiSetOf(-1, 14, 3, 9, 9, 6)
-//    expectedInt = constMutableMultiSetOf(-1, 6)
-//    assertEquals(expectedInt, intSet1 intersect intSet2)
-//    assertEquals(expectedInt, intSet2 intersect intSet1)
-//
-//    otherSet = TestMutableMultiSet(listOf(-1, 14, 3, 9, 9, 6))
-//    expectedInt = constMutableMultiSetOf(-1, 6)
-//    assertEquals(expectedInt, intSet1 intersect otherSet)
-//
-//    listSet1 = constMutableMultiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
-//    listSet2 = constMutableMultiSetOf(emptyList(), listOf(1, 2, 3))
-//    val expectedList = constMutableMultiSetOf(listOf(1, 2, 3))
-//    assertEquals(expectedList, listSet1 intersect listSet2)
-//    assertEquals(expectedList, listSet2 intersect listSet1)
-//
-//    val errorSet1: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e2, e1, e2)
-//    val errorSet2: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e3, e3, e2, e1, e1)
-//    val expectedError: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e1, e2)
-//    assertEquals(expectedError, errorSet1 intersect errorSet2)
-//    assertEquals(expectedError, errorSet2 intersect errorSet1)
-//
-//    // with immutable
-//    intSet1 = constMutableMultiSetOf(1, 2, 3, 4)
-//    val immutable = multiSetOf(1, 4, 4, 5)
-//    expectedInt = constMutableMultiSetOf(1, 4)
-//    assertEquals(expectedInt, intSet1 intersect immutable)
-// }
+fun runPlusTests() {
+    // empty
+    var manager: ConstMultiSetManager<Int> = ConstMultiSetManager(emptyList(), false)
+    runSingleBinaryOpTest(manager, emptyList()) { it + emptyMultiSet() }
+
+    manager = ConstMultiSetManager(listOf(1, 2, 3, 4), true)
+    runSingleBinaryOpTest(manager, listOf(1, 2, 3, 4)) { it + emptyMultiSet() }
+
+    // non-empty
+    manager = ConstMultiSetManager(setOf(1), false)
+    runSingleBinaryOpTest(manager, listOf(1, 1)) { it + multiSetOf(1) }
+
+    val values = listOf(1, 2, 2, 3, 3, 3)
+    manager = ConstMultiSetManager(values, true)
+    val expected = listOf(1, 2, 2, 3, 3, 3, 1, 2, 0)
+    runSingleBinaryOpTest(manager, expected) { it + multiSetOf(1, 2, 0) }
+
+    val stringManager = ConstMultiSetManager(listOf("", "hello", "world"), false)
+    val stringExpected = listOf("", "hello", "world", "hi", "bye")
+    runSingleBinaryOpTest(stringManager, stringExpected) { it + multiSetOf("hi", "bye") }
+
+    val listValues = listOf(listOf(-3), listOf(2, 3, 4), listOf(1, 2, 3))
+    val listManager = ConstMultiSetManager(listValues, true)
+    val listExpected = listOf(emptyList(), listOf(-3), listOf(1, 2, 3), listOf(1, 2, 3), listOf(2, 3, 4))
+    runSingleBinaryOpTest(listManager, listExpected) { it + multiSetOf(emptyList(), listOf(1, 2, 3)) }
+
+    val errorManager = ConstMultiSetManager(listOf(e1, e2, e1, e2), true)
+    val errorExpected = listOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
+    runSingleBinaryOpTest(errorManager, errorExpected) { it + multiSetOf(e1, e3, e3, e2, e1, e1) }
+
+    val compListValues = listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListManager = ConstMultiSetManager<List<Comparable<*>>>(compListValues, false)
+    val compListExpected = listOf(
+        listOf(1, 2, 3),
+        listOf("abc", "def"),
+        listOf("abc", "def"),
+        listOf(1, 2, 3),
+        listOf(1, 2, 3),
+        emptyList()
+    )
+    runSingleBinaryOpTest(compListManager, compListExpected) {
+        it + multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+    }
+}
+
+fun runIntersectTests() {
+    // empty
+    var manager: ConstMultiSetManager<Int> = ConstMultiSetManager(emptyList(), false)
+    runSingleBinaryOpTest(manager, emptyList()) { it intersect emptyMultiSet() }
+
+    manager = ConstMultiSetManager(listOf(1, 2, 3, 4), true)
+    runSingleBinaryOpTest(manager, emptyList()) { it intersect emptyMultiSet() }
+
+    manager = ConstMultiSetManager(emptyList(), true)
+    runSingleBinaryOpTest(manager, emptyList()) { it intersect multiSetOf(1, 2, 3, 4) }
+
+    // none shared
+    manager = ConstMultiSetManager(listOf(1, 2, 3), false)
+    runSingleBinaryOpTest(manager, emptyList()) { it intersect multiSetOf(4, 5, 6, 7, 8) }
+
+    var listManager = ConstMultiSetManager(listOf(listOf(1, 2, 3), listOf(4, 5)), true)
+    runSingleBinaryOpTest(listManager, emptyList()) { it intersect multiSetOf(listOf(1, 2), listOf(3, 4, 5)) }
+
+    // all shared
+    manager = ConstMultiSetManager(listOf(1, 2, 3), false)
+    runSingleBinaryOpTest(manager, listOf(1, 2, 3)) { it intersect multiSetOf(1, 2, 3) }
+
+    manager = ConstMultiSetManager(listOf(1, 1, 2, 2, 3, 3), false)
+    runSingleBinaryOpTest(manager, listOf(1, 2, 2, 3)) { it intersect multiSetOf(1, 2, 2, 2, 3) }
+
+    // some shared
+    val values = listOf(1, 2, 2, 4, 5, 6, 7, -1, 10)
+    manager = ConstMultiSetManager(values, true)
+    runSingleBinaryOpTest(manager, listOf(-1, 6)) { it intersect multiSetOf(-1, 14, 3, 9, 9, 6) }
+
+    val listValues = listOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
+    listManager = ConstMultiSetManager(listValues, false)
+    runSingleBinaryOpTest(listManager, listOf(listOf(1, 2, 3))) { it intersect multiSetOf(emptyList(), listOf(1, 2, 3)) }
+
+    val errorValues = listOf(e1, e3, e3, e2, e1, e1)
+    val errorManager = ConstMultiSetManager(errorValues, true)
+    runSingleBinaryOpTest(errorManager, listOf(e1, e1, e2)) { it intersect multiSetOf(e1, e2, e1, e2) }
+}
 
 private fun <T> runSingleBinaryOpTest(
     manager: ConstMultiSetManager<T>,

@@ -19,8 +19,8 @@ class ConstMultiSetManagerTest {
     @Test fun testRetainAll() = runRetainAllTests()
 
     @Test fun testMinus() = runMinusTests()
-//    @Test fun testPlus() = runPlusTests()
-//    @Test fun testIntersect() = runIntersectTests()
+    @Test fun testPlus() = runPlusTests()
+    @Test fun testIntersect() = runIntersectTests()
 
     @Test fun testIsEmpty() = runIsEmptyTests()
     @Test fun testGetCountOf() = runGetCountOfTests()
