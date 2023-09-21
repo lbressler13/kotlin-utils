@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.set.multiset.constimpl.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.constimpl.ConstMutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 

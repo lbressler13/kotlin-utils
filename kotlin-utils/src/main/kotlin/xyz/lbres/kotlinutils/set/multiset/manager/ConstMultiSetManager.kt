@@ -6,9 +6,6 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.math.min
 
-// TODO cleanup unit tests
-// TODO fix packages
-
 /**
  * Manager for a mutable or immutable MultiSet implementation where values of elements are assumed to be constant.
  * Behavior is not defined if mutable values are changed.

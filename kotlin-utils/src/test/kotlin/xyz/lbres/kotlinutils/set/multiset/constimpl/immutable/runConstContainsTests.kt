@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.impl.constimpl.immutable
+package xyz.lbres.kotlinutils.set.multiset.constimpl.immutable
 
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertFalse
