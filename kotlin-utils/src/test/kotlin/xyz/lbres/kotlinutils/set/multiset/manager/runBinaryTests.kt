@@ -58,11 +58,7 @@ fun runMinusTests() {
 
     val stringManager = ConstMultiSetManager(listOf("hello", "world", "goodbye"), true)
     runSingleBinaryOpTest(stringManager, listOf("hello", "world", "goodbye")) {
-        it - multiSetOf(
-            "hello world",
-            "farewell",
-            "planet"
-        )
+        it - multiSetOf("hello world", "farewell", "planet")
     }
 
     // some shared
