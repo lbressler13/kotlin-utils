@@ -1,11 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
-import xyz.lbres.kotlinutils.set.multiset.manager.MultiSetManager
 import kotlin.math.min
 
 /**
@@ -19,13 +15,13 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
     protected var _size: Int = initialElements.size
     override val size: Int
         get() = _size
-        // get() = constManager.size
+    // get() = constManager.size
 
     /**
      * All distinct values contained in the set.
      */
     override val distinctValues: Set<E> = createCounts(initialElements).keys
-        // get() = constManager.distinctValues
+    // get() = constManager.distinctValues
 
     protected open val string: String = createString(createCounts(initialElements))
 
@@ -38,7 +34,7 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      */
     // abstract val manager: MultiSetManager<E>
     // private val constManager: ConstMultiSetManager<E>
-        // get() = manager as ConstMultiSetManager<E>
+    // get() = manager as ConstMultiSetManager<E>
 
     /**
      * Get the number of occurrences of a given element.

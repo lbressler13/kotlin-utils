@@ -1,8 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
 import kotlin.math.min
 
 /**
@@ -35,7 +33,7 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
     override val counts: MutableMap<E, Int> = createCounts(initialElements).toMutableMap()
 
     // private val constManager: ConstMultiSetManager<E>
-        // get() = manager as ConstMultiSetManager<E>
+    // get() = manager as ConstMultiSetManager<E>
 
     /**
      * Create a new MutableMultiSet with all values from both sets.
@@ -83,7 +81,6 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
         elementsUpdated = false
         return true
     }
-
 
     /**
      * Add all specified elements to the set.
