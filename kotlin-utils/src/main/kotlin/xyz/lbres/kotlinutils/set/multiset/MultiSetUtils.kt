@@ -45,9 +45,9 @@ fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = Co
 fun <E> emptyMultiSet(): MultiSet<E> = MultiSetImpl(emptyList())
 
 /**
- * Create a MultiSet containing 0 elements.
+ * Create a ConstMultiSet containing 0 elements.
  *
- * @return [MultiSet]<E>
+ * @return [ConstMultiSet]<E>
  */
 fun <E> emptyConstMultiSet(): ConstMultiSet<E> = ConstMultiSetImpl(emptyList())
 
@@ -72,21 +72,21 @@ fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = MultiSetImpl((0 unt
 fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = MutableMultiSetImpl((0 until size).map(init))
 
 /**
- * Create a MultiSet of a given size, using [init] to generate each element in the set.
+ * Create a ConstMultiSet of a given size, using [init] to generate each element in the set.
  *
  * @param size [Int]: size of set to create
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
- * @return [MultiSet]<E>
+ * @return [ConstMultiSet]<E>
  */
 @Suppress("FunctionName")
 fun <E> ConstMultiSet(size: Int, init: (Int) -> E): ConstMultiSet<E> = ConstMultiSetImpl((0 until size).map(init))
 
 /**
- * Create a MutableMultiSet of a given size, using [init] to generate each element in the set.
+ * Create a ConstMutableMultiSet of a given size, using [init] to generate each element in the set.
  *
  * @param size [Int]: size of set to create
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
- * @return [MutableMultiSet]<E>
+ * @return [ConstMutableMultiSet]<E>
  */
 @Suppress("FunctionName")
 fun <E> MutableConstMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl((0 until size).map(init))

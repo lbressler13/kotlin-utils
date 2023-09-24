@@ -11,7 +11,7 @@ import kotlin.math.min
  * Behavior is not defined if mutable values are changed.
  */
 @Suppress("EqualsOrHashCode")
-internal class ConstMultiSetManager<E>(private val initialElements: Collection<E>, private val mutable: Boolean) : MultiSetManager<E>() {
+internal class ConstMultiSetManager<E>(private val initialElements: Collection<E>, private val mutable: Boolean) : MultiSetManager<E> {
 
     private val mutableElements: MutableList<E> = mutableListOf()
     private var mutableString: String = ""

@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
 
 /**
  * [MutableMultiSet] implementation where values of elements are assumed to be constant.
- * Behavior is not defined if mutable values are changed.
+ * Behavior is not defined if values of elements are changed.
  */
 abstract class ConstMutableMultiSet<E> protected constructor() : MutableMultiSet<E>, ConstMultiSet<E>() {
     private val constManager: ConstMultiSetManager<E>
