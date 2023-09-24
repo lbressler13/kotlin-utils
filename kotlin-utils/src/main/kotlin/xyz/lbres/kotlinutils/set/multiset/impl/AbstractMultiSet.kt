@@ -9,17 +9,17 @@ import kotlin.math.min
 /**
  * Partial MultiSet implementation with functionality that can be shared by [MultiSetImpl] and [MutableMultiSetImpl].
  */
-internal abstract class AbstractMultiSet<E> : MultiSet<E> {
+sealed class AbstractMultiSet<E> : MultiSet<E> {
     /**
      * All distinct values contained in the MultiSet.
      */
     override val distinctValues: Set<E>
-        get() = values.toSet()
+        get() = elements.toSet()
 
     /**
      * Elements in the set.
      */
-    protected abstract val values: Collection<E>
+    protected abstract val elements: Collection<E>
 
     /**
      * Get the number of occurrences of a given element.
@@ -27,7 +27,7 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    override fun getCountOf(element: E): Int = values.countElement(element)
+    override fun getCountOf(element: E): Int = elements.countElement(element)
 
     /**
      * Determine if an element is contained in the current set.
@@ -35,7 +35,7 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
      * @param element [E]
      * @return [Boolean]: `true` if [element] is in the set, `false` otherwise
      */
-    override fun contains(element: E): Boolean = values.contains(element)
+    override fun contains(element: E): Boolean = elements.contains(element)
 
     /**
      * Determine if all elements in a collection are contained in the current set.
@@ -146,9 +146,9 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
      * Create a mapping of each element in the set to the number of occurrences of the element.
      *
      * @return [Map]<E, Int>: mapping where keys are distinct elements in the set,
-     * and values are the number of occurrences of the element in [values]
+     * and values are the number of occurrences of the element in [elements]
      */
-    protected fun getCounts(): Map<E, Int> = getCounts(values)
+    protected fun getCounts(): Map<E, Int> = getCounts(elements)
 
     /**
      * Create a mapping of each element in a collection to the number of occurrences of the element.
@@ -177,7 +177,7 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
      *
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
-    override fun isEmpty(): Boolean = values.isEmpty()
+    override fun isEmpty(): Boolean = elements.isEmpty()
 
     /**
      * Get a string representation of the set.
@@ -185,11 +185,11 @@ internal abstract class AbstractMultiSet<E> : MultiSet<E> {
      * @return [String]
      */
     override fun toString(): String {
-        if (values.isEmpty()) {
+        if (elements.isEmpty()) {
             return "[]"
         }
 
-        val elementsString = values.joinToString(", ")
+        val elementsString = elements.joinToString(", ")
         return "[$elementsString]"
     }
 

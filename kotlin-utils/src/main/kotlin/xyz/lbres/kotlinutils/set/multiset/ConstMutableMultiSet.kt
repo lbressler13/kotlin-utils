@@ -7,33 +7,34 @@ import kotlin.math.min
  * [MutableMultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed.
  */
-abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Collection<E>) : MutableMultiSet<E>, ConstMultiSet<E>(initialElements) {
+class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E>) : MutableMultiSet<E>, ConstMultiSet<E>(initialElements) {
+    /**
+     * If all properties are updated with the recent changes to the counts map
+     */
+    private var allPropertiesUpdated: Boolean = false
+
+    // elements list is up-to-date only when allPropertiesUpdated == true
     private var _elements: MutableList<E> = initialElements.toMutableList()
     override val elements: Collection<E>
-        get() = _elements
+        get() {
+            updateMutableValues() // update elements before returning value
+            return _elements
+        }
 
-    private var elementsUpdated: Boolean = false
-
+    // string is up-to-date only when allPropertiesUpdated == true
     private var _string: String = ""
     override val string: String
         get() {
-            updateMutableValues()
+            updateMutableValues() // update string before returning value
             return _string
         }
 
-    override val size: Int
-        get() = _size
-
+    // override property to get values from mutable map
     override val distinctValues: Set<E>
-        get() {
-            updateMutableValues()
-            return counts.keys
-        }
+        get() = counts.keys
 
+    // override property to allow changing keys and values
     override val counts: MutableMap<E, Int> = createCounts(initialElements).toMutableMap()
-
-    // private val constManager: ConstMultiSetManager<E>
-    // get() = manager as ConstMultiSetManager<E>
 
     /**
      * Create a new MutableMultiSet with all values from both sets.
@@ -43,7 +44,6 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param other [MultiSet]<E>: values to add to this set
      * @return [MutableMultiSet]<E>: MutableMultiSet containing all values from both sets
      */
-    // override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> = constManager.plus(other).toMutableMultiSet()
     override operator fun plus(other: MultiSet<E>): MultiSet<E> = super<ConstMultiSet>.plus(other)
 
     /**
@@ -54,7 +54,6 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param other [MutableMultiSet]<E>: values to subtract from this set
      * @return [MultiSet]<E>: MultiSet containing the items in this set but not the other
      */
-    // override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> = constManager.minus(other).toMutableMultiSet()
     override operator fun minus(other: MultiSet<E>): MultiSet<E> = super<ConstMultiSet>.minus(other)
 
     /**
@@ -65,7 +64,6 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param other [MultiSet]<E>: MultiSet to intersect with current
      * @return [MutableMultiSet]<E>: MultiSet containing only values that are in both set
      */
-    // override infix fun intersect(other: MultiSet<E>): MutableMultiSet<E> = constManager.intersect(other).toMutableMultiSet()
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> = super<ConstMultiSet>.intersect(other)
 
     /**
@@ -74,11 +72,10 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param element [E]
      * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
-    // override fun add(element: E): Boolean = constManager.add(element)
     override fun add(element: E): Boolean {
         counts[element] = getCountOf(element) + 1
         _size++
-        elementsUpdated = false
+        allPropertiesUpdated = false
         return true
     }
 
@@ -89,10 +86,9 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param elements [Collection]<E>
      * @return [Boolean]: `true` if any elements have been added successfully, `false` otherwise
      */
-    // override fun addAll(elements: Collection<E>): Boolean = constManager.addAll(elements)
     override fun addAll(elements: Collection<E>): Boolean {
         elements.forEach(this::add)
-        elementsUpdated = false
+        allPropertiesUpdated = false
         return true
     }
 
@@ -102,9 +98,8 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param element [E]
      * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
-    // override fun remove(element: E): Boolean = constManager.remove(element)
     override fun remove(element: E): Boolean {
-        elementsUpdated = false
+        allPropertiesUpdated = false
         return when (getCountOf(element)) {
             0 -> false
             1 -> {
@@ -128,7 +123,6 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param elements [Collection]<E>
      * @return [Boolean]: true if any elements have been removed successfully, false otherwise
      */
-    // override fun removeAll(elements: Collection<E>): Boolean = constManager.removeAll(elements)
     override fun removeAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
             return true
@@ -137,7 +131,7 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
         var anySucceeded = false
         elements.forEach { anySucceeded = remove(it) || anySucceeded }
 
-        elementsUpdated = false
+        allPropertiesUpdated = false
         return anySucceeded
     }
 
@@ -148,9 +142,8 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      * @param elements [Collection]<E>
      * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
-    // override fun retainAll(elements: Collection<E>): Boolean = constManager.retainAll(elements)
     override fun retainAll(elements: Collection<E>): Boolean {
-        elementsUpdated = false
+        allPropertiesUpdated = false
         val elementsSet = MultiSetImpl(elements)
 
         val newCounts: MutableMap<E, Int> = mutableMapOf()
@@ -176,11 +169,10 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
     /**
      * Remove all elements from the set.
      */
-    // override fun clear() { constManager.clear() }
     override fun clear() {
         counts.clear()
         _size = 0
-        elementsUpdated = false
+        allPropertiesUpdated = false
     }
 
     /**
@@ -188,26 +180,23 @@ abstract class ConstMutableMultiSet<E> protected constructor(initialElements: Co
      *
      * @return [MutableIterator]<E>
      */
-    // override fun iterator(): MutableIterator<E> = constManager.iterator() as MutableIterator<E>
     override fun iterator(): MutableIterator<E> {
         updateMutableValues()
         return _elements.iterator()
     }
 
+    /**
+     * Update the elements list and string based on the current values in the counts map
+     */
     private fun updateMutableValues() {
-        if (!elementsUpdated) {
+        if (!allPropertiesUpdated) {
             _elements.clear()
             counts.forEach {
                 repeat(it.value) { _ -> _elements.add(it.key) }
             }
             _string = createString(counts)
 
-            elementsUpdated = true
+            allPropertiesUpdated = true
         }
     }
-
-//    override fun toString(): String {
-//        updateMutableValues()
-//        return string
-//    }
 }

@@ -8,33 +8,34 @@ import kotlin.math.min
  * [MultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed.
  */
-abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
+abstract class ConstMultiSet<E> internal constructor(initialElements: Collection<E>) : MultiSet<E> {
     /**
      * Number of elements in set.
      */
     protected var _size: Int = initialElements.size
     override val size: Int
         get() = _size
-    // get() = constManager.size
+
+    /**
+     * Map where key is an element in the set, and value is the number of occurrences of the element in the set.
+     * Counts are guaranteed to be greater than 0.
+     */
+    protected open val counts: Map<E, Int> = createCounts(initialElements)
 
     /**
      * All distinct values contained in the set.
      */
     override val distinctValues: Set<E> = createCounts(initialElements).keys
-    // get() = constManager.distinctValues
-
-    protected open val string: String = createString(createCounts(initialElements))
-
-    protected open val elements: Collection<E> = initialElements
-
-    protected open val counts: Map<E, Int> = createCounts(initialElements)
 
     /**
-     * Manager for the set.
+     * String representation of the set
      */
-    // abstract val manager: MultiSetManager<E>
-    // private val constManager: ConstMultiSetManager<E>
-    // get() = manager as ConstMultiSetManager<E>
+    protected open val string: String = createString(createCounts(initialElements))
+
+    /**
+     * All elements in the set
+     */
+    protected open val elements: Collection<E> = initialElements
 
     /**
      * Get the number of occurrences of a given element.
@@ -42,7 +43,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      * @param element [E]
      * @return [Int]: the number of occurrences of [element]. 0 if the element does not exist.
      */
-    // override fun getCountOf(element: E): Int = constManager.getCountOf(element)
     override fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
 
     /**
@@ -51,7 +51,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      * @param element [E]
      * @return [Boolean]: `true` if [element] is in the set, `false` otherwise
      */
-    // override fun contains(element: E): Boolean = constManager.contains(element)
     override fun contains(element: E): Boolean = counts.contains(element)
 
     /**
@@ -61,7 +60,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      * @param elements [Collection]<E>
      * @return [Boolean]: `true` if the current set contains at least as many occurrences of each value as the collection, `false` otherwise
      */
-    // override fun containsAll(elements: Collection<E>): Boolean = constManager.containsAll(elements)
     override fun containsAll(elements: Collection<E>): Boolean {
         val otherCounts = createCounts(elements)
 
@@ -78,7 +76,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      * @param other [MultiSet]<E>: values to add to this set
      * @return [MultiSet]<E>: MultiSet containing all values from both sets
      */
-    // override operator fun plus(other: MultiSet<E>): MultiSet<E> = constManager.plus(other)
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
         val values = distinctValues + other.distinctValues
 
@@ -97,7 +94,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      * @param other [MultiSet]<E>: values to subtract from this set
      * @return [MultiSet]<E>: MultiSet containing the items in this set but not the other
      */
-    // override operator fun minus(other: MultiSet<E>): MultiSet<E> = constManager.minus(other)
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
         val values = distinctValues + other.distinctValues
 
@@ -116,7 +112,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      * @param other [MultiSet]<E>: MultiSet to intersect with current
      * @return [MultiSet]<E>: MultiSet containing only values that are in both set
      */
-    // override infix fun intersect(other: MultiSet<E>): MultiSet<E> = constManager.intersect(other)
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
         val values = distinctValues intersect other.distinctValues
 
@@ -132,7 +127,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      *
      * @return [Boolean]: true if the set contains 0 elements, false otherwise
      */
-    // override fun isEmpty(): Boolean = constManager.isEmpty()
     override fun isEmpty(): Boolean = size == 0
 
     /**
@@ -141,7 +135,6 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      * @param other [Any]?
      * @return [Boolean]: `true` if [other] is a non-null MultiSet which contains the same values as the current set, `false` otherwise
      */
-    // override fun equals(other: Any?): Boolean = constManager.eq(other)
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is MultiSet<*>) {
             return false
@@ -156,18 +149,10 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
     }
 
     /**
-     * Get hash code for set.
-     *
-     * @return [Int]
-     */
-    // override fun hashCode(): Int = constManager.hashCode()
-
-    /**
      * Get a string representation of the set.
      *
      * @return [String]
      */
-    // override fun toString(): String = constManager.toString()
     override fun toString(): String = string
 
     /**
@@ -175,21 +160,42 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
      *
      * @return [Iterator]<E>
      */
-    // override fun iterator(): Iterator<E> = constManager.iterator()
     override fun iterator(): Iterator<E> = elements.iterator()
 
-    protected fun createCounts(values: Collection<E>): Map<E, Int> {
-        val newCounts: MutableMap<E, Int> = mutableMapOf()
-
-        values.forEach {
-            newCounts[it] = newCounts.getOrDefault(it, 0) + 1
-        }
-
-        return newCounts
+    /**
+     * Get hash code for set.
+     *
+     * @return [Int]
+     */
+    override fun hashCode(): Int {
+        val hashCode = counts.hashCode()
+        return 31 * hashCode + MultiSet::class.java.name.hashCode()
     }
 
+    /**
+     * Create a counts map from a collection of values
+     *
+     * @param values [Collection]<E>: values to include in map
+     * @return [Map]<E, Int>: generated map
+     */
+    protected fun createCounts(values: Collection<E>): Map<E, Int> {
+        val valuesCounts: MutableMap<E, Int> = mutableMapOf()
+
+        values.forEach {
+            valuesCounts[it] = valuesCounts.getOrDefault(it, 0) + 1
+        }
+
+        return valuesCounts
+    }
+
+    /**
+     * Create a string representation of a counts map
+     *
+     * @param values [Map]<E, Int>: map to use in creating string
+     * @return [String]: string representation of [values]
+     */
     protected fun createString(values: Map<E, Int>): String {
-        if (values.isEmpty() || values.values.all { it == 0 }) {
+        if (values.isEmpty()) {
             return "[]"
         }
 
@@ -197,13 +203,10 @@ abstract class ConstMultiSet<E>(initialElements: Collection<E>) : MultiSet<E> {
         values.forEach { (value, count) ->
             elementsString += "$value, ".repeat(count)
         }
-        elementsString = elementsString.substring(0 until elementsString.lastIndex - 1)
+        elementsString = elementsString.substring(0 until elementsString.lastIndex - 1) // remove trailing ", "
 
         return "[$elementsString]"
     }
-
-    override fun hashCode(): Int {
-        val hashCode = counts.hashCode()
-        return 31 * hashCode + MultiSet::class.java.name.hashCode()
-    }
 }
+
+class ConstMultiSetImpl<E>(initialElements: Collection<E>) : ConstMultiSet<E>(initialElements)

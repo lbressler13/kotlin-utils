@@ -22,7 +22,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
     /**
      * Elements in the set.
      */
-    override val values: Collection<E>
+    override val elements: Collection<E>
         get() = list
 
     /**

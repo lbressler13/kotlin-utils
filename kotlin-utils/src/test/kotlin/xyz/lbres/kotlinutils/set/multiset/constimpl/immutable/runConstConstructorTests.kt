@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.constimpl.immutable
 
 import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.constimpl.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSetImpl
 import kotlin.test.assertEquals
 
 fun runConstConstructorTests() {

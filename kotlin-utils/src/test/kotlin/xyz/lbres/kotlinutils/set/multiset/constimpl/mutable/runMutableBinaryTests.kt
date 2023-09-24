@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset.constimpl.mutable
 
-import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.testimpl.TestMultiSet
 import xyz.lbres.kotlinutils.set.multiset.testimpl.TestMutableMultiSet
@@ -16,22 +15,22 @@ fun runMutableConstMinusTests() {
     // empty
     var intSet1 = constMutableMultiSetOf<Int>()
     var intSet2 = constMutableMultiSetOf<Int>()
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet1 - intSet2)
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet2 - intSet1)
+    assertEquals(constMultiSetOf(), intSet1 - intSet2)
+    assertEquals(constMultiSetOf(), intSet2 - intSet1)
 
     intSet1 = constMutableMultiSetOf(1, 2, 3, 3)
     assertEquals(intSet1, intSet1 - intSet2)
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet2 - intSet1)
+    assertEquals(constMultiSetOf(), intSet2 - intSet1)
 
     // equal
     intSet1 = constMutableMultiSetOf(1, 2, 3, 4, 5)
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet1 - intSet1)
+    assertEquals(constMultiSetOf(), intSet1 - intSet1)
 
     var listSet1 = constMutableMultiSetOf(listOf(1, 2, 3), listOf(456, 789))
-    assertEquals<MultiSet<IntList>>(constMultiSetOf(), listSet1 - listSet1)
+    assertEquals(constMultiSetOf(), listSet1 - listSet1)
 
     var otherSet = constMutableMultiSetOf(1, 2, 3, 4, 5)
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet1 - otherSet)
+    assertEquals(constMultiSetOf(), intSet1 - otherSet)
 
     // all shared
     intSet1 = constMutableMultiSetOf(1, 1, 2, 3, 4, 4, 4)
@@ -116,10 +115,10 @@ fun runMutableConstMinusTests() {
 
 fun runMutableConstPlusTests() {
     // empty
-    var intSet1 = constMultiSetOf<Int>()
-    var intSet2 = constMultiSetOf<Int>()
-    assertEquals(constMultiSetOf(), intSet1 + intSet2)
-    assertEquals(constMultiSetOf(), intSet2 + intSet1)
+    var intSet1: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
+    var intSet2: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
+    assertEquals(emptyMultiSet(), intSet1 + intSet2)
+    assertEquals(emptyMultiSet(), intSet2 + intSet1)
 
     intSet1 = constMutableMultiSetOf(1, 2, 3, 3)
     assertEquals(intSet1, intSet1 + intSet2)
@@ -171,28 +170,28 @@ fun runMutableConstPlusTests() {
 
 fun runMutableConstIntersectTests() {
     // empty
-    var intSet1 = constMultiSetOf<Int>()
+    var intSet1 = constMutableMultiSetOf<Int>()
 
-    var intSet2 = constMultiSetOf<Int>()
+    var intSet2 = constMutableMultiSetOf<Int>()
     assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
 
     intSet2 = constMutableMultiSetOf(1, 2, 3)
     assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet2 intersect intSet1)
+    assertEquals(constMultiSetOf(), intSet2 intersect intSet1)
 
     // none shared
     intSet1 = constMutableMultiSetOf(1, 2, 3)
     intSet2 = constMutableMultiSetOf(4, 5, 6, 7, 8)
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet1 intersect intSet2)
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet2 intersect intSet1)
+    assertEquals(constMultiSetOf(), intSet1 intersect intSet2)
+    assertEquals(constMultiSetOf(), intSet2 intersect intSet1)
 
     var otherSet = TestMutableMultiSet(listOf(4, 5, 6, 7, 8))
-    assertEquals<MultiSet<Int>>(constMultiSetOf(), intSet1 intersect otherSet)
+    assertEquals(constMultiSetOf(), intSet1 intersect otherSet)
 
     var listSet1 = constMutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5))
     var listSet2 = constMutableMultiSetOf(listOf(1, 2), listOf(3, 4, 5))
-    assertEquals<MultiSet<IntList>>(constMultiSetOf(), listSet1 intersect listSet2)
-    assertEquals<MultiSet<IntList>>(constMultiSetOf(), listSet2 intersect listSet1)
+    assertEquals(constMultiSetOf(), listSet1 intersect listSet2)
+    assertEquals(constMultiSetOf(), listSet2 intersect listSet1)
 
     // all shared
     intSet1 = constMutableMultiSetOf(1, 2, 3)

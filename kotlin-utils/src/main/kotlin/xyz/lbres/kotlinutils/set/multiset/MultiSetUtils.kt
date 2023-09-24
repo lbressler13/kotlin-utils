@@ -1,7 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.set.multiset.constimpl.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.constimpl.ConstMutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 
@@ -35,7 +33,7 @@ fun <E> constMultiSetOf(vararg elements: E): ConstMultiSet<E> = ConstMultiSetImp
  * @param elements [E]: variable number of elements to include in set
  * @return [MutableMultiSet]<E>
  */
-fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl(elements.toList())
+fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = ConstMutableMultiSet(elements.toList())
 
 /**
  * Create a MultiSet containing 0 elements.
@@ -89,4 +87,4 @@ fun <E> ConstMultiSet(size: Int, init: (Int) -> E): ConstMultiSet<E> = ConstMult
  * @return [ConstMutableMultiSet]<E>
  */
 @Suppress("FunctionName")
-fun <E> MutableConstMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl((0 until size).map(init))
+fun <E> MutableConstMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSet((0 until size).map(init))
