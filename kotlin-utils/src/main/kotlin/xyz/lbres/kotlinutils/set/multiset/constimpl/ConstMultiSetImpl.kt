@@ -8,6 +8,6 @@ import xyz.lbres.kotlinutils.set.multiset.manager.ConstMultiSetManager
  *
  * @param elements [Collection]<E>: elements in the set
  */
-internal class ConstMultiSetImpl<E>(elements: Collection<E>) : ConstMultiSet<E>() {
-    override val manager: ConstMultiSetManager<E> = ConstMultiSetManager(elements, false)
+internal class ConstMultiSetImpl<E>(elements: Collection<E>) : ConstMultiSet<E>(elements) {
+    // override val manager: ConstMultiSetManager<E> = ConstMultiSetManager(elements, false)
 }

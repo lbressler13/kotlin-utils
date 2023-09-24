@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 import kotlin.math.min
 
 /**
@@ -136,7 +137,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
             getCountOf(it) + other.getCountOf(it)
         }
 
-        return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
+        return simpleIf(mutable, { MutableMultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
     operator fun minus(other: MultiSet<E>): MultiSet<E> {
@@ -145,7 +146,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         val newCounts = values.associateWith {
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
-        return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
+        return simpleIf(mutable, { MutableMultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
     infix fun intersect(other: MultiSet<E>): MultiSet<E> {
@@ -154,7 +155,7 @@ internal class ConstMultiSetManager<E>(private val initialElements: Collection<E
         val newCounts = values.associateWith {
             min(getCountOf(it), other.getCountOf(it))
         }
-        return simpleIf(mutable, { MultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
+        return simpleIf(mutable, { MutableMultiSetImpl(newCounts) }, { MultiSetImpl(newCounts) })
     }
 
     fun isEmpty(): Boolean = size == 0

@@ -35,7 +35,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
     /**
      * Initialize set from existing counts.
      */
-    private constructor(counts: Map<E, Int>) {
+    internal constructor(counts: Map<E, Int>) {
         list = mutableListOf()
 
         counts.forEach {
