@@ -4,11 +4,19 @@ import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.math.min
 
+// TODO decide final package placement
+
 /**
  * [MultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed.
  */
-abstract class ConstMultiSet<E> internal constructor(initialElements: Collection<E>) : MultiSet<E> {
+class ConstMultiSetImpl<E>(initialElements: Collection<E>) : ConstMultiSet<E>(initialElements)
+
+/**
+ * Abstract [MultiSet] implementation where values of elements are assumed to be constant.
+ * Behavior is not defined if values of elements are changed.
+ */
+sealed class ConstMultiSet<E> constructor(initialElements: Collection<E>) : MultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -16,8 +24,11 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
     override val size: Int
         get() = _size
 
+    // counts map generated during initialization, to prevent repeated calls to createCounts
+    private var initialCounts: Map<E, Int>? = null
+
     /**
-     * Map where key is an element in the set, and value is the number of occurrences of the element in the set.
+     * Map where each key is an element in the set, and each value is the number of occurrences of the element in the set.
      * Counts are guaranteed to be greater than 0.
      */
     protected open val counts: Map<E, Int> = createCounts(initialElements)
@@ -25,12 +36,12 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
     /**
      * All distinct values contained in the set.
      */
-    override val distinctValues: Set<E> = createCounts(initialElements).keys
+    override val distinctValues: Set<E> = (initialCounts ?: createCounts(initialElements)).keys
 
     /**
      * String representation of the set
      */
-    protected open val string: String = createString(createCounts(initialElements))
+    protected open val string: String = createString(initialCounts ?: createCounts(initialElements))
 
     /**
      * All elements in the set
@@ -63,8 +74,8 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
     override fun containsAll(elements: Collection<E>): Boolean {
         val otherCounts = createCounts(elements)
 
-        return otherCounts.all {
-            it.value <= getCountOf(it.key)
+        return otherCounts.all { (element, otherCount) ->
+            otherCount <= getCountOf(element)
         }
     }
 
@@ -95,9 +106,7 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
      * @return [MultiSet]<E>: MultiSet containing the items in this set but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        val values = distinctValues + other.distinctValues
-
-        val newCounts = values.associateWith {
+        val newCounts = distinctValues.associateWith {
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
 
@@ -125,7 +134,7 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
     /**
      * If the current set contains 0 elements.
      *
-     * @return [Boolean]: true if the set contains 0 elements, false otherwise
+     * @return [Boolean]: `true` if the set contains 0 elements, `false` otherwise
      */
     override fun isEmpty(): Boolean = size == 0
 
@@ -143,7 +152,6 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
         return tryOrDefault(false) {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
-
             distinctValues == other.distinctValues && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
         }
     }
@@ -185,6 +193,10 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
             valuesCounts[it] = valuesCounts.getOrDefault(it, 0) + 1
         }
 
+        if (initialCounts == null) {
+            initialCounts = valuesCounts
+        }
+
         return valuesCounts
     }
 
@@ -208,5 +220,3 @@ abstract class ConstMultiSet<E> internal constructor(initialElements: Collection
         return "[$elementsString]"
     }
 }
-
-class ConstMultiSetImpl<E>(initialElements: Collection<E>) : ConstMultiSet<E>(initialElements)

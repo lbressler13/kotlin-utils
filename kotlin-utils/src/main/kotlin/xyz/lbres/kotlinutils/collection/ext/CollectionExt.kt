@@ -19,7 +19,7 @@ fun <E> Collection<E>.toMultiSet(): MultiSet<E> = MultiSetImpl(this)
 /**
  * Create a MutableMultiSet with the elements in the current collection.
  *
- * @return [MultiSet]<E>
+ * @return [MutableMultiSet]<E>
  */
 fun <E> Collection<E>.toMutableMultiSet(): MutableMultiSet<E> = MutableMultiSetImpl(this)
 

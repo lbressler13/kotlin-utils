@@ -130,6 +130,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
         return true
     }
 
+    // TODO do these operators need to be mutable?
     /**
      * Create a new MultiSet with values that are in this set but not the other set.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.

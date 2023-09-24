@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.math.min
 
 /**
@@ -33,38 +32,8 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
     override val distinctValues: Set<E>
         get() = counts.keys
 
-    // override property to allow changing keys and values
+    // override property to allow changes to keys and values
     override val counts: MutableMap<E, Int> = createCounts(initialElements).toMutableMap()
-
-    /**
-     * Create a new MutableMultiSet with all values from both sets.
-     * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this set.
-     * The returned set is **not** a ConstMultiSet.
-     *
-     * @param other [MultiSet]<E>: values to add to this set
-     * @return [MutableMultiSet]<E>: MutableMultiSet containing all values from both sets
-     */
-    override operator fun plus(other: MultiSet<E>): MultiSet<E> = super<ConstMultiSet>.plus(other)
-
-    /**
-     * Create a new MutableMultiSet with values that are in this set but not the other set.
-     * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this set.
-     * The returned set is **not** a ConstMultiSet.
-     *
-     * @param other [MutableMultiSet]<E>: values to subtract from this set
-     * @return [MultiSet]<E>: MultiSet containing the items in this set but not the other
-     */
-    override operator fun minus(other: MultiSet<E>): MultiSet<E> = super<ConstMultiSet>.minus(other)
-
-    /**
-     * Create a new MutableMultiSet with values that are shared between the sets.
-     * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
-     * The returned set is **not** a ConstMultiSet.
-     *
-     * @param other [MultiSet]<E>: MultiSet to intersect with current
-     * @return [MutableMultiSet]<E>: MultiSet containing only values that are in both set
-     */
-    override infix fun intersect(other: MultiSet<E>): MultiSet<E> = super<ConstMultiSet>.intersect(other)
 
     /**
      * Add one occurrence of the specified element to the set.
@@ -73,9 +42,9 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
     override fun add(element: E): Boolean {
+        allPropertiesUpdated = false
         counts[element] = getCountOf(element) + 1
         _size++
-        allPropertiesUpdated = false
         return true
     }
 
@@ -87,8 +56,8 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      * @return [Boolean]: `true` if any elements have been added successfully, `false` otherwise
      */
     override fun addAll(elements: Collection<E>): Boolean {
-        elements.forEach(this::add)
         allPropertiesUpdated = false
+        elements.forEach(this::add)
         return true
     }
 
@@ -99,20 +68,15 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
     override fun remove(element: E): Boolean {
-        allPropertiesUpdated = false
-        return when (getCountOf(element)) {
-            0 -> false
-            1 -> {
-                counts.remove(element)
-                _size--
-                true
-            }
-            else -> {
-                counts[element] = getCountOf(element) - 1
-                _size--
-                true
-            }
+        when (getCountOf(element)) {
+            0 -> return false
+            1 -> counts.remove(element)
+            else -> counts[element] = getCountOf(element) - 1
         }
+
+        allPropertiesUpdated = false
+        _size--
+        return true
     }
 
     /**
@@ -130,8 +94,8 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
 
         var anySucceeded = false
         elements.forEach { anySucceeded = remove(it) || anySucceeded }
+        allPropertiesUpdated = allPropertiesUpdated || anySucceeded
 
-        allPropertiesUpdated = false
         return anySucceeded
     }
 
@@ -144,23 +108,20 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      */
     override fun retainAll(elements: Collection<E>): Boolean {
         allPropertiesUpdated = false
-        val elementsSet = MultiSetImpl(elements)
+        val elementsCounts = createCounts(elements)
 
-        val newCounts: MutableMap<E, Int> = mutableMapOf()
-
-        distinctValues.forEach {
-            val newCount = min(getCountOf(it), elementsSet.getCountOf(it))
-            if (newCount != 0) {
-                newCounts[it] = newCount
-            }
+        val newCounts = distinctValues.associateWith {
+            min(getCountOf(it), elementsCounts.getOrDefault(it, 0))
         }
 
         counts.clear()
         _size = 0
 
-        newCounts.forEach {
-            counts[it.key] = it.value
-            _size += it.value
+        newCounts.forEach { (element, count) ->
+            if (count > 0) {
+                counts[element] = count
+                _size += count
+            }
         }
 
         return true
@@ -191,8 +152,8 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
     private fun updateMutableValues() {
         if (!allPropertiesUpdated) {
             _elements.clear()
-            counts.forEach {
-                repeat(it.value) { _ -> _elements.add(it.key) }
+            counts.forEach { (element, count) ->
+                repeat(count) { _elements.add(element) }
             }
             _string = createString(counts)
 

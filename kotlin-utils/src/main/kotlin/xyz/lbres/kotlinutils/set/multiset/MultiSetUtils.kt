@@ -20,18 +20,18 @@ fun <E> multiSetOf(vararg elements: E): MultiSet<E> = MultiSetImpl(elements.toLi
 fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = MutableMultiSetImpl(elements.toList())
 
 /**
- * Create a MultiSet containing the given elements.
+ * Create a ConstMultiSet containing the given elements.
  *
  * @param elements [E]: variable number of elements to include in set
- * @return [MultiSet]<E>
+ * @return [ConstMultiSet]<E>
  */
 fun <E> constMultiSetOf(vararg elements: E): ConstMultiSet<E> = ConstMultiSetImpl(elements.toList())
 
 /**
- * Create a MutableMultiSet containing the given elements.
+ * Create a ConstMutableMultiSet containing the given elements.
  *
  * @param elements [E]: variable number of elements to include in set
- * @return [MutableMultiSet]<E>
+ * @return [ConstMutableMultiSet]<E>
  */
 fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = ConstMutableMultiSet(elements.toList())
 
