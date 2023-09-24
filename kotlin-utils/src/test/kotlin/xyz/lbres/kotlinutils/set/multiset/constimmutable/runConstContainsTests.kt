@@ -1,11 +1,11 @@
-package xyz.lbres.kotlinutils.set.multiset.constimpl.immutable
+package xyz.lbres.kotlinutils.set.multiset.constimmutable
 
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 fun runConstContainsTests() {
-    var set: ConstMultiSet<Int> = constMultiSetOf()
+    var set: ConstMultiSet<Int> = emptyConstMultiSet()
     assertFalse(set.contains(0))
     assertFalse(set.contains(1000))
     assertFalse(set.contains(-1000))
@@ -31,7 +31,7 @@ fun runConstContainsTests() {
 
 fun runConstContainsAllTests() {
     // equal
-    var set1: ConstMultiSet<Int> = constMultiSetOf()
+    var set1: ConstMultiSet<Int> = emptyConstMultiSet()
     assertTrue(set1.containsAll(set1))
 
     set1 = constMultiSetOf(-445)
@@ -50,7 +50,7 @@ fun runConstContainsAllTests() {
 
     // subset
     set1 = constMultiSetOf(1)
-    set2 = constMultiSetOf()
+    set2 = emptyConstMultiSet()
     assertTrue(set1.containsAll(set2))
     assertFalse(set2.containsAll(set1))
 

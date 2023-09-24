@@ -6,6 +6,8 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.constMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.constMutableMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.emptyConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
 import kotlin.test.Test
@@ -18,7 +20,7 @@ class CollectionExtTest {
     @Test
     fun testToMultiSet() {
         var collection: Collection<Int> = emptyList()
-        var expected: MultiSet<Int> = multiSetOf()
+        var expected: MultiSet<Int> = emptyMultiSet()
         assertEquals(expected, collection.toMultiSet())
 
         expected = multiSetOf(1, 2, 3)
@@ -70,7 +72,7 @@ class CollectionExtTest {
     @Test
     fun testToConstMultiSet() {
         var collection: Collection<Int> = emptyList()
-        var expected: ConstMultiSet<Int> = constMultiSetOf()
+        var expected: ConstMultiSet<Int> = emptyConstMultiSet()
         assertEquals(expected, collection.toConstMultiSet())
 
         expected = constMultiSetOf(1, 2, 3)

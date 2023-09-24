@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.set.multiset.constimpl.immutable.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.constimmutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -22,13 +22,13 @@ class ConstMultiSetTest {
 
     @Test
     fun testIterator() {
-        var set: ConstMultiSet<Int> = constMultiSetOf()
+        var set: ConstMultiSet<Int> = emptyConstMultiSet()
         var iter = set.iterator()
         assertFalse(iter.hasNext())
 
         set = constMultiSetOf(1, 2, 3, 4)
         iter = set.iterator()
-        var values: MutableList<Int> = mutableListOf()
+        val values: MutableList<Int> = mutableListOf()
         var expected = listOf(1, 2, 3, 4)
         while (iter.hasNext()) {
             values.add(iter.next())
@@ -37,17 +37,14 @@ class ConstMultiSetTest {
 
         set = constMultiSetOf(1, 2, 3, 4, 1, 4, 5)
         iter = set.iterator()
-        values = mutableListOf()
+        values.clear()
         expected = listOf(1, 1, 2, 3, 4, 4, 5)
         while (iter.hasNext()) {
             values.add(iter.next())
         }
         assertEquals(expected.sorted(), values.sorted())
 
-        val list1 = mutableListOf(1, 2, 3)
-        val list2 = mutableListOf(0, 5, 7)
-        val listSet: ConstMultiSet<IntList> = constMultiSetOf(list1, list2)
-
+        val listSet = constMultiSetOf(listOf(1, 2, 3), listOf(0, 5, 7))
         val listIter = listSet.iterator()
         val listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
         val listValues: MutableList<IntList> = mutableListOf()
@@ -59,7 +56,7 @@ class ConstMultiSetTest {
 
     @Test
     fun testToString() {
-        var set: ConstMultiSet<Int> = constMultiSetOf()
+        var set: ConstMultiSet<Int> = emptyConstMultiSet()
         var expected = "[]"
         assertEquals(expected, set.toString())
 
@@ -75,10 +72,7 @@ class ConstMultiSetTest {
         expected = "[2, 2, 4, 1]"
         assertEquals(expected, set.toString())
 
-        val list1 = listOf(1, 2, 3)
-        val list2 = listOf(0, 5, 7)
-        val listSet: ConstMultiSet<IntList> = constMultiSetOf(list1, list2)
-
+        val listSet = constMultiSetOf(listOf(1, 2, 3), listOf(0, 5, 7))
         expected = "[[1, 2, 3], [0, 5, 7]]"
         assertEquals(expected, listSet.toString())
     }

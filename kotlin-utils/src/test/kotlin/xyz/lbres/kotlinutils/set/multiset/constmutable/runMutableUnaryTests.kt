@@ -1,6 +1,5 @@
-package xyz.lbres.kotlinutils.set.multiset.constimpl.mutable
+package xyz.lbres.kotlinutils.set.multiset.constmutable
 
-import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -54,51 +53,25 @@ fun runMutableConstIsEmptyTests() {
 
 fun runMutableConstGetCountOfTests() {
     var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
-    var expected = 0
-
-    var value = 0
-    assertEquals(expected, set.getCountOf(value))
-
-    value = 100
-    assertEquals(expected, set.getCountOf(value))
+    assertEquals(0, set.getCountOf(0))
+    assertEquals(0, set.getCountOf(100))
 
     set = constMutableMultiSetOf(2)
-
-    value = 2
-    expected = 1
-    assertEquals(expected, set.getCountOf(value))
-
-    value = 1
-    expected = 0
-    assertEquals(expected, set.getCountOf(value))
+    assertEquals(1, set.getCountOf(2))
+    assertEquals(0, set.getCountOf(1))
 
     set = constMutableMultiSetOf(1, 1, 2, 1, -4, 5, 2)
+    assertEquals(3, set.getCountOf(1))
+    assertEquals(2, set.getCountOf(2))
+    assertEquals(1, set.getCountOf(-4))
+    assertEquals(1, set.getCountOf(5))
 
-    value = 1
-    expected = 3
-    assertEquals(expected, set.getCountOf(value))
+    set.add(2)
+    assertEquals(3, set.getCountOf(2))
+    set.remove(5)
+    assertEquals(0, set.getCountOf(5))
 
-    value = 2
-    expected = 2
-    assertEquals(expected, set.getCountOf(value))
-
-    value = -4
-    expected = 1
-    assertEquals(expected, set.getCountOf(value))
-
-    value = 5
-    expected = 1
-    assertEquals(expected, set.getCountOf(value))
-
-    val list1 = listOf(1, 2, 3)
-    val list2 = listOf(1, 2, 3)
-    val listSet: ConstMutableMultiSet<IntList> = constMutableMultiSetOf(list1, list2)
-
-    var listValue = listOf(1, 2, 3)
-    expected = 2
-    assertEquals(expected, listSet.getCountOf(listValue))
-
-    listValue = listOf(1, 2)
-    expected = 0
-    assertEquals(expected, listSet.getCountOf(listValue))
+    val listSet = constMutableMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3))
+    assertEquals(2, listSet.getCountOf(listOf(1, 2, 3)))
+    assertEquals(0, listSet.getCountOf(listOf(1, 2)))
 }

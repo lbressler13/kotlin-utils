@@ -279,6 +279,14 @@ fun runClearTests() {
     assertEquals(mutableMultiSetOf(), set)
 }
 
+/**
+ * Run single test to mutate set
+ *
+ * @param set [ConstMutableMultiSet]<T>: set to be modified in operation
+ * @param expected [ConstMutableMultiSet]<T>: expected state of set after operation
+ * @param success [Boolean]: if operation is expected to succeed
+ * @param op () -> Boolean: operation to perform
+ */
 private fun <T> runSingleMutateTest(
     set: MutableMultiSet<T>,
     expected: MutableMultiSet<T>,

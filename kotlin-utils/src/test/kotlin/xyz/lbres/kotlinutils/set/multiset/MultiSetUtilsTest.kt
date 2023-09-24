@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 class MultiSetUtilsTest {
     @Test
     fun testMultiSetOf() {
-        var set: MultiSet<Int> = multiSetOf()
+        var set: MultiSet<Int> = emptyMultiSet()
         var expected: MultiSet<Int> = MultiSetImpl(emptyList())
         assertEquals(expected, set)
 
@@ -70,8 +70,8 @@ class MultiSetUtilsTest {
 
     @Test
     fun testConstMultiSetOf() {
-        var set: MultiSet<Int> = constMultiSetOf()
-        var expected: MultiSet<Int> = ConstMultiSetImpl(emptyList())
+        var set: ConstMultiSet<Int> = emptyConstMultiSet()
+        var expected: ConstMultiSet<Int> = ConstMultiSetImpl(emptyList())
         assertEquals(expected, set)
 
         set = constMultiSetOf(1)
@@ -101,8 +101,8 @@ class MultiSetUtilsTest {
 
     @Test
     fun testMutableConstMultiSetOf() {
-        var set: MutableMultiSet<Int> = constMutableMultiSetOf()
-        var expected: MutableMultiSet<Int> = ConstMutableMultiSet(emptyList())
+        var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
+        var expected: ConstMutableMultiSet<Int> = ConstMutableMultiSet(emptyList())
         assertEquals(expected, set)
 
         set = constMutableMultiSetOf(1)
