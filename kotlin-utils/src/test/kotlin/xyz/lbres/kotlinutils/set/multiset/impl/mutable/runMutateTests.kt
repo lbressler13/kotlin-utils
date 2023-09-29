@@ -282,8 +282,8 @@ fun runClearTests() {
 /**
  * Run single test to mutate set
  *
- * @param set [ConstMutableMultiSet]<T>: set to be modified in operation
- * @param expected [ConstMutableMultiSet]<T>: expected state of set after operation
+ * @param set [MutableMultiSet]<T>: set to be modified in operation
+ * @param expected [MutableMultiSet]<T>: expected state of set after operation
  * @param success [Boolean]: if operation is expected to succeed
  * @param op () -> Boolean: operation to perform
  */

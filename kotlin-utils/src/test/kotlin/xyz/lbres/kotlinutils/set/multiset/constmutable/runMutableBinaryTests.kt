@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-import
 import xyz.lbres.kotlinutils.set.multiset.testutils.TestMultiSet
 import xyz.lbres.kotlinutils.set.multiset.testutils.TestMutableMultiSet
 import kotlin.test.assertEquals
+import kotlin.test.assertIsNot
 
 private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
@@ -15,6 +16,8 @@ fun runMutableConstMinusTests() {
     var intSet2 = constMutableMultiSetOf<Int>()
     assertEquals(emptyConstMultiSet(), intSet1 - intSet2)
     assertEquals(emptyConstMultiSet(), intSet2 - intSet1)
+
+    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
 
     intSet1 = constMutableMultiSetOf(1, 2, 3, 3)
     assertEquals(intSet1, intSet1 - intSet2)
@@ -83,21 +86,21 @@ fun runMutableConstMinusTests() {
 
     val errorSet1: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e2, e1, e1, e2)
     val errorSet2: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e3, e3, e1, e1)
-    var expectedError: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e2, e2)
+    var expectedError: MutableMultiSet<Exception> = constMutableMultiSetOf(e2, e2)
     assertEquals(expectedError, errorSet1 - errorSet2)
     expectedError = constMutableMultiSetOf(e3, e3)
     assertEquals(expectedError, errorSet2 - errorSet1)
 
-    val compListMs1: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-    val compListMs2: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-    var compListExpected: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
-    assertEquals(compListExpected, compListMs1 - compListMs2)
+    val compListSet1: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListSet2: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+    var compListExpected: MutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+    assertEquals(compListExpected, compListSet1 - compListSet2)
     compListExpected = constMutableMultiSetOf(listOf(1, 2, 3), emptyList())
-    assertEquals(compListExpected, compListMs2 - compListMs1)
+    assertEquals(compListExpected, compListSet2 - compListSet1)
 
     val otherCompListSet: TestMutableMultiSet<List<Comparable<*>>> = TestMutableMultiSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
     compListExpected = constMutableMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
-    assertEquals(compListExpected, compListMs1 - otherCompListSet)
+    assertEquals(compListExpected, compListSet1 - otherCompListSet)
 
     // with immutable
     intSet1 = constMutableMultiSetOf(1, 2, 3, 4)
@@ -117,6 +120,8 @@ fun runMutableConstPlusTests() {
     var intSet2: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
     assertEquals(emptyMultiSet(), intSet1 + intSet2)
     assertEquals(emptyMultiSet(), intSet2 + intSet1)
+
+    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
 
     intSet1 = constMutableMultiSetOf(1, 2, 3, 3)
     assertEquals(intSet1, intSet1 + intSet2)
@@ -149,15 +154,15 @@ fun runMutableConstPlusTests() {
 
     val errorSet1: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e2, e1, e2)
     val errorSet2: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e3, e3, e2, e1, e1)
-    val expectedError: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
+    val expectedError: MutableMultiSet<Exception> = constMutableMultiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
     assertEquals(expectedError, errorSet1 + errorSet2)
     assertEquals(expectedError, errorSet2 + errorSet1)
 
-    val compListMs1: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-    val compListMs2: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-    val compListExpected: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-    assertEquals(compListExpected, compListMs1 + compListMs2)
-    assertEquals(compListExpected, compListMs2 + compListMs1)
+    val compListSet1: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    val compListSet2: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+    val compListExpected: MutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    assertEquals(compListExpected, compListSet1 + compListSet2)
+    assertEquals(compListExpected, compListSet2 + compListSet1)
 
     // with immutable
     intSet1 = constMutableMultiSetOf(1, 2, 3)
@@ -172,6 +177,8 @@ fun runMutableConstIntersectTests() {
 
     var intSet2 = constMutableMultiSetOf<Int>()
     assertEquals(emptyConstMultiSet(), intSet1 intersect intSet2)
+
+    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
 
     intSet2 = constMutableMultiSetOf(1, 2, 3)
     assertEquals(emptyConstMultiSet(), intSet1 intersect intSet2)
@@ -223,7 +230,7 @@ fun runMutableConstIntersectTests() {
 
     val errorSet1: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e2, e1, e2)
     val errorSet2: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e3, e3, e2, e1, e1)
-    val expectedError: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e1, e2)
+    val expectedError: MutableMultiSet<Exception> = constMutableMultiSetOf(e1, e1, e2)
     assertEquals(expectedError, errorSet1 intersect errorSet2)
     assertEquals(expectedError, errorSet2 intersect errorSet1)
 

@@ -3,6 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset.constimmutable
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.testutils.TestMultiSet
 import kotlin.test.assertEquals
+import kotlin.test.assertIsNot
 
 private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
@@ -14,6 +15,8 @@ fun runConstMinusTests() {
     var intSet2: ConstMultiSet<Int> = emptyConstMultiSet()
     assertEquals(emptyConstMultiSet(), intSet1 - intSet2)
     assertEquals(emptyConstMultiSet(), intSet2 - intSet1)
+
+    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
 
     intSet1 = constMultiSetOf(1, 2, 3, 3)
     assertEquals(intSet1, intSet1 - emptyConstMultiSet())
@@ -89,7 +92,7 @@ fun runConstMinusTests() {
 
     val compListSet1: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
     val compListSet2: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-    var expectedCompList: ConstMultiSet<List<Comparable<*>>> = constMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+    var expectedCompList: MultiSet<List<Comparable<*>>> = constMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
     assertEquals(expectedCompList, compListSet1 - compListSet2)
     expectedCompList = constMultiSetOf(listOf(1, 2, 3), emptyList())
     assertEquals(expectedCompList, compListSet2 - compListSet1)
@@ -105,6 +108,8 @@ fun runConstPlusTests() {
     var intSet2: ConstMultiSet<Int> = emptyConstMultiSet()
     assertEquals(emptyConstMultiSet(), intSet1 + intSet2)
     assertEquals(emptyConstMultiSet(), intSet2 + intSet1)
+
+    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
 
     // non-empty
     intSet1 = constMultiSetOf(1, 2, 3, 3)
@@ -158,6 +163,8 @@ fun runConstIntersectTests() {
     var intSet2: ConstMultiSet<Int> = emptyConstMultiSet()
     assertEquals(emptyConstMultiSet(), intSet1 intersect intSet2)
 
+    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
+
     intSet2 = constMultiSetOf(1, 2, 3)
     assertEquals(emptyConstMultiSet(), intSet1 intersect intSet2)
     assertEquals(emptyConstMultiSet(), intSet2 intersect intSet1)
@@ -208,7 +215,7 @@ fun runConstIntersectTests() {
 
     val errorSet1: ConstMultiSet<Exception> = constMultiSetOf(e1, e2, e1, e2)
     val errorSet2: ConstMultiSet<Exception> = constMultiSetOf(e1, e3, e3, e2, e1, e1)
-    val expectedError: ConstMultiSet<Exception> = constMultiSetOf(e1, e1, e2)
+    val expectedError: MultiSet<Exception> = constMultiSetOf(e1, e1, e2)
     assertEquals(expectedError, errorSet1 intersect errorSet2)
     assertEquals(expectedError, errorSet2 intersect errorSet1)
 }
