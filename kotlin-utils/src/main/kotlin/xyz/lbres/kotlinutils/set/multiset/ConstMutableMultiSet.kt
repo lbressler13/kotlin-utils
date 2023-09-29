@@ -4,11 +4,11 @@ import kotlin.math.min
 
 /**
  * [MutableMultiSet] implementation where values of elements are assumed to be constant.
- * Behavior is not defined if values of elements are changed.
+ * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
 class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E>) : MutableMultiSet<E>, ConstMultiSet<E>(initialElements) {
     /**
-     * If all properties are updated with the recent changes to the counts map
+     * If all properties are up-to-date with the most recent changes to the counts map
      */
     private var allPropertiesUpdated: Boolean = false
 
@@ -28,12 +28,10 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
             return _string
         }
 
-    // override property to get values from mutable map
+    override val counts: MutableMap<E, Int> = createCounts(initialElements).toMutableMap()
+
     override val distinctValues: Set<E>
         get() = counts.keys
-
-    // override property to allow changes to keys and values
-    override val counts: MutableMap<E, Int> = createCounts(initialElements).toMutableMap()
 
     /**
      * Add one occurrence of the specified element to the set.
@@ -65,7 +63,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      * Remove one occurrence of the specified element from the set, if the element exists.
      *
      * @param element [E]
-     * @return [Boolean]: true if the element has been removed successfully, false otherwise
+     * @return [Boolean]: `true` if the element has been removed successfully, `false` otherwise
      */
     override fun remove(element: E): Boolean {
         when (getCountOf(element)) {
@@ -85,7 +83,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      * If there are multiple occurrences, the value will be removed multiple times.
      *
      * @param elements [Collection]<E>
-     * @return [Boolean]: true if any elements have been removed successfully, false otherwise
+     * @return [Boolean]: `true` if any elements have been removed successfully, `false` otherwise
      */
     override fun removeAll(elements: Collection<E>): Boolean {
         if (elements.isEmpty()) {
@@ -94,7 +92,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
 
         var anySucceeded = false
         elements.forEach { anySucceeded = remove(it) || anySucceeded }
-        allPropertiesUpdated = allPropertiesUpdated || anySucceeded
+        allPropertiesUpdated = allPropertiesUpdated && !anySucceeded
 
         return anySucceeded
     }
@@ -104,10 +102,10 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      * If [elements] contains multiple occurrences of the same value, the value will retain up to that number of occurrences.
      *
      * @param elements [Collection]<E>
-     * @return [Boolean]: true if elements have been retained successfully, false otherwise
+     * @return [Boolean]: `true` if elements have been retained successfully, `false` otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
-        allPropertiesUpdated = false
+        val initialSize = size
         val elementsCounts = createCounts(elements)
 
         val newCounts = distinctValues.associateWith {
@@ -123,6 +121,8 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
                 _size += count
             }
         }
+
+        allPropertiesUpdated = allPropertiesUpdated && size == initialSize
 
         return true
     }
