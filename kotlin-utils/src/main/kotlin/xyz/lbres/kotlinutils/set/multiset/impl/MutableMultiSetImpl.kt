@@ -7,7 +7,7 @@ import kotlin.math.min
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet<E> {
+internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -22,7 +22,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     /**
      * Elements in the set.
      */
-    override val values: Collection<E>
+    override val elements: Collection<E>
         get() = list
 
     /**
@@ -35,7 +35,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     /**
      * Initialize set from existing counts.
      */
-    private constructor(counts: Map<E, Int>) {
+    internal constructor(counts: Map<E, Int>) {
         list = mutableListOf()
 
         counts.forEach {
@@ -111,7 +111,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * Retain only elements that are present in [elements].
      * If [elements] contains multiple occurrences of the same value, the value will retain up to that number of occurrences.
      *
-     * @param elements [Collection<E>]
+     * @param elements [Collection]<E>
      * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
@@ -130,6 +130,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
         return true
     }
 
+    // TODO do these operators need to be mutable?
     /**
      * Create a new MultiSet with values that are in this set but not the other set.
      * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
@@ -138,7 +139,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSetImpl>.minus(other) as MutableMultiSet<E>
+        return super<AbstractMultiSet>.minus(other) as MutableMultiSet<E>
     }
 
     /**
@@ -149,7 +150,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSetImpl>.plus(other) as MutableMultiSet<E>
+        return super<AbstractMultiSet>.plus(other) as MutableMultiSet<E>
     }
 
     /**

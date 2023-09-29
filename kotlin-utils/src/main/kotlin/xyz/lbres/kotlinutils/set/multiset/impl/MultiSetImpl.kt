@@ -2,10 +2,12 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
+// TODO standard multiset cleanup classes
+
 /**
  * Set implementation that allows multiple occurrences of the same value.
  */
-internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
+internal class MultiSetImpl<E> : AbstractMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -14,25 +16,25 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     /**
      * Elements in the set.
      */
-    override val values: Collection<E>
+    override val elements: Collection<E>
 
     /**
      * Initialize set from a collection of values.
      */
     constructor(elements: Collection<E>) {
         size = elements.size
-        this.values = elements
+        this.elements = elements
     }
 
     /**
      * Initialize set from existing counts.
      */
-    private constructor(counts: Map<E, Int>) {
+    internal constructor(counts: Map<E, Int>) {
         size = counts.values.fold(0, Int::plus)
 
-        values = mutableListOf()
+        elements = mutableListOf()
         counts.forEach {
-            repeat(it.value) { _ -> values.add(it.key) }
+            repeat(it.value) { _ -> elements.add(it.key) }
         }
     }
 
@@ -46,5 +48,5 @@ internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
      *
      * @return [Iterator]<E>
      */
-    override fun iterator(): Iterator<E> = values.toList().iterator()
+    override fun iterator(): Iterator<E> = elements.toList().iterator()
 }

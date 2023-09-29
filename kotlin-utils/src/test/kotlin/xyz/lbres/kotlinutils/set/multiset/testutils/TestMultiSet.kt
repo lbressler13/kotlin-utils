@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.testimpl
+package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
