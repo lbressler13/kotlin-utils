@@ -48,8 +48,8 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
         _size = counts.values.fold(0, Int::plus)
 
         initialElements = mutableListOf()
-        counts.forEach {
-            repeat(it.value) { _ -> initialElements.add(it.key) }
+        counts.forEach { (element, count) ->
+            repeat(count) { initialElements.add(element) }
         }
     }
 
@@ -84,8 +84,8 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
         val counts = getCounts()
         val otherCounts = createCountsMap(elements)
 
-        return otherCounts.all {
-            it.key in counts && it.value <= counts[it.key]!!
+        return otherCounts.all { (element, count) ->
+            element in counts && count <= counts[element]!!
         }
     }
 
@@ -162,24 +162,19 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      */
     private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
+        val otherCounts = if (other is AbstractMultiSetImpl<E>) {
+            other.getCounts()
+        } else { null }
 
-        val newCounts: Map<E, Int> = if (other is AbstractMultiSetImpl<E>) {
-            val otherCounts = other.getCounts()
-            val allValues = simpleIf(useAllValues, { counts.keys + otherCounts.keys }, { counts.keys })
+        val getOtherCount: (E) -> Int = {
+            simpleIf(otherCounts != null, { otherCounts!!.getOrDefault(it, 0) }, { other.getCountOf(it) })
+        }
 
-            allValues.associateWith {
-                val count = counts.getOrDefault(it, 0)
-                val otherCount = otherCounts.getOrDefault(it, 0)
-                operation(count, otherCount)
-            }
-        } else {
-            val allValues = simpleIf(useAllValues, { counts.keys + other.distinctValues }, { counts.keys })
-
-            allValues.associateWith {
-                val count = counts.getOrDefault(it, 0)
-                val otherCount = other.getCountOf(it)
-                operation(count, otherCount)
-            }
+        val allValues = simpleIf(useAllValues, { distinctValues + other.distinctValues }, { distinctValues })
+        val newCounts: Map<E, Int> = allValues.associateWith {
+            val count = counts.getOrDefault(it, 0)
+            val otherCount = getOtherCount(it)
+            operation(count, otherCount)
         }
 
         return MultiSetImpl(newCounts.filter { it.value > 0 })
