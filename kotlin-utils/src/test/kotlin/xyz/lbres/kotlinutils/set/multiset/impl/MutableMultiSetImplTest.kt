@@ -3,6 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.mutable.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetMutableIteratorTests
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -30,46 +31,12 @@ class MutableMultiSetImplTest {
 
     @Test
     fun testIterator() {
-        var set: MutableMultiSet<Int> = mutableMultiSetOf()
-        var iter = set.iterator()
-        assertFalse(iter.hasNext())
+        runMultiSetMutableIteratorTests(
+            { ints -> MutableMultiSetImpl(ints) },
+            { intLists -> MutableMultiSetImpl(intLists) },
+        )
 
-        set = mutableMultiSetOf(1, 2, 3, 4)
-        iter = set.iterator()
-        var values: MutableList<Int> = mutableListOf()
-        var expected = listOf(1, 2, 3, 4)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        set = mutableMultiSetOf(1, 2, 3, 4, 1, 4, 5)
-        iter = set.iterator()
-        values = mutableListOf()
-        expected = listOf(1, 1, 2, 3, 4, 4, 5)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        set.add(5)
-        iter = set.iterator()
-        values = mutableListOf()
-        expected = listOf(1, 1, 2, 3, 4, 4, 5, 5)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        set.remove(2)
-        iter = set.iterator()
-        values = mutableListOf()
-        expected = listOf(1, 1, 3, 4, 4, 5, 5)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
+        // mutable elements
         val mutableList1 = mutableListOf(1, 2, 3)
         val mutableList2 = mutableListOf(0, 5, 7)
         val listSet: MutableMultiSet<IntList> = mutableMultiSetOf(mutableList1, mutableList2)

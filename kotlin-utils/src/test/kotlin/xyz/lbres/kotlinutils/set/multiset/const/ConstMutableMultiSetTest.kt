@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.const.constmutable.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.testutils.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -13,12 +14,15 @@ class ConstMutableMultiSetTest {
     @Test fun testContains() = runMutableConstContainsTests()
     @Test fun testContainsAll() = runMutableConstContainsAllTests()
 
-    @Test fun testClear() = runClearTests()
-    @Test fun testAdd() = runAddTests()
-    @Test fun testAddAll() = runAddAllTests()
-    @Test fun testRemove() = runRemoveTests()
-    @Test fun testRemoveAll() = runRemoveAllTests()
-    @Test fun testRetainAll() = runRetainAllTests()
+    @Test fun testClear() =  runMultiSetClearTests { ints -> ConstMutableMultiSet(ints) }
+    @Test fun testAdd() = runMultiSetAddTests(
+        { ints -> ConstMutableMultiSet(ints) },
+        { stringLists -> ConstMutableMultiSet(stringLists) },
+    )
+    @Test fun testAddAll() = runMultiSetAddAllTests { ints -> ConstMutableMultiSet(ints) }
+    @Test fun testRemove() = runMultiSetRemoveTests { ints -> ConstMutableMultiSet(ints) }
+    @Test fun testRemoveAll() = runMultiSetRemoveAllTests { ints -> ConstMutableMultiSet(ints) }
+    @Test fun testRetainAll() = runMultiSetClearTests { ints -> ConstMutableMultiSet(ints) }
 
     @Test fun testMinus() = runMutableConstMinusTests()
     @Test fun testPlus() = runMutableConstPlusTests()
@@ -29,54 +33,10 @@ class ConstMutableMultiSetTest {
 
     @Test
     fun testIterator() {
-        var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
-        var iter = set.iterator()
-        assertFalse(iter.hasNext())
-
-        set = constMutableMultiSetOf(1, 2, 3, 4)
-        iter = set.iterator()
-        val values: MutableList<Int> = mutableListOf()
-        var expected = listOf(1, 2, 3, 4)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        set = constMutableMultiSetOf(1, 2, 3, 4, 1, 4, 5)
-        iter = set.iterator()
-        values.clear()
-        expected = listOf(1, 1, 2, 3, 4, 4, 5)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        set.add(5)
-        iter = set.iterator()
-        values.clear()
-        expected = listOf(1, 1, 2, 3, 4, 4, 5, 5)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        set.remove(2)
-        iter = set.iterator()
-        values.clear()
-        expected = listOf(1, 1, 3, 4, 4, 5, 5)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        val listSet = constMutableMultiSetOf(listOf(1, 2, 3), listOf(0, 5, 7))
-        val listIter = listSet.iterator()
-        val listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
-        val listValues: MutableList<IntList> = mutableListOf()
-        while (listIter.hasNext()) {
-            listValues.add(listIter.next())
-        }
-        assertEquals(listExpected, listValues)
+        runMultiSetMutableIteratorTests(
+            { ints -> ConstMutableMultiSet(ints) },
+            { stringLists -> ConstMutableMultiSet(stringLists) },
+        )
     }
 
     @Test

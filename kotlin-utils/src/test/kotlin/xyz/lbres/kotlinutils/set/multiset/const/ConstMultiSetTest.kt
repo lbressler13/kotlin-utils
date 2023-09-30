@@ -2,6 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.const.constimmutable.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetIteratorTests
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -22,36 +24,10 @@ class ConstMultiSetTest {
 
     @Test
     fun testIterator() {
-        var set: ConstMultiSet<Int> = emptyConstMultiSet()
-        var iter = set.iterator()
-        assertFalse(iter.hasNext())
-
-        set = constMultiSetOf(1, 2, 3, 4)
-        iter = set.iterator()
-        val values: MutableList<Int> = mutableListOf()
-        var expected = listOf(1, 2, 3, 4)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        set = constMultiSetOf(1, 2, 3, 4, 1, 4, 5)
-        iter = set.iterator()
-        values.clear()
-        expected = listOf(1, 1, 2, 3, 4, 4, 5)
-        while (iter.hasNext()) {
-            values.add(iter.next())
-        }
-        assertEquals(expected.sorted(), values.sorted())
-
-        val listSet = constMultiSetOf(listOf(1, 2, 3), listOf(0, 5, 7))
-        val listIter = listSet.iterator()
-        val listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
-        val listValues: MutableList<IntList> = mutableListOf()
-        while (listIter.hasNext()) {
-            listValues.add(listIter.next())
-        }
-        assertEquals(listExpected, listValues)
+        runMultiSetIteratorTests(
+            { ints -> ConstMultiSetImpl(ints) },
+            { intLists -> ConstMultiSetImpl(intLists) }
+        )
     }
 
     @Test
