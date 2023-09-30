@@ -2,32 +2,20 @@ package xyz.lbres.kotlinutils.set.multiset.const.constmutable
 
 import xyz.lbres.kotlinutils.set.multiset.const.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
-import xyz.lbres.kotlinutils.set.multiset.runMutableMultiSetAddTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetAddAllTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetAddTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runSingleMutateTest
 import kotlin.test.assertEquals
 
 fun runAddTests() {
-    runMutableMultiSetAddTests(
+    runMultiSetAddTests(
         { ints -> ConstMutableMultiSet(ints) },
         { stringLists -> ConstMutableMultiSet(stringLists) },
     )
 }
 
 fun runAddAllTests() {
-    var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
-
-    var expected: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
-    runSingleMutateTest(set, expected, true) { set.addAll(emptyList()) }
-
-    expected = constMutableMultiSetOf(4)
-    runSingleMutateTest(set, expected, true) { set.addAll(setOf(4)) }
-
-    expected = constMutableMultiSetOf(1, 2, 3, 4)
-    runSingleMutateTest(set, expected, true) { set.addAll(listOf(1, 2, 3)) }
-
-    set = constMutableMultiSetOf(1, 2, 3)
-    val other = constMutableMultiSetOf(2, 2, 3, 3)
-    expected = constMutableMultiSetOf(1, 2, 2, 2, 3, 3, 3)
-    runSingleMutateTest(set, expected, true) { set.addAll(other) }
+    runMultiSetAddAllTests { ints -> ConstMutableMultiSet(ints) }
 }
 
 fun runRemoveTests() {
@@ -170,24 +158,4 @@ fun runClearTests() {
     set.clear()
     assertEquals(0, set.size)
     assertEquals(constMutableMultiSetOf(), set)
-}
-
-/**
- * Run single test to mutate set
- *
- * @param set [ConstMutableMultiSet]<T>: set to be modified in operation
- * @param expected [ConstMutableMultiSet]<T>: expected state of set after operation
- * @param success [Boolean]: if operation is expected to succeed
- * @param op () -> Boolean: operation to perform
- */
-private fun <T> runSingleMutateTest(
-    set: ConstMutableMultiSet<T>,
-    expected: ConstMutableMultiSet<T>,
-    success: Boolean = true,
-    op: () -> Boolean
-) {
-    val result = op()
-    assertEquals(success, result)
-    assertEquals(expected, set)
-    assertEquals(expected.size, set.size)
 }

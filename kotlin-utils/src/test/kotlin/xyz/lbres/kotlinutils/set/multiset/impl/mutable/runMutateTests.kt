@@ -2,15 +2,20 @@ package xyz.lbres.kotlinutils.set.multiset.impl.mutable
 
 import xyz.lbres.kotlinutils.list.StringList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetAddAllTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetAddTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runSingleMutateTest
 import kotlin.test.assertEquals
 
 fun runAddTests() {
-    runMutableMultiSetAddTests(
+    runMultiSetAddTests(
         { ints -> MutableMultiSetImpl(ints) },
         { stringLists -> MutableMultiSetImpl(stringLists) },
     )
 
+    // mutable elements
     val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("farewell", "goodbye"), listOf("goodbye"))
     val mutableList = mutableListOf("goodbye")
     var listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), listOf("goodbye"))
@@ -22,26 +27,9 @@ fun runAddTests() {
 }
 
 fun runAddAllTests() {
-    var set: MutableMultiSet<Int> = mutableMultiSetOf()
+    runMultiSetAddAllTests { ints -> ConstMutableMultiSet(ints) }
 
-    var other: Collection<Int> = emptyList()
-    var expected: MutableMultiSet<Int> = mutableMultiSetOf()
-    runSingleMutateTest(set, expected, true) { set.addAll(other) }
-
-    other = setOf(4)
-    expected = mutableMultiSetOf(4)
-    runSingleMutateTest(set, expected, true) { set.addAll(other) }
-
-    other = listOf(1, 2, 3)
-    expected = mutableMultiSetOf(1, 2, 3, 4)
-    runSingleMutateTest(set, expected, true) { set.addAll(other) }
-
-    set = mutableMultiSetOf(1, 2, 3)
-    other = mutableMultiSetOf(2, 2, 3, 3)
-    expected = mutableMultiSetOf(1, 2, 2, 2, 3, 3, 3)
-    runSingleMutateTest(set, expected, true) { set.addAll(other) }
-
-    // changed value
+    // mutable elements
     val mutableList1 = mutableListOf("goodbye")
     val mutableList2 = mutableListOf("hello", "world")
     val listSet: MutableMultiSet<StringList> = mutableMultiSetOf(mutableList1, listOf("goodbye"))

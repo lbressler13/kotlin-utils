@@ -1,9 +1,10 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.list.StringList
-import kotlin.test.assertEquals
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 
-fun runMutableMultiSetAddTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>, createMutableStringListSet: (Collection<StringList>) -> MutableMultiSet<StringList>) {
+fun runMultiSetAddTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>, createMutableStringListSet: (Collection<StringList>) -> MutableMultiSet<StringList>) {
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
 
     var expected = multiSetOf(1)
@@ -27,22 +28,20 @@ fun runMutableMultiSetAddTests(createMutableIntSet: (Collection<Int>) -> Mutable
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOf("goodbye")) }
 }
 
-/**
- * Run single test to mutate set
- *
- * @param set [MutableMultiSet]<T>: set to be modified in operation
- * @param expected [MutableMultiSet]<T>: expected state of set after operation
- * @param success [Boolean]: if operation is expected to succeed
- * @param op () -> Boolean: operation to perform
- */
-fun <T> runSingleMutateTest(
-    set: MutableMultiSet<T>,
-    expected: MultiSet<T>,
-    success: Boolean = true,
-    op: () -> Boolean
-) {
-    val result = op()
-    assertEquals(success, result)
-    assertEquals(expected, set)
-    assertEquals(expected.size, set.size)
+fun runMultiSetAddAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+    var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
+
+    var expected: MutableMultiSet<Int> = createMutableIntSet(emptyList())
+    runSingleMutateTest(set, expected, true) { set.addAll(emptyList()) }
+
+    expected = createMutableIntSet(listOf(4))
+    runSingleMutateTest(set, expected, true) { set.addAll(setOf(4)) }
+
+    expected = createMutableIntSet(listOf(1, 2, 3, 4))
+    runSingleMutateTest(set, expected, true) { set.addAll(listOf(1, 2, 3)) }
+
+    set = createMutableIntSet(listOf(1, 2, 3))
+    val other = createMutableIntSet(listOf(2, 2, 3, 3))
+    expected = createMutableIntSet(listOf(1, 2, 2, 2, 3, 3, 3))
+    runSingleMutateTest(set, expected, true) { set.addAll(other) }
 }
