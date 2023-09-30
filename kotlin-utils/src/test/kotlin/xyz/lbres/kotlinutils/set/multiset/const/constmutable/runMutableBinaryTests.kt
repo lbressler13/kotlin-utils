@@ -3,9 +3,10 @@ package xyz.lbres.kotlinutils.set.multiset.const.constmutable
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
-import xyz.lbres.kotlinutils.set.multiset.testutils.TestMultiSet
 import xyz.lbres.kotlinutils.set.multiset.testutils.TestMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetMinusTests
 import kotlin.test.assertEquals
 import kotlin.test.assertIsNot
 
@@ -14,107 +15,14 @@ private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
 fun runMutableConstMinusTests() {
-    // empty
-    var intSet1 = constMutableMultiSetOf<Int>()
-    var intSet2 = constMutableMultiSetOf<Int>()
-    assertEquals(emptyConstMultiSet(), intSet1 - intSet2)
-    assertEquals(emptyConstMultiSet(), intSet2 - intSet1)
-
-    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
-
-    intSet1 = constMutableMultiSetOf(1, 2, 3, 3)
-    assertEquals(intSet1, intSet1 - intSet2)
-    assertEquals(emptyConstMultiSet(), intSet2 - intSet1)
-
-    // equal
-    intSet1 = constMutableMultiSetOf(1, 2, 3, 4, 5)
-    assertEquals(emptyConstMultiSet(), intSet1 - intSet1)
-
-    var listSet1 = constMutableMultiSetOf(listOf(1, 2, 3), listOf(456, 789))
-    assertEquals(emptyConstMultiSet(), listSet1 - listSet1)
-
-    var otherSet = constMutableMultiSetOf(1, 2, 3, 4, 5)
-    assertEquals(emptyConstMultiSet(), intSet1 - otherSet)
-
-    // all shared
-    intSet1 = constMutableMultiSetOf(1, 1, 2, 3, 4, 4, 4)
-    intSet2 = constMutableMultiSetOf(1, 2, 2, 3, 4, 4)
-    var expectedInt = constMutableMultiSetOf(1, 4)
-    assertEquals(expectedInt, intSet1 - intSet2)
-    expectedInt = constMutableMultiSetOf(2)
-    assertEquals(expectedInt, intSet2 - intSet1)
-
-    intSet1 = constMutableMultiSetOf(1, 2, 2, 2, 3, 3, 5, 6, 6, 7)
-    intSet2 = constMutableMultiSetOf(1, 1, 2, 3, 3, 5, 5, 5, 6, 7, 7)
-    expectedInt = constMutableMultiSetOf(2, 2, 6)
-    assertEquals(expectedInt, intSet1 - intSet2)
-    expectedInt = constMutableMultiSetOf(1, 5, 5, 7)
-    assertEquals(expectedInt, intSet2 - intSet1)
-
-    // none shared
-    intSet1 = constMutableMultiSetOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 7, 8)
-    intSet2 = constMutableMultiSetOf(-1, -1, -1, -1, -2, -3, -4, -5, -6, -7, -7, -8)
-    assertEquals(intSet1, intSet1 - intSet2)
-    assertEquals(intSet2, intSet2 - intSet1)
-
-    intSet1 = constMutableMultiSetOf(1, 2, 2, 2, 3, 3, 5, 6, 6, 7)
-    otherSet = constMutableMultiSetOf(1, 1, 2, 3, 3, 5, 5, 5, 6, 7, 7)
-    expectedInt = constMutableMultiSetOf(2, 2, 6)
-    assertEquals(expectedInt, intSet1 - otherSet)
-
-    val stringSet1 = constMutableMultiSetOf("hello", "world", "goodbye", "world", "hello", "goodbye")
-    val stringSet2 = constMutableMultiSetOf("greetings", "planet", "farewell", "planet", "greetings", "farewell")
-    assertEquals(stringSet1, stringSet1 - stringSet2)
-    assertEquals(stringSet2, stringSet2 - stringSet1)
-
-    // some shared
-    intSet1 = constMutableMultiSetOf(1, 1, 2, 3, 4, 5, 5)
-    intSet2 = constMutableMultiSetOf(1, 1, 5, 6, 6, 7)
-    expectedInt = constMutableMultiSetOf(2, 3, 4, 5)
-    assertEquals(expectedInt, intSet1 - intSet2)
-    expectedInt = constMutableMultiSetOf(6, 6, 7)
-    assertEquals(expectedInt, intSet2 - intSet1)
-
-    intSet1 = constMutableMultiSetOf(1, 2, 2, 2, 3, 3, 5, 6, 6, 7)
-    otherSet = constMutableMultiSetOf(1, 1, 2, 3, 3, 5, 5, 5, 6, 7, 7)
-    expectedInt = constMutableMultiSetOf(2, 2, 6)
-    assertEquals(expectedInt, intSet1 - otherSet)
-
-    listSet1 = constMutableMultiSetOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3))
-    val listSet2: ConstMutableMultiSet<List<Int>> = constMutableMultiSetOf(emptyList(), listOf(1, 2, 3))
-    var expectedList = constMutableMultiSetOf(listOf(1, 2, 3), listOf(2, 3, 4))
-    assertEquals(expectedList, listSet1 - listSet2)
-    expectedList = constMutableMultiSetOf(emptyList())
-    assertEquals(expectedList, listSet2 - listSet1)
-
-    val errorSet1: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e2, e1, e1, e2)
-    val errorSet2: ConstMutableMultiSet<Exception> = constMutableMultiSetOf(e1, e3, e3, e1, e1)
-    var expectedError: MutableMultiSet<Exception> = constMutableMultiSetOf(e2, e2)
-    assertEquals(expectedError, errorSet1 - errorSet2)
-    expectedError = constMutableMultiSetOf(e3, e3)
-    assertEquals(expectedError, errorSet2 - errorSet1)
-
-    val compListSet1: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-    val compListSet2: ConstMutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-    var compListExpected: MutableMultiSet<List<Comparable<*>>> = constMutableMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
-    assertEquals(compListExpected, compListSet1 - compListSet2)
-    compListExpected = constMutableMultiSetOf(listOf(1, 2, 3), emptyList())
-    assertEquals(compListExpected, compListSet2 - compListSet1)
-
-    val otherCompListSet: TestMutableMultiSet<List<Comparable<*>>> = TestMutableMultiSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
-    compListExpected = constMutableMultiSetOf(listOf("abc", "def"), listOf("abc", "def"))
-    assertEquals(compListExpected, compListSet1 - otherCompListSet)
-
-    // with immutable
-    intSet1 = constMutableMultiSetOf(1, 2, 3, 4)
-    val immutable = multiSetOf(1, 4, 4, 5)
-    expectedInt = constMutableMultiSetOf(2, 3)
-    assertEquals(expectedInt, intSet1 - immutable)
-
-    intSet1 = constMutableMultiSetOf(1, 2, 3, 4)
-    val immutableOther = TestMultiSet(multiSetOf(1, 4, 4, 5))
-    expectedInt = constMutableMultiSetOf(2, 3)
-    assertEquals(expectedInt, intSet1 - immutableOther)
+    runMultiSetMinusTests(
+        { ConstMutableMultiSet(it) },
+        { ConstMutableMultiSet(it) },
+        { ConstMutableMultiSet(it) },
+        { ConstMutableMultiSet(it) },
+        { ConstMutableMultiSet(it) },
+        { MultiSetImpl(it) }
+    )
 }
 
 fun runMutableConstPlusTests() {

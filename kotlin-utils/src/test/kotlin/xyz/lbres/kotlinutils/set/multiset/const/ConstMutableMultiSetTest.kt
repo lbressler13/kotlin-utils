@@ -27,10 +27,7 @@ class ConstMutableMultiSetTest {
     @Test fun testIsEmpty() = runMultiSetMutableIsEmptyTests({ MutableMultiSetImpl(it) }, { MutableMultiSetImpl(it) })
     @Test fun testGetCountOf() = runMultiSetMutableGetCountOfTests({ MutableMultiSetImpl(it) }, { MutableMultiSetImpl(it) })
 
-    @Test
-    fun testIterator() {
-        runMultiSetMutableIteratorTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
-    }
+    @Test fun testIterator() = runMultiSetMutableIteratorTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
 
     @Test
     fun testToString() {

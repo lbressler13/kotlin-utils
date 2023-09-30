@@ -2,6 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
+// TODO delete these -- use const/standard instead
+
 /**
  * Alternate MultiSet implementation to use in testing
  */
