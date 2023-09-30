@@ -4,10 +4,9 @@ import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
-import xyz.lbres.kotlinutils.set.multiset.testutils.TestMultiSet
-import xyz.lbres.kotlinutils.set.multiset.testutils.TestMutableMultiSet
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -31,7 +30,7 @@ fun runConstEqualsTests() {
     assertEquals(set1, set2)
     assertEquals(set2, set1)
 
-    var otherSet = TestMultiSet(listOf(1, 2, 3))
+    var otherSet = MultiSetImpl(listOf(1, 2, 3))
     assertEquals<MultiSet<Int>>(set1, otherSet)
 
     // not equals
@@ -51,7 +50,7 @@ fun runConstEqualsTests() {
     assertNotEquals(set2, set1)
 
     set1 = constMultiSetOf(-1, 3, 1, -3)
-    otherSet = TestMultiSet(listOf(2, -2))
+    otherSet = MultiSetImpl(listOf(2, -2))
     assertNotEquals<MultiSet<Int>>(set1, otherSet)
 
     // other type
@@ -71,7 +70,7 @@ fun runConstEqualsTests() {
 
     assertFalse(stringSet1 == set1)
 
-    val otherListSet = TestMultiSet(listOf(listOf(12)))
+    val otherListSet = MultiSetImpl(listOf(listOf(12)))
     assertNotEquals<MultiSet<IntList>>(listSet2, otherListSet)
 
     // mutable
@@ -82,6 +81,6 @@ fun runConstEqualsTests() {
     mutableSet = mutableMultiSetOf(1)
     assertNotEquals<MultiSet<Int>>(set1, mutableSet)
 
-    mutableSet = TestMutableMultiSet(listOf(1, 2, 3))
+    mutableSet = ConstMutableMultiSet(listOf(1, 2, 3))
     assertEquals<MultiSet<Int>>(set1, mutableSet)
 }

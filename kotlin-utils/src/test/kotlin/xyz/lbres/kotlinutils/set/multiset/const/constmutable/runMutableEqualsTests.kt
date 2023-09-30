@@ -3,7 +3,6 @@ package xyz.lbres.kotlinutils.set.multiset.const.constmutable
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
-import xyz.lbres.kotlinutils.set.multiset.testutils.TestMutableMultiSet
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
@@ -27,7 +26,7 @@ fun runMutableConstEqualsTests() {
     assertEquals(set1, set2)
     assertEquals(set2, set1)
 
-    var otherSet: MutableMultiSet<Int> = TestMutableMultiSet(listOf(1, 2, 3))
+    var otherSet: MutableMultiSet<Int> = ConstMutableMultiSet(listOf(1, 2, 3))
     assertEquals(set1, otherSet)
 
     // not equals
@@ -47,7 +46,7 @@ fun runMutableConstEqualsTests() {
     assertNotEquals(set2, set1)
 
     set1 = constMutableMultiSetOf(-1, 3, 1, -3)
-    otherSet = TestMutableMultiSet(listOf(2, -2))
+    otherSet = ConstMutableMultiSet(listOf(2, -2))
     assertNotEquals<MutableMultiSet<Int>>(set1, otherSet)
 
     // other type
