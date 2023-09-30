@@ -5,41 +5,35 @@ import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 /**
- * Mutable set implementation that allows multiple occurrences of the same value.
+ * [MutableMultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
 internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet<E> {
     /**
      * Number of elements in set.
      */
     override val size: Int
-        get() = list.size
-
-    /**
-     * List containing all elements in the set.
-     */
-    private val list: MutableList<E>
+        get() = elements.size
 
     /**
      * Elements in the set.
      */
-    override val elements: Collection<E>
-        get() = list
+    override val elements: MutableList<E>
 
     /**
      * Initialize set from a collection of values.
      */
     constructor(elements: Collection<E>) : super(elements) {
-        list = elements.toMutableList()
+        this.elements = elements.toMutableList()
     }
 
     /**
      * Initialize set from existing counts.
      */
     internal constructor(counts: Map<E, Int>) : super(counts) {
-        list = mutableListOf()
+        elements = mutableListOf()
 
         counts.forEach {
-            repeat(it.value) { _ -> list.add(it.key) }
+            repeat(it.value) { _ -> elements.add(it.key) }
         }
     }
 
@@ -50,7 +44,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
     override fun add(element: E): Boolean {
-        return list.add(element)
+        return elements.add(element)
     }
 
     /**
@@ -75,7 +69,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * Remove all elements from the set.
      */
     override fun clear() {
-        list.clear()
+        elements.clear()
     }
 
     /**
@@ -85,7 +79,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
     override fun remove(element: E): Boolean {
-        return list.remove(element)
+        return elements.remove(element)
     }
 
     /**
@@ -118,13 +112,13 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
         val counts = getCounts()
         val otherCounts = createCountsMap(elements)
 
-        list.clear()
+        this.elements.clear()
 
         for (pair in counts) {
             val element = pair.key
             val currentCount = pair.value
             val newCount = min(currentCount, otherCounts.getOrDefault(element, 0))
-            repeat(newCount) { list.add(element) }
+            repeat(newCount) { this.elements.add(element) }
         }
 
         return true
@@ -135,5 +129,5 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      *
      * @return [MutableIterator]<E>
      */
-    override fun iterator(): MutableIterator<E> = list.toMutableList().iterator()
+    override fun iterator(): MutableIterator<E> = elements.toMutableList().iterator()
 }

@@ -7,6 +7,9 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
+/**
+ * Abstract [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
+ */
 internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     /**
      * Number of elements in set.

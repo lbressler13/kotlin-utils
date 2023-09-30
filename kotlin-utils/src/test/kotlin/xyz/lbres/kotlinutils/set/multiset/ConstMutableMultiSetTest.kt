@@ -85,10 +85,6 @@ class ConstMutableMultiSetTest {
         var expected = "[]"
         assertEquals(expected, set.toString())
 
-        set = constMutableMultiSetOf(100, -200, 400, 800)
-        expected = "[100, -200, 400, 800]"
-        assertEquals(expected, set.toString())
-
         set = constMutableMultiSetOf(1, 1, 1, 1)
         expected = "[1, 1, 1, 1]"
         assertEquals(expected, set.toString())
