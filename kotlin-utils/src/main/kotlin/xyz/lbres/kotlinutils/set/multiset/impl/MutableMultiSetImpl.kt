@@ -28,14 +28,14 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     /**
      * Initialize set from a collection of values.
      */
-    constructor(elements: Collection<E>) {
+    constructor(elements: Collection<E>) : super(elements) {
         list = elements.toMutableList()
     }
 
     /**
      * Initialize set from existing counts.
      */
-    internal constructor(counts: Map<E, Int>) {
+    internal constructor(counts: Map<E, Int>) : super(counts) {
         list = mutableListOf()
 
         counts.forEach {

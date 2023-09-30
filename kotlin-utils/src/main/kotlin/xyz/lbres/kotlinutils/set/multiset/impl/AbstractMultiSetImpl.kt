@@ -28,11 +28,6 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     protected open val elements: Collection<E>
         get() = initialElements
 
-    constructor() {
-        _size = 0
-        initialElements = emptyList()
-    }
-
     /**
      * Initialize set from a collection of values.
      */
