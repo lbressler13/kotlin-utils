@@ -2,30 +2,14 @@ package xyz.lbres.kotlinutils.set.multiset.const.constmutable
 
 import xyz.lbres.kotlinutils.set.multiset.const.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
+import xyz.lbres.kotlinutils.set.multiset.runMutableMultiSetAddTests
 import kotlin.test.assertEquals
 
 fun runAddTests() {
-    var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
-
-    var expected = constMutableMultiSetOf(1)
-    runSingleMutateTest(set, expected, true) { set.add(1) }
-
-    expected = constMutableMultiSetOf(1, 1)
-    runSingleMutateTest(set, expected, true) { set.add(1) }
-
-    expected = constMutableMultiSetOf(1, 1, 2)
-    runSingleMutateTest(set, expected, true) { set.add(2) }
-
-    set = constMutableMultiSetOf(-1, 3, -5, 4, 1000, 17)
-    expected = constMutableMultiSetOf(-1, 3, -5, 4, 1000, 17, 15)
-    runSingleMutateTest(set, expected, true) { set.add(15) }
-
-    val listSet: ConstMutableMultiSet<List<String>> = constMutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"))
-    var listExpected = constMutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"))
-    runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOf("farewell", "goodbye")) }
-
-    listExpected = constMutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), listOf("goodbye"))
-    runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOf("goodbye")) }
+    runMutableMultiSetAddTests(
+        { ints -> ConstMutableMultiSet(ints) },
+        { stringLists -> ConstMutableMultiSet(stringLists) },
+    )
 }
 
 fun runAddAllTests() {

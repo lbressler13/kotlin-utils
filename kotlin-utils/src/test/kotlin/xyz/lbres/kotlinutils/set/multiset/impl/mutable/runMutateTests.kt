@@ -2,35 +2,18 @@ package xyz.lbres.kotlinutils.set.multiset.impl.mutable
 
 import xyz.lbres.kotlinutils.list.StringList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 import kotlin.test.assertEquals
 
 fun runAddTests() {
-    var set: MutableMultiSet<Int> = mutableMultiSetOf()
+    runMutableMultiSetAddTests(
+        { ints -> MutableMultiSetImpl(ints) },
+        { stringLists -> MutableMultiSetImpl(stringLists) },
+    )
 
-    var other = 1
-    var expected = mutableMultiSetOf(1)
-    runSingleMutateTest(set, expected, true) { set.add(other) }
-
-    other = 1
-    expected = mutableMultiSetOf(1, 1)
-    runSingleMutateTest(set, expected, true) { set.add(other) }
-
-    other = 2
-    expected = mutableMultiSetOf(1, 1, 2)
-    runSingleMutateTest(set, expected, true) { set.add(other) }
-
-    set = mutableMultiSetOf(-1, 3, -5, 4, 1000, 17)
-    other = 15
-    expected = mutableMultiSetOf(-1, 3, -5, 4, 1000, 17, 15)
-    runSingleMutateTest(set, expected, true) { set.add(other) }
-
-    val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"))
-    val listOther = listOf("farewell", "goodbye")
-    var listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"))
-    runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOther) }
-
+    val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("farewell", "goodbye"), listOf("goodbye"))
     val mutableList = mutableListOf("goodbye")
-    listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), listOf("goodbye"))
+    var listExpected = mutableMultiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"), listOf("goodbye"))
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(mutableList) }
 
     mutableList.clear()
@@ -277,24 +260,4 @@ fun runClearTests() {
     set.clear()
     assertEquals(0, set.size)
     assertEquals(mutableMultiSetOf(), set)
-}
-
-/**
- * Run single test to mutate set
- *
- * @param set [MutableMultiSet]<T>: set to be modified in operation
- * @param expected [MutableMultiSet]<T>: expected state of set after operation
- * @param success [Boolean]: if operation is expected to succeed
- * @param op () -> Boolean: operation to perform
- */
-private fun <T> runSingleMutateTest(
-    set: MutableMultiSet<T>,
-    expected: MutableMultiSet<T>,
-    success: Boolean = true,
-    op: () -> Boolean
-) {
-    val result = op()
-    assertEquals(success, result)
-    assertEquals(expected, set)
-    assertEquals(expected.size, set.size)
 }
