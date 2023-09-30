@@ -6,7 +6,7 @@ import kotlin.math.min
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-internal class MutableMultiSetImpl<E> : PartialMultiSetImpl<E>, MutableMultiSet<E> {
+internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet<E> {
     /**
      * Number of elements in set.
      */
