@@ -2,8 +2,6 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
-// TODO standard multiset cleanup classes
-
 /**
  * [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */

@@ -41,4 +41,4 @@ fun <E> ConstMultiSet(size: Int, init: (Int) -> E): ConstMultiSet<E> = ConstMult
  * @return [ConstMutableMultiSet]<E>
  */
 @Suppress("FunctionName")
-fun <E> MutableConstMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSet((0 until size).map(init))
+fun <E> ConstMutableMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSet((0 until size).map(init))

@@ -75,11 +75,57 @@ class ConstMultiSetUtilsTest {
 
     @Test
     fun testConstMultiSet() {
-        // TODO
+        var set = ConstMultiSet(0) { 1 }
+        var expectedSize = 0
+        var expected: ConstMultiSet<Int> = emptyConstMultiSet()
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = ConstMultiSet(5) { 2 }
+        expectedSize = 5
+        expected = ConstMultiSetImpl(listOf(2, 2, 2, 2, 2))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = ConstMultiSet(4) { 3 * it }
+        expectedSize = 4
+        expected = ConstMultiSetImpl(listOf(0, 3, 6, 9))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
+        set = ConstMultiSet(8) { values[it] }
+        expectedSize = 8
+        expected = ConstMultiSetImpl(values)
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
     }
 
     @Test
     fun testConstMutableMultiSet() {
-        // TODO
+        var set = ConstMutableMultiSet(0) { 5 }
+        var expectedSize = 0
+        var expected: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = ConstMutableMultiSet(5) { 2 }
+        expectedSize = 5
+        expected = ConstMutableMultiSet(listOf(2, 2, 2, 2, 2))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        set = ConstMutableMultiSet(4) { 3 * it }
+        expectedSize = 4
+        expected = ConstMutableMultiSet(listOf(0, 3, 6, 9))
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
+
+        val values = listOf(4, 6, 7, 8, 9, 11, -3, -3)
+        set = ConstMutableMultiSet(8) { values[it] }
+        expectedSize = 8
+        expected = ConstMutableMultiSet(values)
+        assertEquals(expectedSize, set.size)
+        assertEquals(expected, set)
     }
 }
