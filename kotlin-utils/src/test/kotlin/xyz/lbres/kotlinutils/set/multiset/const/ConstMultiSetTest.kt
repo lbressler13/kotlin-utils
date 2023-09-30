@@ -3,6 +3,8 @@ package xyz.lbres.kotlinutils.set.multiset.const
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.const.constimmutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetContainsAllTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetContainsTests
 import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetIteratorTests
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,8 +14,8 @@ class ConstMultiSetTest {
     @Test fun testConstructor() = runConstConstructorTests()
     @Test fun testEquals() = runConstEqualsTests()
 
-    @Test fun testContains() = runConstContainsTests()
-    @Test fun testContainsAll() = runConstContainsAllTests()
+    @Test fun testContains() = runMultiSetContainsTests({ ConstMultiSetImpl(it) }, { ConstMultiSetImpl(it) }, { ConstMultiSetImpl(it) })
+    @Test fun testContainsAll() = runMultiSetContainsAllTests { ConstMultiSetImpl(it) }
 
     @Test fun testMinus() = runConstMinusTests()
     @Test fun testPlus() = runConstPlusTests()

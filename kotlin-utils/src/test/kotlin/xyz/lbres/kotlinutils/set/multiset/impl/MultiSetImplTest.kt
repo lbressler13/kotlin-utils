@@ -6,7 +6,6 @@ import xyz.lbres.kotlinutils.set.multiset.impl.immutable.* // ktlint-disable no-
 import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetIteratorTests
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 class MultiSetImplTest {
     @Test fun testConstructor() = runImmutableConstructorTests()
@@ -24,10 +23,7 @@ class MultiSetImplTest {
 
     @Test
     fun testIterator() {
-        runMultiSetIteratorTests(
-            { ints -> MultiSetImpl(ints) },
-            { intLists -> MultiSetImpl(intLists) }
-        )
+        runMultiSetIteratorTests({ MultiSetImpl(it) }, { MultiSetImpl(it) })
 
         // mutable elements
         val mutableList1 = mutableListOf(1, 2, 3)

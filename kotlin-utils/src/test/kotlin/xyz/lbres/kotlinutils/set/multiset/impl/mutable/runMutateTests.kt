@@ -9,8 +9,8 @@ import kotlin.test.assertEquals
 
 fun runAddTests() {
     runMultiSetAddTests(
-        { ints -> MutableMultiSetImpl(ints) },
-        { stringLists -> MutableMultiSetImpl(stringLists) },
+        { MutableMultiSetImpl(it) },
+        { MutableMultiSetImpl(it) },
     )
 
     // mutable elements
@@ -25,7 +25,7 @@ fun runAddTests() {
 }
 
 fun runAddAllTests() {
-    runMultiSetAddAllTests { ints -> ConstMutableMultiSet(ints) }
+    runMultiSetAddAllTests { MutableMultiSetImpl(it) }
 
     // mutable elements
     val mutableList1 = mutableListOf("goodbye")
@@ -42,7 +42,7 @@ fun runAddAllTests() {
 }
 
 fun runRemoveTests() {
-    runMultiSetRemoveTests { ints -> MutableMultiSetImpl(ints) }
+    runMultiSetRemoveTests { MutableMultiSetImpl(it) }
 
     // mutable elements
     val mutableList = mutableListOf("goodbye")
@@ -60,7 +60,7 @@ fun runRemoveTests() {
 }
 
 fun runRemoveAllTests() {
-    runMultiSetRemoveAllTests { ints -> MutableMultiSetImpl(ints) }
+    runMultiSetRemoveAllTests { MutableMultiSetImpl(it) }
 
     // mutable elements
     val mutableList = mutableListOf("goodbye")
@@ -82,7 +82,7 @@ fun runRemoveAllTests() {
 }
 
 fun runRetainAllTests() {
-    runMultiSetRetainAllTests { ints -> MutableMultiSetImpl(ints) }
+    runMultiSetRetainAllTests { MutableMultiSetImpl(it) }
 
     // mutable elements
     val mutableList = mutableListOf(1, 4)

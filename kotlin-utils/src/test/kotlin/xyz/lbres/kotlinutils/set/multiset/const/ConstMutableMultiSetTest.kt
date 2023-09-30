@@ -1,28 +1,23 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
-import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.const.constmutable.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.testutils.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 class ConstMutableMultiSetTest {
     @Test fun testConstructor() = runMutableConstConstructorTests()
     @Test fun testEquals() = runMutableConstEqualsTests()
 
-    @Test fun testContains() = runMutableConstContainsTests()
-    @Test fun testContainsAll() = runMutableConstContainsAllTests()
+    @Test fun testContains() = runMultiSetMutableContainsTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
+    @Test fun testContainsAll() = runMultiSetMutableContainsAllTests { ConstMutableMultiSet(it) }
 
-    @Test fun testClear() =  runMultiSetClearTests { ints -> ConstMutableMultiSet(ints) }
-    @Test fun testAdd() = runMultiSetAddTests(
-        { ints -> ConstMutableMultiSet(ints) },
-        { stringLists -> ConstMutableMultiSet(stringLists) },
-    )
-    @Test fun testAddAll() = runMultiSetAddAllTests { ints -> ConstMutableMultiSet(ints) }
-    @Test fun testRemove() = runMultiSetRemoveTests { ints -> ConstMutableMultiSet(ints) }
-    @Test fun testRemoveAll() = runMultiSetRemoveAllTests { ints -> ConstMutableMultiSet(ints) }
-    @Test fun testRetainAll() = runMultiSetClearTests { ints -> ConstMutableMultiSet(ints) }
+    @Test fun testClear() =  runMultiSetClearTests { ConstMutableMultiSet(it) }
+    @Test fun testAdd() = runMultiSetAddTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
+    @Test fun testAddAll() = runMultiSetAddAllTests { ConstMutableMultiSet(it) }
+    @Test fun testRemove() = runMultiSetRemoveTests { ConstMutableMultiSet(it) }
+    @Test fun testRemoveAll() = runMultiSetRemoveAllTests { ConstMutableMultiSet(it) }
+    @Test fun testRetainAll() = runMultiSetClearTests { ConstMutableMultiSet(it) }
 
     @Test fun testMinus() = runMutableConstMinusTests()
     @Test fun testPlus() = runMutableConstPlusTests()
@@ -33,10 +28,7 @@ class ConstMutableMultiSetTest {
 
     @Test
     fun testIterator() {
-        runMultiSetMutableIteratorTests(
-            { ints -> ConstMutableMultiSet(ints) },
-            { stringLists -> ConstMutableMultiSet(stringLists) },
-        )
+        runMultiSetMutableIteratorTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
     }
 
     @Test
