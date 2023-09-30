@@ -73,7 +73,6 @@ fun runMultiSetMinusTests(
     assertEquals(stringSet1, stringSet1 - stringSet2)
     assertEquals(stringSet2, stringSet2 - stringSet1)
 
-
     // some shared
     intSet1 = createIntSet(listOf(1, 1, 2, 3, 4, 5, 5))
     intSet2 = createIntSet(listOf(1, 1, 5, 6, 6, 7))

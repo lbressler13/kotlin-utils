@@ -1,33 +1,45 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
-import xyz.lbres.kotlinutils.set.multiset.const.constmutable.* // ktlint-disable no-wildcard-imports no-unused-imports
-import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.testutils.*
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ConstMutableMultiSetTest {
+    private fun <T> createSet(): (Collection<T>) -> ConstMutableMultiSet<T> = { ConstMutableMultiSet(it) }
+
     @Test fun testConstructor() = runMutableConstConstructorTests()
     @Test fun testEquals() = runMutableConstEqualsTests()
 
-    @Test fun testContains() = runMultiSetMutableContainsTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
-    @Test fun testContainsAll() = runMultiSetMutableContainsAllTests { ConstMutableMultiSet(it) }
+    @Test fun testContains() = runMultiSetMutableContainsTests(createSet(), createSet(), createSet())
+    @Test fun testContainsAll() = runMultiSetMutableContainsAllTests(createSet())
 
-    @Test fun testClear() =  runMultiSetClearTests { ConstMutableMultiSet(it) }
+    @Test fun testClear() = runMultiSetClearTests(createSet())
     @Test fun testAdd() = runMultiSetAddTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
-    @Test fun testAddAll() = runMultiSetAddAllTests { ConstMutableMultiSet(it) }
-    @Test fun testRemove() = runMultiSetRemoveTests { ConstMutableMultiSet(it) }
-    @Test fun testRemoveAll() = runMultiSetRemoveAllTests { ConstMutableMultiSet(it) }
-    @Test fun testRetainAll() = runMultiSetClearTests { ConstMutableMultiSet(it) }
+    @Test fun testAddAll() = runMultiSetAddAllTests(createSet())
+    @Test fun testRemove() = runMultiSetRemoveTests(createSet())
+    @Test fun testRemoveAll() = runMultiSetRemoveAllTests(createSet())
+    @Test fun testRetainAll() = runMultiSetClearTests(createSet())
 
-    @Test fun testMinus() = runMutableConstMinusTests()
-    @Test fun testPlus() = runMutableConstPlusTests()
-    @Test fun testIntersect() = runMutableConstIntersectTests()
+    @Test
+    fun testMinus() {
+        runMultiSetMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { MultiSetImpl(it) }
+    }
 
-    @Test fun testIsEmpty() = runMultiSetMutableIsEmptyTests({ MutableMultiSetImpl(it) }, { MutableMultiSetImpl(it) })
-    @Test fun testGetCountOf() = runMultiSetMutableGetCountOfTests({ MutableMultiSetImpl(it) }, { MutableMultiSetImpl(it) })
+    @Test
+    fun testPlus() {
+        runMultiSetPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { MultiSetImpl(it) }
+    }
 
-    @Test fun testIterator() = runMultiSetMutableIteratorTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
+    @Test
+    fun testIntersect() {
+        runMultiSetIntersectTests(createSet(), createSet(), createSet()) { MultiSetImpl(it) }
+    }
+
+    @Test fun testIsEmpty() = runMultiSetMutableIsEmptyTests(createSet(), createSet())
+    @Test fun testGetCountOf() = runMultiSetMutableGetCountOfTests(createSet(), createSet())
+
+    @Test fun testIterator() = runMultiSetMutableIteratorTests(createSet(), createSet())
 
     @Test
     fun testToString() {

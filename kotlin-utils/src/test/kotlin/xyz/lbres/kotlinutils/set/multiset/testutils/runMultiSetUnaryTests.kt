@@ -53,7 +53,6 @@ fun runMultiSetGetCountOfTests(
     assertEquals(1, set.getCountOf(-4))
     assertEquals(1, set.getCountOf(5))
 
-
     val listSet = createIntListSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3)))
     assertEquals(2, listSet.getCountOf(listOf(1, 2, 3)))
     assertEquals(0, listSet.getCountOf(listOf(1, 2)))
