@@ -2,6 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
+import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 // TODO decide final package placement
@@ -10,7 +12,7 @@ import kotlin.math.min
  * [MultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
-class ConstMultiSetImpl<E>(initialElements: Collection<E>) : ConstMultiSet<E>(initialElements)
+internal class ConstMultiSetImpl<E>(initialElements: Collection<E>) : ConstMultiSet<E>(initialElements)
 
 /**
  * Abstract [MultiSet] implementation where values of elements are assumed to be constant.
@@ -41,7 +43,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
     /**
      * String representation of the set
      */
-    protected open val string: String = createString(initialCounts ?: initializeCounts())
+    protected open val string: String = countsToString(initialCounts ?: initializeCounts())
 
     /**
      * All elements in the set
@@ -193,25 +195,5 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
         }
 
         return countsMap
-    }
-
-    /**
-     * Create a string representation of a counts map
-     *
-     * @param values [Map]<E, Int>: map to use in creating string
-     * @return [String]: string representation of [values]
-     */
-    protected fun createString(values: Map<E, Int>): String {
-        if (values.isEmpty()) {
-            return "[]"
-        }
-
-        var elementsString = ""
-        values.forEach { (value, count) ->
-            elementsString += "$value, ".repeat(count)
-        }
-        elementsString = elementsString.substring(0 until elementsString.lastIndex - 1) // remove trailing ", "
-
-        return "[$elementsString]"
     }
 }

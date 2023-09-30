@@ -1,8 +1,8 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
@@ -51,7 +51,7 @@ fun runFilterConsistentTests() {
             }
         }
     }
-    assertEqualsAnyOf(intOptions, intSet.filterConsistent(intPredicate).sorted())
+    assertContains(intOptions, intSet.filterConsistent(intPredicate).sorted())
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
@@ -72,7 +72,7 @@ fun runFilterConsistentTests() {
     mutableList1.add(0)
     previous12 = false
     val listOptions = listOf(listOf(listOf(1, 2, 3)), listOf(listOf(1, 2, 3, 0)))
-    assertEqualsAnyOf(listOptions, listSet.filterConsistent(listPredicate))
+    assertContains(listOptions, listSet.filterConsistent(listPredicate))
 }
 
 fun runFilterNotConsistentTests() {
@@ -116,7 +116,7 @@ fun runFilterNotConsistentTests() {
             }
         }
     }
-    assertEqualsAnyOf(intOptions, intSet.filterNotConsistent(intPredicate).sorted())
+    assertContains(intOptions, intSet.filterNotConsistent(intPredicate).sorted())
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
@@ -137,7 +137,7 @@ fun runFilterNotConsistentTests() {
     mutableList1.add(0)
     previous12 = false
     val listOptions = listOf(listOf(listOf(1, 2, 3)), listOf(listOf(1, 2, 3, 0)))
-    assertEqualsAnyOf(listOptions, listSet.filterNotConsistent(listPredicate))
+    assertContains(listOptions, listSet.filterNotConsistent(listPredicate))
 }
 
 fun runFilterToSetConsistentTests() {
@@ -181,7 +181,7 @@ fun runFilterToSetConsistentTests() {
             }
         }
     }
-    assertEqualsAnyOf(intOptions, intSet.filterToSetConsistent(intPredicate))
+    assertContains(intOptions, intSet.filterToSetConsistent(intPredicate))
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
@@ -202,7 +202,7 @@ fun runFilterToSetConsistentTests() {
     mutableList1.add(0)
     previous12 = false
     val listOptions = listOf(multiSetOf(listOf(1, 2, 3)), multiSetOf(listOf(1, 2, 3, 0)))
-    assertEqualsAnyOf(listOptions, listSet.filterToSetConsistent(listPredicate))
+    assertContains(listOptions, listSet.filterToSetConsistent(listPredicate))
 }
 
 fun runFilterNotToSetConsistentTests() {
@@ -246,7 +246,7 @@ fun runFilterNotToSetConsistentTests() {
             }
         }
     }
-    assertEqualsAnyOf(intOptions, intSet.filterNotToSetConsistent(intPredicate))
+    assertContains(intOptions, intSet.filterNotToSetConsistent(intPredicate))
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
@@ -267,5 +267,5 @@ fun runFilterNotToSetConsistentTests() {
     mutableList1.add(0)
     val listOptions = listOf(multiSetOf(listOf(1, 2, 3)), multiSetOf(listOf(1, 2, 3, 0)))
     previous12 = false
-    assertEqualsAnyOf(listOptions, listSet.filterNotToSetConsistent(listPredicate))
+    assertContains(listOptions, listSet.filterNotToSetConsistent(listPredicate))
 }

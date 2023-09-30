@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.createCountsMap
+import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 /**

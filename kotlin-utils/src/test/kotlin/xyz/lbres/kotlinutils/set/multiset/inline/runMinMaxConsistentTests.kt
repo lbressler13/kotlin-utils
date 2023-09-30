@@ -1,8 +1,8 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -52,7 +52,7 @@ fun runMinByConsistentTests() {
             else -> 0
         }
     }
-    assertEqualsAnyOf(listOf(4, 6, 8), modSet.minByOrNullConsistent(intSelector))
+    assertContains(listOf(4, 6, 8), modSet.minByOrNullConsistent(intSelector))
 
     // mutable list
     val mutableList1 = mutableListOf(1, 2, 3)
@@ -74,7 +74,7 @@ fun runMinByConsistentTests() {
 
     mutableList1.add(0)
     past12 = false
-    assertEqualsAnyOf(listOf(listOf(1, 2, 3), listOf(1, 2, 3, 0)), listSet.minByOrNullConsistent(listSelector))
+    assertContains(listOf(listOf(1, 2, 3), listOf(1, 2, 3, 0)), listSet.minByOrNullConsistent(listSelector))
 }
 
 fun runMaxByConsistentTests() {
@@ -122,7 +122,7 @@ fun runMaxByConsistentTests() {
             else -> 0
         }
     }
-    assertEqualsAnyOf(listOf(4, 6, 8), modSet.maxByOrNullConsistent(intSelector))
+    assertContains(listOf(4, 6, 8), modSet.maxByOrNullConsistent(intSelector))
 
     // mutable list
     val mutableList1 = mutableListOf(1, 2, 3)
@@ -144,5 +144,5 @@ fun runMaxByConsistentTests() {
 
     mutableList1.add(0)
     past12 = false
-    assertEqualsAnyOf(listOf(listOf(1, 2, 3), listOf(1, 2, 3, 0)), listSet.maxByOrNullConsistent(listSelector))
+    assertContains(listOf(listOf(1, 2, 3), listOf(1, 2, 3, 0)), listSet.maxByOrNullConsistent(listSelector))
 }

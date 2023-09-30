@@ -4,7 +4,7 @@ import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.createCountsMap
+import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {

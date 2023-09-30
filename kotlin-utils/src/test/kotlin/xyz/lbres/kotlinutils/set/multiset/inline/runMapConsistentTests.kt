@@ -1,11 +1,11 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import java.lang.NullPointerException
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
@@ -80,7 +80,7 @@ fun runMapConsistentTests() {
         listOf("1", "11", "11", "11", "111"),
         listOf("1", "11", "111", "111", "111")
     )
-    assertEqualsAnyOf(resultOptions, intSet.mapConsistent(modMap))
+    assertContains(resultOptions, intSet.mapConsistent(modMap))
 
     modString = ""
     val mutableList1 = mutableListOf(1, 2, 3)
@@ -95,14 +95,14 @@ fun runMapConsistentTests() {
         listOf("1", "1", "11"),
         listOf("1", "11", "11")
     )
-    assertEqualsAnyOf(resultOptions, listSet.mapConsistent(modMapList))
+    assertContains(resultOptions, listSet.mapConsistent(modMapList))
 
     modString = ""
     mutableList1.clear()
     resultOptions = listOf(
         listOf("1", "11", "111"),
     )
-    assertEqualsAnyOf(resultOptions, listSet.mapConsistent(modMapList))
+    assertContains(resultOptions, listSet.mapConsistent(modMapList))
 
     modString = ""
     mutableList2.clear()
@@ -111,7 +111,7 @@ fun runMapConsistentTests() {
         listOf("1", "1", "11"),
         listOf("1", "11", "11")
     )
-    assertEqualsAnyOf(resultOptions, listSet.mapConsistent(modMapList))
+    assertContains(resultOptions, listSet.mapConsistent(modMapList))
 }
 
 fun runMapToSetConsistentTests() {
@@ -170,7 +170,7 @@ fun runMapToSetConsistentTests() {
         multiSetOf("1", "11", "11", "11", "111"),
         multiSetOf("1", "11", "111", "111", "111")
     )
-    assertEqualsAnyOf(resultOptions, intSet.mapToSetConsistent(modMap))
+    assertContains(resultOptions, intSet.mapToSetConsistent(modMap))
 
     modString = ""
     val mutableList1 = mutableListOf(1, 2, 3)
@@ -185,14 +185,14 @@ fun runMapToSetConsistentTests() {
         multiSetOf("1", "1", "11"),
         multiSetOf("1", "11", "11")
     )
-    assertEqualsAnyOf(resultOptions, listSet.mapToSetConsistent(modMapList))
+    assertContains(resultOptions, listSet.mapToSetConsistent(modMapList))
 
     modString = ""
     mutableList1.clear()
     resultOptions = listOf(
         multiSetOf("1", "11", "111"),
     )
-    assertEqualsAnyOf(resultOptions, listSet.mapToSetConsistent(modMapList))
+    assertContains(resultOptions, listSet.mapToSetConsistent(modMapList))
 
     modString = ""
     mutableList2.clear()
@@ -201,5 +201,5 @@ fun runMapToSetConsistentTests() {
         multiSetOf("1", "1", "11"),
         multiSetOf("1", "11", "11")
     )
-    assertEqualsAnyOf(resultOptions, listSet.mapToSetConsistent(modMapList))
+    assertContains(resultOptions, listSet.mapToSetConsistent(modMapList))
 }

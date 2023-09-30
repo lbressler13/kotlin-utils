@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
+import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 /**
@@ -155,7 +157,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
             counts.forEach { (element, count) ->
                 repeat(count) { _elements.add(element) }
             }
-            _string = createString(counts)
+            _string = countsToString(counts)
 
             allPropertiesUpdated = true
         }

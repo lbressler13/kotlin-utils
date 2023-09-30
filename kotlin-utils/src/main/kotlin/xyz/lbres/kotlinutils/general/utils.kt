@@ -11,13 +11,7 @@ import kotlin.reflect.KClass
  * @param falseValue [T]: value to return if [check] is false
  * @return [trueValue] if the check is true, [falseValue] otherwise
  */
-fun <T> simpleIf(check: Boolean, trueValue: T, falseValue: T): T {
-    return if (check) {
-        trueValue
-    } else {
-        falseValue
-    }
-}
+fun <T> simpleIf(check: Boolean, trueValue: T, falseValue: T): T = simpleIf(check, { trueValue }, { falseValue })
 
 /**
  * Function to perform a simple boolean check, and execute a function based on value of the check.
