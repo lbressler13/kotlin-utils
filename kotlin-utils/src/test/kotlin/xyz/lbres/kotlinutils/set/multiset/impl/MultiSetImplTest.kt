@@ -2,24 +2,55 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.immutable.* // ktlint-disable no-wildcard-imports no-unused-imports
-import xyz.lbres.kotlinutils.set.multiset.testutils.runMultiSetIteratorTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class MultiSetImplTest {
+    private fun <T> createSet(): (Collection<T>) -> MultiSetImpl<T> = { MultiSetImpl(it) }
+
     @Test fun testConstructor() = runImmutableConstructorTests()
     @Test fun testEquals() = runImmutableEqualsTests()
 
-    @Test fun testContains() = runImmutableContainsTests()
-    @Test fun testContainsAll() = runImmutableContainsAllTests()
+    @Test
+    fun testContains() {
+        runMultiSetContainsTests(createSet(), createSet(), createSet())
+        runMultiSetMutableElementContainsTests(createSet())
+    }
 
-    @Test fun testMinus() = runImmutableMinusTests()
-    @Test fun testPlus() = runImmutablePlusTests()
-    @Test fun testIntersect() = runImmutableIntersectTests()
+    @Test
+    fun testContainsAll() {
+        runMultiSetContainsAllTests(createSet())
+        runMultiSetMutableElementContainsAllTests(createSet())
+    }
 
-    @Test fun testIsEmpty() = runImmutableIsEmptyTests()
-    @Test fun testGetCountOf() = runImmutableGetCountOfTests()
+    @Test
+    fun testMinus() {
+        runMultiSetMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetMutableElementMinusTests(createSet())
+    }
+
+    @Test
+    fun testPlus() {
+        runMultiSetPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetMutableElementPlusTests(createSet())
+    }
+
+    @Test
+    fun testIntersect() {
+        runMultiSetIntersectTests(createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetMutableElementIntersectTests(createSet())
+    }
+
+    @Test fun testIsEmpty() = runMultiSetIsEmptyTests(createSet(), createSet())
+
+    @Test
+    fun testGetCountOf() {
+        runMultiSetGetCountOfTests(createSet(), createSet())
+        runMultiSetMutableElementGetCountOfTests(createSet())
+    }
 
     @Test
     fun testIterator() {

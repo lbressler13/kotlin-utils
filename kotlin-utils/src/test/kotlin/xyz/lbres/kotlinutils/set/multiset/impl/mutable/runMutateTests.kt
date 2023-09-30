@@ -2,16 +2,14 @@ package xyz.lbres.kotlinutils.set.multiset.impl.mutable
 
 import xyz.lbres.kotlinutils.list.StringList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.*
 import kotlin.test.assertEquals
 
+private fun <T> createSet(): (Collection<T>) -> MutableMultiSetImpl<T> = { MutableMultiSetImpl(it) }
+
 fun runAddTests() {
-    runMultiSetAddTests(
-        { MutableMultiSetImpl(it) },
-        { MutableMultiSetImpl(it) },
-    )
+    runMultiSetAddTests(createSet(), createSet())
 
     // mutable elements
     val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("farewell", "goodbye"), listOf("goodbye"))
@@ -25,7 +23,7 @@ fun runAddTests() {
 }
 
 fun runAddAllTests() {
-    runMultiSetAddAllTests { MutableMultiSetImpl(it) }
+    runMultiSetAddAllTests(createSet())
 
     // mutable elements
     val mutableList1 = mutableListOf("goodbye")
@@ -42,7 +40,7 @@ fun runAddAllTests() {
 }
 
 fun runRemoveTests() {
-    runMultiSetRemoveTests { MutableMultiSetImpl(it) }
+    runMultiSetRemoveTests(createSet())
 
     // mutable elements
     val mutableList = mutableListOf("goodbye")
@@ -60,7 +58,7 @@ fun runRemoveTests() {
 }
 
 fun runRemoveAllTests() {
-    runMultiSetRemoveAllTests { MutableMultiSetImpl(it) }
+    runMultiSetRemoveAllTests(createSet())
 
     // mutable elements
     val mutableList = mutableListOf("goodbye")
@@ -82,7 +80,7 @@ fun runRemoveAllTests() {
 }
 
 fun runRetainAllTests() {
-    runMultiSetRetainAllTests { MutableMultiSetImpl(it) }
+    runMultiSetRetainAllTests(createSet())
 
     // mutable elements
     val mutableList = mutableListOf(1, 4)
@@ -100,6 +98,4 @@ fun runRetainAllTests() {
     runSingleMutateTest(listSet, listExpected, true) { listSet.retainAll(listOf(emptyList())) }
 }
 
-fun runClearTests() {
-    runMultiSetClearTests { ints -> MutableMultiSetImpl(ints) }
-}
+fun runClearTests() = runMultiSetClearTests(createSet())
