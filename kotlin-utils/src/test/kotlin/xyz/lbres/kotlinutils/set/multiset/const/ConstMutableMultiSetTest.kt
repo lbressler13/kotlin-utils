@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.set.multiset.const.constmutable.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,8 +24,8 @@ class ConstMutableMultiSetTest {
     @Test fun testPlus() = runMutableConstPlusTests()
     @Test fun testIntersect() = runMutableConstIntersectTests()
 
-    @Test fun testIsEmpty() = runMutableConstIsEmptyTests()
-    @Test fun testGetCountOf() = runMutableConstGetCountOfTests()
+    @Test fun testIsEmpty() = runMultiSetMutableIsEmptyTests({ MutableMultiSetImpl(it) }, { MutableMultiSetImpl(it) })
+    @Test fun testGetCountOf() = runMultiSetMutableGetCountOfTests({ MutableMultiSetImpl(it) }, { MutableMultiSetImpl(it) })
 
     @Test
     fun testIterator() {
