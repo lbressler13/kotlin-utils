@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.collection.ext
 
 import xyz.lbres.kotlinutils.iterable.ext.countElement
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl

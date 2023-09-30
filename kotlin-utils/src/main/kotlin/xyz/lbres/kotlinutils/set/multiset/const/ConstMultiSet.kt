@@ -1,12 +1,11 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.general.tryOrDefault
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
-
-// TODO decide final package placement
 
 /**
  * [MultiSet] implementation where values of elements are assumed to be constant.

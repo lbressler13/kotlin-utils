@@ -1,6 +1,7 @@
-package xyz.lbres.kotlinutils.set.multiset.constimmutable
+package xyz.lbres.kotlinutils.set.multiset.const.constimmutable
 
-import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.testutils.TestMultiSet
 import kotlin.test.assertEquals
 import kotlin.test.assertIsNot
