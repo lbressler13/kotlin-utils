@@ -1,13 +1,12 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.math.min
 
 /**
  * Mutable set implementation that allows multiple occurrences of the same value.
  */
-internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> {
+internal class MutableMultiSetImpl<E> : PartialMultiSetImpl<E>, MutableMultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -129,34 +128,6 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSet<E>, MutableMultiSet<E> 
 
         return true
     }
-
-    // TODO do these operators need to be mutable?
-    /**
-     * Create a new MultiSet with values that are in this set but not the other set.
-     * If there are multiple occurrences of a value, the number of occurrences in the other set will be subtracted from the number in this MultiSet.
-     *
-     * @param other [MultiSet]<E>: values to subtract from this MultiSet
-     * @return [MutableMultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
-     */
-    override operator fun minus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSet>.minus(other) as MutableMultiSet<E>
-    }
-
-    /**
-     * Create a new MultiSet with all values from both sets.
-     * If there are multiple occurrences of a value, the number of occurrences in the other set will be added to the number in this MultiSet.
-     *
-     * @param other [MultiSet]<E>: values to add to this MultiSet
-     * @return [MutableMultiSet]<E>: MultiSet containing all values from both MultiSets
-     */
-    override operator fun plus(other: MultiSet<E>): MutableMultiSet<E> {
-        return super<AbstractMultiSet>.plus(other) as MutableMultiSet<E>
-    }
-
-    /**
-     * Initialize a new MutableMultiSet from existing counts.
-     */
-    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MutableMultiSetImpl(counts)
 
     /**
      * Get an iterator for the elements in this set.
