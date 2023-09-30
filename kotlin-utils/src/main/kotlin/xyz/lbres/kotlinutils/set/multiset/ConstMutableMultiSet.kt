@@ -28,7 +28,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
             return _string
         }
 
-    override val counts: MutableMap<E, Int> = createCounts(initialElements).toMutableMap()
+    override val counts: MutableMap<E, Int> = createCountsMap(initialElements).toMutableMap()
 
     override val distinctValues: Set<E>
         get() = counts.keys
@@ -106,7 +106,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      */
     override fun retainAll(elements: Collection<E>): Boolean {
         val initialSize = size
-        val elementsCounts = createCounts(elements)
+        val elementsCounts = createCountsMap(elements)
 
         val newCounts = distinctValues.associateWith {
             min(getCountOf(it), elementsCounts.getOrDefault(it, 0))

@@ -4,9 +4,10 @@ import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.createCountsMap
 import kotlin.math.min
 
-internal abstract class AbstractMultiSetImpl<E>: MultiSet<E> {
+internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -81,7 +82,7 @@ internal abstract class AbstractMultiSetImpl<E>: MultiSet<E> {
         }
 
         val counts = getCounts()
-        val otherCounts = getCounts(elements)
+        val otherCounts = createCountsMap(elements)
 
         return otherCounts.all {
             it.key in counts && it.value <= counts[it.key]!!
@@ -102,7 +103,18 @@ internal abstract class AbstractMultiSetImpl<E>: MultiSet<E> {
         return tryOrDefault(false) {
             @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
-            getCounts() == getCounts(other)
+
+            val counts = getCounts()
+
+            if (other is AbstractMultiSetImpl<*>) {
+                @Suppress("UNCHECKED_CAST")
+                other as AbstractMultiSetImpl<E>
+
+                val otherCounts = other.getCounts()
+                counts == otherCounts
+            } else {
+                distinctValues == other.distinctValues && distinctValues.all { counts[it] == other.getCountOf(it) }
+            }
         }
     }
 
@@ -179,24 +191,7 @@ internal abstract class AbstractMultiSetImpl<E>: MultiSet<E> {
      * @return [Map]<E, Int>: mapping where keys are distinct elements in the set,
      * and values are the number of occurrences of the element in [elements]
      */
-    protected fun getCounts(): Map<E, Int> = getCounts(elements)
-
-    /**
-     * Create a mapping of each element in a collection to the number of occurrences of the element.
-     *
-     * @param elements [Collection]<E>: collection to generate map for
-     * @return [Map]<E, Int>: mapping where keys are distinct values from [elements],
-     * and values are the number of occurrences of the element
-     */
-    protected fun getCounts(elements: Collection<E>): Map<E, Int> {
-        val counts: MutableMap<E, Int> = mutableMapOf()
-
-        elements.forEach {
-            counts[it] = counts.getOrDefault(it, 0) + 1
-        }
-
-        return counts
-    }
+    protected fun getCounts(): Map<E, Int> = createCountsMap(elements)
 
     /**
      * If the current set contains 0 elements.

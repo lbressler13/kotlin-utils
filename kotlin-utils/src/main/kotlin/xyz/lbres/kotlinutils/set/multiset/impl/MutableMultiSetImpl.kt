@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.createCountsMap
 import kotlin.math.min
 
 /**
@@ -115,7 +116,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      */
     override fun retainAll(elements: Collection<E>): Boolean {
         val counts = getCounts()
-        val otherCounts = getCounts(elements)
+        val otherCounts = createCountsMap(elements)
 
         list.clear()
 
