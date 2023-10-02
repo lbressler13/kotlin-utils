@@ -3,7 +3,6 @@ package xyz.lbres.kotlinutils.set.multiset.const
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class ConstMultiSetTest {
     private fun <T> createSet(): (Collection<T>) -> ConstMultiSet<T> = { ConstMultiSetImpl(it) }
@@ -33,23 +32,5 @@ class ConstMultiSetTest {
     @Test fun testGetCountOf() = runMultiSetGetCountOfTests(createSet(), createSet())
 
     @Test fun testIterator() = runMultiSetIteratorTests(createSet(), createSet())
-
-    @Test
-    fun testToString() {
-        var set: ConstMultiSet<Int> = emptyConstMultiSet()
-        var expected = "[]"
-        assertEquals(expected, set.toString())
-
-        set = constMultiSetOf(1, 1, 1, 1)
-        expected = "[1, 1, 1, 1]"
-        assertEquals(expected, set.toString())
-
-        set = constMultiSetOf(2, 4, 2, 1)
-        expected = "[2, 2, 4, 1]"
-        assertEquals(expected, set.toString())
-
-        val listSet = constMultiSetOf(listOf(1, 2, 3), listOf(0, 5, 7))
-        expected = "[[1, 2, 3], [0, 5, 7]]"
-        assertEquals(expected, listSet.toString())
-    }
+    @Test fun testToString() = runMultiSetToStringTests(createSet(), createSet())
 }

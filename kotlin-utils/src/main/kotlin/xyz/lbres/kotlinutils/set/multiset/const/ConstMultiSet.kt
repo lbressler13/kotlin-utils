@@ -8,12 +8,6 @@ import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 /**
- * [MultiSet] implementation where values of elements are assumed to be constant.
- * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
- */
-internal class ConstMultiSetImpl<E>(initialElements: Collection<E>) : ConstMultiSet<E>(initialElements)
-
-/**
  * Abstract [MultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
@@ -182,7 +176,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
     }
 
     /**
-     * Generate a counts map from the initial elements, and assign [initialCounts]
+     * Generate a counts map from the initial elements
      *
      * @return [Map]<E, Int>: generated map
      */

@@ -43,12 +43,15 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * Initialize set from existing counts.
      */
     constructor(counts: Map<E, Int>) {
-        _size = counts.values.fold(0, Int::plus)
+        var countsSize = 0
 
         initialElements = mutableListOf()
         counts.forEach { (element, count) ->
             repeat(count) { initialElements.add(element) }
+            countsSize += count
         }
+
+        _size = countsSize
     }
 
     /**
@@ -160,12 +163,11 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      */
     private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
-        val otherCounts = if (other is AbstractMultiSetImpl<E>) {
-            other.getCounts()
-        } else { null }
 
-        val getOtherCount: (E) -> Int = {
-            simpleIf(otherCounts != null, { otherCounts!!.getOrDefault(it, 0) }, { other.getCountOf(it) })
+        var getOtherCount: (E) -> Int = { other.getCountOf(it) }
+        if (other is AbstractMultiSetImpl<E>) {
+            val otherCounts = other.getCounts()
+            getOtherCount = { otherCounts.getOrDefault(it, 0) }
         }
 
         val allValues = simpleIf(useAllValues, { distinctValues + other.distinctValues }, { distinctValues })

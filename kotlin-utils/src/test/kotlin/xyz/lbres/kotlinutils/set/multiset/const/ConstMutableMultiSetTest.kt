@@ -41,30 +41,5 @@ class ConstMutableMultiSetTest {
 
     @Test fun testIterator() = runMultiSetMutableIteratorTests(createSet(), createSet())
 
-    @Test
-    fun testToString() {
-        var set: ConstMutableMultiSet<Int> = constMutableMultiSetOf()
-        var expected = "[]"
-        assertEquals(expected, set.toString())
-
-        set = constMutableMultiSetOf(1, 1, 1, 1)
-        expected = "[1, 1, 1, 1]"
-        assertEquals(expected, set.toString())
-
-        set = constMutableMultiSetOf(2, 4, 2, 1)
-        expected = "[2, 2, 4, 1]"
-        assertEquals(expected, set.toString())
-
-        set.add(5)
-        expected = "[2, 2, 4, 1, 5]"
-        assertEquals(expected, set.toString())
-
-        set.remove(2)
-        expected = "[2, 4, 1, 5]"
-        assertEquals(expected, set.toString())
-
-        val listSet = constMutableMultiSetOf(listOf(1, 2, 3), listOf(0, 5, 7))
-        expected = "[[1, 2, 3], [0, 5, 7]]"
-        assertEquals(expected, listSet.toString())
-    }
+    @Test fun testToString() = runMultiSetMutableToStringTests(createSet(), createSet())
 }

@@ -80,31 +80,7 @@ class MultiSetImplTest {
 
     @Test
     fun testToString() {
-        var set: MultiSet<Int> = emptyMultiSet()
-        var expected = "[]"
-        assertEquals(expected, set.toString())
-
-        set = multiSetOf(100, -200, 400, 800)
-        expected = "[100, -200, 400, 800]"
-        assertEquals(expected, set.toString())
-
-        set = multiSetOf(1, 1, 1, 1)
-        expected = "[1, 1, 1, 1]"
-        assertEquals(expected, set.toString())
-
-        set = multiSetOf(2, 4, 2, 1)
-        expected = "[2, 4, 2, 1]"
-        assertEquals(expected, set.toString())
-
-        val mutableList1 = mutableListOf(1, 2, 3)
-        val mutableList2 = mutableListOf(0, 5, 7)
-        val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2)
-
-        expected = "[[1, 2, 3], [0, 5, 7]]"
-        assertEquals(expected, listSet.toString())
-
-        mutableList2.clear()
-        expected = "[[1, 2, 3], []]"
-        assertEquals(expected, listSet.toString())
+        runMultiSetToStringTests(createSet(), createSet())
+        runMultiSetMutableElementToStringTests(createSet())
     }
 }

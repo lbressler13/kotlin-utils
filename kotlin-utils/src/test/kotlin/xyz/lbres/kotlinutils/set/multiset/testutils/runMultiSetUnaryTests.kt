@@ -99,3 +99,27 @@ fun runMultiSetMutableGetCountOfTests(
     set.remove(5)
     assertEquals(0, set.getCountOf(5))
 }
+
+fun runMultiSetMutableElementGetCountOfTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(1, 2, 3)
+    val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))
+
+    var listValue = listOf(1, 2, 3)
+    var expected = 2
+    assertEquals(expected, listSet.getCountOf(listValue))
+
+    listValue = listOf(1, 2)
+    expected = 0
+    assertEquals(expected, listSet.getCountOf(listValue))
+
+    mutableList1.remove(3)
+
+    listValue = listOf(1, 2, 3)
+    expected = 1
+    assertEquals(expected, listSet.getCountOf(listValue))
+
+    listValue = listOf(1, 2)
+    expected = 1
+    assertEquals(expected, listSet.getCountOf(listValue))
+}

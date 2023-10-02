@@ -32,8 +32,8 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     internal constructor(counts: Map<E, Int>) : super(counts) {
         elements = mutableListOf()
 
-        counts.forEach {
-            repeat(it.value) { _ -> elements.add(it.key) }
+        counts.forEach { (element, count) ->
+            repeat(count) { elements.add(element) }
         }
     }
 
@@ -43,9 +43,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @param element [E]
      * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
-    override fun add(element: E): Boolean {
-        return elements.add(element)
-    }
+    override fun add(element: E): Boolean = elements.add(element)
 
     /**
      * Add all specified elements to the set.
@@ -78,9 +76,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @param element [E]
      * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
-    override fun remove(element: E): Boolean {
-        return elements.remove(element)
-    }
+    override fun remove(element: E): Boolean = elements.remove(element)
 
     /**
      * Remove all specified elements from the set.
