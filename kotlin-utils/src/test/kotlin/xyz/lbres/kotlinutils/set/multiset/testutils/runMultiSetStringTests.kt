@@ -33,12 +33,12 @@ fun runMultiSetToStringTests(
 }
 
 fun runMultiSetMutableToStringTests(
-    createIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
+    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
+    createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
 ) {
-    runMultiSetToStringTests(createIntSet, createIntListSet)
+    runMultiSetToStringTests(createMutableIntSet, createMutableIntListSet)
 
-    val set = createIntSet(listOf(2, 2, 4))
+    val set = createMutableIntSet(listOf(2, 2, 4))
     var options = setOf("[2, 2, 4]", "[2, 4, 2]", "[4, 2, 2]")
     assertContains(options, set.toString())
 

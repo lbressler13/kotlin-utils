@@ -8,7 +8,8 @@ class ConstMultiSetTest {
     private fun <T> createSet(): (Collection<T>) -> ConstMultiSet<T> = { ConstMultiSetImpl(it) }
 
     @Test fun testConstructor() = runConstConstructorTests()
-    @Test fun testEquals() = runConstEqualsTests()
+
+    @Test fun testEquals() = runMultiSetEqualsTests(createSet(), createSet(), createSet()) { MutableMultiSetImpl(it) }
 
     @Test fun testContains() = runMultiSetContainsTests(createSet(), createSet(), createSet())
     @Test fun testContainsAll() = runMultiSetContainsAllTests(createSet())

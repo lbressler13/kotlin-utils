@@ -3,13 +3,12 @@ package xyz.lbres.kotlinutils.set.multiset.const
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class ConstMutableMultiSetTest {
     private fun <T> createSet(): (Collection<T>) -> ConstMutableMultiSet<T> = { ConstMutableMultiSet(it) }
 
     @Test fun testConstructor() = runMutableConstConstructorTests()
-    @Test fun testEquals() = runMutableConstEqualsTests()
+    @Test fun testEquals() = runMultiSetEqualsTests(createSet(), createSet(), createSet()) { MultiSetImpl(it) }
 
     @Test fun testContains() = runMultiSetMutableContainsTests(createSet(), createSet(), createSet())
     @Test fun testContainsAll() = runMultiSetMutableContainsAllTests(createSet())

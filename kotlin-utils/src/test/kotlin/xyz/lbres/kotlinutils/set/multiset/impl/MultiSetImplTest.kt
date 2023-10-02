@@ -11,7 +11,12 @@ class MultiSetImplTest {
     private fun <T> createSet(): (Collection<T>) -> MultiSetImpl<T> = { MultiSetImpl(it) }
 
     @Test fun testConstructor() = runImmutableConstructorTests()
-    @Test fun testEquals() = runImmutableEqualsTests()
+
+    @Test
+    fun testEquals() {
+        runMultiSetEqualsTests(createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetMutableElementsEqualsTests(createSet(), createSet()) { ConstMutableMultiSet(it) }
+    }
 
     @Test
     fun testContains() {
