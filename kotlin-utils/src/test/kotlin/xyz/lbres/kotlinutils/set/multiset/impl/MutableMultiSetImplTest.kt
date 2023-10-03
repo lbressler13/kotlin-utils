@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
@@ -12,7 +13,21 @@ import kotlin.test.assertEquals
 class MutableMultiSetImplTest {
     private fun <T> createSet(): (Collection<T>) -> MutableMultiSetImpl<T> = { MutableMultiSetImpl(it) }
 
-    @Test fun testConstructor() = runMutableConstructorTests()
+    @Test
+    fun testConstructor() {
+        fun <T> doTest(map: Map<String, Any>) {
+            @Suppress(Suppressions.UNCHECKED_CAST)
+            val values = map["values"] as Collection<T>
+            val set = MutableMultiSetImpl(values)
+            testConstructedMultiSet(set, map)
+        }
+
+        multiSetConstructorIntTestValues.forEach { doTest<Int>(it) }
+        multiSetConstructorExceptionTestValues.forEach { doTest<Exception>(it) }
+        multiSetConstructorIntListTestValues.forEach { doTest<IntList>(it) }
+        multiSetConstructorCompListTestValues.forEach { doTest<List<Comparable<*>>>(it) }
+        testConstructorWithMutableElements { doTest<IntList>(it) }
+    }
 
     @Test
     fun testEquals() {

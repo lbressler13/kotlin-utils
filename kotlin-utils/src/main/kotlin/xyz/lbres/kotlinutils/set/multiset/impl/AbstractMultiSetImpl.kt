@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
@@ -97,7 +98,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             return false
         }
 
-        @Suppress("UNCHECKED_CAST")
+        @Suppress(Suppressions.UNCHECKED_CAST)
         return tryOrDefault(false) {
             other as MultiSet<E>
 

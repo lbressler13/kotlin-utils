@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
+
 /**
  * Create a ConstMultiSet containing the given elements.
  *
@@ -30,7 +32,7 @@ fun <E> emptyConstMultiSet(): ConstMultiSet<E> = ConstMultiSetImpl(emptyList())
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
  * @return [ConstMultiSet]<E>
  */
-@Suppress("FunctionName")
+@Suppress(Suppressions.FUNCTION_NAME)
 fun <E> ConstMultiSet(size: Int, init: (Int) -> E): ConstMultiSet<E> = ConstMultiSetImpl((0 until size).map(init))
 
 /**
@@ -40,5 +42,5 @@ fun <E> ConstMultiSet(size: Int, init: (Int) -> E): ConstMultiSet<E> = ConstMult
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
  * @return [ConstMutableMultiSet]<E>
  */
-@Suppress("FunctionName")
+@Suppress(Suppressions.FUNCTION_NAME)
 fun <E> ConstMutableMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl((0 until size).map(init))

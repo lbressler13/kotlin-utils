@@ -1,11 +1,12 @@
 package xyz.lbres.kotlinutils.generic.ext
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@Suppress("KotlinConstantConditions")
+@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class GenericExtTest {
     @Test
     fun testIfNull() {

@@ -37,9 +37,10 @@ Helper functions may still be associated with a class.
 │   ├── src
 │   │   ├── main
 │   │   │   ├── kotlin
-│   │   │   │   ├── kotlinutils  <-- Source code for kotlin-utils module
-│   │   │   │   │   ├── general  <-- Generic util functions and basic classes
-│   │   │   │   │   ├── sample   <-- Sample of a class that already exists in Kotlin
+│   │   │   │   ├── kotlinutils   <-- Source code for kotlin-utils module
+│   │   │   │   │   ├── general   <-- Generic util functions and basic classes
+│   │   │   │   │   ├── internal  <-- Values that are intended for internal use only
+│   │   │   │   │   ├── sample    <-- Sample of a class that already exists in Kotlin
 │   │   │   │   │   ├── sample2               
 │   │   ├── test
 │   │   │   ├── kotlin

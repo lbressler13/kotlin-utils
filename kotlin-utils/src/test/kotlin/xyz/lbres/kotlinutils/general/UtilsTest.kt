@@ -2,6 +2,7 @@ package xyz.lbres.kotlinutils.general
 
 import xyz.lbres.kotlinutils.int.ext.isNegative
 import xyz.lbres.kotlinutils.int.ext.isZero
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import kotlin.math.sqrt
 import kotlin.reflect.KClass
@@ -9,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-@Suppress("BooleanLiteralArgument", "KotlinConstantConditions")
+@Suppress(Suppressions.BOOLEAN_LITERAL_ARG, Suppressions.CONSTANT_CONDITIONS)
 class UtilsTest {
     @Test
     fun testSimpleIf() {

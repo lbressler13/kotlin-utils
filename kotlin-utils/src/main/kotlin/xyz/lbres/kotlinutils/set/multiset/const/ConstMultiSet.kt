@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.general.tryOrDefault
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
@@ -145,7 +146,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
         }
 
         return tryOrDefault(false) {
-            @Suppress("UNCHECKED_CAST")
+            @Suppress(Suppressions.UNCHECKED_CAST)
             other as MultiSet<E>
             distinctValues == other.distinctValues && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
         }

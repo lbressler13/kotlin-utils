@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import kotlin.test.assertEquals
 
@@ -34,11 +35,25 @@ val multiSetConstructorCompListTestValues = listOf(
     )
 )
 
-@Suppress("UNCHECKED_CAST")
+@Suppress(Suppressions.UNCHECKED_CAST)
 fun <T> testConstructedMultiSet(constructedSet: MultiSet<T>, map: Map<String, Any>) {
     val expectedSize: Int = map["size"] as Int
     val expectedDistinct: Set<T> = map["distinct"] as Set<T>
 
     assertEquals(expectedSize, constructedSet.size)
     assertEquals(expectedDistinct, constructedSet.distinctValues)
+}
+
+fun testConstructorWithMutableElements(testConstructor: (Map<String, Any>) -> Unit) {
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(1, 2, 3)
+    val values = listOf(mutableList1, mutableList2, listOf(1, 2, 3))
+
+    var map = mapOf("values" to values, "size" to 3, "distinct" to setOf(listOf(1, 2, 3)))
+    testConstructor(map)
+
+    mutableList1.clear()
+    mutableList2.add(4)
+    map = mapOf("values" to values, "size" to 3, "distinct" to setOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3, 4)))
+    testConstructor(map)
 }

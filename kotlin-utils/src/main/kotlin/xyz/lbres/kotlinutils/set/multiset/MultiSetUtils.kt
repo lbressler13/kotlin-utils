@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 
@@ -33,7 +34,7 @@ fun <E> emptyMultiSet(): MultiSet<E> = MultiSetImpl(emptyList())
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
  * @return [MultiSet]<E>
  */
-@Suppress("FunctionName")
+@Suppress(Suppressions.FUNCTION_NAME)
 fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = MultiSetImpl((0 until size).map(init))
 
 /**
@@ -43,5 +44,5 @@ fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = MultiSetImpl((0 unt
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
  * @return [MutableMultiSet]<E>
  */
-@Suppress("FunctionName")
+@Suppress(Suppressions.FUNCTION_NAME)
 fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = MutableMultiSetImpl((0 until size).map(init))
