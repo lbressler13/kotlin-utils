@@ -2,7 +2,7 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,8 +14,8 @@ class MultiSetImplTest {
 
     @Test
     fun testEquals() {
-        runMultiSetEqualsTests(createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
-        runMultiSetMutableElementsEqualsTests(createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetEqualsTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runMultiSetMutableElementsEqualsTests(createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
     }
 
     @Test
@@ -32,19 +32,19 @@ class MultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMultiSetMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
         runMultiSetMutableElementMinusTests(createSet())
     }
 
     @Test
     fun testPlus() {
-        runMultiSetPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
         runMultiSetMutableElementPlusTests(createSet())
     }
 
     @Test
     fun testIntersect() {
-        runMultiSetIntersectTests(createSet(), createSet(), createSet()) { ConstMutableMultiSet(it) }
+        runMultiSetIntersectTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
         runMultiSetMutableElementIntersectTests(createSet())
     }
 

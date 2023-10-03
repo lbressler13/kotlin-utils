@@ -21,7 +21,7 @@ fun runConstConstructorTests() {
 fun runMutableConstConstructorTests() {
     fun <T> testConstructor(map: Map<String, Any>) {
         val values: Collection<T> = map["values"] as Collection<T>
-        val set: ConstMutableMultiSet<T> = ConstMutableMultiSet(values)
+        val set: ConstMutableMultiSet<T> = ConstMutableMultiSetImpl(values)
         testConstructedMultiSet(set, map)
     }
 

@@ -2,7 +2,7 @@ package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -60,7 +60,7 @@ class MultiSetGenericsTest {
         assertEquals(expectedMutable, genericMultiSetPlus(mutableSet1, mutableSet2))
         assertEquals(expectedMutable, genericMultiSetPlus(mutableSet2, mutableSet1))
 
-        val otherMutable = ConstMutableMultiSet(listOf(2, 3, 4))
+        val otherMutable = ConstMutableMultiSetImpl(listOf(2, 3, 4))
         assertEquals(expectedMutable, genericMultiSetPlus(mutableSet1, otherMutable))
         assertEquals(expectedMutable, genericMultiSetPlus(otherMutable, mutableSet1))
     }
@@ -136,7 +136,7 @@ class MultiSetGenericsTest {
         val expectedMutable = multiSetOf(1, 3)
         assertEquals(expectedMutable, genericMultiSetMinus(mutableSet1, mutableSet2))
 
-        val otherMutable = ConstMutableMultiSet(listOf(2, 3, 4))
+        val otherMutable = ConstMutableMultiSetImpl(listOf(2, 3, 4))
         assertEquals(expectedMutable, genericMultiSetMinus(mutableSet1, otherMutable))
     }
 
@@ -198,7 +198,7 @@ class MultiSetGenericsTest {
         assertEquals(expectedMutable, genericMultiSetIntersect(mutableSet1, mutableSet2))
         assertEquals(expectedMutable, genericMultiSetIntersect(mutableSet2, mutableSet1))
 
-        val otherMutable = ConstMutableMultiSet(listOf(2, 3, 4, 2))
+        val otherMutable = ConstMutableMultiSetImpl(listOf(2, 3, 4, 2))
         assertEquals(expectedMutable, genericMultiSetIntersect(mutableSet1, otherMutable))
         assertEquals(expectedMutable, genericMultiSetIntersect(otherMutable, mutableSet1))
     }

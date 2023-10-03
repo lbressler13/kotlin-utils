@@ -9,12 +9,6 @@ import kotlin.math.min
  */
 internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet<E> {
     /**
-     * Number of elements in set.
-     */
-    override val size: Int
-        get() = elements.size
-
-    /**
      * Elements in the set.
      */
     override val elements: MutableList<E>
@@ -110,10 +104,8 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
 
         this.elements.clear()
 
-        for (pair in counts) {
-            val element = pair.key
-            val currentCount = pair.value
-            val newCount = min(currentCount, otherCounts.getOrDefault(element, 0))
+        for ((element, count) in counts) {
+            val newCount = min(count, otherCounts.getOrDefault(element, 0))
             repeat(newCount) { this.elements.add(element) }
         }
 

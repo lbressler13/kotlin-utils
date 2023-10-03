@@ -9,7 +9,7 @@ import kotlin.math.min
  * [MutableMultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
-class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E>) : MutableMultiSet<E>, ConstMultiSet<E>(initialElements) {
+sealed class ConstMutableMultiSet<E> constructor(initialElements: Collection<E>) : MutableMultiSet<E>, ConstMultiSet<E>(initialElements) {
     /**
      * If all properties are up-to-date with the most recent changes to the counts map
      */
@@ -31,7 +31,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
             return _string
         }
 
-    override val counts: MutableMap<E, Int> = createCountsMap(initialElements).toMutableMap()
+    override val counts: MutableMap<E, Int> = initializeCounts().toMutableMap()
 
     override val distinctValues: Set<E>
         get() = counts.keys

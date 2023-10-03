@@ -180,12 +180,13 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      *
      * @return [Map]<E, Int>: generated map
      */
-    private fun initializeCounts(): Map<E, Int> {
-        val countsMap = createCountsMap(initialElements)
-
-        if (initialCounts == null) {
-            initialCounts = countsMap
+    protected fun initializeCounts(): Map<E, Int> {
+        if (initialCounts != null) {
+            return initialCounts!!
         }
+
+        val countsMap = createCountsMap(initialElements)
+        initialCounts = countsMap
 
         return countsMap
     }

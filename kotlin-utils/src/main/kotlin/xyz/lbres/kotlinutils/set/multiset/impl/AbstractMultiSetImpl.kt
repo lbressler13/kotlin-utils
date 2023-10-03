@@ -8,15 +8,14 @@ import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 /**
- * Abstract [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
+ * Partial [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
 internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     /**
      * Number of elements in set.
      */
-    private val _size: Int
     override val size: Int
-        get() = _size
+        get() = elements.size
 
     /**
      * All distinct values contained in the MultiSet.
@@ -35,7 +34,6 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * Initialize set from a collection of values.
      */
     constructor(elements: Collection<E>) {
-        _size = elements.size
         initialElements = elements
     }
 
@@ -50,8 +48,6 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             repeat(count) { initialElements.add(element) }
             countsSize += count
         }
-
-        _size = countsSize
     }
 
     /**
@@ -85,8 +81,8 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
         val counts = getCounts()
         val otherCounts = createCountsMap(elements)
 
-        return otherCounts.all { (element, count) ->
-            element in counts && count <= counts[element]!!
+        return otherCounts.all { (element, otherCount) ->
+            otherCount <= counts.getOrDefault(element, 0)
         }
     }
 
@@ -101,14 +97,13 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             return false
         }
 
+        @Suppress("UNCHECKED_CAST")
         return tryOrDefault(false) {
-            @Suppress("UNCHECKED_CAST")
             other as MultiSet<E>
 
             val counts = getCounts()
 
             if (other is AbstractMultiSetImpl<*>) {
-                @Suppress("UNCHECKED_CAST")
                 other as AbstractMultiSetImpl<E>
 
                 val otherCounts = other.getCounts()
@@ -175,9 +170,9 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             val count = counts.getOrDefault(it, 0)
             val otherCount = getOtherCount(it)
             operation(count, otherCount)
-        }
+        }.filter { it.value > 0 }
 
-        return MultiSetImpl(newCounts.filter { it.value > 0 })
+        return MultiSetImpl(newCounts)
     }
 
     /**

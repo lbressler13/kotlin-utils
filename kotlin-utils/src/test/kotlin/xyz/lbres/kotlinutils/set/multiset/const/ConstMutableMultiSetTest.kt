@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildc
 import kotlin.test.Test
 
 class ConstMutableMultiSetTest {
-    private fun <T> createSet(): (Collection<T>) -> ConstMutableMultiSet<T> = { ConstMutableMultiSet(it) }
+    private fun <T> createSet(): (Collection<T>) -> ConstMutableMultiSet<T> = { ConstMutableMultiSetImpl(it) }
 
     @Test fun testConstructor() = runMutableConstConstructorTests()
     @Test fun testEquals() = runMultiSetEqualsTests(createSet(), createSet(), createSet()) { MultiSetImpl(it) }
@@ -14,7 +14,7 @@ class ConstMutableMultiSetTest {
     @Test fun testContainsAll() = runMultiSetMutableContainsAllTests(createSet())
 
     @Test fun testClear() = runMultiSetClearTests(createSet())
-    @Test fun testAdd() = runMultiSetAddTests({ ConstMutableMultiSet(it) }, { ConstMutableMultiSet(it) })
+    @Test fun testAdd() = runMultiSetAddTests(createSet(), createSet())
     @Test fun testAddAll() = runMultiSetAddAllTests(createSet())
     @Test fun testRemove() = runMultiSetRemoveTests(createSet())
     @Test fun testRemoveAll() = runMultiSetRemoveAllTests(createSet())

@@ -14,7 +14,7 @@ fun <E> constMultiSetOf(vararg elements: E): ConstMultiSet<E> = ConstMultiSetImp
  * @param elements [E]: variable number of elements to include in set
  * @return [ConstMutableMultiSet]<E>
  */
-fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = ConstMutableMultiSet(elements.toList())
+fun <E> constMutableMultiSetOf(vararg elements: E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl(elements.toList())
 
 /**
  * Create a ConstMultiSet containing 0 elements.
@@ -41,4 +41,4 @@ fun <E> ConstMultiSet(size: Int, init: (Int) -> E): ConstMultiSet<E> = ConstMult
  * @return [ConstMutableMultiSet]<E>
  */
 @Suppress("FunctionName")
-fun <E> ConstMutableMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSet((0 until size).map(init))
+fun <E> ConstMutableMultiSet(size: Int, init: (Int) -> E): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl((0 until size).map(init))
