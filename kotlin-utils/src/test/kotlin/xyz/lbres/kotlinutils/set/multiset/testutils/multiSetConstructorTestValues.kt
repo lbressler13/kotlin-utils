@@ -16,12 +16,12 @@ val multiSetConstructorIntTestValues = listOf(
 )
 
 val multiSetConstructorExceptionTestValues = listOf(
-    mapOf("values" to mutableSetOf(e1, e2, e3), "size" to 3, "distinct" to setOf(e1, e2, e3)),
+    mapOf("values" to mutableListOf(e1, e2, e1, e3), "size" to 4, "distinct" to setOf(e1, e2, e3)),
 )
 
 val multiSetConstructorIntListTestValues = listOf(
     mapOf(
-        "values" to listOf(listOf(1, 3, 4), listOf(55, 66, 77)),
+        "values" to mutableSetOf(listOf(1, 3, 4), listOf(55, 66, 77)),
         "size" to 2,
         "distinct" to setOf(listOf(1, 3, 4), listOf(55, 66, 77))
     )

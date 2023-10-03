@@ -75,3 +75,26 @@ fun runMultiSetMutableIteratorTests(
     }
     assertEquals(expected.sorted(), values.sorted())
 }
+
+fun runMultiSetMutableElementsIteratorTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
+    val mutableList1 = mutableListOf(1, 2, 3)
+    val mutableList2 = mutableListOf(0, 5, 7)
+    val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))
+
+    var listIter = listSet.iterator()
+    var listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
+    var listValues: MutableList<IntList> = mutableListOf()
+    while (listIter.hasNext()) {
+        listValues.add(listIter.next())
+    }
+    assertEquals(listExpected, listValues)
+
+    mutableList2.clear()
+    listIter = listSet.iterator()
+    listExpected = listOf(listOf(1, 2, 3), emptyList())
+    listValues = mutableListOf()
+    while (listIter.hasNext()) {
+        listValues.add(listIter.next())
+    }
+    assertEquals(listExpected, listValues)
+}
