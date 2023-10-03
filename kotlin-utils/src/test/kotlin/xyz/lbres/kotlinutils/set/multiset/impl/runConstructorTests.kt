@@ -1,51 +1,35 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.testutils.multiSetConstructorCompListTestValues
-import xyz.lbres.kotlinutils.set.multiset.testutils.multiSetConstructorExceptionTestValues
-import xyz.lbres.kotlinutils.set.multiset.testutils.multiSetConstructorIntListTestValues
-import xyz.lbres.kotlinutils.set.multiset.testutils.multiSetConstructorIntTestValues
-import kotlin.test.assertEquals
+import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 
 @Suppress("UNCHECKED_CAST")
 fun runImmutableConstructorTests() {
     fun <T> testConstructor(map: Map<String, Any>) {
-        val values: Collection<T> = map["values"] as Collection<T>
-        val expectedSize: Int = map["size"] as Int
-        val expectedDistinct: Set<T> = map["distinct"] as Set<T>
-
-        val set: MultiSet<T> = MultiSetImpl(values)
-        assertEquals(expectedSize, set.size)
-        assertEquals(expectedDistinct, set.distinctValues)
+        val values = map["values"] as Collection<T>
+        val set = MultiSetImpl(values)
+        testConstructedMultiSet(set, map)
     }
 
     multiSetConstructorIntTestValues.forEach { testConstructor<Int>(it) }
     multiSetConstructorExceptionTestValues.forEach { testConstructor<Exception>(it) }
     multiSetConstructorIntListTestValues.forEach { testConstructor<IntList>(it) }
     multiSetConstructorCompListTestValues.forEach { testConstructor<List<Comparable<*>>>(it) }
-
     testConstructorWithMutableElements { testConstructor<IntList>(it) }
 }
 
 @Suppress("UNCHECKED_CAST")
 fun runMutableConstructorTests() {
     fun <T> testConstructor(map: Map<String, Any>) {
-        val values: Collection<T> = map["values"] as Collection<T>
-        val expectedSize: Int = map["size"] as Int
-        val expectedDistinct: Set<T> = map["distinct"] as Set<T>
-
-        val set: MutableMultiSet<T> = MutableMultiSetImpl(values)
-        assertEquals(expectedSize, set.size)
-        assertEquals(expectedDistinct, set.distinctValues)
+        val values = map["values"] as Collection<T>
+        val set = MutableMultiSetImpl(values)
+        testConstructedMultiSet(set, map)
     }
 
     multiSetConstructorIntTestValues.forEach { testConstructor<Int>(it) }
     multiSetConstructorExceptionTestValues.forEach { testConstructor<Exception>(it) }
     multiSetConstructorIntListTestValues.forEach { testConstructor<IntList>(it) }
     multiSetConstructorCompListTestValues.forEach { testConstructor<List<Comparable<*>>>(it) }
-
     testConstructorWithMutableElements { testConstructor<IntList>(it) }
 }
 

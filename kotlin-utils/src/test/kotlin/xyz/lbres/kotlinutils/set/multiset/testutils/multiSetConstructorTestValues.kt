@@ -1,5 +1,8 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import kotlin.test.assertEquals
+
 private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = ArithmeticException()
@@ -30,3 +33,12 @@ val multiSetConstructorCompListTestValues = listOf(
         "distinct" to setOf(listOf(1, 2, 3), listOf("abc", "def"))
     )
 )
+
+fun <T> testConstructedMultiSet(set: MultiSet<T>, map: Map<String, Any>) {
+    @Suppress("UNCHECKED_CAST")
+    val expectedDistinct: Set<T> = map["distinct"] as Set<T>
+    val expectedSize: Int = map["size"] as Int
+
+    assertEquals(expectedDistinct, set.distinctValues)
+    assertEquals(expectedSize, set.size)
+}
