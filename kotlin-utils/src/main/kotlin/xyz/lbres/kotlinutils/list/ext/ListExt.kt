@@ -48,3 +48,5 @@ fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
  * @return [Boolean]: true if list consists of single value, false otherwise
  */
 fun <T> List<T>.isSingleValue(): Boolean = size == 1
+
+// TODO: elements equal using const multiset

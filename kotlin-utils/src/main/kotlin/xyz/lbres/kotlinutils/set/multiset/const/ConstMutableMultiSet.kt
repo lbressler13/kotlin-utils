@@ -1,12 +1,15 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.const
 
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
+import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 /**
  * [MutableMultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
-class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E>) : MutableMultiSet<E>, ConstMultiSet<E>(initialElements) {
+sealed class ConstMutableMultiSet<E> constructor(initialElements: Collection<E>) : MutableMultiSet<E>, ConstMultiSet<E>(initialElements) {
     /**
      * If all properties are up-to-date with the most recent changes to the counts map
      */
@@ -28,7 +31,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
             return _string
         }
 
-    override val counts: MutableMap<E, Int> = createCounts(initialElements).toMutableMap()
+    override val counts: MutableMap<E, Int> = initializeCounts().toMutableMap()
 
     override val distinctValues: Set<E>
         get() = counts.keys
@@ -106,7 +109,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
      */
     override fun retainAll(elements: Collection<E>): Boolean {
         val initialSize = size
-        val elementsCounts = createCounts(elements)
+        val elementsCounts = createCountsMap(elements)
 
         val newCounts = distinctValues.associateWith {
             min(getCountOf(it), elementsCounts.getOrDefault(it, 0))
@@ -155,7 +158,7 @@ class ConstMutableMultiSet<E> internal constructor(initialElements: Collection<E
             counts.forEach { (element, count) ->
                 repeat(count) { _elements.add(element) }
             }
-            _string = createString(counts)
+            _string = countsToString(counts)
 
             allPropertiesUpdated = true
         }

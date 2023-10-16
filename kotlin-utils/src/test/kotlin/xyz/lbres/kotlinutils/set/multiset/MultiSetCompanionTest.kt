@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.set.multiset.testutils.TestMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -10,8 +10,8 @@ class MultiSetCompanionTest {
     fun testGenericPlus() {
         val intSet1 = multiSetOf(1, 2, 2, 3, 3, 3)
         val intSet2 = multiSetOf(1, 2, 0)
-        val intSet3 = TestMultiSet(listOf(1, 2, 2, 3, 3, 3))
-        val intSet4 = TestMultiSet(listOf(1, 2, 0))
+        val intSet3 = ConstMultiSetImpl(listOf(1, 2, 2, 3, 3, 3))
+        val intSet4 = ConstMultiSetImpl(listOf(1, 2, 0))
         val expectedInt = multiSetOf(1, 2, 2, 3, 3, 3, 1, 2, 0)
 
         assertEquals(expectedInt, MultiSet.genericPlus(intSet1, intSet2))
@@ -30,8 +30,8 @@ class MultiSetCompanionTest {
     fun testGenericMinus() {
         val intSet1 = multiSetOf(1, 1, 2, 3, 4, 5, 5)
         val intSet2 = multiSetOf(1, 1, 5, 6, 6, 7)
-        val intSet3 = TestMultiSet(listOf(1, 1, 2, 3, 4, 5, 5))
-        val intSet4 = TestMultiSet(listOf(1, 1, 5, 6, 6, 7))
+        val intSet3 = ConstMultiSetImpl(listOf(1, 1, 2, 3, 4, 5, 5))
+        val intSet4 = ConstMultiSetImpl(listOf(1, 1, 5, 6, 6, 7))
         val expectedInt = multiSetOf(2, 3, 4, 5)
 
         assertEquals(expectedInt, MultiSet.genericMinus(intSet1, intSet2))
@@ -51,8 +51,8 @@ class MultiSetCompanionTest {
     fun testGenericIntersect() {
         val intSet1 = multiSetOf(1, 2, 3, 5, 5, 5)
         val intSet2 = multiSetOf(4, 5, 5, 6, 7, 8)
-        val intSet3 = TestMultiSet(listOf(1, 2, 3, 5, 5, 5))
-        val intSet4 = TestMultiSet(listOf(4, 5, 5, 6, 7, 8))
+        val intSet3 = ConstMultiSetImpl(listOf(1, 2, 3, 5, 5, 5))
+        val intSet4 = ConstMultiSetImpl(listOf(4, 5, 5, 6, 7, 8))
         val expectedInt = multiSetOf(5, 5)
 
         assertEquals(expectedInt, MultiSet.genericIntersect(intSet1, intSet2))

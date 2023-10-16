@@ -1,11 +1,12 @@
 package xyz.lbres.kotlinutils.collection.ext
 
 import xyz.lbres.kotlinutils.iterable.ext.countElement
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 
@@ -35,7 +36,7 @@ fun <E> Collection<E>.toConstMultiSet(): ConstMultiSet<E> = ConstMultiSetImpl(th
  *
  * @return [ConstMutableMultiSet]<E>
  */
-fun <E> Collection<E>.toMutableConstMultiSet(): ConstMutableMultiSet<E> = ConstMutableMultiSet(this)
+fun <E> Collection<E>.toMutableConstMultiSet(): ConstMutableMultiSet<E> = ConstMutableMultiSetImpl(this)
 
 /**
  * Count number of elements in the collection that are null.

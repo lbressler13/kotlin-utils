@@ -2,51 +2,17 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
-// TODO standard multiset cleanup classes
-
 /**
- * Set implementation that allows multiple occurrences of the same value.
+ * [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
-internal class MultiSetImpl<E> : AbstractMultiSet<E> {
-    /**
-     * Number of elements in set.
-     */
-    override val size: Int
-
-    /**
-     * Elements in the set.
-     */
-    override val elements: Collection<E>
-
+internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
     /**
      * Initialize set from a collection of values.
      */
-    constructor(elements: Collection<E>) {
-        size = elements.size
-        this.elements = elements
-    }
+    constructor(elements: Collection<E>) : super(elements)
 
     /**
      * Initialize set from existing counts.
      */
-    internal constructor(counts: Map<E, Int>) {
-        size = counts.values.fold(0, Int::plus)
-
-        elements = mutableListOf()
-        counts.forEach {
-            repeat(it.value) { _ -> elements.add(it.key) }
-        }
-    }
-
-    /**
-     * Initialize a new MultiSet from existing counts.
-     */
-    override fun createFromCounts(counts: Map<E, Int>): MultiSet<E> = MultiSetImpl(counts)
-
-    /**
-     * Get an iterator for the elements in this set.
-     *
-     * @return [Iterator]<E>
-     */
-    override fun iterator(): Iterator<E> = elements.toList().iterator()
+    constructor(counts: Map<E, Int>) : super(counts)
 }

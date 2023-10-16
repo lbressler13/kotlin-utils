@@ -1,12 +1,13 @@
 package xyz.lbres.kotlinutils.collection.ext
 
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.constMultiSetOf
-import xyz.lbres.kotlinutils.set.multiset.constMutableMultiSetOf
-import xyz.lbres.kotlinutils.set.multiset.emptyConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.constMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.const.constMutableMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.const.emptyConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
@@ -15,7 +16,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@Suppress("KotlinConstantConditions")
+@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class CollectionExtTest {
     @Test
     fun testToMultiSet() {

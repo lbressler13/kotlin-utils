@@ -1,8 +1,8 @@
 package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.set.multiset.testutils.TestMultiSet
-import xyz.lbres.kotlinutils.set.multiset.testutils.TestMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -30,13 +30,13 @@ class MultiSetGenericsTest {
         assertEquals(expectedInt, genericMultiSetPlus(intSet2, intSet1))
 
         val stringSet1 = multiSetOf("", "hello", "world", "goodbye")
-        val stringSet2 = TestMultiSet(listOf("hi", "no", "bye"))
+        val stringSet2 = ConstMultiSetImpl(listOf("hi", "no", "bye"))
         val expectedString = multiSetOf("", "hello", "world", "goodbye", "hi", "no", "bye")
         assertEquals(expectedString, genericMultiSetPlus(stringSet1, stringSet2))
         assertEquals(expectedString, genericMultiSetPlus(stringSet2, stringSet1))
 
-        val listSet1 = TestMultiSet(listOf(listOf(-3), listOf(2, 3, 4), listOf(1, 2, 3)))
-        val listSet2 = TestMultiSet(multiSetOf(emptyList(), listOf(1, 2, 3)))
+        val listSet1 = ConstMultiSetImpl(listOf(listOf(-3), listOf(2, 3, 4), listOf(1, 2, 3)))
+        val listSet2 = ConstMultiSetImpl(multiSetOf(emptyList(), listOf(1, 2, 3)))
         val expectedList = multiSetOf(listOf(-3), listOf(2, 3, 4), listOf(1, 2, 3), emptyList(), listOf(1, 2, 3))
         assertEquals(expectedList, genericMultiSetPlus(listSet1, listSet2))
         assertEquals(expectedList, genericMultiSetPlus(listSet2, listSet1))
@@ -60,7 +60,7 @@ class MultiSetGenericsTest {
         assertEquals(expectedMutable, genericMultiSetPlus(mutableSet1, mutableSet2))
         assertEquals(expectedMutable, genericMultiSetPlus(mutableSet2, mutableSet1))
 
-        val otherMutable = TestMutableMultiSet(listOf(2, 3, 4))
+        val otherMutable = ConstMutableMultiSetImpl(listOf(2, 3, 4))
         assertEquals(expectedMutable, genericMultiSetPlus(mutableSet1, otherMutable))
         assertEquals(expectedMutable, genericMultiSetPlus(otherMutable, mutableSet1))
     }
@@ -96,10 +96,10 @@ class MultiSetGenericsTest {
         assertEquals(expectedInt, genericMultiSetMinus(intSet2, intSet1))
 
         val stringSet1 = multiSetOf("hello", "world", "goodbye", "world", "hello", "goodbye")
-        val stringSet2 = TestMultiSet(listOf("greetings", "planet", "farewell", "planet", "greetings", "farewell"))
-        var stringExpected = TestMultiSet(listOf("hello", "world", "goodbye", "world", "hello", "goodbye"))
+        val stringSet2 = ConstMultiSetImpl(listOf("greetings", "planet", "farewell", "planet", "greetings", "farewell"))
+        var stringExpected = ConstMultiSetImpl(listOf("hello", "world", "goodbye", "world", "hello", "goodbye"))
         assertEquals(stringExpected, genericMultiSetMinus(stringSet1, stringSet2))
-        stringExpected = TestMultiSet(listOf("greetings", "planet", "farewell", "planet", "greetings", "farewell"))
+        stringExpected = ConstMultiSetImpl(listOf("greetings", "planet", "farewell", "planet", "greetings", "farewell"))
         assertEquals(stringExpected, genericMultiSetMinus(stringSet2, stringSet1))
 
         intSet1 = multiSetOf(1, 1, 2, 3, 4, 5, 5)
@@ -109,8 +109,8 @@ class MultiSetGenericsTest {
         expectedInt = multiSetOf(6, 6, 7)
         assertEquals(expectedInt, genericMultiSetMinus(intSet2, intSet1))
 
-        val listSet1 = TestMultiSet(listOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3)))
-        val listSet2: MultiSet<List<Int>> = TestMultiSet(listOf(emptyList(), listOf(1, 2, 3)))
+        val listSet1 = ConstMultiSetImpl(listOf(listOf(1, 2, 3), listOf(2, 3, 4), listOf(1, 2, 3)))
+        val listSet2: MultiSet<List<Int>> = ConstMultiSetImpl(listOf(emptyList(), listOf(1, 2, 3)))
         var listExpected = multiSetOf(listOf(1, 2, 3), listOf(2, 3, 4))
         assertEquals(listExpected, genericMultiSetMinus(listSet1, listSet2))
         listExpected = multiSetOf(emptyList())
@@ -136,7 +136,7 @@ class MultiSetGenericsTest {
         val expectedMutable = multiSetOf(1, 3)
         assertEquals(expectedMutable, genericMultiSetMinus(mutableSet1, mutableSet2))
 
-        val otherMutable = TestMutableMultiSet(listOf(2, 3, 4))
+        val otherMutable = ConstMutableMultiSetImpl(listOf(2, 3, 4))
         assertEquals(expectedMutable, genericMultiSetMinus(mutableSet1, otherMutable))
     }
 
@@ -198,7 +198,7 @@ class MultiSetGenericsTest {
         assertEquals(expectedMutable, genericMultiSetIntersect(mutableSet1, mutableSet2))
         assertEquals(expectedMutable, genericMultiSetIntersect(mutableSet2, mutableSet1))
 
-        val otherMutable = TestMutableMultiSet(listOf(2, 3, 4, 2))
+        val otherMutable = ConstMutableMultiSetImpl(listOf(2, 3, 4, 2))
         assertEquals(expectedMutable, genericMultiSetIntersect(mutableSet1, otherMutable))
         assertEquals(expectedMutable, genericMultiSetIntersect(otherMutable, mutableSet1))
     }

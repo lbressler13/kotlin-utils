@@ -48,16 +48,6 @@ internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction
 }
 
 /**
- * Assert that a value matches any of the provided options
- *
- * @param expectedOptions [Collection]<T>: possible allowed results
- * @param actual [T]: the actual value
- */
-internal fun <T> assertEqualsAnyOf(expectedOptions: Collection<T>, actual: T) {
-    assertTrue { expectedOptions.any { it == actual } }
-}
-
-/**
  * Run a test, with one retry in the event of failure.
  * Can be used for tests with a small but non-zero possibility of failure due to randomization.
  *
@@ -69,4 +59,14 @@ internal fun runTestWithRetry(test: () -> Unit) {
     } catch (_: Throwable) {
         test()
     }
+}
+
+// TODO use in additional places
+/**
+ * Assert that a collection is empty
+ *
+ * @param collection [Collection]<T>?: collection to validate
+ */
+internal fun <T> assertEmpty(collection: Collection<T>?) {
+    assertTrue(collection != null && collection.isEmpty())
 }

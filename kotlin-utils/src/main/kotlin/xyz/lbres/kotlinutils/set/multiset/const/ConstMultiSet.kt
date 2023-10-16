@@ -1,22 +1,18 @@
-package xyz.lbres.kotlinutils.set.multiset
+package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.general.tryOrDefault
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
+import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
-
-// TODO decide final package placement
-
-/**
- * [MultiSet] implementation where values of elements are assumed to be constant.
- * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
- */
-class ConstMultiSetImpl<E>(initialElements: Collection<E>) : ConstMultiSet<E>(initialElements)
 
 /**
  * Abstract [MultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
-sealed class ConstMultiSet<E> constructor(initialElements: Collection<E>) : MultiSet<E> {
+sealed class ConstMultiSet<E> constructor(private val initialElements: Collection<E>) : MultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -31,17 +27,17 @@ sealed class ConstMultiSet<E> constructor(initialElements: Collection<E>) : Mult
      * Map where each key is an element in the set, and each value is the number of occurrences of the element in the set.
      * Counts are guaranteed to be greater than 0.
      */
-    protected open val counts: Map<E, Int> = createCounts(initialElements, true)
+    protected open val counts: Map<E, Int> = initializeCounts()
 
     /**
      * All distinct values contained in the set.
      */
-    override val distinctValues: Set<E> = (initialCounts ?: createCounts(initialElements, true)).keys
+    override val distinctValues: Set<E> = (initialCounts ?: initializeCounts()).keys
 
     /**
      * String representation of the set
      */
-    protected open val string: String = createString(initialCounts ?: createCounts(initialElements, true))
+    protected open val string: String = countsToString(initialCounts ?: initializeCounts())
 
     /**
      * All elements in the set
@@ -72,7 +68,7 @@ sealed class ConstMultiSet<E> constructor(initialElements: Collection<E>) : Mult
      * @return [Boolean]: `true` if the current set contains at least as many occurrences of each value as the collection, `false` otherwise
      */
     override fun containsAll(elements: Collection<E>): Boolean {
-        val otherCounts = createCounts(elements)
+        val otherCounts = createCountsMap(elements)
 
         return otherCounts.all { (element, otherCount) ->
             otherCount <= getCountOf(element)
@@ -150,7 +146,7 @@ sealed class ConstMultiSet<E> constructor(initialElements: Collection<E>) : Mult
         }
 
         return tryOrDefault(false) {
-            @Suppress("UNCHECKED_CAST")
+            @Suppress(Suppressions.UNCHECKED_CAST)
             other as MultiSet<E>
             distinctValues == other.distinctValues && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
         }
@@ -181,43 +177,18 @@ sealed class ConstMultiSet<E> constructor(initialElements: Collection<E>) : Mult
     }
 
     /**
-     * Create a counts map from a collection of values
+     * Generate a counts map from the initial elements
      *
-     * @param values [Collection]<E>: values to include in map
-     * @param isInitialization [Boolean]: if the function is being called as part of the set initialization. Defaults to `false`
      * @return [Map]<E, Int>: generated map
      */
-    protected fun createCounts(values: Collection<E>, isInitialization: Boolean = false): Map<E, Int> {
-        val valuesCounts: MutableMap<E, Int> = mutableMapOf()
-
-        values.forEach {
-            valuesCounts[it] = valuesCounts.getOrDefault(it, 0) + 1
+    protected fun initializeCounts(): Map<E, Int> {
+        if (initialCounts != null) {
+            return initialCounts!!
         }
 
-        if (isInitialization && initialCounts == null) {
-            initialCounts = valuesCounts
-        }
+        val countsMap = createCountsMap(initialElements)
+        initialCounts = countsMap
 
-        return valuesCounts
-    }
-
-    /**
-     * Create a string representation of a counts map
-     *
-     * @param values [Map]<E, Int>: map to use in creating string
-     * @return [String]: string representation of [values]
-     */
-    protected fun createString(values: Map<E, Int>): String {
-        if (values.isEmpty()) {
-            return "[]"
-        }
-
-        var elementsString = ""
-        values.forEach { (value, count) ->
-            elementsString += "$value, ".repeat(count)
-        }
-        elementsString = elementsString.substring(0 until elementsString.lastIndex - 1) // remove trailing ", "
-
-        return "[$elementsString]"
+        return countsMap
     }
 }
