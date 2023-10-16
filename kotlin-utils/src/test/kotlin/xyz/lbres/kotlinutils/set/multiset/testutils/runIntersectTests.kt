@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.assertEmpty
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
@@ -20,29 +21,28 @@ fun runIntersectTests(
 ) {
     // empty
     var intSet1 = createIntSet(emptyList())
-
     var intSet2 = createIntSet(emptyList())
-    assertEquals(emptyMultiSet(), intSet1 intersect intSet2)
+    assertEmpty(intSet1 intersect intSet2)
 
     assertIsNot<ConstMultiSet<*>>(intSet1 intersect intSet2)
 
     intSet2 = createIntSet(listOf(1, 2, 3))
-    assertEquals(emptyMultiSet(), intSet1 intersect intSet2)
-    assertEquals(emptyMultiSet(), intSet2 intersect intSet1)
+    assertEmpty(intSet1 intersect intSet2)
+    assertEmpty(intSet2 intersect intSet1)
 
     // none shared
     intSet1 = createIntSet(listOf(1, 2, 3))
     intSet2 = createIntSet(listOf(4, 5, 6, 7, 8))
-    assertEquals(emptyMultiSet(), intSet1 intersect intSet2)
-    assertEquals(emptyMultiSet(), intSet2 intersect intSet1)
+    assertEmpty(intSet1 intersect intSet2)
+    assertEmpty(intSet2 intersect intSet1)
 
     var otherSet = createOtherIntSet(listOf(4, 5, 6, 7, 8))
-    assertEquals(emptyMultiSet(), intSet1 intersect otherSet)
+    assertEmpty(intSet1 intersect otherSet)
 
     var listSet1 = createIntListSet(listOf(listOf(1, 2, 3), listOf(4, 5)))
     var listSet2 = createIntListSet(listOf(listOf(1, 2), listOf(3, 4, 5)))
-    assertEquals(emptyMultiSet(), listSet1 intersect listSet2)
-    assertEquals(emptyMultiSet(), listSet2 intersect listSet1)
+    assertEmpty(listSet1 intersect listSet2)
+    assertEmpty(listSet2 intersect listSet1)
 
     // all shared
     intSet1 = createIntSet(listOf(1, 2, 3))

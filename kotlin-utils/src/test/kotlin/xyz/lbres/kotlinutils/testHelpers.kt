@@ -60,3 +60,13 @@ internal fun runTestWithRetry(test: () -> Unit) {
         test()
     }
 }
+
+// TODO use in additional places
+/**
+ * Assert that a collection is empty
+ *
+ * @param collection [Collection]<T>?: collection to validate
+ */
+internal fun <T> assertEmpty(collection: Collection<T>?) {
+    assertTrue(collection != null && collection.isEmpty())
+}

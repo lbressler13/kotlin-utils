@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.assertEmpty
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertEquals
 import kotlin.test.assertIsNot
@@ -22,8 +22,8 @@ fun runPlusTests(
     // empty
     var intSet1: MultiSet<Int> = createIntSet(emptyList())
     var intSet2: MultiSet<Int> = createIntSet(emptyList())
-    assertEquals(emptyMultiSet(), intSet1 + intSet2)
-    assertEquals(emptyMultiSet(), intSet2 + intSet1)
+    assertEmpty(intSet1 + intSet2)
+    assertEmpty(intSet2 + intSet1)
 
     assertIsNot<ConstMultiSet<*>>(intSet1 + intSet2)
 

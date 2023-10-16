@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.assertEmpty
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertEquals
 import kotlin.test.assertIsNot
@@ -22,24 +22,24 @@ fun runMinusTests(
     // empty
     var intSet1 = createIntSet(emptyList())
     var intSet2 = createIntSet(emptyList())
-    assertEquals(emptyMultiSet(), intSet1 - intSet2)
-    assertEquals(emptyMultiSet(), intSet2 - intSet1)
+    assertEmpty(intSet1 - intSet2)
+    assertEmpty(intSet2 - intSet1)
 
     assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
 
     intSet1 = createIntSet(listOf(1, 2, 3, 3))
     assertEquals(intSet1, intSet1 - intSet2)
-    assertEquals(emptyMultiSet(), intSet2 - intSet1)
+    assertEmpty(intSet2 - intSet1)
 
     // equal
     intSet1 = createIntSet(listOf(1, 2, 3, 4, 5))
-    assertEquals(emptyMultiSet(), intSet1 - intSet1)
+    assertEmpty(intSet1 - intSet1)
 
     var listSet1 = createCompListSet(listOf(listOf(1, 2, 3), listOf(456, 789)))
-    assertEquals(emptyMultiSet(), listSet1 - listSet1)
+    assertEmpty(listSet1 - listSet1)
 
     var otherSet = createOtherIntSet(listOf(1, 2, 3, 4, 5))
-    assertEquals(emptyMultiSet(), intSet1 - otherSet)
+    assertEmpty(intSet1 - otherSet)
 
     // all shared
     intSet1 = createIntSet(listOf(1, 1, 2, 3, 4, 4, 4))
@@ -106,12 +106,11 @@ fun runMutableElementMinusTests(createIntListSet: (List<IntList>) -> MultiSet<Li
     val listSet1: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))
     val listSet2: MultiSet<IntList> = createIntListSet(listOf(listOf(1, 2, 3), listOf(0, 5, 7)))
 
-    var expectedList: MultiSet<IntList> = emptyMultiSet()
-    assertEquals(expectedList, listSet1 - listSet2)
-    assertEquals(expectedList, listSet2 - listSet1)
+    assertEmpty(listSet1 - listSet2)
+    assertEmpty(listSet2 - listSet1)
 
     mutableList2.add(3)
-    expectedList = createIntListSet(listOf(listOf(0, 5, 7, 3)))
+    var expectedList = createIntListSet(listOf(listOf(0, 5, 7, 3)))
     assertEquals(expectedList, listSet1 - listSet2)
     expectedList = createIntListSet(listOf(listOf(0, 5, 7)))
     assertEquals(expectedList, listSet2 - listSet1)
