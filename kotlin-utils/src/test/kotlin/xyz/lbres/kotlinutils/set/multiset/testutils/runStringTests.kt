@@ -56,6 +56,9 @@ fun runMutableToStringTests(
         "[1, 2, 4]", "[1, 4, 2]", "[2, 1, 4]", "[2, 4, 1]", "[4, 1, 2]", "[4, 2, 1]"
     )
     assertContains(options, set.toString())
+
+    set.clear()
+    assertEquals("[]", set.toString())
 }
 
 fun runMutableElementToStringTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {

@@ -8,6 +8,7 @@ import kotlin.test.Test
 
 class ConstMultiSetTest {
     private fun <T> createSet(): (Collection<T>) -> ConstMultiSet<T> = { ConstMultiSetImpl(it) }
+    private fun <T> createOtherSet(): (Collection<T>) -> MutableMultiSetImpl<T> = { MutableMultiSetImpl(it) }
 
     @Test
     fun testConstructor() {
@@ -24,24 +25,24 @@ class ConstMultiSetTest {
         multiSetConstructorCompListTestValues.forEach { runTest<List<Comparable<*>>>(it) }
     }
 
-    @Test fun testEquals() = runEqualsTests(createSet(), createSet(), createSet()) { MutableMultiSetImpl(it) }
+    @Test fun testEquals() = runEqualsTests(createSet(), createSet(), createSet(), createOtherSet())
 
     @Test fun testContains() = runContainsTests(createSet(), createSet(), createSet())
     @Test fun testContainsAll() = runContainsAllTests(createSet())
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { MutableMultiSetImpl(it) }
+        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { MutableMultiSetImpl(it) }
+        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet()) { MutableMultiSetImpl(it) }
+        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
     }
 
     @Test fun testIsEmpty() = runIsEmptyTests(createSet(), createSet())

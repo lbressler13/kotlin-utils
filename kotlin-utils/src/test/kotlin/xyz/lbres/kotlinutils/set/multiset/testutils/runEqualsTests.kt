@@ -1,18 +1,20 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 
+@Suppress(Suppressions.UNCHECKED_CAST)
 fun runEqualsTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
     createStringSet: (Collection<String>) -> MultiSet<String>,
     createOtherIntSet: (Collection<Int>) -> MultiSet<Int>
 ) {
-    // equals
+    // equal
     var set1: MultiSet<Int> = createIntSet(emptyList())
     assertEquals(set1, set1)
 
@@ -33,7 +35,7 @@ fun runEqualsTests(
     var otherSet = createOtherIntSet(listOf(1, 2, 3))
     assertEquals(set1, otherSet)
 
-    // not equals
+    // not equal
     set1 = createIntSet(emptyList())
     set2 = createIntSet(listOf(0))
     assertNotEquals(set1, set2)
@@ -68,7 +70,35 @@ fun runEqualsTests(
     assertNotEquals(listSet1, listSet2)
     assertNotEquals(listSet2, listSet1)
 
-    assertFalse(stringSet1 == set1)
+    val anySet1 = stringSet1 as MultiSet<Any>
+    val anySet2 = set1 as MultiSet<Any>
+    assertNotEquals(anySet1, anySet2)
+}
+
+fun runMutableEqualsTests(
+    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
+    createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>,
+    createMutableStringSet: (Collection<String>) -> MutableMultiSet<String>,
+    createOtherIntSet: (Collection<Int>) -> MultiSet<Int>
+) {
+    runEqualsTests(createMutableIntSet, createMutableIntListSet, createMutableStringSet, createOtherIntSet)
+
+    val set1 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
+    val set2 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
+    assertEquals(set1, set2)
+    assertEquals(set2, set1)
+
+    set1.add(7)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
+
+    set1.remove(7)
+    assertEquals(set1, set2)
+    assertEquals(set2, set1)
+
+    set2.remove(4)
+    assertNotEquals(set1, set2)
+    assertNotEquals(set2, set1)
 }
 
 fun runMutableElementsEqualsTests(

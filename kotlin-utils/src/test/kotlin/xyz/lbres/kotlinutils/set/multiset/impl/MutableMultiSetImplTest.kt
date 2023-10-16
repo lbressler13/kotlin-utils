@@ -8,6 +8,7 @@ import kotlin.test.Test
 
 class MutableMultiSetImplTest {
     private fun <T> createSet(): (Collection<T>) -> MutableMultiSetImpl<T> = { MutableMultiSetImpl(it) }
+    private fun <T> createOtherSet(): (Collection<T>) -> ConstMultiSetImpl<T> = { ConstMultiSetImpl(it) }
 
     @Test
     fun testConstructor() {
@@ -27,8 +28,8 @@ class MutableMultiSetImplTest {
 
     @Test
     fun testEquals() {
-        runEqualsTests(createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
-        runMutableElementsEqualsTests(createSet(), createSet()) { ConstMultiSetImpl(it) }
+        runMutableEqualsTests(createSet(), createSet(), createSet(), createOtherSet())
+        runMutableElementsEqualsTests(createSet(), createSet(), createOtherSet())
     }
 
     @Test
@@ -43,28 +44,28 @@ class MutableMultiSetImplTest {
         runMutableElementContainsAllTests(createSet())
     }
 
-    @Test fun testClear() = runStandardImplClearTests()
-    @Test fun testAdd() = runStandardImplAddTests()
-    @Test fun testAddAll() = runStandardImplAddAllTests()
-    @Test fun testRemove() = runStandardImplRemoveTests()
-    @Test fun testRemoveAll() = runStandardImplRemoveAllTests()
-    @Test fun testRetainAll() = runStandardImplRetainAllTests()
+    @Test fun testClear() = runClearTests(createSet())
+    @Test fun testAdd() = runMutableElementsAddTests()
+    @Test fun testAddAll() = runMutableElementsAddAllTests()
+    @Test fun testRemove() = runMutableElementsRemoveTests()
+    @Test fun testRemoveAll() = runMutableElementsRemoveAllTests()
+    @Test fun testRetainAll() = runMutableElementsRetainAllTests()
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
+        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
         runMutableElementMinusTests(createSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
+        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
         runMutableElementPlusTests(createSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
+        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
         runMutableElementIntersectTests(createSet())
     }
 

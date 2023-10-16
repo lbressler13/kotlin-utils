@@ -3,12 +3,13 @@ package xyz.lbres.kotlinutils.set.multiset.testutils
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 fun runIteratorTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
+    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
 ) {
     var set: MultiSet<Int> = createIntSet(emptyList())
     var iter = set.iterator()
@@ -34,12 +35,15 @@ fun runIteratorTests(
 
     val listSet = createIntListSet(listOf(listOf(1, 2, 3), listOf(0, 5, 7)))
     val listIter = listSet.iterator()
-    val listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
+    val listOptions = setOf(
+        listOf(listOf(1, 2, 3), listOf(0, 5, 7)),
+        listOf(listOf(0, 5, 7), listOf(1, 2, 3))
+    )
     val listValues: MutableList<IntList> = mutableListOf()
     while (listIter.hasNext()) {
         listValues.add(listIter.next())
     }
-    assertEquals(listExpected, listValues)
+    assertContains(listOptions, listValues)
 }
 
 fun runMutableIteratorTests(
@@ -82,19 +86,25 @@ fun runMutableElementsIteratorTests(createIntListSet: (Collection<IntList>) -> M
     val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))
 
     var listIter = listSet.iterator()
-    var listExpected = listOf(listOf(1, 2, 3), listOf(0, 5, 7))
+    var listOptions = setOf(
+        listOf(listOf(1, 2, 3), listOf(0, 5, 7)),
+        listOf(listOf(0, 5, 7), listOf(1, 2, 3))
+    )
     var listValues: MutableList<IntList> = mutableListOf()
     while (listIter.hasNext()) {
         listValues.add(listIter.next())
     }
-    assertEquals(listExpected, listValues)
+    assertContains(listOptions, listValues)
 
     mutableList2.clear()
     listIter = listSet.iterator()
-    listExpected = listOf(listOf(1, 2, 3), emptyList())
+    listOptions = setOf(
+        listOf(listOf(1, 2, 3), emptyList()),
+        listOf(emptyList(), listOf(1, 2, 3))
+    )
     listValues = mutableListOf()
     while (listIter.hasNext()) {
         listValues.add(listIter.next())
     }
-    assertEquals(listExpected, listValues)
+    assertContains(listOptions, listValues)
 }

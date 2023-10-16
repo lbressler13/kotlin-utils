@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 
 private fun <T> createSet(): (Collection<T>) -> MutableMultiSetImpl<T> = { MutableMultiSetImpl(it) }
 
-fun runStandardImplAddTests() {
+fun runMutableElementsAddTests() {
     runAddTests(createSet(), createSet())
 
     // mutable elements
@@ -21,7 +21,7 @@ fun runStandardImplAddTests() {
     assertEquals(listExpected, listSet)
 }
 
-fun runStandardImplAddAllTests() {
+fun runMutableElementsAddAllTests() {
     runAddAllTests(createSet())
 
     // mutable elements
@@ -38,7 +38,7 @@ fun runStandardImplAddAllTests() {
     assertEquals(listExpected, listSet)
 }
 
-fun runStandardImplRemoveTests() {
+fun runMutableElementsRemoveTests() {
     runRemoveTests(createSet())
 
     // mutable elements
@@ -56,7 +56,7 @@ fun runStandardImplRemoveTests() {
     runSingleMutateTest(listSet, listExpected, true) { listSet.remove(emptyList()) }
 }
 
-fun runStandardImplRemoveAllTests() {
+fun runMutableElementsRemoveAllTests() {
     runRemoveAllTests(createSet())
 
     // mutable elements
@@ -78,7 +78,7 @@ fun runStandardImplRemoveAllTests() {
     runSingleMutateTest(listSet, listExpected, true) { listSet.removeAll(listOf(listOf("123"))) }
 }
 
-fun runStandardImplRetainAllTests() {
+fun runMutableElementsRetainAllTests() {
     runRetainAllTests(createSet())
 
     // mutable elements
@@ -96,5 +96,3 @@ fun runStandardImplRetainAllTests() {
     listExpected = mutableMultiSetOf(emptyList())
     runSingleMutateTest(listSet, listExpected, true) { listSet.retainAll(listOf(emptyList())) }
 }
-
-fun runStandardImplClearTests() = runClearTests(createSet())

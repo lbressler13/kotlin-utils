@@ -100,6 +100,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             other as MultiSet<E>
 
             val counts = getCounts()
+            val distinct = counts.keys
 
             // more efficient equality check for AbstractMultiSetImpl
             if (other is AbstractMultiSetImpl<*>) {
@@ -108,7 +109,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
                 val otherCounts = other.getCounts()
                 counts == otherCounts
             } else {
-                distinctValues == other.distinctValues && distinctValues.all { counts[it] == other.getCountOf(it) }
+                distinct == other.distinctValues && distinct.all { counts[it] == other.getCountOf(it) }
             }
         }
     }
@@ -157,15 +158,19 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      */
     private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
+        val distinct = counts.keys
 
         var getOtherCount: (E) -> Int = { other.getCountOf(it) }
+        var getOtherDistinct: () -> Set<E> = { other.distinctValues }
+        // increase efficiency of operation with other AbstractMultiSetImpl
         if (other is AbstractMultiSetImpl<E>) {
             val otherCounts = other.getCounts()
             getOtherCount = { otherCounts.getOrDefault(it, 0) }
+            getOtherDistinct = { otherCounts.keys }
         }
 
-        val allValues = simpleIf(useAllValues, { distinctValues + other.distinctValues }, { distinctValues })
-        val newCounts: Map<E, Int> = allValues.associateWith {
+        val values = simpleIf(useAllValues, { distinct + getOtherDistinct() }, { distinct })
+        val newCounts: Map<E, Int> = values.associateWith {
             val count = counts.getOrDefault(it, 0)
             val otherCount = getOtherCount(it)
             operation(count, otherCount)

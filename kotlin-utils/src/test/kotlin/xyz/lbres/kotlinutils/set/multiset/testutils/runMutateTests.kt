@@ -51,7 +51,7 @@ fun runAddAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int
 fun runRemoveTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
     // true
     var set = createMutableIntSet(listOf(1))
-    var expected: MutableMultiSet<Int> = createMutableIntSet(emptyList())
+    var expected = createMutableIntSet(emptyList())
     runSingleMutateTest(set, expected, true) { set.remove(1) }
 
     set = createMutableIntSet(listOf(1, 1, 1))
@@ -129,15 +129,20 @@ fun runRemoveAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<
 }
 
 fun runRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
-    // subset
+    // equal
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
     var expected: MutableMultiSet<Int> = createMutableIntSet(emptyList())
-    runSingleMutateTest(set, expected, true) { set.retainAll(listOf(1)) }
+    runSingleMutateTest(set, expected, true) { set.retainAll(emptyList()) }
 
-    set = createMutableIntSet(listOf(1))
-    expected = createMutableIntSet(listOf(1))
-    runSingleMutateTest(set, expected, true) { set.retainAll(listOf(1)) }
+    set = createMutableIntSet(listOf(1, 1))
+    expected = createMutableIntSet(listOf(1, 1))
+    runSingleMutateTest(set, expected, true) { set.retainAll(listOf(1, 1)) }
 
+    set = createMutableIntSet(listOf(2, 4, 5, 7))
+    expected = createMutableIntSet(listOf(2, 4, 5, 7))
+    runSingleMutateTest(set, expected, true) { set.retainAll(listOf(2, 4, 5, 7)) }
+
+    // subset
     set = createMutableIntSet(listOf(2, 2, 2, 2, 2))
     var other: Collection<Int> = multiSetOf(2, 2, 2)
     expected = createMutableIntSet(listOf(2, 2, 2))
@@ -148,7 +153,7 @@ fun runRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<
     expected = createMutableIntSet(listOf(2, 3, 5))
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
 
-    // completely separate
+    // no overlap
     expected = createMutableIntSet(emptyList())
 
     set = createMutableIntSet(emptyList())

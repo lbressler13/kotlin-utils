@@ -8,6 +8,7 @@ import kotlin.test.Test
 
 class MultiSetImplTest {
     private fun <T> createSet(): (Collection<T>) -> MultiSetImpl<T> = { MultiSetImpl(it) }
+    private fun <T> createOtherSet(): (Collection<T>) -> ConstMutableMultiSetImpl<T> = { ConstMutableMultiSetImpl(it) }
 
     @Test
     fun testConstructor() {
@@ -27,8 +28,8 @@ class MultiSetImplTest {
 
     @Test
     fun testEquals() {
-        runEqualsTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
-        runMutableElementsEqualsTests(createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runEqualsTests(createSet(), createSet(), createSet(), createOtherSet())
+        runMutableElementsEqualsTests(createSet(), createSet(), createOtherSet())
     }
 
     @Test
@@ -45,19 +46,19 @@ class MultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
         runMutableElementMinusTests(createSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
         runMutableElementPlusTests(createSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
         runMutableElementIntersectTests(createSet())
     }
 

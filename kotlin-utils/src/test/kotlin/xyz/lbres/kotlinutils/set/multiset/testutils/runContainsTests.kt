@@ -120,6 +120,7 @@ fun runMutableContainsTests(
     assertTrue(set.contains(1))
     assertFalse(set.contains(2))
     set.remove(1)
+    assertFalse(set.contains(1))
     set.add(2)
     assertTrue(set.contains(2))
 }
@@ -159,12 +160,11 @@ fun runMutableElementContainsAllTests(createIntListSet: (List<IntList>) -> Multi
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(1, 2, 3)
     val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))
-    assertFalse(listSet.containsAll(listOf(listOf(1, 2))))
+    assertFalse(listSet.containsAll(listOf(listOf(1, 2), listOf(1, 2, 3))))
 
     mutableList1.remove(3)
-    assertTrue(listSet.containsAll(listOf(listOf(1, 2))))
-    assertTrue(listSet.containsAll(listOf(listOf(1, 2, 3))))
+    assertTrue(listSet.containsAll(listOf(listOf(1, 2), listOf(1, 2, 3))))
 
     mutableList2.add(0)
-    assertFalse(listSet.containsAll(listOf(listOf(1, 2, 3))))
+    assertFalse(listSet.containsAll(listOf(listOf(1, 2), listOf(1, 2, 3))))
 }

@@ -24,7 +24,7 @@ fun runIntersectTests(
     var intSet2 = createIntSet(emptyList())
     assertEquals(emptyMultiSet(), intSet1 intersect intSet2)
 
-    assertIsNot<ConstMultiSet<*>>(intSet1 - intSet2)
+    assertIsNot<ConstMultiSet<*>>(intSet1 intersect intSet2)
 
     intSet2 = createIntSet(listOf(1, 2, 3))
     assertEquals(emptyMultiSet(), intSet1 intersect intSet2)

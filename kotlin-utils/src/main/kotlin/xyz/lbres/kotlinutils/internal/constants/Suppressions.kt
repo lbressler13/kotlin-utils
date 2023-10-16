@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.internal.constants
 
 /**
- * Messages to use in Suppress annotation
+ * Messages to use in Suppress annotations
  */
 internal object Suppressions {
     const val BOOLEAN_LITERAL_ARG = "BooleanLiteralArgument"
