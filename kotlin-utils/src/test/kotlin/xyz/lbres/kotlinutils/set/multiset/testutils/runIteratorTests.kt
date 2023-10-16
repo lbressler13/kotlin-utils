@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
-fun runMultiSetIteratorTests(
+fun runIteratorTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
 ) {
@@ -42,11 +42,11 @@ fun runMultiSetIteratorTests(
     assertEquals(listExpected, listValues)
 }
 
-fun runMultiSetMutableIteratorTests(
+fun runMutableIteratorTests(
     createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
     createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
 ) {
-    runMultiSetIteratorTests(createMutableIntSet, createMutableIntListSet)
+    runIteratorTests(createMutableIntSet, createMutableIntListSet)
 
     val set = createMutableIntSet(listOf(1, 2, 3, 4, 1, 4, 5))
     var iter = set.iterator()
@@ -76,7 +76,7 @@ fun runMultiSetMutableIteratorTests(
     assertEquals(expected.sorted(), values.sorted())
 }
 
-fun runMultiSetMutableElementsIteratorTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
+fun runMutableElementsIteratorTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

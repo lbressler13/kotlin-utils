@@ -12,7 +12,7 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-fun runMultiSetMinusTests(
+fun runMinusTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
     createStringSet: (Collection<String>) -> MultiSet<String>,
@@ -108,7 +108,7 @@ fun runMultiSetMinusTests(
     assertEquals(compListExpected, compListSet2 - compListSet1)
 }
 
-fun runMultiSetPlusTests(
+fun runPlusTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
     createStringSet: (Collection<String>) -> MultiSet<String>,
@@ -166,7 +166,7 @@ fun runMultiSetPlusTests(
     assertEquals(compListExpected, compListSet2 + compListSet1)
 }
 
-fun runMultiSetMutableElementMinusTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+fun runMutableElementMinusTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet1: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))
@@ -183,7 +183,7 @@ fun runMultiSetMutableElementMinusTests(createIntListSet: (List<IntList>) -> Mul
     assertEquals(expectedList, listSet2 - listSet1)
 }
 
-fun runMultiSetMutableElementPlusTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+fun runMutableElementPlusTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet1: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

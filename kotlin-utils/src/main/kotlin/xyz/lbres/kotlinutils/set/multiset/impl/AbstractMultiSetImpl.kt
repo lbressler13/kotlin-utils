@@ -42,12 +42,9 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * Initialize set from existing counts.
      */
     constructor(counts: Map<E, Int>) {
-        var countsSize = 0
-
         initialElements = mutableListOf()
         counts.forEach { (element, count) ->
             repeat(count) { initialElements.add(element) }
-            countsSize += count
         }
     }
 
@@ -104,6 +101,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
 
             val counts = getCounts()
 
+            // more efficient equality check for AbstractMultiSetImpl
             if (other is AbstractMultiSetImpl<*>) {
                 other as AbstractMultiSetImpl<E>
 

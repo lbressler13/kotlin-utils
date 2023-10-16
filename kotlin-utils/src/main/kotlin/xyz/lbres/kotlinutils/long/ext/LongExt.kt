@@ -8,7 +8,7 @@ import xyz.lbres.kotlinutils.general.simpleIf
  * @param getDefaultValue () -> [Long]
  * @return [Long] the current value, or the default
  */
-fun Long.ifZero(getDefaultValue: () -> Long): Long = simpleIf(isZero(), getDefaultValue(), this)
+fun Long.ifZero(getDefaultValue: () -> Long): Long = simpleIf(isZero(), { getDefaultValue() }, { this })
 
 /**
  * Unary check to determine if value is zero

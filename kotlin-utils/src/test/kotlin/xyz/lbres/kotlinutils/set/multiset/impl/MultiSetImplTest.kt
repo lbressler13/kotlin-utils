@@ -11,73 +11,73 @@ class MultiSetImplTest {
 
     @Test
     fun testConstructor() {
-        fun <T> doTest(map: Map<String, Any>) {
+        fun <T> runTest(map: Map<String, Any>) {
             @Suppress(Suppressions.UNCHECKED_CAST)
             val values = map["values"] as Collection<T>
             val set = MultiSetImpl(values)
-            testConstructedMultiSet(set, map)
+            testConstructed(set, map)
         }
 
-        multiSetConstructorIntTestValues.forEach { doTest<Int>(it) }
-        multiSetConstructorExceptionTestValues.forEach { doTest<Exception>(it) }
-        multiSetConstructorIntListTestValues.forEach { doTest<IntList>(it) }
-        multiSetConstructorCompListTestValues.forEach { doTest<List<Comparable<*>>>(it) }
-        testConstructorWithMutableElements { doTest<IntList>(it) }
+        multiSetConstructorIntTestValues.forEach { runTest<Int>(it) }
+        multiSetConstructorExceptionTestValues.forEach { runTest<Exception>(it) }
+        multiSetConstructorIntListTestValues.forEach { runTest<IntList>(it) }
+        multiSetConstructorCompListTestValues.forEach { runTest<List<Comparable<*>>>(it) }
+        testConstructorWithMutableElements { runTest<IntList>(it) }
     }
 
     @Test
     fun testEquals() {
-        runMultiSetEqualsTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
-        runMultiSetMutableElementsEqualsTests(createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runEqualsTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runMutableElementsEqualsTests(createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
     }
 
     @Test
     fun testContains() {
-        runMultiSetContainsTests(createSet(), createSet(), createSet())
-        runMultiSetMutableElementContainsTests(createSet())
+        runContainsTests(createSet(), createSet(), createSet())
+        runMutableElementContainsTests(createSet())
     }
 
     @Test
     fun testContainsAll() {
-        runMultiSetContainsAllTests(createSet())
-        runMultiSetMutableElementContainsAllTests(createSet())
+        runContainsAllTests(createSet())
+        runMutableElementContainsAllTests(createSet())
     }
 
     @Test
     fun testMinus() {
-        runMultiSetMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
-        runMultiSetMutableElementMinusTests(createSet())
+        runMinusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runMutableElementMinusTests(createSet())
     }
 
     @Test
     fun testPlus() {
-        runMultiSetPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
-        runMultiSetMutableElementPlusTests(createSet())
+        runPlusTests(createSet(), createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runMutableElementPlusTests(createSet())
     }
 
     @Test
     fun testIntersect() {
-        runMultiSetIntersectTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
-        runMultiSetMutableElementIntersectTests(createSet())
+        runIntersectTests(createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
+        runMutableElementIntersectTests(createSet())
     }
 
-    @Test fun testIsEmpty() = runMultiSetIsEmptyTests(createSet(), createSet())
+    @Test fun testIsEmpty() = runIsEmptyTests(createSet(), createSet())
 
     @Test
     fun testGetCountOf() {
-        runMultiSetGetCountOfTests(createSet(), createSet())
-        runMultiSetMutableElementGetCountOfTests(createSet())
+        runGetCountOfTests(createSet(), createSet())
+        runMutableElementGetCountOfTests(createSet())
     }
 
     @Test
     fun testIterator() {
-        runMultiSetIteratorTests(createSet(), createSet())
-        runMultiSetMutableElementsIteratorTests(createSet())
+        runIteratorTests(createSet(), createSet())
+        runMutableElementsIteratorTests(createSet())
     }
 
     @Test
     fun testToString() {
-        runMultiSetToStringTests(createSet(), createSet())
-        runMultiSetMutableElementToStringTests(createSet())
+        runToStringTests(createSet(), createSet())
+        runMutableElementToStringTests(createSet())
     }
 }

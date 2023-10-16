@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.biginteger.ext
 
+import xyz.lbres.kotlinutils.general.simpleIf
 import java.math.BigInteger
 
 /**
@@ -22,10 +23,4 @@ fun BigInteger.isZero(): Boolean = equals(BigInteger.ZERO)
  * @param getDefaultValue [() -> BigInteger]
  * @return [BigInteger] the current value, or the default
  */
-fun BigInteger.ifZero(getDefaultValue: () -> BigInteger): BigInteger {
-    return if (isZero()) {
-        getDefaultValue()
-    } else {
-        this
-    }
-}
+fun BigInteger.ifZero(getDefaultValue: () -> BigInteger): BigInteger = simpleIf(isZero(), { getDefaultValue() }, { this })

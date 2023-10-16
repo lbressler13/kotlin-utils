@@ -36,7 +36,7 @@ val multiSetConstructorCompListTestValues = listOf(
 )
 
 @Suppress(Suppressions.UNCHECKED_CAST)
-fun <T> testConstructedMultiSet(constructedSet: MultiSet<T>, map: Map<String, Any>) {
+fun <T> testConstructed(constructedSet: MultiSet<T>, map: Map<String, Any>) {
     val expectedSize: Int = map["size"] as Int
     val expectedDistinct: Set<T> = map["distinct"] as Set<T>
 

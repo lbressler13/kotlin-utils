@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertEquals
 
-fun runMultiSetAddTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>, createMutableStringListSet: (Collection<StringList>) -> MutableMultiSet<StringList>) {
+fun runAddTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>, createMutableStringListSet: (Collection<StringList>) -> MutableMultiSet<StringList>) {
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
 
     var expected = multiSetOf(1)
@@ -30,7 +30,7 @@ fun runMultiSetAddTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSe
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOf("goodbye")) }
 }
 
-fun runMultiSetAddAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runAddAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
 
     var expected: MutableMultiSet<Int> = createMutableIntSet(emptyList())
@@ -48,7 +48,7 @@ fun runMultiSetAddAllTests(createMutableIntSet: (Collection<Int>) -> MutableMult
     runSingleMutateTest(set, expected, true) { set.addAll(other) }
 }
 
-fun runMultiSetRemoveTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runRemoveTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
     // true
     var set = createMutableIntSet(listOf(1))
     var expected: MutableMultiSet<Int> = createMutableIntSet(emptyList())
@@ -80,7 +80,7 @@ fun runMultiSetRemoveTests(createMutableIntSet: (Collection<Int>) -> MutableMult
     runSingleMutateTest(set, expected, false) { set.remove(1) }
 }
 
-fun runMultiSetRemoveAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runRemoveAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
     // all success
     var set = createMutableIntSet(listOf(1, 2, 3, 4))
 
@@ -128,7 +128,7 @@ fun runMultiSetRemoveAllTests(createMutableIntSet: (Collection<Int>) -> MutableM
     runSingleMutateTest(set, expected, true) { set.removeAll(other) }
 }
 
-fun runMultiSetRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
     // subset
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
     var expected: MutableMultiSet<Int> = createMutableIntSet(emptyList())
@@ -173,7 +173,7 @@ fun runMultiSetRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableM
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
 }
 
-fun runMultiSetClearTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runClearTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
     set.clear()
     assertEquals(0, set.size)

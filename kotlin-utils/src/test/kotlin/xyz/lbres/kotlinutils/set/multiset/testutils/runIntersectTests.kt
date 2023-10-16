@@ -12,7 +12,7 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-fun runMultiSetIntersectTests(
+fun runIntersectTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
     createExceptionSet: (Collection<Exception>) -> MultiSet<Exception>,
@@ -81,7 +81,7 @@ fun runMultiSetIntersectTests(
     assertEquals(expectedError, errorSet2 intersect errorSet1)
 }
 
-fun runMultiSetMutableElementIntersectTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+fun runMutableElementIntersectTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet1: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

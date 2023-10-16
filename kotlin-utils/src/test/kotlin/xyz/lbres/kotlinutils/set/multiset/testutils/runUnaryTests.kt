@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-fun runMultiSetIsEmptyTests(
+fun runIsEmptyTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createStringSet: (Collection<String>) -> MultiSet<String>
 ) {
@@ -35,7 +35,7 @@ fun runMultiSetIsEmptyTests(
     assertFalse(stringSet.isEmpty())
 }
 
-fun runMultiSetGetCountOfTests(
+fun runGetCountOfTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
 ) {
@@ -58,11 +58,11 @@ fun runMultiSetGetCountOfTests(
     assertEquals(0, listSet.getCountOf(listOf(1, 2)))
 }
 
-fun runMultiSetMutableIsEmptyTests(
+fun runMutableIsEmptyTests(
     createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
     createMutableStringSet: (Collection<String>) -> MutableMultiSet<String>
 ) {
-    runMultiSetIsEmptyTests(createMutableIntSet, createMutableStringSet)
+    runIsEmptyTests(createMutableIntSet, createMutableStringSet)
 
     var intSet = createMutableIntSet(emptyList())
     intSet.remove(1)
@@ -87,11 +87,11 @@ fun runMultiSetMutableIsEmptyTests(
     assertTrue(intSet.isEmpty())
 }
 
-fun runMultiSetMutableGetCountOfTests(
+fun runMutableGetCountOfTests(
     createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
     createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
 ) {
-    runMultiSetGetCountOfTests(createMutableIntSet, createMutableIntListSet)
+    runGetCountOfTests(createMutableIntSet, createMutableIntListSet)
 
     val set = createMutableIntSet(listOf(1, 1, 2, 1, -4, 5, 2))
     set.add(2)
@@ -100,7 +100,7 @@ fun runMultiSetMutableGetCountOfTests(
     assertEquals(0, set.getCountOf(5))
 }
 
-fun runMultiSetMutableElementGetCountOfTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+fun runMutableElementGetCountOfTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(1, 2, 3)
     val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

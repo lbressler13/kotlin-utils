@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 
-fun runMultiSetEqualsTests(
+fun runEqualsTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
     createStringSet: (Collection<String>) -> MultiSet<String>,
@@ -71,7 +71,7 @@ fun runMultiSetEqualsTests(
     assertFalse(stringSet1 == set1)
 }
 
-fun runMultiSetMutableElementsEqualsTests(
+fun runMutableElementsEqualsTests(
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
     createIntSetSet: (Collection<Set<Int>>) -> MultiSet<Set<Int>>,
     createOtherIntSetSet: (Collection<Set<Int>>) -> MultiSet<Set<Int>>,

@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-fun runMultiSetToStringTests(
+fun runToStringTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
 ) {
@@ -32,11 +32,11 @@ fun runMultiSetToStringTests(
     assertContains(options, listSet.toString())
 }
 
-fun runMultiSetMutableToStringTests(
+fun runMutableToStringTests(
     createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
     createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
 ) {
-    runMultiSetToStringTests(createMutableIntSet, createMutableIntListSet)
+    runToStringTests(createMutableIntSet, createMutableIntListSet)
 
     val set = createMutableIntSet(listOf(2, 2, 4))
     var options = setOf("[2, 2, 4]", "[2, 4, 2]", "[4, 2, 2]")
@@ -58,7 +58,7 @@ fun runMultiSetMutableToStringTests(
     assertContains(options, set.toString())
 }
 
-fun runMultiSetMutableElementToStringTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
+fun runMutableElementToStringTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val set = createIntListSet(listOf(mutableList1, mutableList2))

@@ -23,7 +23,7 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
     /**
      * Initialize set from existing counts.
      */
-    internal constructor(counts: Map<E, Int>) : super(counts) {
+    constructor(counts: Map<E, Int>) : super(counts) {
         elements = mutableListOf()
 
         counts.forEach { (element, count) ->
@@ -99,6 +99,15 @@ internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet
      * @return [Boolean]: true if elements have been retained successfully, false otherwise
      */
     override fun retainAll(elements: Collection<E>): Boolean {
+        if (this.elements.isEmpty()) {
+            return true
+        }
+
+        if (elements.isEmpty()) {
+            this.elements.clear()
+            return true
+        }
+
         val counts = getCounts()
         val otherCounts = createCountsMap(elements)
 
