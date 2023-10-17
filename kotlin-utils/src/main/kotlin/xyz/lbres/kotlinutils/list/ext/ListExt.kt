@@ -49,10 +49,11 @@ fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
 fun <T> List<T>.isSingleValue(): Boolean = size == 1
 
 /**
- * Determine if this list contains the same elements as another list, in any order
+ * Determine if the elements in this list are identical to the elements in another list.
+ * Elements can be in any order.
  *
- * @param other [List]<E>: list to check equality with
- * @return [Boolean] `true` if the lists contain the same elements, `false` otherwise
+ * @param other [List]<E>: list to check element equality
+ * @return [Boolean] `true` if the lists contain identical elements, `false` otherwise
  */
 fun <E> List<E>.elementsEqual(other: List<E>): Boolean {
     return ConstMultiSetImpl(this) == ConstMultiSetImpl(other)
