@@ -61,7 +61,6 @@ internal fun runTestWithRetry(test: () -> Unit) {
     }
 }
 
-// TODO use in additional places
 /**
  * Assert that a collection is empty
  *

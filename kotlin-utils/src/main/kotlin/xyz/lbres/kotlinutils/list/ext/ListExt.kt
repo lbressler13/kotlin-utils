@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.list.ext
 
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 
 /**
@@ -11,12 +12,8 @@ import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
  * @throws IndexOutOfBoundsException if index is less than zero or greater than lastIndex
  */
 fun <T> List<T>.copyWithReplacement(index: Int, value: T): List<T> {
-    val before: List<T> = subList(0, index)
-    val after: List<T> = if (index == lastIndex) {
-        emptyList()
-    } else {
-        subList(index + 1, size)
-    }
+    val before = subList(0, index)
+    val after = simpleIf(index == lastIndex, { emptyList() }, { subList(index + 1, size) })
 
     return before + value + after
 }

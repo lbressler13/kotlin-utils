@@ -205,6 +205,12 @@ class ListExtTest {
         var stringList2 = listOf("def", "abc", "", "", "abc", "", "abc")
         assertTrue(stringList1.elementsEqual(stringList2))
 
+        val e1 = ArithmeticException()
+        val e2 = NullPointerException()
+        var exceptionList1 = listOf(e1, e2, e2)
+        var exceptionList2 = listOf(e2, e2, e1)
+        assertTrue(exceptionList1.elementsEqual(exceptionList2))
+
         // not equal
         intList1 = emptyList()
         intList2 = listOf(1)
@@ -218,5 +224,9 @@ class ListExtTest {
         stringList1 = listOf("abc", "def")
         stringList2 = listOf("ghi", "jkl")
         assertFalse(stringList1.elementsEqual(stringList2))
+
+        exceptionList1 = listOf(e1, e2, NullPointerException())
+        exceptionList2 = listOf(e1, e2, NullPointerException())
+        assertFalse(exceptionList1.elementsEqual(exceptionList2))
     }
 }
