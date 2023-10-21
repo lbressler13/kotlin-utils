@@ -59,3 +59,22 @@ fun <E> Collection<E?>.countNotNull(): Int = size - countNull()
  * @return [Boolean]: true if the collection is not null and has size > 0, false otherwise
  */
 fun <E> Collection<E>?.isNotNullOrEmpty() = !this.isNullOrEmpty()
+
+/**
+ * Transform elements in collection, and keep only transformed values which match a given predicate
+ *
+ * @param transform (E) -> T: function to transform elements
+ * @param predicate (E) -> [Boolean]: predicate to use for filtering
+ * @return [List]<T>: list containing transformed values for which [predicate] returns `true`
+ */
+fun <E, T> Collection<E>.mapFilter(transform: (E) -> T, predicate: (T) -> Boolean): List<T> {
+    val result: MutableList<T> = mutableListOf()
+    forEach {
+        val transformed = transform(it)
+        if (predicate(transformed)) {
+            result.add(transformed)
+        }
+    }
+
+    return result.toList()
+}
