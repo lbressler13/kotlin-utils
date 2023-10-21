@@ -11,23 +11,23 @@ fun runContainsTests(
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
     createExceptionSet: (Collection<Exception>) -> MultiSet<Exception>,
 ) {
-    var set: MultiSet<Int> = createIntSet(emptyList())
-    assertFalse(set.contains(0))
-    assertFalse(set.contains(1000))
-    assertFalse(set.contains(-1000))
+    var intSet: MultiSet<Int> = createIntSet(emptyList())
+    assertFalse(intSet.contains(0))
+    assertFalse(intSet.contains(1000))
+    assertFalse(intSet.contains(-1000))
 
-    set = createIntSet(listOf(1, 2))
-    assertFalse(set.contains(0))
-    assertTrue(set.contains(1))
-    assertTrue(set.contains(2))
+    intSet = createIntSet(listOf(1, 2))
+    assertFalse(intSet.contains(0))
+    assertTrue(intSet.contains(1))
+    assertTrue(intSet.contains(2))
 
-    set = createIntSet(listOf(1, 1, 1))
-    assertTrue(set.contains(1))
-    assertFalse(set.contains(2))
+    intSet = createIntSet(listOf(1, 1, 1))
+    assertTrue(intSet.contains(1))
+    assertFalse(intSet.contains(2))
 
     val error = ArithmeticException()
-    val errSet = createExceptionSet(listOf(ArithmeticException(), error, NumberFormatException()))
-    assertTrue(errSet.contains(error))
+    val errorSet = createExceptionSet(listOf(ArithmeticException(), error, NumberFormatException()))
+    assertTrue(errorSet.contains(error))
 
     val listSet = createIntListSet(listOf(emptyList(), listOf(5, 6), listOf(9, 8, 3)))
     assertTrue(listSet.contains(emptyList()))
@@ -75,7 +75,7 @@ fun runContainsAllTests(createIntSet: (Collection<Int>) -> MultiSet<Int>) {
     assertTrue(set1.containsAll(set2))
     assertFalse(set2.containsAll(set1))
 
-    // overlap
+    // overlapping keys
     set1 = createIntSet(listOf(1, 2, 3))
     set2 = createIntSet(listOf(1, 3, 4))
     assertFalse(set1.containsAll(set2))
@@ -91,7 +91,7 @@ fun runContainsAllTests(createIntSet: (Collection<Int>) -> MultiSet<Int>) {
     assertFalse(set1.containsAll(set2))
     assertFalse(set2.containsAll(set1))
 
-    // no overlap
+    // no overlapping keys
     set1 = createIntSet(listOf(1))
     set2 = createIntSet(listOf(2))
     assertFalse(set1.containsAll(set2))

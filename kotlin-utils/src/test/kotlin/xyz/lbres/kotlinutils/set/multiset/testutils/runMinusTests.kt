@@ -41,7 +41,7 @@ fun runMinusTests(
     var otherSet = createOtherIntSet(listOf(1, 2, 3, 4, 5))
     assertEmpty(intSet1 - otherSet)
 
-    // all shared
+    // all overlapping elements
     intSet1 = createIntSet(listOf(1, 1, 2, 3, 4, 4, 4))
     intSet2 = createIntSet(listOf(1, 2, 2, 3, 4, 4))
     var expectedInt = multiSetOf(1, 4)
@@ -56,7 +56,7 @@ fun runMinusTests(
     expectedInt = multiSetOf(1, 5, 5, 7)
     assertEquals(expectedInt, intSet2 - intSet1)
 
-    // none shared
+    // none overlapping elements
     intSet1 = createIntSet(listOf(1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 7, 8))
     intSet2 = createIntSet(listOf(-1, -1, -1, -1, -2, -3, -4, -5, -6, -7, -7, -8))
     assertEquals(intSet1, intSet1 - intSet2)
@@ -72,7 +72,7 @@ fun runMinusTests(
     assertEquals(stringSet1, stringSet1 - stringSet2)
     assertEquals(stringSet2, stringSet2 - stringSet1)
 
-    // some shared
+    // some overlapping elements
     intSet1 = createIntSet(listOf(1, 1, 2, 3, 4, 5, 5))
     intSet2 = createIntSet(listOf(1, 1, 5, 6, 6, 7))
     expectedInt = multiSetOf(2, 3, 4, 5)

@@ -33,16 +33,16 @@ fun runPlusTests(
     // non-empty
     intSet1 = createIntSet(listOf(1))
     intSet2 = createIntSet(listOf(1))
-    var expected = multiSetOf(1, 1)
-    assertEquals(expected, intSet1 + intSet2)
+    var intExpected = multiSetOf(1, 1)
+    assertEquals(intExpected, intSet1 + intSet2)
 
     intSet1 = createIntSet(listOf(1, 2, 2, 3, 3, 3))
     intSet2 = createIntSet(listOf(1, 2, 0))
-    expected = multiSetOf(0, 1, 1, 2, 2, 2, 3, 3, 3)
-    assertEquals(expected, intSet1 + intSet2)
+    intExpected = multiSetOf(0, 1, 1, 2, 2, 2, 3, 3, 3)
+    assertEquals(intExpected, intSet1 + intSet2)
 
     val otherSet = createOtherIntSet(listOf(1, 2, 2, 3, 3, 3))
-    assertEquals(expected, intSet2 + otherSet)
+    assertEquals(intExpected, intSet2 + otherSet)
 
     val stringSet1 = createStringSet(listOf("", "hello", "world", "goodbye"))
     val stringSet2 = createStringSet(listOf("hi", "no", "bye"))

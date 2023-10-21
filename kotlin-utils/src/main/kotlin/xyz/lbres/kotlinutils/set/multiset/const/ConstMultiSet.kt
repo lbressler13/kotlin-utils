@@ -148,7 +148,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
         return tryOrDefault(false) {
             @Suppress(Suppressions.UNCHECKED_CAST)
             other as MultiSet<E>
-            distinctValues == other.distinctValues && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
+            size == other.size && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
         }
     }
 
@@ -182,13 +182,10 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [Map]<E, Int>: generated map
      */
     protected fun initializeCounts(): Map<E, Int> {
-        if (initialCounts != null) {
-            return initialCounts!!
+        if (initialCounts == null) {
+            initialCounts = createCountsMap(initialElements)
         }
 
-        val countsMap = createCountsMap(initialElements)
-        initialCounts = countsMap
-
-        return countsMap
+        return initialCounts!!
     }
 }

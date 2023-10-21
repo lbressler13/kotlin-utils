@@ -7,20 +7,20 @@ import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertEquals
 
 fun runAddTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>, createMutableStringListSet: (Collection<StringList>) -> MutableMultiSet<StringList>) {
-    var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
+    var intSet: MutableMultiSet<Int> = createMutableIntSet(emptyList())
 
-    var expected = multiSetOf(1)
-    runSingleMutateTest(set, expected, true) { set.add(1) }
+    var intExpected = multiSetOf(1)
+    runSingleMutateTest(intSet, intExpected, true) { intSet.add(1) }
 
-    expected = multiSetOf(1, 1)
-    runSingleMutateTest(set, expected, true) { set.add(1) }
+    intExpected = multiSetOf(1, 1)
+    runSingleMutateTest(intSet, intExpected, true) { intSet.add(1) }
 
-    expected = multiSetOf(1, 1, 2)
-    runSingleMutateTest(set, expected, true) { set.add(2) }
+    intExpected = multiSetOf(1, 1, 2)
+    runSingleMutateTest(intSet, intExpected, true) { intSet.add(2) }
 
-    set = createMutableIntSet(listOf(-1, 3, -5, 4, 1000, 17))
-    expected = multiSetOf(-1, 3, -5, 4, 1000, 17, 15)
-    runSingleMutateTest(set, expected, true) { set.add(15) }
+    intSet = createMutableIntSet(listOf(-1, 3, -5, 4, 1000, 17))
+    intExpected = multiSetOf(-1, 3, -5, 4, 1000, 17, 15)
+    runSingleMutateTest(intSet, intExpected, true) { intSet.add(15) }
 
     val listSet: MutableMultiSet<List<String>> = createMutableStringListSet(listOf(listOf("hello", "world"), listOf("goodbye")))
     var listExpected = multiSetOf(listOf("hello", "world"), listOf("goodbye"), listOf("farewell", "goodbye"))
@@ -153,7 +153,7 @@ fun runRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<
     expected = createMutableIntSet(listOf(2, 3, 5))
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
 
-    // no overlap
+    // no overlapping keys
     expected = createMutableIntSet(emptyList())
 
     set = createMutableIntSet(emptyList())
@@ -166,7 +166,7 @@ fun runRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<
     set = createMutableIntSet(listOf(10, 10, 10))
     runSingleMutateTest(set, expected, true) { set.retainAll(listOf(-10)) }
 
-    // some overlap
+    // some overlapping keys
     set = createMutableIntSet(listOf(1, 2, 3, 4))
     other = listOf(2, 3, 5)
     expected = createMutableIntSet(listOf(2, 3))
