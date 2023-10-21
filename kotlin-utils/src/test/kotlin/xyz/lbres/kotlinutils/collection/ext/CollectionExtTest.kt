@@ -214,7 +214,7 @@ class CollectionExtTest {
         assertEquals(intExpected, intResult)
 
         var listCollection = listOf(listOf("hello", "world"), listOf("planet", "farewell"), listOf("goodbye", "earth"))
-        var stringExpected = listOf("hello", "planet", "goodbye")
+        val stringExpected = listOf("hello", "planet", "goodbye")
         var stringResult = listCollection.mapFilter({ it.first() }) { it.length >= 5 }
         assertEquals(stringExpected, stringResult)
 
