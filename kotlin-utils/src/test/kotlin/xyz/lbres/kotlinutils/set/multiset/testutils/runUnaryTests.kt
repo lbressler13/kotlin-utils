@@ -39,19 +39,19 @@ fun runGetCountOfTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
 ) {
-    var set: MultiSet<Int> = createIntSet(emptyList())
-    assertEquals(0, set.getCountOf(0))
-    assertEquals(0, set.getCountOf(100))
+    var intSet: MultiSet<Int> = createIntSet(emptyList())
+    assertEquals(0, intSet.getCountOf(0))
+    assertEquals(0, intSet.getCountOf(100))
 
-    set = createIntSet(listOf(2))
-    assertEquals(1, set.getCountOf(2))
-    assertEquals(0, set.getCountOf(1))
+    intSet = createIntSet(listOf(2))
+    assertEquals(1, intSet.getCountOf(2))
+    assertEquals(0, intSet.getCountOf(1))
 
-    set = createIntSet(listOf(1, 1, 2, 1, -4, 5, 2))
-    assertEquals(3, set.getCountOf(1))
-    assertEquals(2, set.getCountOf(2))
-    assertEquals(1, set.getCountOf(-4))
-    assertEquals(1, set.getCountOf(5))
+    intSet = createIntSet(listOf(1, 1, 2, 1, -4, 5, 2))
+    assertEquals(3, intSet.getCountOf(1))
+    assertEquals(2, intSet.getCountOf(2))
+    assertEquals(1, intSet.getCountOf(-4))
+    assertEquals(1, intSet.getCountOf(5))
 
     val listSet = createIntListSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3)))
     assertEquals(2, listSet.getCountOf(listOf(1, 2, 3)))

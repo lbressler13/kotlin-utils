@@ -49,8 +49,8 @@ fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
 fun <T> List<T>.isSingleValue(): Boolean = size == 1
 
 /**
- * Determine if the elements in this list are identical to the elements in another list.
- * Elements can be in any order.
+ * Determine if the elements in this list are identical to the elements in another list,
+ * even if elements are not in the same order.
  *
  * @param other [List]<E>: list to check element equality
  * @return [Boolean] `true` if the lists contain identical elements, `false` otherwise

@@ -83,22 +83,22 @@ fun runMutableEqualsTests(
 ) {
     runEqualsTests(createMutableIntSet, createMutableIntListSet, createMutableStringSet, createOtherIntSet)
 
-    val set1 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
-    val set2 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
-    assertEquals(set1, set2)
-    assertEquals(set2, set1)
+    val intSet1 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
+    val intSet2 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
+    assertEquals(intSet1, intSet2)
+    assertEquals(intSet2, intSet1)
 
-    set1.add(7)
-    assertNotEquals(set1, set2)
-    assertNotEquals(set2, set1)
+    intSet1.add(7)
+    assertNotEquals(intSet1, intSet2)
+    assertNotEquals(intSet2, intSet1)
 
-    set1.remove(7)
-    assertEquals(set1, set2)
-    assertEquals(set2, set1)
+    intSet1.remove(7)
+    assertEquals(intSet1, intSet2)
+    assertEquals(intSet2, intSet1)
 
-    set2.remove(4)
-    assertNotEquals(set1, set2)
-    assertNotEquals(set2, set1)
+    intSet2.remove(4)
+    assertNotEquals(intSet1, intSet2)
+    assertNotEquals(intSet2, intSet1)
 }
 
 fun runMutableElementsEqualsTests(

@@ -44,7 +44,7 @@ fun runIntersectTests(
     assertEmpty(listSet1 intersect listSet2)
     assertEmpty(listSet2 intersect listSet1)
 
-    // all shared
+    // all overlapping elements
     intSet1 = createIntSet(listOf(1, 2, 3))
     intSet2 = createIntSet(listOf(1, 2, 3))
     var expectedInt = multiSetOf(1, 2, 3)
@@ -57,7 +57,7 @@ fun runIntersectTests(
     assertEquals(expectedInt, intSet1 intersect intSet2)
     assertEquals(expectedInt, intSet2 intersect intSet1)
 
-    // some shared
+    // some overlapping elements
     intSet1 = createIntSet(listOf(1, 2, 2, 4, 5, 6, 7, -1, 10))
     intSet2 = createIntSet(listOf(-1, 14, 3, 9, 9, 6))
     expectedInt = multiSetOf(-1, 6)

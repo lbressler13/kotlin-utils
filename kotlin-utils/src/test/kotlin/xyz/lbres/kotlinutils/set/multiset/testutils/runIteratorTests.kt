@@ -1,49 +1,46 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.list.IntList
+import xyz.lbres.kotlinutils.list.ext.elementsEqual
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 fun runIteratorTests(
     createIntSet: (Collection<Int>) -> MultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
 ) {
-    var set: MultiSet<Int> = createIntSet(emptyList())
-    var iter = set.iterator()
-    assertFalse(iter.hasNext())
+    var intSet: MultiSet<Int> = createIntSet(emptyList())
+    var intIter = intSet.iterator()
+    assertFalse(intIter.hasNext())
 
-    set = createIntSet(listOf(1, 2, 3, 4))
-    iter = set.iterator()
-    val values: MutableList<Int> = mutableListOf()
-    var expected = listOf(1, 2, 3, 4)
-    while (iter.hasNext()) {
-        values.add(iter.next())
+    intSet = createIntSet(listOf(1, 2, 3, 4))
+    intIter = intSet.iterator()
+    val intValues: MutableList<Int> = mutableListOf()
+    var intExpected = listOf(1, 2, 3, 4)
+    while (intIter.hasNext()) {
+        intValues.add(intIter.next())
     }
-    assertEquals(expected.sorted(), values.sorted())
+    assertTrue(intValues.elementsEqual(intExpected))
 
-    set = createIntSet(listOf(1, 2, 3, 4, 1, 4, 5))
-    iter = set.iterator()
-    values.clear()
-    expected = listOf(1, 1, 2, 3, 4, 4, 5)
-    while (iter.hasNext()) {
-        values.add(iter.next())
+    intSet = createIntSet(listOf(1, 2, 3, 4, 1, 4, 5))
+    intIter = intSet.iterator()
+    intValues.clear()
+    intExpected = listOf(1, 1, 2, 3, 4, 4, 5)
+    while (intIter.hasNext()) {
+        intValues.add(intIter.next())
     }
-    assertEquals(expected.sorted(), values.sorted())
+    assertTrue(intValues.elementsEqual(intExpected))
 
     val listSet = createIntListSet(listOf(listOf(1, 2, 3), listOf(0, 5, 7)))
     val listIter = listSet.iterator()
-    val listOptions = setOf(
-        listOf(listOf(1, 2, 3), listOf(0, 5, 7)),
-        listOf(listOf(0, 5, 7), listOf(1, 2, 3))
-    )
+    val listExpected = listOf(listOf(0, 5, 7), listOf(1, 2, 3))
     val listValues: MutableList<IntList> = mutableListOf()
     while (listIter.hasNext()) {
         listValues.add(listIter.next())
     }
-    assertContains(listOptions, listValues)
+    assertTrue(listValues.elementsEqual(listExpected))
 }
 
 fun runMutableIteratorTests(
@@ -52,32 +49,32 @@ fun runMutableIteratorTests(
 ) {
     runIteratorTests(createMutableIntSet, createMutableIntListSet)
 
-    val set = createMutableIntSet(listOf(1, 2, 3, 4, 1, 4, 5))
-    var iter = set.iterator()
-    val values: MutableList<Int> = mutableListOf()
-    var expected = listOf(1, 1, 2, 3, 4, 4, 5)
-    while (iter.hasNext()) {
-        values.add(iter.next())
+    val intSet = createMutableIntSet(listOf(1, 2, 3, 4, 1, 4, 5))
+    var intIter = intSet.iterator()
+    val intValues: MutableList<Int> = mutableListOf()
+    var intExpected = listOf(1, 1, 2, 3, 4, 4, 5)
+    while (intIter.hasNext()) {
+        intValues.add(intIter.next())
     }
-    assertEquals(expected.sorted(), values.sorted())
+    assertTrue(intValues.elementsEqual(intExpected))
 
-    set.add(5)
-    iter = set.iterator()
-    values.clear()
-    expected = listOf(1, 1, 2, 3, 4, 4, 5, 5)
-    while (iter.hasNext()) {
-        values.add(iter.next())
+    intSet.add(5)
+    intIter = intSet.iterator()
+    intValues.clear()
+    intExpected = listOf(1, 1, 2, 3, 4, 4, 5, 5)
+    while (intIter.hasNext()) {
+        intValues.add(intIter.next())
     }
-    assertEquals(expected.sorted(), values.sorted())
+    assertTrue(intValues.elementsEqual(intExpected))
 
-    set.remove(2)
-    iter = set.iterator()
-    values.clear()
-    expected = listOf(1, 1, 3, 4, 4, 5, 5)
-    while (iter.hasNext()) {
-        values.add(iter.next())
+    intSet.remove(2)
+    intIter = intSet.iterator()
+    intValues.clear()
+    intExpected = listOf(1, 1, 3, 4, 4, 5, 5)
+    while (intIter.hasNext()) {
+        intValues.add(intIter.next())
     }
-    assertEquals(expected.sorted(), values.sorted())
+    assertTrue(intValues.elementsEqual(intExpected))
 }
 
 fun runMutableElementsIteratorTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
@@ -86,25 +83,19 @@ fun runMutableElementsIteratorTests(createIntListSet: (Collection<IntList>) -> M
     val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))
 
     var listIter = listSet.iterator()
-    var listOptions = setOf(
-        listOf(listOf(1, 2, 3), listOf(0, 5, 7)),
-        listOf(listOf(0, 5, 7), listOf(1, 2, 3))
-    )
+    var listExpected = listOf(listOf(0, 5, 7), listOf(1, 2, 3))
     var listValues: MutableList<IntList> = mutableListOf()
     while (listIter.hasNext()) {
         listValues.add(listIter.next())
     }
-    assertContains(listOptions, listValues)
+    assertTrue(listValues.elementsEqual(listExpected))
 
     mutableList2.clear()
     listIter = listSet.iterator()
-    listOptions = setOf(
-        listOf(listOf(1, 2, 3), emptyList()),
-        listOf(emptyList(), listOf(1, 2, 3))
-    )
+    listExpected = listOf(emptyList(), listOf(1, 2, 3))
     listValues = mutableListOf()
     while (listIter.hasNext()) {
         listValues.add(listIter.next())
     }
-    assertContains(listOptions, listValues)
+    assertTrue(listValues.elementsEqual(listExpected))
 }
