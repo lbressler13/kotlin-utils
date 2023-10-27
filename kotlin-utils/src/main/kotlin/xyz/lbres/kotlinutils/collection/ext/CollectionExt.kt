@@ -76,5 +76,5 @@ fun <E, T> Collection<E>.mapFilter(transform: (E) -> T, predicate: (T) -> Boolea
         }
     }
 
-    return result.toList()
+    return result
 }

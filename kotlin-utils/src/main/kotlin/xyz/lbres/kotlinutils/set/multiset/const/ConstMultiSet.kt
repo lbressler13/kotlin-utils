@@ -118,9 +118,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [MultiSet]<E>: MultiSet containing only values that are in both sets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
-        val values = distinctValues intersect other.distinctValues
-
-        val newCounts = values.associateWith {
+        val newCounts = distinctValues.associateWith {
             min(getCountOf(it), other.getCountOf(it))
         }
 
@@ -145,10 +143,15 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
             return false
         }
 
-        return tryOrDefault(false) {
-            @Suppress(Suppressions.UNCHECKED_CAST)
-            other as MultiSet<E>
-            size == other.size && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        return tryOrDefault(false, listOf(ClassCastException::class)) {
+            if (other is ConstMultiSet<*>) {
+                other as ConstMultiSet<E>
+                counts == other.counts
+            } else {
+                other as MultiSet<E>
+                size == other.size && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
+            }
         }
     }
 

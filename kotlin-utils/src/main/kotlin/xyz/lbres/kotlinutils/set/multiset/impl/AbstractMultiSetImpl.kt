@@ -96,9 +96,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
         }
 
         @Suppress(Suppressions.UNCHECKED_CAST)
-        return tryOrDefault(false) {
-            other as MultiSet<E>
-
+        return tryOrDefault(false, listOf(ClassCastException::class)) {
             val counts = getCounts()
             val distinct = counts.keys
 
@@ -109,6 +107,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
                 val otherCounts = other.getCounts()
                 counts == otherCounts
             } else {
+                other as MultiSet<E>
                 size == other.size && distinct.all { counts[it] == other.getCountOf(it) }
             }
         }
@@ -133,7 +132,7 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        return genericBinaryOperation(other, Int::minus, useAllValues = false, filterZeros = true)
+        return genericBinaryOperation(other, Int::minus, useAllValues = false)
     }
 
     /**
@@ -154,11 +153,9 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
      * @param operation (Int, Int) -> Int: function which uses the count of an element in this set and the count in another set, and returns the new count for the element
      * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
      * Defaults to `true`
-     * @param filterZeros [Boolean]: if values with count 0 should be filtered from result. Should only be `true` when there is a possibility of the operation creating an element with count 0.
-     * Defaults to `false`
      * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation
      */
-    private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true, filterZeros: Boolean = false): MultiSet<E> {
+    private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
         val counts = getCounts()
         val distinct = counts.keys
 
@@ -171,18 +168,18 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
             getOtherDistinct = { otherCounts.keys }
         }
 
+        val newElements: MutableList<E> = mutableListOf()
+
         val values = simpleIf(useAllValues, { distinct + getOtherDistinct() }, { distinct })
-        var newCounts: Map<E, Int> = values.associateWith {
+        values.forEach {
             val count = counts.getOrDefault(it, 0)
             val otherCount = getOtherCount(it)
-            operation(count, otherCount)
+            val newCount = operation(count, otherCount)
+
+            repeat(newCount) { _ -> newElements.add(it) }
         }
 
-        if (filterZeros) {
-            newCounts = newCounts.filter { it.value > 0 }
-        }
-
-        return MultiSetImpl(newCounts)
+        return MultiSetImpl(newElements)
     }
 
     /**
