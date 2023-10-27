@@ -11,7 +11,7 @@ import kotlin.math.min
 /**
  * Partial [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
-internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
+internal abstract class AbstractMultiSetImpl<E>(private val initialElements: Collection<E>) : MultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -27,26 +27,8 @@ internal abstract class AbstractMultiSetImpl<E> : MultiSet<E> {
     /**
      * Elements in the set.
      */
-    private val initialElements: Collection<E>
     protected open val elements: Collection<E>
         get() = initialElements
-
-    /**
-     * Initialize set from a collection of values.
-     */
-    constructor(elements: Collection<E>) {
-        initialElements = elements
-    }
-
-    /**
-     * Initialize set from existing counts.
-     */
-    constructor(counts: Map<E, Int>) {
-        initialElements = mutableListOf()
-        counts.forEach { (element, count) ->
-            repeat(count) { initialElements.add(element) }
-        }
-    }
 
     /**
      * Get the number of occurrences of a given element.

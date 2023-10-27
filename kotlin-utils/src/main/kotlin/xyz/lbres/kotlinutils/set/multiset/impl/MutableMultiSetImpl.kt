@@ -7,29 +7,11 @@ import kotlin.math.min
 /**
  * [MutableMultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
-internal class MutableMultiSetImpl<E> : AbstractMultiSetImpl<E>, MutableMultiSet<E> {
+internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSetImpl<E>(elements), MutableMultiSet<E> {
     /**
      * Elements in the set.
      */
-    override val elements: MutableList<E>
-
-    /**
-     * Initialize set from a collection of values.
-     */
-    constructor(elements: Collection<E>) : super(elements) {
-        this.elements = elements.toMutableList()
-    }
-
-    /**
-     * Initialize set from existing counts.
-     */
-    constructor(counts: Map<E, Int>) : super(counts) {
-        elements = mutableListOf()
-
-        counts.forEach { (element, count) ->
-            repeat(count) { elements.add(element) }
-        }
-    }
+    override val elements: MutableList<E> = elements.toMutableList()
 
     /**
      * Add one occurrence of the specified element to the set.

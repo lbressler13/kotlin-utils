@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.utils.countsToList
 import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
@@ -90,7 +91,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
             getCountOf(it) + other.getCountOf(it)
         }
 
-        return MultiSetImpl(newCounts)
+        return MultiSetImpl(countsToList(newCounts))
     }
 
     /**
@@ -106,7 +107,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
 
-        return MultiSetImpl(newCounts)
+        return MultiSetImpl(countsToList(newCounts))
     }
 
     /**
@@ -122,7 +123,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
             min(getCountOf(it), other.getCountOf(it))
         }
 
-        return MultiSetImpl(newCounts)
+        return MultiSetImpl(countsToList(newCounts))
     }
 
     /**

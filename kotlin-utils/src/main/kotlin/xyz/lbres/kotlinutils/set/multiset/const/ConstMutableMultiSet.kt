@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.utils.countsToList
 import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
@@ -16,7 +17,7 @@ sealed class ConstMutableMultiSet<E> constructor(initialElements: Collection<E>)
     private var allPropertiesUpdated: Boolean = false
 
     // elements list is up-to-date only when allPropertiesUpdated == true
-    private var _elements: MutableList<E> = initialElements.toMutableList()
+    private var _elements: List<E> = initialElements.toList()
     override val elements: Collection<E>
         get() {
             updateMutableValues() // update elements before returning value
@@ -146,7 +147,7 @@ sealed class ConstMutableMultiSet<E> constructor(initialElements: Collection<E>)
      */
     override fun iterator(): MutableIterator<E> {
         updateMutableValues()
-        return _elements.iterator()
+        return _elements.toMutableList().iterator()
     }
 
     /**
@@ -154,10 +155,7 @@ sealed class ConstMutableMultiSet<E> constructor(initialElements: Collection<E>)
      */
     private fun updateMutableValues() {
         if (!allPropertiesUpdated) {
-            _elements.clear()
-            counts.forEach { (element, count) ->
-                repeat(count) { _elements.add(element) }
-            }
+            _elements = countsToList(counts)
             _string = countsToString(counts)
 
             allPropertiesUpdated = true

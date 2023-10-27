@@ -35,3 +35,18 @@ internal fun <E> countsToString(counts: Map<E, Int>): String {
 
     return "[$elementsString]"
 }
+
+/**
+ * Create a list containing all values in a counts map
+ *
+ * @param counts [Map]<E, Int>: counts map
+ * @return [List]<E>: list containing all values in [counts]
+ */
+internal fun <E> countsToList(counts: Map<E, Int>): List<E> {
+    val list: MutableList<E> = mutableListOf()
+    counts.forEach { (element, count) ->
+        repeat(count) { list.add(element) }
+    }
+
+    return list
+}
