@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.int.ext.isZero
 /**
  * Filter an integer collection to contain only elements that do not equal zero.
  *
- * @return [Collection]<[Int]>: collection containing the same values as [this], except any elements with value 0.
+ * @return [Collection]<Int>: collection containing the same values as this collection, except any elements with value 0.
  */
 fun Collection<Int>.filterNotZero(): Collection<Int> = filterNot { it.isZero() }
 

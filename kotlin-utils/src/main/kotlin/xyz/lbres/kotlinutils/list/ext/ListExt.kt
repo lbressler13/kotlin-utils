@@ -1,5 +1,8 @@
 package xyz.lbres.kotlinutils.list.ext
 
+import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+
 /**
  * Create a copy of a list, with one value changed
  *
@@ -9,12 +12,8 @@ package xyz.lbres.kotlinutils.list.ext
  * @throws IndexOutOfBoundsException if index is less than zero or greater than lastIndex
  */
 fun <T> List<T>.copyWithReplacement(index: Int, value: T): List<T> {
-    val before: List<T> = subList(0, index)
-    val after: List<T> = if (index == lastIndex) {
-        emptyList()
-    } else {
-        subList(index + 1, size)
-    }
+    val before = subList(0, index)
+    val after = simpleIf(index == lastIndex, { emptyList() }, { subList(index + 1, size) })
 
     return before + value + after
 }
@@ -48,3 +47,14 @@ fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
  * @return [Boolean]: true if list consists of single value, false otherwise
  */
 fun <T> List<T>.isSingleValue(): Boolean = size == 1
+
+/**
+ * Determine if the elements in this list are identical to the elements in another list,
+ * even if elements are not in the same order.
+ *
+ * @param other [List]<E>: list to check element equality
+ * @return [Boolean] `true` if the lists contain identical elements, `false` otherwise
+ */
+fun <E> List<E>.elementsEqual(other: List<E>): Boolean {
+    return ConstMultiSetImpl(this) == ConstMultiSetImpl(other)
+}

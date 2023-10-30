@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.long.ext.isZero
 /**
  * Filter a long collection to contain only elements that do not equal zero.
  *
- * @return [Collection]<[Long]>: collection containing the same values as [this], except any elements with value 0.
+ * @return [Collection]<Long>: collection containing the same values as this collection, except any elements with value 0.
  */
 fun Collection<Long>.filterNotZero(): Collection<Long> = filterNot { it.isZero() }
 

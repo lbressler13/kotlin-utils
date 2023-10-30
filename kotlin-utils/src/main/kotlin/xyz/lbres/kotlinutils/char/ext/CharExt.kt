@@ -9,7 +9,7 @@ import xyz.lbres.kotlinutils.int.ext.isZero
  * @param getDefaultValue () -> [Char]
  * @return [Char] the current value, or the default
  */
-fun Char.ifZero(getDefaultValue: () -> Char): Char = simpleIf(isZero(), getDefaultValue(), this)
+fun Char.ifZero(getDefaultValue: () -> Char): Char = simpleIf(isZero(), { getDefaultValue() }, { this })
 
 /**
  * Unary check to determine if value is zero

@@ -8,7 +8,7 @@ import xyz.lbres.kotlinutils.general.simpleIf
  * @param getDefaultValue () -> [Int]
  * @return [Int] the current value, or the default
  */
-fun Int.ifZero(getDefaultValue: () -> Int): Int = simpleIf(isZero(), getDefaultValue(), this)
+fun Int.ifZero(getDefaultValue: () -> Int): Int = simpleIf(isZero(), { getDefaultValue() }, { this })
 
 /**
  * Unary check to determine if value is zero

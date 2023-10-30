@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.collection.ext.toMultiSet
-import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
 
@@ -11,7 +10,7 @@ import xyz.lbres.kotlinutils.set.multiset.impl.MutableMultiSetImpl
  * @param elements [E]: variable number of elements to include in set
  * @return [MultiSet]<E>
  */
-fun <E> multiSetOf(vararg elements: E): MultiSet<E> = elements.toList().toMultiSet()
+fun <E> multiSetOf(vararg elements: E): MultiSet<E> = MultiSetImpl(elements.toList())
 
 /**
  * Create a MutableMultiSet containing the given elements.
@@ -19,7 +18,7 @@ fun <E> multiSetOf(vararg elements: E): MultiSet<E> = elements.toList().toMultiS
  * @param elements [E]: variable number of elements to include in set
  * @return [MutableMultiSet]<E>
  */
-fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = elements.toList().toMutableMultiSet()
+fun <E> mutableMultiSetOf(vararg elements: E): MutableMultiSet<E> = MutableMultiSetImpl(elements.toList())
 
 /**
  * Create a MultiSet containing 0 elements.
@@ -35,7 +34,7 @@ fun <E> emptyMultiSet(): MultiSet<E> = MultiSetImpl(emptyList())
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
  * @return [MultiSet]<E>
  */
-@Suppress("FunctionName")
+@Suppress(Suppressions.FUNCTION_NAME)
 fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = MultiSetImpl((0 until size).map(init))
 
 /**
@@ -45,5 +44,5 @@ fun <E> MultiSet(size: Int, init: (Int) -> E): MultiSet<E> = MultiSetImpl((0 unt
  * @param init ([Int]) -> E: initialization function, used to create each element based on its index
  * @return [MutableMultiSet]<E>
  */
-@Suppress("FunctionName")
+@Suppress(Suppressions.FUNCTION_NAME)
 fun <E> MutableMultiSet(size: Int, init: (Int) -> E): MutableMultiSet<E> = MutableMultiSetImpl((0 until size).map(init))

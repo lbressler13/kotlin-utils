@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.list.ext
 
+import xyz.lbres.kotlinutils.list.IntList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -174,5 +175,58 @@ class ListExtTest {
 
         stringList = listOf("123", "456", "789")
         assertFalse(stringList.isSingleValue())
+    }
+
+    @Test
+    fun testElementsEqual() {
+        // same order
+        var intList1: IntList = emptyList()
+        assertTrue(intList1.elementsEqual(intList1))
+
+        intList1 = listOf(1)
+        assertTrue(intList1.elementsEqual(intList1))
+
+        intList1 = listOf(1, 2, 3, 5)
+        assertTrue(intList1.elementsEqual(intList1))
+
+        var stringList1 = listOf("hello", "world", "goodbye", "world", "farewell", "planet")
+        assertTrue(stringList1.elementsEqual(stringList1))
+
+        // different order
+        intList1 = listOf(1, 2, 3, 4, 5)
+        var intList2 = listOf(5, 4, 3, 2, 1)
+        assertTrue(intList1.elementsEqual(intList2))
+
+        intList1 = listOf(1, 1, 2, 3)
+        intList2 = listOf(1, 2, 1, 3)
+        assertTrue(intList1.elementsEqual(intList2))
+
+        stringList1 = listOf("", "", "abc", "abc", "", "def", "abc")
+        var stringList2 = listOf("def", "abc", "", "", "abc", "", "abc")
+        assertTrue(stringList1.elementsEqual(stringList2))
+
+        val e1 = ArithmeticException()
+        val e2 = NullPointerException()
+        var exceptionList1 = listOf(e1, e2, e2)
+        var exceptionList2 = listOf(e2, e2, e1)
+        assertTrue(exceptionList1.elementsEqual(exceptionList2))
+
+        // not equal
+        intList1 = emptyList()
+        intList2 = listOf(1)
+        assertFalse(intList1.elementsEqual(intList2))
+        assertFalse(intList2.elementsEqual(intList1))
+
+        intList1 = listOf(1, 2, 3, 3)
+        intList2 = listOf(1, 2, 3)
+        assertFalse(intList1.elementsEqual(intList2))
+
+        stringList1 = listOf("abc", "def")
+        stringList2 = listOf("ghi", "jkl")
+        assertFalse(stringList1.elementsEqual(stringList2))
+
+        exceptionList1 = listOf(e1, e2, NullPointerException())
+        exceptionList2 = listOf(e1, e2, NullPointerException())
+        assertFalse(exceptionList1.elementsEqual(exceptionList2))
     }
 }

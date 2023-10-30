@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.assertEqualsAnyOf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
@@ -186,7 +186,7 @@ fun runFilterNotToSetTests() {
             }
         }
     }
-    assertEqualsAnyOf(intOptions, intActual)
+    assertContains(intOptions, intActual)
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
