@@ -64,4 +64,31 @@ class UtilsTest {
         options = setOf("[[1, 2, 3], [1, 2, 3], [hello]]", "[[hello], [1, 2, 3], [1, 2, 3]]")
         assertContains(options, countsToString(listCounts))
     }
+
+    @Test
+    fun testCountsToList() {
+        var intCounts: Map<Int, Int> = emptyMap()
+        assertEquals(emptyList(), countsToList(intCounts))
+
+        intCounts = mapOf(2 to 3)
+        assertEquals(listOf(2, 2, 2), countsToList(intCounts))
+
+        intCounts = mapOf(2 to 0, 0 to 2)
+        assertEquals(listOf(0, 0), countsToList(intCounts))
+
+        intCounts = mapOf(1 to 2, 8 to 1, -4 to 3)
+        val intOptions = setOf(
+            listOf(1, 1, 8, -4, -4, -4),
+            listOf(1, 1, -4, -4, -4, 8),
+            listOf(8, 1, 1, -4, -4, -4),
+            listOf(8, -4, -4, -4, 1, 1),
+            listOf(-4, -4, -4, 1, 1, 8),
+            listOf(-4, -4, -4, 8, 1, 1)
+        )
+        assertContains(intOptions, countsToList(intCounts))
+
+        val stringCounts = mapOf("hello" to 1, "world" to 2)
+        val stringOptions = setOf(listOf("hello", "world", "world"), listOf("world", "world", "hello"))
+        assertContains(stringOptions, countsToList(stringCounts))
+    }
 }

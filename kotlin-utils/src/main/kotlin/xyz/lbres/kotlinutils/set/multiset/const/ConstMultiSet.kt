@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.utils.countsToList
 import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
@@ -90,7 +91,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
             getCountOf(it) + other.getCountOf(it)
         }
 
-        return MultiSetImpl(newCounts)
+        return MultiSetImpl(countsToList(newCounts))
     }
 
     /**
@@ -106,7 +107,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
             getCountOf(it) - other.getCountOf(it)
         }.filter { it.value > 0 }
 
-        return MultiSetImpl(newCounts)
+        return MultiSetImpl(countsToList(newCounts))
     }
 
     /**
@@ -118,13 +119,11 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [MultiSet]<E>: MultiSet containing only values that are in both sets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
-        val values = distinctValues intersect other.distinctValues
-
-        val newCounts = values.associateWith {
+        val newCounts = distinctValues.associateWith {
             min(getCountOf(it), other.getCountOf(it))
         }
 
-        return MultiSetImpl(newCounts)
+        return MultiSetImpl(countsToList(newCounts))
     }
 
     /**
@@ -145,10 +144,15 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
             return false
         }
 
-        return tryOrDefault(false) {
-            @Suppress(Suppressions.UNCHECKED_CAST)
-            other as MultiSet<E>
-            size == other.size && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        return tryOrDefault(false, listOf(ClassCastException::class)) {
+            if (other is ConstMultiSet<*>) {
+                other as ConstMultiSet<E>
+                counts == other.counts
+            } else {
+                other as MultiSet<E>
+                size == other.size && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
+            }
         }
     }
 

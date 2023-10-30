@@ -5,14 +5,4 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 /**
  * [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
-internal class MultiSetImpl<E> : AbstractMultiSetImpl<E> {
-    /**
-     * Initialize set from a collection of values.
-     */
-    constructor(elements: Collection<E>) : super(elements)
-
-    /**
-     * Initialize set from existing counts.
-     */
-    constructor(counts: Map<E, Int>) : super(counts)
-}
+internal class MultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSetImpl<E>(elements)

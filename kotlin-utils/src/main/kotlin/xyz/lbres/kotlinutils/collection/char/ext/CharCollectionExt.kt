@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.char.ext.isZero
 /**
  * Filter a char collection to contain only elements that do not equal zero.
  *
- * @return [Collection]<Char>: collection containing the same values as [this], except any elements with value 0.
+ * @return [Collection]<Char>: collection containing the same values as this collection, except any elements with value 0.
  */
 fun Collection<Char>.filterNotZero(): Collection<Char> = filterNot { it.isZero() }
 
