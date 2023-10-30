@@ -73,6 +73,9 @@ class UtilsTest {
         intCounts = mapOf(2 to 3)
         assertEquals(listOf(2, 2, 2), countsToList(intCounts))
 
+        intCounts = mapOf(2 to 0, 0 to 2)
+        assertEquals(listOf(0, 0), countsToList(intCounts))
+
         intCounts = mapOf(1 to 2, 8 to 1, -4 to 3)
         val intOptions = setOf(
             listOf(1, 1, 8, -4, -4, -4),

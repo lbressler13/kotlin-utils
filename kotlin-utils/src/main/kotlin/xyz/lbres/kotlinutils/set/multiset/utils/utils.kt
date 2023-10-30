@@ -37,7 +37,8 @@ internal fun <E> countsToString(counts: Map<E, Int>): String {
 }
 
 /**
- * Create a list containing all values in a counts map
+ * Create a list containing all values in a counts map.
+ * Allows values with count of 0.
  *
  * @param counts [Map]<E, Int>: counts map
  * @return [List]<E>: list containing all values in [counts]
