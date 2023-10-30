@@ -95,7 +95,7 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
 
         this.elements.clear()
 
-        for ((element, count) in counts) {
+        counts.forEach { (element, count) ->
             val newCount = min(count, otherCounts.getOrDefault(element, 0))
             repeat(newCount) { this.elements.add(element) }
         }
