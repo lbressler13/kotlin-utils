@@ -9,6 +9,8 @@ import kotlin.reflect.KClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @Suppress(Suppressions.BOOLEAN_LITERAL_ARG, Suppressions.CONSTANT_CONDITIONS)
 class UtilsTest {
@@ -142,5 +144,19 @@ class UtilsTest {
 
         exceptions = listOf(NullPointerException::class, ClassCastException::class)
         assertFailsWith<CustomException> { tryOrDefault('X', exceptions) { throw CustomException() } }
+    }
+
+    @Test
+    fun testSucceeds() {
+        // succeeds
+        assertTrue { succeeds { 1 / 2 } }
+        assertTrue { succeeds { listOf(1, 2, 3)[2] } }
+        assertTrue { succeeds { setOf("hello", "world").randomOrNull()!! } }
+
+        // fails
+        assertFalse { succeeds { 1 / 0 } }
+        assertFalse { succeeds { listOf(1, 2, 3)[4] } }
+        assertFalse { succeeds { emptySet<String>().randomOrNull()!! } }
+        assertFalse { succeeds { throw NullPointerException() } }
     }
 }
