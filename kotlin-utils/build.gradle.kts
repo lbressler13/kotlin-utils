@@ -1,12 +1,12 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    kotlin("jvm") version "1.5.31"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0" // ktlint
 }
 
 group = "xyz.lbres"
-version = "1.3.0"
+version = "1.3.1"
 
 repositories {
     mavenCentral()
