@@ -18,6 +18,8 @@ fun <T> MutableList<T>.setAllValues(value: T) {
     indices.forEach { set(it, value) }
 }
 
+// TODO expand to array types
+
 /**
  * Replace all values in the list based on a provided transform function, without generating a new list
  *
