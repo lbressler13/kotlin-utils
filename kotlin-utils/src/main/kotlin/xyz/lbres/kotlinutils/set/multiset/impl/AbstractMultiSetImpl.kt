@@ -1,3 +1,5 @@
+@file:Suppress("unused", "unused")
+
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.general.simpleIf

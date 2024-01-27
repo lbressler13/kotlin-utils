@@ -7,8 +7,8 @@ import kotlin.reflect.KClass
  * Values are computed before check occurs.
  *
  * @param check [Boolean]
- * @param trueValue [T]: value to return if [check] is true
- * @param falseValue [T]: value to return if [check] is false
+ * @param trueValue T: value to return if [check] is true
+ * @param falseValue T: value to return if [check] is false
  * @return [trueValue] if the check is `true`, [falseValue] otherwise
  */
 fun <T> simpleIf(check: Boolean, trueValue: T, falseValue: T): T = simpleIf(check, { trueValue }, { falseValue })
@@ -18,8 +18,8 @@ fun <T> simpleIf(check: Boolean, trueValue: T, falseValue: T): T = simpleIf(chec
  * Returns the value of the function, which can be [Unit].
  *
  * @param check [Boolean]
- * @param trueMethod [T]: function to invoke if [check] is `true`
- * @param trueMethod [T]: function to invoke if [check] is `false`
+ * @param trueMethod T: function to invoke if [check] is `true`
+ * @param trueMethod T: function to invoke if [check] is `false`
  * @return result of [trueMethod] if the check is `true`, result of [falseMethod] otherwise
  */
 fun <T> simpleIf(check: Boolean, trueMethod: () -> T, falseMethod: () -> T): T {
@@ -33,8 +33,8 @@ fun <T> simpleIf(check: Boolean, trueMethod: () -> T, falseMethod: () -> T): T {
 /**
  * Try to execute a function, and return a default value if the function throws any exception
  *
- * @param defaultValue [T]: default value to return if any exception is thrown
- * @param function () -> [T]: function to execute
+ * @param defaultValue T: default value to return if any exception is thrown
+ * @param function () -> T: function to execute
  */
 fun <T> tryOrDefault(defaultValue: T, function: () -> T): T {
     return try {
@@ -47,10 +47,10 @@ fun <T> tryOrDefault(defaultValue: T, function: () -> T): T {
 /**
  * Try to execute a function, and return a default value if the function throws any of the given exceptions
  *
- * @param defaultValue [T]: default value to return if an exception from [exceptions] is thrown
+ * @param defaultValue T: default value to return if an exception from [exceptions] is thrown
  * @param exceptions List<KClass<out Exception>>: list of exception classes for which [defaultValue] should be returned.
  * All other exceptions will be thrown.
- * @param function () -> [T]: function to execute
+ * @param function () -> T: function to execute
  */
 fun <T> tryOrDefault(defaultValue: T, exceptions: List<KClass<out Exception>>, function: () -> T): T {
     return try {
@@ -83,8 +83,8 @@ fun succeeds(function: () -> Unit): Boolean {
  * Function to perform a simple boolean check, and return a value based on the result
  *
  * @param check [Boolean]
- * @param trueValue [T]: value to return if [check] is true
- * @param falseValue [T]: value to return if [check] is false
+ * @param trueValue T: value to return if [check] is true
+ * @param falseValue T: value to return if [check] is false
  * @return [trueValue] if the check is true, [falseValue] otherwise
  */
 @Deprecated("Replace with simpleIf", ReplaceWith("simpleIf", "xyz.lbres.kotlinutils.general.simpleIf"), DeprecationLevel.WARNING)

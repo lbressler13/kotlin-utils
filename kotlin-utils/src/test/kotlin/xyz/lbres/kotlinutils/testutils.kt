@@ -10,7 +10,7 @@ import kotlin.test.assertTrue
  * Perform a random action repeatedly and collect the results, and check that the distribution of results matches the given weights for the items.
  *
  * @param weightedItems [WeightedList]: items and their weights
- * @param randomAction [() -> T]: randomized action to perform repeatedly in order to collect results
+ * @param randomAction () -> T: randomized action to perform repeatedly in order to collect results
  */
 internal fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction: () -> T) {
     val iterations = 1000

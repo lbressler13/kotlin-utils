@@ -9,6 +9,8 @@ import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
+// TODO constPlus, constMinus, etc
+
 /**
  * Abstract [MultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
@@ -17,6 +19,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
     /**
      * Number of elements in set.
      */
+    // TODO private
     protected var _size: Int = initialElements.size
     override val size: Int
         get() = _size
