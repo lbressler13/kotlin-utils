@@ -154,11 +154,7 @@ class MutableListExtTest {
         listList = mutableListOf(listOf(1, 2, 3), listOf(4), emptyList(), listOf(5, 4, 1, 0, 9))
         listExpected = mutableListOf(listOf(1), listOf(0, "none"), listOf(0, "none"), listOf(0))
         listList.mapInPlaceIndexed { index, list ->
-            if (list.isEmpty() || list.size <= index) {
-                listOf(0, "none")
-            } else {
-                listOf(list[index])
-            }
+            simpleIf(list.size <= index, { listOf(0, "none") }, { listOf(list[index]) })
         }
         assertEquals(listExpected, listList)
 

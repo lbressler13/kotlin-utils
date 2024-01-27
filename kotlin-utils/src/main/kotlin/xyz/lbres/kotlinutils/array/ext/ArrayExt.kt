@@ -18,7 +18,7 @@ fun <T> Array<T>.setAllValues(value: T) {
 fun <T> Array<T>.countElement(element: T) = this.count { it == element }
 
 /**
- * Replace all values in the array based on a provided transform function, without generating a new array
+ * Replace all values in the array using a provided transform function, without generating a new array
  *
  * @param transform (T) -> T: function to generate new values
  */
@@ -27,7 +27,7 @@ fun <T> Array<T>.mapInPlace(transform: (T) -> T) {
 }
 
 /**
- * Replace all values in the array based on a provided transform function that uses both the value and the index,
+ * Replace all values in the array using a provided transform function that uses both the value and the index,
  * without generating a new array
  *
  * @param transform (Int, T) -> T: function to generate new values

@@ -18,7 +18,7 @@ fun FloatArray.setAllValues(value: Float) {
 fun FloatArray.countElement(element: Float) = this.count { it == element }
 
 /**
- * Replace all values in the array based on a provided transform function, without generating a new array
+ * Replace all values in the array using a provided transform function, without generating a new array
  *
  * @param transform (Float) -> Float: function to generate new values
  */
@@ -27,7 +27,7 @@ fun FloatArray.mapInPlace(transform: (Float) -> Float) {
 }
 
 /**
- * Replace all values in the array based on a provided transform function that uses both the value and the index,
+ * Replace all values in the array using a provided transform function that uses both the value and the index,
  * without generating a new array
  *
  * @param transform (Int, Float) -> Float: function to generate new values

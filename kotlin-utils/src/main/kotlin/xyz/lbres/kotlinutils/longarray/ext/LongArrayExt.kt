@@ -18,7 +18,7 @@ fun LongArray.setAllValues(value: Long) {
 fun LongArray.countElement(element: Long) = this.count { it == element }
 
 /**
- * Replace all values in the array based on a provided transform function, without generating a new array
+ * Replace all values in the array using a provided transform function, without generating a new array
  *
  * @param transform (Long) -> Long: function to generate new values
  */
@@ -27,7 +27,7 @@ fun LongArray.mapInPlace(transform: (Long) -> Long) {
 }
 
 /**
- * Replace all values in the array based on a provided transform function that uses both the value and the index,
+ * Replace all values in the array using a provided transform function that uses both the value and the index,
  * without generating a new array
  *
  * @param transform (Long, Long) -> Long: function to generate new values

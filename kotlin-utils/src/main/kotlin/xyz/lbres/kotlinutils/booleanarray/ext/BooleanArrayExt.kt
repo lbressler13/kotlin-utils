@@ -39,7 +39,7 @@ fun BooleanArray.any() = any { it }
 fun BooleanArray.countElement(element: Boolean) = this.count { it == element }
 
 /**
- * Replace all values in the array based on a provided transform function, without generating a new array
+ * Replace all values in the array using a provided transform function, without generating a new array
  *
  * @param transform (Boolean) -> Boolean: function to generate new values
  */
@@ -48,7 +48,7 @@ fun BooleanArray.mapInPlace(transform: (Boolean) -> Boolean) {
 }
 
 /**
- * Replace all values in the array based on a provided transform function that uses both the value and the index,
+ * Replace all values in the array using a provided transform function that uses both the value and the index,
  * without generating a new array
  *
  * @param transform (Int, Boolean) -> Boolean: function to generate new values

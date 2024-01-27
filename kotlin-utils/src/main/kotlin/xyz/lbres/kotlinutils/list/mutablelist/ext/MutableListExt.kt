@@ -19,7 +19,7 @@ fun <T> MutableList<T>.setAllValues(value: T) {
 }
 
 /**
- * Replace all values in the list based on a provided transform function, without generating a new list
+ * Replace all values in the list using a provided transform function, without generating a new list
  *
  * @param transform (T) -> T: function to generate new values
  */
@@ -28,7 +28,7 @@ fun <T> MutableList<T>.mapInPlace(transform: (T) -> T) {
 }
 
 /**
- * Replace all values in the list based on a provided transform function that uses both the value and the index,
+ * Replace all values in the list using a provided transform function that uses both the value and the index,
  * without generating a new list
  *
  * @param transform (Int, T) -> T: function to generate new values

@@ -18,7 +18,7 @@ fun ByteArray.setAllValues(value: Byte) {
 fun ByteArray.countElement(element: Byte) = this.count { it == element }
 
 /**
- * Replace all values in the array based on a provided transform function, without generating a new array
+ * Replace all values in the array using a provided transform function, without generating a new array
  *
  * @param transform (Byte) -> Byte: function to generate new values
  */
@@ -27,7 +27,7 @@ fun ByteArray.mapInPlace(transform: (Byte) -> Byte) {
 }
 
 /**
- * Replace all values in the array based on a provided transform function that uses both the value and the index,
+ * Replace all values in the array using a provided transform function that uses both the value and the index,
  * without generating a new array
  *
  * @param transform (Int, Byte) -> Byte: function to generate new values

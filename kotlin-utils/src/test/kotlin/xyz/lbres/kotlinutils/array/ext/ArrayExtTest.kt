@@ -101,17 +101,17 @@ class ArrayExtTest {
 
     @Test
     fun testMapInPlace() {
-        // empty list
-        var intList: Array<Int> = emptyArray()
+        // empty array
+        var intArray: Array<Int> = emptyArray()
         var intExpected: Array<Int> = emptyArray()
-        intList.mapInPlace { it * 3 - 4 }
-        assertContentEquals(intExpected, intList)
+        intArray.mapInPlace { it * 3 - 4 }
+        assertContentEquals(intExpected, intArray)
 
         // constant value
-        intList = arrayOf(3, 4, 6)
+        intArray = arrayOf(3, 4, 6)
         intExpected = arrayOf(0, 0, 0)
-        intList.mapInPlace { 0 }
-        assertContentEquals(intExpected, intList)
+        intArray.mapInPlace { 0 }
+        assertContentEquals(intExpected, intArray)
 
         var listArray = arrayOf(listOf(4, 5, 7), listOf(9, 8, 'c'))
         var listExpected = arrayOf(listOf(1.5, 'a'), listOf(1.5, 'a'))
@@ -119,15 +119,15 @@ class ArrayExtTest {
         assertContentEquals(listExpected, listArray)
 
         // transform function
-        intList = arrayOf(-1, -1, -1)
+        intArray = arrayOf(-1, -1, -1)
         intExpected = arrayOf(-7, -7, -7)
-        intList.mapInPlace { it * 3 - 4 }
-        assertContentEquals(intExpected, intList)
+        intArray.mapInPlace { it * 3 - 4 }
+        assertContentEquals(intExpected, intArray)
 
-        intList = arrayOf(3, 4, 2, 0)
+        intArray = arrayOf(3, 4, 2, 0)
         intExpected = arrayOf(5, 8, 2, -4)
-        intList.mapInPlace { it * 3 - 4 }
-        assertContentEquals(intExpected, intList)
+        intArray.mapInPlace { it * 3 - 4 }
+        assertContentEquals(intExpected, intArray)
 
         listArray = arrayOf(listOf(1, 2, 3), listOf(4, "hello"), emptyList(), listOf(5.7))
         listExpected = arrayOf(listOf(3), listOf("hello"), listOf(0, "none"), listOf(5.7))
@@ -191,11 +191,7 @@ class ArrayExtTest {
         listArray = arrayOf(listOf(1, 2, 3), listOf(4), emptyList(), listOf(5, 4, 1, 0, 9))
         listExpected = arrayOf(listOf(1), listOf(0, "none"), listOf(0, "none"), listOf(0))
         listArray.mapInPlaceIndexed { index, list ->
-            if (list.isEmpty() || list.size <= index) {
-                listOf(0, "none")
-            } else {
-                listOf(list[index])
-            }
+            simpleIf(list.size <= index, { listOf(0, "none") }, { listOf(list[index]) })
         }
         assertContentEquals(listExpected, listArray)
 

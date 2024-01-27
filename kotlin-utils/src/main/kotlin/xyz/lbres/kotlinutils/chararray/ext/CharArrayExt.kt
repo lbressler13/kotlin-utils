@@ -18,7 +18,7 @@ fun CharArray.setAllValues(value: Char) {
 fun CharArray.countElement(element: Char) = this.count { it == element }
 
 /**
- * Replace all values in the array based on a provided transform function, without generating a new array
+ * Replace all values in the array using a provided transform function, without generating a new array
  *
  * @param transform (Char) -> Char: function to generate new values
  */
@@ -27,7 +27,7 @@ fun CharArray.mapInPlace(transform: (Char) -> Char) {
 }
 
 /**
- * Replace all values in the array based on a provided transform function that uses both the value and the index,
+ * Replace all values in the array using a provided transform function that uses both the value and the index,
  * without generating a new array
  *
  * @param transform (Int, Char) -> Char: function to generate new values
