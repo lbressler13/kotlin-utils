@@ -67,7 +67,7 @@ fun <T> tryOrDefault(defaultValue: T, exceptions: List<KClass<out Exception>>, f
 }
 
 /**
- * Try to execute a function, and return the success as a Boolean
+ * Try to execute a function, and return the success as a boolean
  *
  * @param function () -> Unit: function to execute
  * @return [Boolean]: `true` if the execution succeeded, `false` otherwise

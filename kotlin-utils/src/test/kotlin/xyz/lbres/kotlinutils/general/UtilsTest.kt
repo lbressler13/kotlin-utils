@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.int.ext.isNegative
 import xyz.lbres.kotlinutils.int.ext.isZero
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
+import xyz.lbres.kotlinutils.set.mutableset.ext.popRandom
 import kotlin.math.sqrt
 import kotlin.reflect.KClass
 import kotlin.test.Test
@@ -158,5 +159,11 @@ class UtilsTest {
         assertFalse { succeeds { listOf(1, 2, 3)[4] } }
         assertFalse { succeeds { emptySet<String>().randomOrNull()!! } }
         assertFalse { succeeds { throw NullPointerException() } }
+
+        // changing
+        val mutableSet = mutableSetOf(1, 2)
+        assertTrue { succeeds { mutableSet.popRandom()!! } }
+        assertTrue { succeeds { mutableSet.popRandom()!! } }
+        assertFalse { succeeds { mutableSet.popRandom()!! } }
     }
 }
