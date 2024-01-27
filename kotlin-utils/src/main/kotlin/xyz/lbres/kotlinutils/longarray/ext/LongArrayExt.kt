@@ -30,7 +30,7 @@ fun LongArray.mapInPlace(transform: (Long) -> Long) {
  * Replace all values in the array using a provided transform function that uses both the value and the index,
  * without generating a new array
  *
- * @param transform (Long, Long) -> Long: function to generate new values
+ * @param transform (Int, Long) -> Long: function to generate new values
  */
 fun LongArray.mapInPlaceIndexed(transform: (Int, Long) -> Long) {
     forEachIndexed { index, value -> set(index, transform(index, value)) }

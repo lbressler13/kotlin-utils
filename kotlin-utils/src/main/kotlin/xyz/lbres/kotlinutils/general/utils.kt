@@ -18,8 +18,8 @@ fun <T> simpleIf(check: Boolean, trueValue: T, falseValue: T): T = simpleIf(chec
  * Returns the value of the function, which can be [Unit].
  *
  * @param check [Boolean]
- * @param trueMethod T: function to invoke if [check] is `true`
- * @param trueMethod T: function to invoke if [check] is `false`
+ * @param trueMethod () -> T: function to invoke if [check] is `true`
+ * @param trueMethod () -> T: function to invoke if [check] is `false`
  * @return result of [trueMethod] if the check is `true`, result of [falseMethod] otherwise
  */
 fun <T> simpleIf(check: Boolean, trueMethod: () -> T, falseMethod: () -> T): T {
