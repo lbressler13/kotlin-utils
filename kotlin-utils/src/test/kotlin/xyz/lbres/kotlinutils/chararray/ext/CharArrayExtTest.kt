@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.chararray.ext
 
+import xyz.lbres.kotlinutils.general.simpleIf
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -47,5 +48,83 @@ class CharArrayExtTest {
         array[1] = 'Q'
         assertEquals(2, array.countElement('7'))
         assertEquals(2, array.countElement('Q'))
+    }
+
+    @Test
+    fun testMapInPlace() {
+        // empty
+        var array = charArrayOf()
+        var expected = charArrayOf()
+        array.mapInPlace { (it.code + 4).toChar() }
+        assertContentEquals(expected, array)
+
+        // constant value
+        array = charArrayOf('a', 'b', '3')
+        expected = charArrayOf('7', '7', '7')
+        array.mapInPlace { '7' }
+        assertContentEquals(expected, array)
+
+        // transform function
+        array = charArrayOf('a', 'b', '2', 'R')
+        expected = charArrayOf('e', 'f', '6', 'V')
+        array.mapInPlace { (it.code + 4).toChar() }
+        assertContentEquals(expected, array)
+
+        array = charArrayOf('1', '7', '%', 'K', '?')
+        expected = charArrayOf('1', '-', '%', '-', '-')
+        array.mapInPlace { simpleIf(it < '3', it, '-') }
+        assertContentEquals(expected, array)
+
+        var count = 0
+        array = charArrayOf('1', '4', '%', 'K', '$') // 49, 52, 37, 75, 36
+        expected = charArrayOf('0', '+', '0', '*', '*')
+        array.mapInPlace {
+            val result = when {
+                it.code % 2 == count % 2 -> '*'
+                it.code % 2 == 0 -> '+'
+                else -> '0'
+            }
+
+            count++
+            result
+        }
+        assertContentEquals(expected, array)
+    }
+
+    @Test
+    fun testMapInPlaceIndexed() {
+        // empty
+        var array = charArrayOf()
+        var expected = charArrayOf()
+        array.mapInPlaceIndexed { index, value -> (value.code + index).toChar() }
+        assertContentEquals(expected, array)
+
+        // constant value
+        array = charArrayOf('a', 'b', '3')
+        expected = charArrayOf('7', '7', '7')
+        array.mapInPlaceIndexed { _, _ -> '7' }
+        assertContentEquals(expected, array)
+
+        // transform function
+        array = charArrayOf('a', 'b', '2', 'R')
+        expected = charArrayOf('a', 'c', '4', 'U')
+        array.mapInPlaceIndexed { index, value -> (value.code + index).toChar() }
+        assertContentEquals(expected, array)
+
+        array = charArrayOf('1', '7', '%', 'K', '?')
+        expected = charArrayOf('1', '7', '%', '-', '-')
+        array.mapInPlaceIndexed { index, value -> simpleIf(index < 3, value, '-') }
+        assertContentEquals(expected, array)
+
+        array = charArrayOf('1', '4', '%', 'K', '$') // 49, 52, 37, 75, 36
+        expected = charArrayOf('0', '+', '0', '*', '*')
+        array.mapInPlaceIndexed { index, value ->
+            when {
+                value.code % 2 == index % 2 -> '*'
+                value.code % 2 == 0 -> '+'
+                else -> '0'
+            }
+        }
+        assertContentEquals(expected, array)
     }
 }
