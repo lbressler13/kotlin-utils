@@ -103,15 +103,15 @@ class MutableListExtTest {
         val nullList: MutableList<String?> = mutableListOf("hello", "world", null, null, "goodbye", "planet", "7", null)
         val nullExpected = mutableListOf("50", null, "100", "25", "50", null, "50", "25")
         nullList.mapInPlace {
-            val oldCount = count
-            count++
-
-            when {
-                oldCount % 2 == 0 && it == null -> "100"
-                oldCount % 2 == 0 -> "50"
+            val result = when {
+                count % 2 == 0 && it == null -> "100"
+                count % 2 == 0 -> "50"
                 it == null -> "25"
                 else -> null
             }
+
+            count++
+            result
         }
         assertEquals(nullExpected, nullList)
     }
