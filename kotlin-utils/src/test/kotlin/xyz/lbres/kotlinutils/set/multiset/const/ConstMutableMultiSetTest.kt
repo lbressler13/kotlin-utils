@@ -52,6 +52,21 @@ class ConstMutableMultiSetTest {
         runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
     }
 
+    @Test
+    fun testMinusConst() {
+        // TODO
+    }
+
+    @Test
+    fun testPlusConst() {
+        // TODO
+    }
+
+    @Test
+    fun testIntersectConst() {
+        // TODO
+    }
+
     @Test fun testIsEmpty() = runMutableIsEmptyTests(createSet(), createSet())
     @Test fun testGetCountOf() = runMutableGetCountOfTests(createSet(), createSet())
 

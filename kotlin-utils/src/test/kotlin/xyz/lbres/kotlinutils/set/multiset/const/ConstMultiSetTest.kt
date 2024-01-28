@@ -45,6 +45,21 @@ class ConstMultiSetTest {
         runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
     }
 
+    @Test
+    fun testMinusConst() {
+        // TODO
+    }
+
+    @Test
+    fun testPlusConst() {
+        // TODO
+    }
+
+    @Test
+    fun testIntersectConst() {
+        // TODO
+    }
+
     @Test fun testIsEmpty() = runIsEmptyTests(createSet(), createSet())
     @Test fun testGetCountOf() = runGetCountOfTests(createSet(), createSet())
 
