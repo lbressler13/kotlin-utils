@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+// TODO count consistent
+
 /**
  * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
  * The [transform] function can return different values for different occurrences of an element.
