@@ -179,13 +179,17 @@ fun runCountConsistentTests() {
     assertEquals(1, listSet.countConsistent(List<*>::isEmpty))
 
     // modified
-    var include = true
+    var includeOdd = true
     intSet = multiSetOf(1, 1, 4, 5, 1, 4)
     val predicate: (Int) -> Boolean = {
-        val result = include
-        include = !include
-        result
+        if (it % 2 == 0) {
+            true
+        } else {
+            val result = includeOdd
+            includeOdd = !includeOdd
+            result
+        }
     }
-    val resultOptions = listOf(3, 4, 5)
+    val resultOptions = listOf(3, 5)
     assertContains(resultOptions, intSet.countConsistent(predicate))
 }

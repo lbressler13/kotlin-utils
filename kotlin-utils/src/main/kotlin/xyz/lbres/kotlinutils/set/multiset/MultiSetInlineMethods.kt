@@ -63,7 +63,7 @@ inline fun <E> MultiSet<E>.filterNotToSet(predicate: (E) -> Boolean): MultiSet<E
 /**
  * Create a list with the results of applying the transform function to each value in the current MultiSet.
  * Requires a [transform] function that returns the same value for every occurrence of an element.
- * To use a function that does not return the same value for every occurrence, see [map].
+ * To use a function that does not return the same value for every occurrence, see [Collection.map].
  *
  * @param transform (E) -> T: transformation function, which returns the same value for every occurrence of an element
  * @return [List]<T>: list with transformed values
@@ -80,7 +80,7 @@ inline fun <E, T> MultiSet<E>.mapConsistent(transform: (E) -> T): List<T> {
 /**
  * Create a list containing only elements that match the given predicate.
  * Requires a [predicate] function that returns the same value for every occurrence of an element.
- * To use a function that does not return the same value for every occurrence, see [filter].
+ * To use a function that does not return the same value for every occurrence, see [Collection.filter].
  *
  * @param predicate (E) -> [Boolean]: predicate to use for filtering, which returns the same value for every occurrence of an element
  * @return [List]<E>: list containing only values for which [predicate] returns `true`
@@ -101,7 +101,7 @@ inline fun <E> MultiSet<E>.filterConsistent(predicate: (E) -> Boolean): List<E> 
 /**
  * Create a list containing only elements that do not match the given predicate.
  * Requires a [predicate] function that returns the same value for every occurrence of an element.
- * To use a function that does not return the same value for every occurrence, see [filterNot].
+ * To use a function that does not return the same value for every occurrence, see [Collection.filterNot].
  *
  * @param predicate (E) -> [Boolean]: predicate to use for filtering, which returns the same value for every occurrence of an element
  * @return [List]<E>: list containing only values for which [predicate] returns `false`
@@ -258,9 +258,11 @@ inline fun <E, R : Comparable<R>> MultiSet<E>.maxByOrNullConsistent(selector: (E
 
 /**
  * Count number of values matching predicate
+ * Requires a [predicate] function that returns the same value for every occurrence of an element.
+ * To use a function that does not return the same value for every occurrence, see [Collection.count].
  *
  * @param predicate (E) -> [Boolean]: predicate to use for counting, which returns the same value for every occurrence of an element
- * @return 0: number of values for which [predicate] return `true`
+ * @return [Int]: number of values for which [predicate] return `true`
  */
 inline fun <E> MultiSet<E>.countConsistent(predicate: (E) -> Boolean): Int {
     return distinctValues.fold(0) { acc: Int, element: E ->

@@ -114,13 +114,18 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
         return MultiSetImpl(countsToList(newCounts))
     }
 
+    @Suppress(Suppressions.FUNCTION_NAME)
+    infix fun `+c`(other: ConstMultiSet<E>): ConstMultiSet<E> = plusC(other)
+    @Suppress(Suppressions.FUNCTION_NAME)
+    infix fun `-c`(other: ConstMultiSet<E>): ConstMultiSet<E> = minusC(other)
+
     /**
      * Alternate version of [plus], which returns a ConstMultiSet
      *
      * @param other [ConstMultiSet]<E>: values to add to this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing all values from both sets
      */
-    infix fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, Int::plus, true)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
@@ -131,7 +136,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [ConstMultiSet]<E>: values to subtract from this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing the items in this set but not the other
      */
-    infix fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, Int::minus, false)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
