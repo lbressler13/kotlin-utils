@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
@@ -83,7 +84,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [MultiSet]<E>: MultiSet containing all values from both sets
      */
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
-        val newCounts = addCounts(other)
+        val newCounts = combineCounts(other, Int::plus, true)
         return MultiSetImpl(countsToList(newCounts))
     }
 
@@ -96,7 +97,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [MultiSet]<E>: MultiSet containing the items in this set but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        val newCounts = subtractCounts(other)
+        val newCounts = combineCounts(other, Int::minus, false)
         return MultiSetImpl(countsToList(newCounts))
     }
 
@@ -109,46 +110,61 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [MultiSet]<E>: MultiSet containing only values that are in both sets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
-        val newCounts = intersectCounts(other)
+        val newCounts = combineCounts(other, { val1, val2 -> min(val1, val2) }, false)
         return MultiSetImpl(countsToList(newCounts))
     }
 
+    /**
+     * Alternate version of [plus], which returns a ConstMultiSet
+     *
+     * @param other [ConstMultiSet]<E>: values to add to this set
+     * @return [ConstMultiSet]<E>: ConstMultiSet containing all values from both sets
+     */
+    fun plusConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
+        val newCounts = combineCounts(other, Int::plus, true)
+        return ConstMultiSetImpl(countsToList(newCounts), newCounts)
+    }
+
+    /**
+     * Alternate version of [minus], which returns a ConstMultiSet
+     *
+     * @param other [ConstMultiSet]<E>: values to subtract from this set
+     * @return [ConstMultiSet]<E>: ConstMultiSet containing the items in this set but not the other
+     */
+    fun minusConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
+        val newCounts = combineCounts(other, Int::minus, false)
+        return ConstMultiSetImpl(countsToList(newCounts), newCounts)
+    }
+
+    /**
+     * Alternate version of [intersect], which returns a ConstMultiSet
+     *
+     * @param other [ConstMultiSet]<E>: ConstMultiSet to intersect with current
+     * @return [ConstMultiSet]<E>: ConstMultiSet containing only values that are in both sets
+     */
+    fun intersectConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
+        val newCounts = combineCounts(other, { val1, val2 -> min(val1, val2) }, false)
+        return ConstMultiSetImpl(countsToList(newCounts), newCounts)
+    }
+
+    /** Infix version of [plusConst] */
     infix fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> = plusConst(other)
+    /** Infix version of [minusConst] */
     infix fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> = minusConst(other)
+    /** Infix version of [intersectConst] */
     infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = intersectConst(other)
 
-    fun plusConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
-        val newCounts = addCounts(other)
-        return ConstMultiSetImpl(countsToList(newCounts), newCounts)
-    }
-
-    fun minusConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
-        val newCounts = subtractCounts(other)
-        return ConstMultiSetImpl(countsToList(newCounts), newCounts)
-    }
-
-    fun intersectConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
-        val newCounts = intersectCounts(other)
-        return ConstMultiSetImpl(countsToList(newCounts), newCounts)
-    }
-
-    private fun addCounts(other: MultiSet<E>): Map<E, Int> {
-        val values = distinctValues + other.distinctValues
-
+    /**
+     * Combine counts with another MultiSet, using the given operation
+     *
+     * @param other [MultiSet]<E>: MultiSet to combine with
+     * @param operation (Int, Int) -> Int: combination function
+     * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
+     */
+    private fun combineCounts(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean): Map<E, Int> {
+        val values = simpleIf(useAllValues, { distinctValues + other.distinctValues }, { distinctValues })
         return values.associateWith {
-            getCountOf(it) + other.getCountOf(it)
-        }
-    }
-
-    private fun subtractCounts(other: MultiSet<E>): Map<E, Int> {
-        return distinctValues.associateWith {
-            getCountOf(it) - other.getCountOf(it)
-        }.filter { it.value > 0 }
-    }
-
-    private fun intersectCounts(other: MultiSet<E>): Map<E, Int> {
-        return distinctValues.associateWith {
-            min(getCountOf(it), other.getCountOf(it))
+            operation(getCountOf(it), other.getCountOf(it))
         }.filter { it.value > 0 }
     }
 
