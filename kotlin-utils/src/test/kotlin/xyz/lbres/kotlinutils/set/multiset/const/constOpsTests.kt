@@ -31,8 +31,8 @@ fun runPlusCTests(
     intSet1 = createIntSet(listOf(1))
     intSet2 = createIntSet(listOf(1))
     var intExpected = constMultiSetOf(1, 1)
-    assertEquals(intExpected, intSet1.plusC(intSet2)) // test using plusConst method
-    assertIs<ConstMultiSet<Int>>(intSet1.plusC(intSet2))
+    assertEquals(intExpected, intSet1 plusC intSet2)
+    assertIs<ConstMultiSet<Int>>(intSet1 plusC intSet2)
 
     intSet1 = createIntSet(listOf(1, 2, 2, 3, 3, 3))
     intSet2 = createIntSet(listOf(1, 2, 0))
@@ -146,8 +146,8 @@ fun runMinusCTests(
     intSet1 = createIntSet(listOf(1, 1, 2, 3, 4, 5, 5))
     intSet2 = createIntSet(listOf(1, 1, 5, 6, 6, 7))
     expectedInt = constMultiSetOf(2, 3, 4, 5)
-    assertEquals(expectedInt, intSet1.minusC(intSet2))
-    assertIs<ConstMultiSet<Int>>(intSet1.minusC(intSet2))
+    assertEquals(expectedInt, intSet1 minusC intSet2)
+    assertIs<ConstMultiSet<Int>>(intSet1 minusC intSet2)
 
     expectedInt = constMultiSetOf(6, 6, 7)
     assertEquals(expectedInt, intSet2 minusC intSet1)

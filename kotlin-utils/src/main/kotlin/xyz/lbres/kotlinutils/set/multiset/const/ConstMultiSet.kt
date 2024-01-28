@@ -153,6 +153,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [MultiSet]<E>: MultiSet to combine with
      * @param operation (Int, Int) -> Int: combination function
      * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
+     * @return [Map]<E, Int>: new counts map where each element has the number of occurrences specified by the operation
      */
     private fun combineCounts(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean): Map<E, Int> {
         val values = simpleIf(useAllValues, { distinctValues + other.distinctValues }, { distinctValues })
