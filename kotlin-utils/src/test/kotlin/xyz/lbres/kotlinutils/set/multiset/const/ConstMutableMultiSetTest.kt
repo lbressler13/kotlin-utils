@@ -41,20 +41,9 @@ class ConstMutableMultiSetTest {
     @Test fun testPlus() = runPlusTests(createSet(), createOtherSet())
     @Test fun testIntersect() = runIntersectTests(createSet(), createOtherSet())
 
-    @Test
-    fun testMinusC() {
-        runMinusCTests(createSet(), createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
-    }
-
-    @Test
-    fun testPlusC() {
-        runPlusCTests(createSet(), createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
-    }
-
-    @Test
-    fun testIntersectC() {
-        runIntersectCTests(createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
-    }
+    @Test fun testMinusC() = runMinusCTests(createSet()) { ConstMutableMultiSetImpl(it) }
+    @Test fun testPlusC() = runPlusCTests(createSet()) { ConstMutableMultiSetImpl(it) }
+    @Test fun testIntersectC() = runIntersectCTests(createSet()) { ConstMutableMultiSetImpl(it) }
 
     @Test fun testIsEmpty() = runMutableIsEmptyTests(createSet(), createSet())
     @Test fun testGetCountOf() = runMutableGetCountOfTests(createSet(), createSet())

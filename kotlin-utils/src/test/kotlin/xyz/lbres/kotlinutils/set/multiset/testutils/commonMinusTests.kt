@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.assertEmpty
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
@@ -12,6 +13,7 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
+@Suppress(Suppressions.UNCHECKED_CAST)
 fun runMinusTests(
     createSet: (Collection<*>) -> MultiSet<*>,
     createOtherSet: (Collection<*>) -> MultiSet<*>
