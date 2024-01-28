@@ -113,6 +113,8 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
         return MultiSetImpl(countsToList(newCounts))
     }
 
+    infix fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> = plusConst(other)
+
     fun plusConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = addCounts(other)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)

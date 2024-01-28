@@ -52,7 +52,7 @@ class ConstMultiSetTest {
 
     @Test
     fun testPlusConst() {
-        // TODO
+        runPlusConstTests(createSet(), createSet(), createSet(), createSet()) { ConstMutableMultiSetImpl(it) }
     }
 
     @Test
