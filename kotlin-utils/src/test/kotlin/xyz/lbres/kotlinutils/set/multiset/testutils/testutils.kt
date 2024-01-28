@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertEquals
@@ -22,4 +23,17 @@ fun <T> runSingleMutateTest(
     assertEquals(success, result)
     assertEquals(expected, set)
     assertEquals(expected.size, set.size)
+}
+
+/**
+ * Convert generic create set function to create set function for a specific type
+ *
+ * @param genericCreateSet: generic function
+ * @return type-specific function
+ */
+fun <T> getCreateSet(genericCreateSet: (Collection<*>) -> MultiSet<*>): (Collection<T>) -> MultiSet<T> {
+    return {
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        genericCreateSet(it) as MultiSet<T>
+    }
 }

@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.assertEmpty
-import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
@@ -9,17 +8,12 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-@Suppress(Suppressions.UNCHECKED_CAST)
-fun runMinusCTests(
-    createSet: (Collection<*>) -> ConstMultiSet<*>,
-    createOtherSet: (Collection<*>) -> ConstMultiSet<*>
-) {
-    val createIntSet: (Collection<Int>) -> ConstMultiSet<Int> = { createSet(it) as ConstMultiSet<Int> }
-    val createStringSet: (Collection<String>) -> ConstMultiSet<String> = { createSet(it) as ConstMultiSet<String> }
-    val createExceptionSet: (Collection<Exception>) -> ConstMultiSet<Exception> = { createSet(it) as ConstMultiSet<Exception> }
-    val createCompListSet: (Collection<List<Comparable<*>>>) -> ConstMultiSet<List<Comparable<*>>> = { createSet(it) as ConstMultiSet<List<Comparable<*>>> }
-
-    val createOtherIntSet: (Collection<Int>) -> ConstMultiSet<Int> = { createOtherSet(it) as ConstMultiSet<Int> }
+fun runMinusCTests(createSet: (Collection<*>) -> ConstMultiSet<*>, createOtherSet: (Collection<*>) -> ConstMultiSet<*>) {
+    val createIntSet = getCreateConstSet<Int>(createSet)
+    val createStringSet = getCreateConstSet<String>(createSet)
+    val createExceptionSet = getCreateConstSet<Exception>(createSet)
+    val createCompListSet = getCreateConstSet<List<Comparable<*>>>(createSet)
+    val createOtherIntSet = getCreateConstSet<Int>(createOtherSet)
 
     // empty
     var intSet1 = createIntSet(emptyList())

@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.assertEmpty
-import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
@@ -14,16 +13,11 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-@Suppress(Suppressions.UNCHECKED_CAST)
-fun runIntersectTests(
-    createSet: (Collection<*>) -> MultiSet<*>,
-    createOtherSet: (Collection<*>) -> MultiSet<*>
-) {
-    val createIntSet: (Collection<Int>) -> MultiSet<Int> = { createSet(it) as MultiSet<Int> }
-    val createIntListSet: (Collection<IntList>) -> MultiSet<IntList> = { createSet(it) as MultiSet<IntList> }
-    val createExceptionSet: (Collection<Exception>) -> MultiSet<Exception> = { createSet(it) as MultiSet<Exception> }
-
-    val createOtherIntSet: (Collection<Int>) -> MultiSet<Int> = { createOtherSet(it) as MultiSet<Int> }
+fun runIntersectTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createIntListSet = getCreateSet<IntList>(createSet)
+    val createExceptionSet = getCreateSet<Exception>(createSet)
+    val createOtherIntSet = getCreateSet<Int>(createOtherSet)
 
     // empty
     var intSet1 = createIntSet(emptyList())
