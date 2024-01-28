@@ -9,7 +9,7 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-fun runPlusConstTests(
+fun runPlusCTests(
     createIntSet: (Collection<Int>) -> ConstMultiSet<Int>,
     createStringSet: (Collection<String>) -> ConstMultiSet<String>,
     createExceptionSet: (Collection<Exception>) -> ConstMultiSet<Exception>,
@@ -31,8 +31,8 @@ fun runPlusConstTests(
     intSet1 = createIntSet(listOf(1))
     intSet2 = createIntSet(listOf(1))
     var intExpected = constMultiSetOf(1, 1)
-    assertEquals(intExpected, intSet1.plusConst(intSet2)) // test using plusConst method
-    assertIs<ConstMultiSet<Int>>(intSet1.plusConst(intSet2))
+    assertEquals(intExpected, intSet1.plusC(intSet2)) // test using plusConst method
+    assertIs<ConstMultiSet<Int>>(intSet1.plusC(intSet2))
 
     intSet1 = createIntSet(listOf(1, 2, 2, 3, 3, 3))
     intSet2 = createIntSet(listOf(1, 2, 0))
@@ -63,10 +63,10 @@ fun runPlusConstTests(
     val expectedError: ConstMultiSet<Exception> = constMultiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
     assertEquals(expectedError, errorSet1 plusC errorSet2)
     assertEquals(expectedError, errorSet2 plusC errorSet1)
-    assertIs<ConstMultiSet<Exception>>(errorSet1.plusConst(errorSet2))
+    assertIs<ConstMultiSet<Exception>>(errorSet1.plusC(errorSet2))
 }
 
-fun runMinusConstTests(
+fun runMinusCTests(
     createIntSet: (Collection<Int>) -> ConstMultiSet<Int>,
     createStringSet: (Collection<String>) -> ConstMultiSet<String>,
     createExceptionSet: (Collection<Exception>) -> ConstMultiSet<Exception>,
@@ -146,8 +146,8 @@ fun runMinusConstTests(
     intSet1 = createIntSet(listOf(1, 1, 2, 3, 4, 5, 5))
     intSet2 = createIntSet(listOf(1, 1, 5, 6, 6, 7))
     expectedInt = constMultiSetOf(2, 3, 4, 5)
-    assertEquals(expectedInt, intSet1.minusConst(intSet2))
-    assertIs<ConstMultiSet<Int>>(intSet1.minusConst(intSet2))
+    assertEquals(expectedInt, intSet1.minusC(intSet2))
+    assertIs<ConstMultiSet<Int>>(intSet1.minusC(intSet2))
 
     expectedInt = constMultiSetOf(6, 6, 7)
     assertEquals(expectedInt, intSet2 minusC intSet1)
@@ -180,7 +180,7 @@ fun runMinusConstTests(
     assertIs<ConstMultiSet<Exception>>(errorSet2 minusC errorSet1)
 }
 
-fun runIntersectConstTests(
+fun runIntersectCTests(
     createIntSet: (Collection<Int>) -> ConstMultiSet<Int>,
     createIntListSet: (Collection<IntList>) -> ConstMultiSet<IntList>,
     createExceptionSet: (Collection<Exception>) -> ConstMultiSet<Exception>,

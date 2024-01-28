@@ -120,7 +120,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [ConstMultiSet]<E>: values to add to this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing all values from both sets
      */
-    fun plusConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    infix fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, Int::plus, true)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
@@ -131,7 +131,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [ConstMultiSet]<E>: values to subtract from this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing the items in this set but not the other
      */
-    fun minusConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    infix fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, Int::minus, false)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
@@ -142,17 +142,10 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [ConstMultiSet]<E>: ConstMultiSet to intersect with current
      * @return [ConstMultiSet]<E>: ConstMultiSet containing only values that are in both sets
      */
-    fun intersectConst(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, { val1, val2 -> min(val1, val2) }, false)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
-
-    /** Infix version of [plusConst] */
-    infix fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> = plusConst(other)
-    /** Infix version of [minusConst] */
-    infix fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> = minusConst(other)
-    /** Infix version of [intersectConst] */
-    infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = intersectConst(other)
 
     /**
      * Combine counts with another MultiSet, using the given operation
