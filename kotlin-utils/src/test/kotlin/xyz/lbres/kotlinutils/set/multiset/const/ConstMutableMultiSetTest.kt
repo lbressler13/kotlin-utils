@@ -54,17 +54,17 @@ class ConstMutableMultiSetTest {
 
     @Test
     fun testMinusConst() {
-        // TODO
+        runMinusConstTests(createSet(), createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
     }
 
     @Test
     fun testPlusConst() {
-        // TODO
+        runPlusConstTests(createSet(), createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
     }
 
     @Test
     fun testIntersectConst() {
-        // TODO
+        runIntersectConstTests(createSet(), createSet(), createSet()) { ConstMultiSetImpl(it) }
     }
 
     @Test fun testIsEmpty() = runMutableIsEmptyTests(createSet(), createSet())

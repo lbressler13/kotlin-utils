@@ -1,9 +1,10 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.int.ext.isZero
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
