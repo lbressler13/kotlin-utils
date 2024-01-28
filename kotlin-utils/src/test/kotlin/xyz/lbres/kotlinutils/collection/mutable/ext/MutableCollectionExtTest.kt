@@ -95,29 +95,29 @@ class MutableCollectionExtTest {
             assertNotEquals(resultsList1, resultsList2)
         }
     }
-}
 
-/**
- * Run a single pop random test
- *
- * @param values [MutableCollection]<T>: values in collection
- * @param copy [MutableCollection]<T>: copy of [values]
- * @param results [MutableCollection]<T>: collection to store popped values. Expected to be empty
- * @param equalityAssertion (MutableCollection<T>, MutableCollection<T>) -> Unit: assertion to validate that values and results are equal.
- * Defaults to [assertEquals].
- */
-private fun <T> runSinglePopRandomTest(
-    values: MutableCollection<T>,
-    copy: MutableCollection<T>,
-    results: MutableCollection<T>,
-    equalityAssertion: (MutableCollection<T>, MutableCollection<T>) -> Unit = { coll1, coll2 -> assertEquals(coll1, coll2) }
-) {
-    repeat(values.size) {
-        val result = copy.popRandom()
-        assertNotNull(result)
-        results.add(result)
+    /**
+     * Run a single pop random test
+     *
+     * @param values [MutableCollection]<T>: values in collection
+     * @param copy [MutableCollection]<T>: copy of [values]
+     * @param results [MutableCollection]<T>: collection to store popped values. Expected to be empty
+     * @param equalityAssertion (MutableCollection<T>, MutableCollection<T>) -> Unit: assertion to validate that values and results are equal.
+     * Defaults to [assertEquals].
+     */
+    private fun <T> runSinglePopRandomTest(
+        values: MutableCollection<T>,
+        copy: MutableCollection<T>,
+        results: MutableCollection<T>,
+        equalityAssertion: (MutableCollection<T>, MutableCollection<T>) -> Unit = { coll1, coll2 -> assertEquals(coll1, coll2) }
+    ) {
+        repeat(values.size) {
+            val result = copy.popRandom()
+            assertNotNull(result)
+            results.add(result)
+        }
+
+        equalityAssertion(values, results)
+        assertNull(copy.popRandom())
     }
-
-    equalityAssertion(values, results)
-    assertNull(copy.popRandom())
 }
