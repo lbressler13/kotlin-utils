@@ -13,12 +13,16 @@ private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
 fun runMinusTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createStringSet: (Collection<String>) -> MultiSet<String>,
-    createExceptionSet: (Collection<Exception>) -> MultiSet<Exception>,
-    createCompListSet: (Collection<List<Comparable<*>>>) -> MultiSet<List<Comparable<*>>>,
-    createOtherIntSet: (Collection<Int>) -> MultiSet<Int>
+    createSet: (Collection<*>) -> MultiSet<*>,
+    createOtherSet: (Collection<*>) -> MultiSet<*>
 ) {
+    val createIntSet: (Collection<Int>) -> MultiSet<Int> = { createSet(it) as MultiSet<Int> }
+    val createStringSet: (Collection<String>) -> MultiSet<String> = { createSet(it) as MultiSet<String> }
+    val createExceptionSet: (Collection<Exception>) -> MultiSet<Exception> = { createSet(it) as MultiSet<Exception> }
+    val createCompListSet: (Collection<List<Comparable<*>>>) -> MultiSet<List<Comparable<*>>> = { createSet(it) as MultiSet<List<Comparable<*>>> }
+
+    val createOtherIntSet: (Collection<Int>) -> MultiSet<Int> = { createOtherSet(it) as MultiSet<Int> }
+
     // empty
     var intSet1 = createIntSet(emptyList())
     var intSet2 = createIntSet(emptyList())

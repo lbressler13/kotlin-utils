@@ -151,8 +151,8 @@ fun runMaxByConsistentTests() {
 fun runCountConsistentTests() {
     // empty set
     var intSet: MultiSet<Int> = multiSetOf()
-    assertEquals(0, intSet.countConsistent { it == 0})
-    assertEquals(0, intSet.countConsistent { it != 0})
+    assertEquals(0, intSet.countConsistent { it == 0 })
+    assertEquals(0, intSet.countConsistent { it != 0 })
 
     // none match
     intSet = multiSetOf(1, 2, -1)

@@ -14,11 +14,15 @@ private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
 fun runIntersectTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
-    createExceptionSet: (Collection<Exception>) -> MultiSet<Exception>,
-    createOtherIntSet: (Collection<Int>) -> MultiSet<Int>
+    createSet: (Collection<*>) -> MultiSet<*>,
+    createOtherSet: (Collection<*>) -> MultiSet<*>
 ) {
+    val createIntSet: (Collection<Int>) -> MultiSet<Int> = { createSet(it) as MultiSet<Int> }
+    val createIntListSet: (Collection<IntList>) -> MultiSet<IntList> = { createSet(it) as MultiSet<IntList> }
+    val createExceptionSet: (Collection<Exception>) -> MultiSet<Exception> = { createSet(it) as MultiSet<Exception> }
+
+    val createOtherIntSet: (Collection<Int>) -> MultiSet<Int> = { createOtherSet(it) as MultiSet<Int> }
+
     // empty
     var intSet1 = createIntSet(emptyList())
     var intSet2 = createIntSet(emptyList())
