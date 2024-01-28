@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-// TODO count consistent
+import xyz.lbres.kotlinutils.general.simpleIf
 
 /**
  * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.
@@ -254,4 +254,16 @@ inline fun <E, R : Comparable<R>> MultiSet<E>.maxByOrNullConsistent(selector: (E
     }
 
     return distinctValues.maxByOrNull(selector)
+}
+
+/**
+ * Count number of values matching predicate
+ *
+ * @param predicate (E) -> [Boolean]: predicate to use for counting, which returns the same value for every occurrence of an element
+ * @return 0: number of values for which [predicate] return `true`
+ */
+inline fun <E> MultiSet<E>.countConsistent(predicate: (E) -> Boolean): Int {
+    return distinctValues.fold(0) { acc: Int, element: E ->
+        simpleIf(predicate(element), { acc + getCountOf(element) }, { acc })
+    }
 }
