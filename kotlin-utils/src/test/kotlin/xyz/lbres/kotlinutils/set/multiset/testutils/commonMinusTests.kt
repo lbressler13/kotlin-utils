@@ -12,13 +12,13 @@ private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-fun runMinusTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createStringSet: (Collection<String>) -> MultiSet<String>,
-    createExceptionSet: (Collection<Exception>) -> MultiSet<Exception>,
-    createCompListSet: (Collection<List<Comparable<*>>>) -> MultiSet<List<Comparable<*>>>,
-    createOtherIntSet: (Collection<Int>) -> MultiSet<Int>
-) {
+fun runMinusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createStringSet = getCreateSet<String>(createSet)
+    val createExceptionSet = getCreateSet<Exception>(createSet)
+    val createCompListSet = getCreateSet<List<Comparable<*>>>(createSet)
+    val createOtherIntSet = getCreateSet<Int>(createOtherSet)
+
     // empty
     var intSet1 = createIntSet(emptyList())
     var intSet2 = createIntSet(emptyList())

@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
+import xyz.lbres.kotlinutils.int.ext.isZero
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertContains
@@ -145,4 +146,50 @@ fun runMaxByConsistentTests() {
     mutableList1.add(0)
     past12 = false
     assertContains(listOf(listOf(1, 2, 3), listOf(1, 2, 3, 0)), listSet.maxByOrNullConsistent(listSelector))
+}
+
+fun runCountConsistentTests() {
+    // empty set
+    var intSet: MultiSet<Int> = multiSetOf()
+    assertEquals(0, intSet.countConsistent { it == 0 })
+    assertEquals(0, intSet.countConsistent { it != 0 })
+
+    // none match
+    intSet = multiSetOf(1, 2, -1)
+    assertEquals(0, intSet.countConsistent(Int::isZero))
+
+    var listSet = multiSetOf(listOf(1, 2), listOf("hello", 123), listOf(-.5))
+    assertEquals(0, listSet.countConsistent(List<*>::isEmpty))
+
+    // all match
+    intSet = multiSetOf(0, 0, 0)
+    assertEquals(3, intSet.countConsistent(Int::isZero))
+
+    listSet = multiSetOf(listOf(1, 2), listOf("hello", 123), listOf(-.5))
+    assertEquals(3, listSet.countConsistent(List<*>::isNotEmpty))
+
+    // some match
+    intSet = multiSetOf(-1, 0, 0)
+    assertEquals(2, intSet.countConsistent(Int::isZero))
+
+    intSet = multiSetOf(1, -1, 9, 8, 5, 5, 2, 3, 8, 5, -2)
+    assertEquals(5, intSet.countConsistent { intSet.getCountOf(it) > 1 })
+
+    listSet = multiSetOf(listOf(1, 2), emptyList(), listOf(-.5))
+    assertEquals(1, listSet.countConsistent(List<*>::isEmpty))
+
+    // modified
+    var includeOdd = true
+    intSet = multiSetOf(1, 1, 4, 5, 1, 4)
+    val predicate: (Int) -> Boolean = {
+        if (it % 2 == 0) {
+            true
+        } else {
+            val result = includeOdd
+            includeOdd = !includeOdd
+            result
+        }
+    }
+    val resultOptions = listOf(3, 5)
+    assertContains(resultOptions, intSet.countConsistent(predicate))
 }

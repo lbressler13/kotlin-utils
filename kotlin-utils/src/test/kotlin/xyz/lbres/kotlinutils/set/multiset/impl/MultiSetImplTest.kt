@@ -46,19 +46,19 @@ class MultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runMinusTests(createSet(), createOtherSet())
         runMutableElementMinusTests(createSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runPlusTests(createSet(), createOtherSet())
         runMutableElementPlusTests(createSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
+        runIntersectTests(createSet(), createOtherSet())
         runMutableElementIntersectTests(createSet())
     }
 
