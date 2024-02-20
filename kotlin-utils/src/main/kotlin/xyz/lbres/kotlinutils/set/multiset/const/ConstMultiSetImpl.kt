@@ -9,11 +9,13 @@ import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 internal class ConstMultiSetImpl<E>(initialElements: Collection<E>, initialCounts: Map<E, Int>? = null) : ConstMultiSet<E>(initialElements, initialCounts) {
     private val manager: ConstMultiSetManager<E>
     override val size: Int = initialElements.size
-    override val counts: Map<E, Int>
-    override val string: String
+    override val distinctValues: Set<E>
+    private val counts: Map<E, Int>
+    private val string: String
 
     init {
         counts = initialCounts.ifNull { createCountsMap(initialElements) }
+        distinctValues = counts.keys
         manager = ConstMultiSetManager(initialElements, counts)
         string = countsToString(counts)
     }
@@ -33,4 +35,5 @@ internal class ConstMultiSetImpl<E>(initialElements: Collection<E>, initialCount
     override fun isEmpty(): Boolean = manager.isEmpty()
     override fun iterator(): Iterator<E> = manager.getIterator()
     override fun hashCode(): Int = manager.getHashCode()
+    override fun toString(): String = string
 }
