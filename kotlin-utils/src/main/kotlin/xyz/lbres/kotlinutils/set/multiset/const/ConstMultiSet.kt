@@ -125,7 +125,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [ConstMultiSet]<E>: values to add to this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing all values from both sets
      */
-    fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    open fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, Int::plus, true)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
@@ -136,7 +136,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [ConstMultiSet]<E>: values to subtract from this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing the items in this set but not the other
      */
-    fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    open fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, Int::minus, false)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
@@ -147,7 +147,7 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @param other [ConstMultiSet]<E>: ConstMultiSet to intersect with current
      * @return [ConstMultiSet]<E>: ConstMultiSet containing only values that are in both sets
      */
-    infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    open infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         val newCounts = combineCounts(other, { val1, val2 -> min(val1, val2) }, false)
         return ConstMultiSetImpl(countsToList(newCounts), newCounts)
     }
