@@ -12,6 +12,9 @@ class BigDecimalExtTest {
         var bd = BigDecimal.ZERO
         assertTrue(bd.isZero())
 
+        bd = BigDecimal("0.0000000000000000000000000000")
+        assertTrue(bd.isZero())
+
         // non zero
         bd = BigDecimal("0.0000000000000000000000000001")
         assertFalse(bd.isZero())

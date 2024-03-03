@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.bigdecimal.ext
 
+import xyz.lbres.kotlinutils.biginteger.ext.isZero
+import xyz.lbres.kotlinutils.general.tryOrDefault
 import java.math.BigDecimal
 
 /**
@@ -7,7 +9,7 @@ import java.math.BigDecimal
  *
  * @return [Boolean]: true if value is zero, false otherwise
  */
-fun BigDecimal.isZero(): Boolean = equals(BigDecimal.ZERO)
+fun BigDecimal.isZero(): Boolean = tryOrDefault(false) { toBigIntegerExact().isZero() }
 
 /**
  * Unary check to determine if value is negative
