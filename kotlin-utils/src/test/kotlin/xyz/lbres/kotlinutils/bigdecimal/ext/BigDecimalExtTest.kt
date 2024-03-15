@@ -104,7 +104,7 @@ class BigDecimalExtTest {
         var expected = BigInteger("1000000000000000000000")
         assertEquals(expected, bd.roundToBigInteger())
 
-        bd = BigDecimal("-123")
+        bd = BigDecimal("-123.000000000000000000000000000")
         expected = BigInteger("-123")
         assertEquals(expected, bd.roundToBigInteger())
 
@@ -121,7 +121,7 @@ class BigDecimalExtTest {
         expected = BigInteger("12346")
         assertEquals(expected, bd.roundToBigInteger())
 
-        bd = BigDecimal("-12.2")
+        bd = BigDecimal("-12.2000000000000000000045679")
         expected = BigInteger("-12")
         assertEquals(expected, bd.roundToBigInteger())
 
@@ -138,7 +138,7 @@ class BigDecimalExtTest {
         expected = BigInteger("-12346")
         assertEquals(expected, bd.roundToBigInteger())
 
-        bd = BigDecimal("12.2")
+        bd = BigDecimal("12.2000000000000000000045679")
         expected = BigInteger("12")
         assertEquals(expected, bd.roundToBigInteger())
 
