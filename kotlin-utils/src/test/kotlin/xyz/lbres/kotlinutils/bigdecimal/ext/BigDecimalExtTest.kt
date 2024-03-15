@@ -113,7 +113,7 @@ class BigDecimalExtTest {
         expected = BigInteger.ONE
         assertEquals(expected, bd.roundToBigInteger())
 
-        bd = BigDecimal("-0.3333333333333333333333333333")
+        bd = BigDecimal("-0.4555555555555555555555555555")
         expected = BigInteger.ZERO
         assertEquals(expected, bd.roundToBigInteger())
 
@@ -126,7 +126,7 @@ class BigDecimalExtTest {
         assertEquals(expected, bd.roundToBigInteger())
 
         // down
-        bd = BigDecimal("0.45")
+        bd = BigDecimal("0.4555555555555555555555555555")
         expected = BigInteger.ZERO
         assertEquals(expected, bd.roundToBigInteger())
 
@@ -147,9 +147,9 @@ class BigDecimalExtTest {
         expected = BigInteger.ONE
         assertEquals(expected, bd.roundToBigInteger(RoundingMode.UP))
 
-        bd = BigDecimal("7.5")
-        expected = BigInteger("7")
-        assertEquals(expected, bd.roundToBigInteger(RoundingMode.HALF_DOWN))
+        bd = BigDecimal("6.5")
+        expected = BigInteger("6")
+        assertEquals(expected, bd.roundToBigInteger(RoundingMode.HALF_EVEN))
 
         bd = BigDecimal("9.99999999999999")
         expected = BigInteger("9")
