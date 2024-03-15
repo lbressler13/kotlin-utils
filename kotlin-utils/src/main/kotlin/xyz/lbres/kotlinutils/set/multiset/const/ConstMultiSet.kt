@@ -1,14 +1,8 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.utils.countsToList
-import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
-import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
-import kotlin.math.min
 
 /**
  * [MultiSet] implementation where values of elements are assumed to be constant.
@@ -52,10 +46,6 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [Boolean]: `true` if [other] is a non-null MultiSet which contains the same values as the current set, `false` otherwise
      */
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is MultiSet<*>) {
-            return false
-        }
-
         @Suppress(Suppressions.UNCHECKED_CAST)
         return tryOrDefault(false, listOf(ClassCastException::class)) {
             other as MultiSet<E>
