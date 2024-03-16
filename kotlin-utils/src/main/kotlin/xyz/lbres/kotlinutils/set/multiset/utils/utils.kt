@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+
 /**
  * Create a mapping of each element in a collection to the number of occurrences of the element.
  *
@@ -50,4 +52,14 @@ internal fun <E> countsToList(counts: Map<E, Int>): List<E> {
     }
 
     return list
+}
+
+/**
+ * Create hash code for set
+ *
+ * @param counts [Map]<E, Int>: counts map
+ */
+internal fun <E> createHashCode(counts: Map<E, Int>): Int {
+    val hashCode = counts.hashCode()
+    return 31 * hashCode + MultiSet::class.java.name.hashCode()
 }

@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
+import xyz.lbres.kotlinutils.set.multiset.utils.createHashCode
 import kotlin.math.min
 
 /**
@@ -83,13 +84,5 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
         }
     }
 
-    /**
-     * Get hash code for set.
-     *
-     * @return [Int]
-     */
-    fun getHashCode(): Int {
-        val hashCode = counts.hashCode()
-        return 31 * hashCode + MultiSet::class.java.name.hashCode()
-    }
+    fun getHashCode(): Int = createHashCode(counts)
 }
