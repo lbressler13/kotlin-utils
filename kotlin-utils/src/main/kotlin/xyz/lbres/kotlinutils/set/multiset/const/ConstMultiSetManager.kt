@@ -3,6 +3,7 @@ package xyz.lbres.kotlinutils.set.multiset.const
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import xyz.lbres.kotlinutils.set.multiset.utils.createHashCode
 import kotlin.math.min
@@ -12,8 +13,8 @@ import kotlin.math.min
  *
  * @param counts [Map]<E, Int>: counts map for set
  */
-internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
-    fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
+internal class ConstMultiSetManager<E>(private val counts: CountsMap<E>) {
+    fun getCountOf(element: E): Int = counts.getCountOf(element)
     fun isEmpty(): Boolean = counts.isEmpty()
 
     fun contains(element: E): Boolean = counts.contains(element)
@@ -54,7 +55,7 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
      * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation. If [const] is `true`, the set will be a const multi set
      */
     private fun combineCounts(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean, const: Boolean): MultiSet<E> {
-        val values: Set<E> = simpleIf(useAllValues, { counts.keys + other.distinctValues }, { counts.keys })
+        val values: Set<E> = simpleIf(useAllValues, { counts.distinct + other.distinctValues }, { counts.distinct })
         val newCounts: MutableMap<E, Int> = mutableMapOf()
         val newElements: MutableList<E> = mutableListOf()
 
@@ -66,7 +67,7 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
             }
         }
 
-        return simpleIf(const, { ConstMultiSetImpl(newElements, newCounts) }, { MultiSetImpl(newElements) })
+        return simpleIf(const, { ConstMultiSetImpl(newElements, CountsMap(newCounts)) }, { MultiSetImpl(newElements) })
     }
 
     /**
@@ -79,10 +80,13 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
         return when (other) {
             is ConstMultiSetImpl<*> -> counts == other.counts
             is ConstMutableMultiSetImpl<*> -> counts == other.counts
-            is MultiSet<*> -> counts == createCountsMap(other)
+            is MultiSet<*> -> counts == CountsMap.from(other)
             else -> false
         }
     }
 
-    fun getHashCode(): Int = createHashCode(counts)
+    fun getHashCode(): Int {
+        val hashCode = counts.hashCode()
+        return 31 * hashCode + MultiSet::class.java.name.hashCode()
+    }
 }

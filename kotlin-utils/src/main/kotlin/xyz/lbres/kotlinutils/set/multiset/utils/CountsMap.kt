@@ -1,7 +1,22 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
 @JvmInline
-value class CountsMap<E>(val counts: Map<E, Int>) {
+internal value class CountsMap<E>(val counts: Map<E, Int>) {
+    val distinct: Set<E>
+        get() = counts.keys
+
+    fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
+    fun isEmpty(): Boolean = counts.isEmpty()
+
+    fun contains(element: E): Boolean = counts.contains(element)
+    fun containsAll(elements: Collection<E>): Boolean {
+        val otherCounts = CountsMap.from(elements)
+
+        return otherCounts.counts.all { (element, otherCount) ->
+            otherCount <= getCountOf(element)
+        }
+    }
+
     fun toList(): List<E> {
         val list: MutableList<E> = mutableListOf()
         counts.forEach { (element, count) ->
@@ -25,7 +40,8 @@ value class CountsMap<E>(val counts: Map<E, Int>) {
         return "[$elementsString]"
     }
 
-    fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
+    // TODO test equality and hash code
+    fun getHashCode(): Int = counts.hashCode()
 
     companion object {
         fun <E> from(elements: Collection<E>): CountsMap<E> {
