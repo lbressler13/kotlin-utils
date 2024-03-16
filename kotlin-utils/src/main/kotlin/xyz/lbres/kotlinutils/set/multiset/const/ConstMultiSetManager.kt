@@ -39,7 +39,7 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
     fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         return combineCounts(other, Int::minus, false, const = true) as ConstMultiSet<E>
     }
-    infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> {
+    fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         return combineCounts(other, ::min, false, const = true) as ConstMultiSet<E>
     }
 
@@ -53,8 +53,7 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
      * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation. If [const] is `true`, the set will be a const multi set
      */
     private fun combineCounts(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean, const: Boolean): MultiSet<E> {
-        val distinctValues = counts.keys
-        val values: Set<E> = simpleIf(useAllValues, { distinctValues + other.distinctValues }, { distinctValues })
+        val values: Set<E> = simpleIf(useAllValues, { counts.keys + other.distinctValues }, { counts.keys })
         val newCounts: MutableMap<E, Int> = mutableMapOf()
         val newElements: MutableList<E> = mutableListOf()
 
@@ -73,7 +72,7 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
      * Check equality of the managed set to another MultiSet
      *
      * @param other [Any]?
-     * @return [Boolean] `true` if [other] is a MultiSet containing the same elements in the counts map
+     * @return [Boolean] `true` if [other] is a MultiSet containing the same elements as the counts map, `false` otherwise
      */
     fun equalsSet(other: Any?): Boolean {
         return when (other) {

@@ -23,7 +23,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     // elements list is up-to-date only when allPropertiesUpdated == true
     private var elements: List<E> = initialElements.toList()
 
-    private var _size: Int = initialElements.size
+    private var _size: Int = elements.size
     override val size: Int
         get() = _size
 
@@ -66,8 +66,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
             return true
         }
 
-        var anySucceeded = false
-        elements.forEach { anySucceeded = remove(it) || anySucceeded }
+        val anySucceeded = elements.fold(false) { succeeded, element -> remove(element) || succeeded }
         allPropertiesUpdated = allPropertiesUpdated && !anySucceeded
 
         return anySucceeded
