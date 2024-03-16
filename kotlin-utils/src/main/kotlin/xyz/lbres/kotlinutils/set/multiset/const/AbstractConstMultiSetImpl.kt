@@ -4,26 +4,10 @@ import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
-import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
-/**
- * Manager class for common ConstMultiSet code
- *
- * @param counts [Map]<E, Int>: counts map for set
- */
-internal class ConstMultiSetManager<E>(private val counts: CountsMap<E>) {
-    fun getCountOf(element: E): Int = counts.getCountOf(element)
-    fun isEmpty(): Boolean = counts.isEmpty()
-
-    fun contains(element: E): Boolean = counts.contains(element)
-    fun containsAll(elements: Collection<E>): Boolean {
-        val otherCounts = createCountsMap(elements)
-
-        return otherCounts.all { (element, otherCount) ->
-            otherCount <= getCountOf(element)
-        }
-    }
+internal interface AbstractConstMultiSetImpl<E> {
+    val counts: CountsMap<E>
 
     fun plus(other: MultiSet<E>): MultiSet<E> {
         return combineCounts(other, Int::plus, true, const = false)
@@ -59,7 +43,7 @@ internal class ConstMultiSetManager<E>(private val counts: CountsMap<E>) {
         val newElements: MutableList<E> = mutableListOf()
 
         values.forEach { value ->
-            val count = operation(getCountOf(value), other.getCountOf(value))
+            val count = operation(counts.getCountOf(value), other.getCountOf(value))
             if (count > 0) {
                 newCounts[value] = count
                 repeat(count) { newElements.add(value) }
@@ -69,18 +53,11 @@ internal class ConstMultiSetManager<E>(private val counts: CountsMap<E>) {
         return simpleIf(const, { ConstMultiSetImpl(newElements, CountsMap(newCounts)) }, { MultiSetImpl(newElements) })
     }
 
-    /**
-     * Check equality of the managed set to another MultiSet
-     *
-     * @param other [Any]?
-     * @return [Boolean] `true` if [other] is a MultiSet containing the same elements as the counts map, `false` otherwise
-     */
-    fun equalsSet(other: Any?): Boolean {
-        return when (other) {
-            is ConstMultiSetImpl<*> -> counts == other.counts
-            is ConstMutableMultiSetImpl<*> -> counts == other.counts
-            is MultiSet<*> -> counts == CountsMap.from(other)
-            else -> false
+    fun equalsSet(other: MultiSet<*>): Boolean {
+        return if (other is AbstractConstMultiSetImpl<*>) {
+            counts == other.counts
+        } else {
+            counts == CountsMap.from(other)
         }
     }
 
