@@ -69,6 +69,12 @@ internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
         return simpleIf(const, { ConstMultiSetImpl(newElements, newCounts) }, { MultiSetImpl(newElements) })
     }
 
+    /**
+     * Check equality of the managed set to another MultiSet
+     *
+     * @param other [Any]?
+     * @return [Boolean] `true` if [other] is a MultiSet containing the same elements in the counts map
+     */
     fun equalsSet(other: Any?): Boolean {
         return when (other) {
             is ConstMultiSetImpl<*> -> counts == other.counts

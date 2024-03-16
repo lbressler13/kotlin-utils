@@ -27,8 +27,7 @@ internal abstract class AbstractMultiSetImpl<E>(private val initialElements: Col
     /**
      * Elements in the set.
      */
-    protected open val elements: Collection<E>
-        get() = initialElements
+    protected open val elements: Collection<E> = initialElements
 
     /**
      * Get the number of occurrences of a given element.

@@ -16,7 +16,6 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     private val manager: ConstMultiSetManager<E>
     private val _counts: MutableMap<E, Int>
     val counts: Map<E, Int>
-        get() = _counts
 
     override val distinctValues: Set<E>
         get() = _counts.keys
@@ -33,6 +32,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
 
     init {
         _counts = createCountsMap(initialElements).toMutableMap()
+        counts = _counts
         manager = ConstMultiSetManager(_counts)
     }
 
