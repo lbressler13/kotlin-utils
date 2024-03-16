@@ -8,15 +8,14 @@ import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 // final implementation of ConstMutableMultiSet
-internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : ConstMutableMultiSet<E>(initialElements) {
+internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : ConstMutableMultiSet<E>(initialElements), AbstractConstMultiSetImpl<E> {
     /**
      * If all properties are up-to-date with the most recent changes to the counts map
      */
     private var allPropertiesUpdated: Boolean = false
 
-    private val manager: ConstMultiSetManager<E>
     private val _counts: MutableMap<E, Int>
-    val counts: CountsMap<E>
+    override val counts: CountsMap<E>
 
     override val distinctValues: Set<E>
         get() = _counts.keys
@@ -34,7 +33,6 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     init {
         _counts = createCountsMap(initialElements).toMutableMap()
         counts = CountsMap(_counts)
-        manager = ConstMultiSetManager(counts)
     }
 
     override fun add(element: E): Boolean {
@@ -103,17 +101,17 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     override fun contains(element: E): Boolean = counts.contains(element)
     override fun containsAll(elements: Collection<E>): Boolean = counts.containsAll(elements)
 
-    override fun plus(other: MultiSet<E>): MultiSet<E> = manager.plus(other)
-    override fun minus(other: MultiSet<E>): MultiSet<E> = manager.minus(other)
-    override fun intersect(other: MultiSet<E>): MultiSet<E> = manager.intersect(other)
+    override fun plus(other: MultiSet<E>): MultiSet<E> = super<AbstractConstMultiSetImpl>.plus(other)
+    override fun minus(other: MultiSet<E>): MultiSet<E> = super<AbstractConstMultiSetImpl>.minus(other)
+    override fun intersect(other: MultiSet<E>): MultiSet<E> = super<AbstractConstMultiSetImpl>.intersect(other)
 
-    override fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> = manager.plusC(other)
-    override fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> = manager.minusC(other)
-    override fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = manager.intersectC(other)
+    override fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> = super.plusC(other)
+    override fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> = super.minusC(other)
+    override fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = super.intersectC(other)
 
     override fun isEmpty(): Boolean = counts.isEmpty()
-    override fun equals(other: Any?): Boolean = manager.equalsSet(other)
-    override fun hashCode(): Int = counts.getHashCode()
+    override fun equals(other: Any?): Boolean = other is MultiSet<*> && equalsSet(other)
+    override fun hashCode(): Int = getHashCode()
 
     override fun iterator(): MutableIterator<E> {
         updateMutableValues()

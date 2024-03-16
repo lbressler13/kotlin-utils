@@ -6,6 +6,9 @@ import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import kotlin.math.min
 
+/**
+ * Common functionality for ConstMultiSet implementations
+ */
 internal interface AbstractConstMultiSetImpl<E> {
     val counts: CountsMap<E>
 
