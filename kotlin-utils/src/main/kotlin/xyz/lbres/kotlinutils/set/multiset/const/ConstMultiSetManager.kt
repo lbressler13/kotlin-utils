@@ -8,9 +8,6 @@ import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 internal class ConstMultiSetManager<E>(private val elements: Collection<E>, private val counts: Map<E, Int>) {
-    private val distinctValues: Set<E>
-        get() = counts.keys
-
     fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
     fun isEmpty(): Boolean = counts.isEmpty()
 
@@ -42,8 +39,8 @@ internal class ConstMultiSetManager<E>(private val elements: Collection<E>, priv
         return combineCounts(other, { val1, val2 -> min(val1, val2) }, false, const = true) as ConstMultiSet<E>
     }
 
-    // TODO return new multiset
     private fun combineCounts(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean, const: Boolean): MultiSet<E> {
+        val distinctValues = counts.keys
         val values: Set<E> = simpleIf(useAllValues, { distinctValues + other.distinctValues }, { distinctValues })
         val newCounts: Map<E, Int> = values.associateWith {
             operation(getCountOf(it), other.getCountOf(it))
@@ -53,7 +50,15 @@ internal class ConstMultiSetManager<E>(private val elements: Collection<E>, priv
         return simpleIf(const, { ConstMultiSetImpl(newElements, newCounts) }, { MultiSetImpl(newElements) })
     }
 
-    // TODO add equals
+    fun equalsSet(other: Any?): Boolean {
+        return when (other) {
+            is ConstMultiSetImpl<*> -> counts == other.counts
+            is ConstMutableMultiSetImpl<*> -> counts == other.counts
+            is MultiSet<*> -> counts == createCountsMap(other)
+            else -> false
+        }
+    }
+
     // TODO add toString
 
     /**

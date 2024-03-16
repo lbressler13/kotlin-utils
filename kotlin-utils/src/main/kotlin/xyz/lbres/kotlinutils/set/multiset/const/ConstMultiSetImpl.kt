@@ -10,8 +10,8 @@ internal class ConstMultiSetImpl<E>(initialElements: Collection<E>, initialCount
     private val manager: ConstMultiSetManager<E>
     override val size: Int = initialElements.size
     override val distinctValues: Set<E>
-    private val counts: Map<E, Int>
     private val string: String
+    val counts: Map<E, Int>
 
     init {
         counts = initialCounts.ifNull { createCountsMap(initialElements) }
@@ -35,5 +35,6 @@ internal class ConstMultiSetImpl<E>(initialElements: Collection<E>, initialCount
     override fun isEmpty(): Boolean = manager.isEmpty()
     override fun iterator(): Iterator<E> = manager.getIterator()
     override fun hashCode(): Int = manager.getHashCode()
+    override fun equals(other: Any?): Boolean = manager.equalsSet(other)
     override fun toString(): String = string
 }

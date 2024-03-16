@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
-import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 
@@ -38,25 +37,4 @@ sealed class ConstMultiSet<E> constructor(private val initialElements: Collectio
      * @return [ConstMultiSet]<E>: ConstMultiSet containing only values that are in both sets
      */
     abstract infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E>
-
-    /**
-     * If the current set contains the same elements as another MultiSet, with the same number of occurrences per element.
-     *
-     * @param other [Any]?
-     * @return [Boolean]: `true` if [other] is a non-null MultiSet which contains the same values as the current set, `false` otherwise
-     */
-    override fun equals(other: Any?): Boolean {
-        @Suppress(Suppressions.UNCHECKED_CAST)
-        return tryOrDefault(false, listOf(ClassCastException::class)) {
-            other as MultiSet<E>
-            size == other.size && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
-//            if (other is ConstMultiSet<*>) {
-//                other as ConstMultiSet<E>
-//                counts == other.counts
-//            } else {
-//                other as MultiSet<E>
-//                size == other.size && distinctValues.all { getCountOf(it) == other.getCountOf(it) }
-//            }
-        }
-    }
 }

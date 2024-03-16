@@ -14,10 +14,12 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     private var allPropertiesUpdated: Boolean = false
 
     private val manager: ConstMultiSetManager<E>
-    private val counts: MutableMap<E, Int>
+    private val _counts: MutableMap<E, Int>
+    val counts: Map<E, Int>
+        get() = _counts
 
     override val distinctValues: Set<E>
-        get() = counts.keys
+        get() = _counts.keys
 
     // elements list is up-to-date only when allPropertiesUpdated == true
     private var _elements: List<E> = initialElements.toList()
@@ -35,13 +37,13 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     private var string: String = ""
 
     init {
-        counts = createCountsMap(initialElements).toMutableMap()
-        manager = ConstMultiSetManager(elements, counts)
+        _counts = createCountsMap(initialElements).toMutableMap()
+        manager = ConstMultiSetManager(elements, _counts)
     }
 
     override fun add(element: E): Boolean {
         allPropertiesUpdated = false
-        counts[element] = getCountOf(element) + 1
+        _counts[element] = getCountOf(element) + 1
         _size++
         return true
     }
@@ -55,8 +57,8 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     override fun remove(element: E): Boolean {
         when (getCountOf(element)) {
             0 -> return false
-            1 -> counts.remove(element)
-            else -> counts[element] = getCountOf(element) - 1
+            1 -> _counts.remove(element)
+            else -> _counts[element] = getCountOf(element) - 1
         }
 
         allPropertiesUpdated = false
@@ -84,12 +86,12 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
             min(getCountOf(it), elementsCounts.getOrDefault(it, 0))
         }
 
-        counts.clear()
+        _counts.clear()
         _size = 0
 
         newCounts.forEach { (element, count) ->
             if (count > 0) {
-                counts[element] = count
+                _counts[element] = count
                 _size += count
             }
         }
@@ -100,7 +102,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     }
 
     override fun clear() {
-        counts.clear()
+        _counts.clear()
         _size = 0
         allPropertiesUpdated = false
     }
@@ -118,6 +120,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     override fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = manager.intersectC(other)
 
     override fun isEmpty(): Boolean = manager.isEmpty()
+    override fun equals(other: Any?): Boolean = manager.equalsSet(other)
     override fun hashCode(): Int = manager.getHashCode()
 
     override fun iterator(): MutableIterator<E> {
@@ -135,8 +138,8 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
      */
     private fun updateMutableValues() {
         if (!allPropertiesUpdated) {
-            _elements = countsToList(counts)
-            string = countsToString(counts)
+            _elements = countsToList(_counts)
+            string = countsToString(_counts)
 
             allPropertiesUpdated = true
         }
