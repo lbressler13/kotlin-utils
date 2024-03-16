@@ -10,7 +10,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
 
     fun contains(element: E): Boolean = counts.contains(element)
     fun containsAll(elements: Collection<E>): Boolean {
-        val otherCounts = CountsMap.from(elements)
+        val otherCounts = from(elements)
 
         return otherCounts.counts.all { (element, otherCount) ->
             otherCount <= getCountOf(element)
@@ -39,9 +39,6 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
 
         return "[$elementsString]"
     }
-
-    // TODO test equality and hash code
-    fun getHashCode(): Int = counts.hashCode()
 
     companion object {
         fun <E> from(elements: Collection<E>): CountsMap<E> {

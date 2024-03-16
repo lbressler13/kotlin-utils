@@ -2,8 +2,6 @@ package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
-import xyz.lbres.kotlinutils.set.multiset.utils.countsToList
-import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
@@ -128,8 +126,8 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
      */
     private fun updateMutableValues() {
         if (!allPropertiesUpdated) {
-            elements = countsToList(_counts)
-            string = countsToString(_counts)
+            elements = counts.toList()
+            string = counts.toString()
 
             allPropertiesUpdated = true
         }
