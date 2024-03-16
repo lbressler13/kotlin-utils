@@ -23,11 +23,6 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
 
     // elements list is up-to-date only when allPropertiesUpdated == true
     private var _elements: List<E> = initialElements.toList()
-    private val elements: Collection<E>
-        get() {
-            updateMutableValues()
-            return _elements
-        }
 
     private var _size: Int = initialElements.size
     override val size: Int
@@ -38,7 +33,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
 
     init {
         _counts = createCountsMap(initialElements).toMutableMap()
-        manager = ConstMultiSetManager(elements, _counts)
+        manager = ConstMultiSetManager(_elements, _counts)
     }
 
     override fun add(element: E): Boolean {
