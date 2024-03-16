@@ -76,17 +76,14 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
         val initialSize = size
         val elementsCounts = createCountsMap(elements)
 
-        val newCounts = distinctValues.associateWith {
-            min(getCountOf(it), elementsCounts.getOrDefault(it, 0))
-        }
-
-        _counts.clear()
         _size = 0
-
-        newCounts.forEach { (element, count) ->
-            if (count > 0) {
-                _counts[element] = count
-                _size += count
+        distinctValues.forEach {
+            val newCount = min(getCountOf(it), elementsCounts.getOrDefault(it, 0))
+            if (newCount > 0) {
+                _counts[it] = newCount
+                _size += newCount
+            } else {
+                _counts.remove(it)
             }
         }
 
