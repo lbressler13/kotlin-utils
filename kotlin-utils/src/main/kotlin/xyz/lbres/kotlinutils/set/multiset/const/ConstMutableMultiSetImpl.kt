@@ -8,7 +8,7 @@ import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 // final implementation of ConstMutableMultiSet
-internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : ConstMutableMultiSet<E>(initialElements), AbstractConstMultiSetImpl<E> {
+internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : ConstMutableMultiSet<E>(), AbstractConstMultiSetImpl<E> {
     /**
      * If all properties are up-to-date with the most recent changes to the counts map
      */

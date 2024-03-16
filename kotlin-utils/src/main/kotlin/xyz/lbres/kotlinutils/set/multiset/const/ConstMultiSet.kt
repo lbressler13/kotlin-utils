@@ -7,7 +7,7 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
  * [MultiSet] implementation where values of elements are assumed to be constant.
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
-sealed class ConstMultiSet<E> constructor(private val initialElements: Collection<E>, private var initialCounts: Map<E, Int>? = null) : MultiSet<E> {
+sealed class ConstMultiSet<E> : MultiSet<E> {
 
     @Suppress(Suppressions.FUNCTION_NAME)
     infix fun `+c`(other: ConstMultiSet<E>): ConstMultiSet<E> = plusC(other)

@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 
 // final implementation of ConstMultiSet
-internal class ConstMultiSetImpl<E>(private val elements: Collection<E>, initialCounts: CountsMap<E>? = null) : ConstMultiSet<E>(elements, initialCounts?.counts), AbstractConstMultiSetImpl<E> {
+internal class ConstMultiSetImpl<E>(private val elements: Collection<E>, initialCounts: CountsMap<E>? = null) : ConstMultiSet<E>(), AbstractConstMultiSetImpl<E> {
     override val size: Int = elements.size
     override val distinctValues: Set<E>
     private val string: String
