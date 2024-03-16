@@ -6,7 +6,12 @@ import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
-internal class ConstMultiSetManager<E>(private val elements: Collection<E>, private val counts: Map<E, Int>) {
+/**
+ * Manager class for common ConstMultiSet code
+ *
+ * @param counts [Map]<E, Int>: counts map for set
+ */
+internal class ConstMultiSetManager<E>(private val counts: Map<E, Int>) {
     fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
     fun isEmpty(): Boolean = counts.isEmpty()
 
@@ -72,15 +77,6 @@ internal class ConstMultiSetManager<E>(private val elements: Collection<E>, priv
             else -> false
         }
     }
-
-    // TODO add toString
-
-    /**
-     * Get an iterator for the elements in this set.
-     *
-     * @return [Iterator]<E>
-     */
-    fun getIterator(): Iterator<E> = elements.iterator()
 
     /**
      * Get hash code for set.

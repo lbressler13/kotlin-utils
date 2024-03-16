@@ -6,17 +6,17 @@ import xyz.lbres.kotlinutils.set.multiset.utils.countsToString
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 
 // final implementation of ConstMultiSet
-internal class ConstMultiSetImpl<E>(initialElements: Collection<E>, initialCounts: Map<E, Int>? = null) : ConstMultiSet<E>(initialElements, initialCounts) {
+internal class ConstMultiSetImpl<E>(private val elements: Collection<E>, initialCounts: Map<E, Int>? = null) : ConstMultiSet<E>(elements, initialCounts) {
     private val manager: ConstMultiSetManager<E>
-    override val size: Int = initialElements.size
+    override val size: Int = elements.size
     override val distinctValues: Set<E>
     private val string: String
     val counts: Map<E, Int>
 
     init {
-        counts = initialCounts.ifNull { createCountsMap(initialElements) }
+        counts = initialCounts.ifNull { createCountsMap(elements) }
         distinctValues = counts.keys
-        manager = ConstMultiSetManager(initialElements, counts)
+        manager = ConstMultiSetManager(counts)
         string = countsToString(counts)
     }
 
@@ -33,7 +33,7 @@ internal class ConstMultiSetImpl<E>(initialElements: Collection<E>, initialCount
     override fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = manager.intersectC(other)
 
     override fun isEmpty(): Boolean = manager.isEmpty()
-    override fun iterator(): Iterator<E> = manager.getIterator()
+    override fun iterator(): Iterator<E> = elements.iterator()
     override fun hashCode(): Int = manager.getHashCode()
     override fun equals(other: Any?): Boolean = manager.equalsSet(other)
     override fun toString(): String = string

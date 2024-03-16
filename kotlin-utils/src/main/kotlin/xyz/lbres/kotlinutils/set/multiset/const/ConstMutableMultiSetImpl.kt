@@ -33,7 +33,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
 
     init {
         _counts = createCountsMap(initialElements).toMutableMap()
-        manager = ConstMultiSetManager(elements, _counts)
+        manager = ConstMultiSetManager(_counts)
     }
 
     override fun add(element: E): Boolean {
