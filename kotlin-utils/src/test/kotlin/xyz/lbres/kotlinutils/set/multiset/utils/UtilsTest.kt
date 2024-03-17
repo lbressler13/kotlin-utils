@@ -91,4 +91,9 @@ class UtilsTest {
         val stringOptions = setOf(listOf("hello", "world", "world"), listOf("world", "world", "hello"))
         assertContains(stringOptions, countsToList(stringCounts))
     }
+
+    @Test
+    fun testCombineCounts() {
+        // TODO
+    }
 }

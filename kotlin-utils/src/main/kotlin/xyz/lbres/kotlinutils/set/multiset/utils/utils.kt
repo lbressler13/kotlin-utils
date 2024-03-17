@@ -1,5 +1,11 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
+import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.AbstractMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+
 /**
  * Create a mapping of each element in a collection to the number of occurrences of the element.
  *
@@ -50,4 +56,41 @@ internal fun <E> countsToList(counts: Map<E, Int>): List<E> {
     }
 
     return list
+}
+
+/**
+ * Combine counts map and MultiSet, using the given operation
+ *
+ * @param counts [CountsMap]<E>: counts map
+ * @param multiset [MultiSet]<E>: MultiSet to combine with
+ * @param operation (Int, Int) -> Int: combination function
+ * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
+ * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet
+ * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation. If [const] is `true`, the set will be a const multi set.
+ * Defaults to `false`.
+ */
+internal fun <E> combineCounts(counts: CountsMap<E>, multiset: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean, const: Boolean = false): MultiSet<E> {
+    var otherCount: (E) -> Int = { multiset.getCountOf(it) }
+    var otherDistinct: () -> Set<E> = { multiset.distinctValues }
+
+    // increase efficiency for AbstractMultiSetImpl
+    if (multiset is AbstractMultiSetImpl<E>) {
+        val otherCounts = CountsMap.from(multiset)
+        otherCount = { otherCounts.getCountOf(it) }
+        otherDistinct = { otherCounts.distinct }
+    }
+
+    val values: Set<E> = simpleIf(useAllValues, { counts.distinct + otherDistinct() }, { counts.distinct })
+    val newCounts: MutableMap<E, Int> = mutableMapOf()
+    val newElements: MutableList<E> = mutableListOf()
+
+    values.forEach { value ->
+        val count = operation(counts.getCountOf(value), otherCount(value))
+        if (count > 0) {
+            newCounts[value] = count
+            repeat(count) { newElements.add(value) }
+        }
+    }
+
+    return simpleIf(const, { ConstMultiSetImpl(newElements, newCounts) }, { MultiSetImpl(newElements) })
 }
