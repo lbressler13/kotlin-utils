@@ -71,11 +71,11 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
 
     override fun retainAll(elements: Collection<E>): Boolean {
         val initialSize = size
-        val elementsCounts = createCountsMap(elements)
+        val elementsCounts = CountsMap.from(elements)
 
         _size = 0
         distinctValues.forEach {
-            val newCount = min(getCountOf(it), elementsCounts.getOrDefault(it, 0))
+            val newCount = min(getCountOf(it), elementsCounts.getCountOf(it))
             if (newCount > 0) {
                 _counts[it] = newCount
                 _size += newCount

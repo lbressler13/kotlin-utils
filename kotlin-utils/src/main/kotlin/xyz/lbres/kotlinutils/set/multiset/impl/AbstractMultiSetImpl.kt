@@ -7,8 +7,6 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.AbstractConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import xyz.lbres.kotlinutils.set.multiset.utils.combineCounts
-import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
-import xyz.lbres.kotlinutils.set.multiset.utils.createHashCode
 import kotlin.math.min
 
 /**
@@ -56,14 +54,6 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
         return combineCounts(CountsMap.from(elements), other, ::min, useAllValues = false)
     }
 
-    /**
-     * Create a mapping of each element in the set to the number of occurrences of the element.
-     *
-     * @return [Map]<E, Int>: mapping where keys are distinct elements in the set,
-     * and values are the number of occurrences of the element in [elements]
-     */
-    protected fun getCounts(): Map<E, Int> = createCountsMap(elements)
-
     override fun isEmpty(): Boolean = elements.isEmpty()
     override fun iterator(): Iterator<E> = elements.toList().iterator()
 
@@ -72,5 +62,8 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
         return "[$elementsString]"
     }
 
-    override fun hashCode(): Int = createHashCode(CountsMap.from(elements))
+    override fun hashCode(): Int {
+        val hashCode = CountsMap.from(elements).hashCode()
+        return 31 * hashCode + MultiSet::class.java.name.hashCode()
+    }
 }
