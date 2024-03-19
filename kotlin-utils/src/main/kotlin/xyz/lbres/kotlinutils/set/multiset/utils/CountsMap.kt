@@ -5,6 +5,9 @@ package xyz.lbres.kotlinutils.set.multiset.utils
  */
 @JvmInline
 internal value class CountsMap<E>(private val counts: Map<E, Int>) {
+    /**
+     * Distinct values in the map
+     */
     val distinct: Set<E>
         get() = counts.keys
 

@@ -12,7 +12,7 @@ import kotlin.math.min
 /**
  * Partial [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
-internal abstract class AbstractMultiSetImpl<E>(private val initialElements: Collection<E>) : MultiSet<E> {
+internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) : MultiSet<E> {
     /**
      * Number of elements in set.
      */
