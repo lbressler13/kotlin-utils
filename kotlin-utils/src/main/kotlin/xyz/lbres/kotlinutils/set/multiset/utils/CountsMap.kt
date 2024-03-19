@@ -6,13 +6,13 @@ package xyz.lbres.kotlinutils.set.multiset.utils
 @JvmInline
 internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     /**
-     * Distinct values in the map
+     * Distinct values in map
      */
     val distinct: Set<E>
         get() = counts.keys
 
     /**
-     * Number of occurrences of a single element
+     * Get number of occurrences of a single element
      *
      * @param element E: element to get count of
      * @return [Int]: number of occurrences
