@@ -67,7 +67,6 @@ internal fun <E> countsToList(counts: Map<E, Int>): List<E> {
  * @param useAllValues [Boolean]: if all values from the map and the set should be used to generate the new set. If `false`, only the values from the counts map will be used.
  * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet
  * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation. If [const] is `true`, the set will be a const multi set.
- * Defaults to `false`.
  */
 internal fun <E> combineCounts(counts: CountsMap<E>, multiset: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean, const: Boolean): MultiSet<E> {
     var getOtherCount: (E) -> Int = { multiset.getCountOf(it) }

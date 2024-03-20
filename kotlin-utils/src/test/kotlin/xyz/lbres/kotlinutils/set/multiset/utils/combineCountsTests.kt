@@ -26,7 +26,7 @@ fun runCombineCountsTests() {
     assertEquals(intExpected, intResult)
     assertIsNot<ConstMultiSet<*>>(intResult)
 
-    // constant map value
+    // constant map function
     intCounts = CountsMap.from(listOf(1, 4, 5, 1, 2))
     intSet = multiSetOf(1, 2, -4, 5, 5)
     var map: (Int, Int) -> Int = { _, _ -> 0 }
@@ -51,7 +51,7 @@ fun runCombineCountsTests() {
     assertEquals(intExpected, intResult)
     assertIsNot<ConstMultiSet<*>>(intResult)
 
-    // dynamic map values
+    // dynamic map function
     intCounts = CountsMap.from(listOf(1, 4, 5, 1, 2))
     intSet = multiSetOf(1, 2, -4, 5, 5)
     intExpected = multiSetOf(1, 1, 1, 2, 2, 4, 5, 5, 5)
