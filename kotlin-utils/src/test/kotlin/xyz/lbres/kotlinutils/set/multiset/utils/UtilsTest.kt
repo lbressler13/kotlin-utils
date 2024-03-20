@@ -28,8 +28,5 @@ class UtilsTest {
         assertEquals(listExpected, createCountsMap(listValues))
     }
 
-    @Test
-    fun testCombineCounts() {
-        // TODO
-    }
+    @Test fun testCombineCounts() = runCombineCountsTests()
 }

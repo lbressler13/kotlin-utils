@@ -18,7 +18,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     }
 
     /**
-     * Number of occurrences of a single element
+     * Get number of occurrences of a single element
      *
      * @param element E: element to get count of
      * @return [Int]: number of occurrences
