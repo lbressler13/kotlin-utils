@@ -1,17 +1,18 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
+import xyz.lbres.kotlinutils.set.multiset.utils.combineCounts
 import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 /**
  * Partial [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
  */
-internal abstract class AbstractMultiSetImpl<E>(private val initialElements: Collection<E>) : MultiSet<E> {
+internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) : MultiSet<E> {
     /**
      * Number of elements in set.
      */
@@ -102,7 +103,7 @@ internal abstract class AbstractMultiSetImpl<E>(private val initialElements: Col
      * @return [MultiSet]<E>: MultiSet containing only values that are in both MultiSets
      */
     override infix fun intersect(other: MultiSet<E>): MultiSet<E> {
-        return genericBinaryOperation(other, { count, otherCount -> min(count, otherCount) }, useAllValues = false)
+        return combineCounts(CountsMap.from(elements), other, ::min, useAllValues = false, const = false)
     }
 
     /**
@@ -113,7 +114,7 @@ internal abstract class AbstractMultiSetImpl<E>(private val initialElements: Col
      * @return [MultiSet]<E>: MultiSet containing the items in this MultiSet but not the other
      */
     override operator fun minus(other: MultiSet<E>): MultiSet<E> {
-        return genericBinaryOperation(other, Int::minus, useAllValues = false)
+        return combineCounts(CountsMap.from(elements), other, Int::minus, useAllValues = false, const = false)
     }
 
     /**
@@ -124,43 +125,7 @@ internal abstract class AbstractMultiSetImpl<E>(private val initialElements: Col
      * @return [MultiSet]<E>: MultiSet containing all values from both MultiSets
      */
     override operator fun plus(other: MultiSet<E>): MultiSet<E> {
-        return genericBinaryOperation(other, Int::plus)
-    }
-
-    /**
-     * Execute a binary operation with another MultiSet, with special handling for the case of another AbstractMultiSetImpl.
-     *
-     * @param other [MultiSet]<E>: other set to use in operation
-     * @param operation (Int, Int) -> Int: function which uses the count of an element in this set and the count in another set, and returns the new count for the element
-     * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
-     * Defaults to `true`
-     * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation
-     */
-    private fun genericBinaryOperation(other: MultiSet<E>, operation: (count: Int, otherCount: Int) -> Int, useAllValues: Boolean = true): MultiSet<E> {
-        val counts = getCounts()
-        val distinct = counts.keys
-
-        var getOtherCount: (E) -> Int = { other.getCountOf(it) }
-        var getOtherDistinct: () -> Set<E> = { other.distinctValues }
-        // increase efficiency of operation with other AbstractMultiSetImpl
-        if (other is AbstractMultiSetImpl<E>) {
-            val otherCounts = other.getCounts()
-            getOtherCount = { otherCounts.getOrDefault(it, 0) }
-            getOtherDistinct = { otherCounts.keys }
-        }
-
-        val newElements: MutableList<E> = mutableListOf()
-
-        val values = simpleIf(useAllValues, { distinct + getOtherDistinct() }, { distinct })
-        values.forEach {
-            val count = counts.getOrDefault(it, 0)
-            val otherCount = getOtherCount(it)
-            val newCount = operation(count, otherCount)
-
-            repeat(newCount) { _ -> newElements.add(it) }
-        }
-
-        return MultiSetImpl(newElements)
+        return combineCounts(CountsMap.from(elements), other, Int::plus, useAllValues = true, const = false)
     }
 
     /**
