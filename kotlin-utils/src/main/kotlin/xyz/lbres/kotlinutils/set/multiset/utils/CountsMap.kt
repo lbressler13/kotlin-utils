@@ -60,7 +60,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
      *
      * @param function (E, Int) -> Unit: function to apply to each key/value pair
      */
-    fun forEach(function: (E, Int) -> Unit) = counts.forEach(function)
+    fun forEach(function: (element: E, count: Int) -> Unit) = counts.forEach(function)
 
     /**
      * Cast to a [List]

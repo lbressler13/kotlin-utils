@@ -51,13 +51,15 @@ fun runDistinctTests() {
     val stringExpected = setOf("farewell", "goodbye", "hello", "hello world", "world")
     assertEquals(stringExpected, stringCounts.distinct)
 
-    val countsCounts = CountsMap.from(listOf(
-        CountsMap.from(listOf(1)),
-        CountsMap.from(listOf(1)),
-        CountsMap.from(listOf(44, 5)),
-        CountsMap.from(listOf(1, 1, 1)),
-        CountsMap.from(listOf(1)),
-    ))
+    val countsCounts = CountsMap.from(
+        listOf(
+            CountsMap.from(listOf(1)),
+            CountsMap.from(listOf(1)),
+            CountsMap.from(listOf(44, 5)),
+            CountsMap.from(listOf(1, 1, 1)),
+            CountsMap.from(listOf(1)),
+        )
+    )
     val countsExpected = setOf(
         CountsMap.from(listOf(1)),
         CountsMap.from(listOf(44, 5)),

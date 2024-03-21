@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
 import xyz.lbres.kotlinutils.set.multiset.utils.countsmap.* // ktlint-disable no-wildcard-imports no-unused-imports
+import kotlin.math.max
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -17,7 +18,30 @@ class CountsMapTest {
 
     @Test
     fun testForEach() {
-        // TODO
+        var total = 0
+        var intCounts: CountsMap<Int> = CountsMap(emptyMap())
+        intCounts.forEach { element, count -> total += element * count }
+        assertEquals(0, total)
+
+        intCounts = CountsMap.from(listOf(1, 1, 2, 2, -7))
+        intCounts.forEach { element, count -> total += element * count }
+        assertEquals(-1, total)
+
+        val intSet: MutableSet<Int> = mutableSetOf()
+        intCounts = CountsMap.from(listOf(3, 7, 3, 1, 1, 1, 0, 0))
+        intCounts.forEach { element, count -> intSet.add(max(element, count)) }
+        assertEquals(setOf(3, 7, 2), intSet)
+
+        var string = ""
+        var stringCounts = CountsMap.from(listOf("hello", "world", "goodbye", "farewell", "hello", "farewell", "hello"))
+        stringCounts.forEach { element, _ -> if (string.length < element.length) string = element }
+        assertEquals("farewell", string)
+
+        string = ""
+        stringCounts = CountsMap.from(listOf("abcd", "abcd", "abcd", "123", "hello", "hello"))
+        stringCounts.forEach { element, count -> repeat(count) { string += element[count] } }
+        val stringOptions = setOf("ddd2ll", "dddll2", "2dddll", "2llddd", "llddd2", "ll2ddd")
+        assertContains(stringOptions, string)
     }
 
     @Test
