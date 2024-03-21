@@ -6,46 +6,46 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 fun runGetCountOfTests() {
-    var intMap: CountsMap<Int> = CountsMap.from(emptyList())
-    assertEquals(0, intMap.getCountOf(0))
-    assertEquals(0, intMap.getCountOf(100))
+    var intCounts: CountsMap<Int> = CountsMap.from(emptyList())
+    assertEquals(0, intCounts.getCountOf(0))
+    assertEquals(0, intCounts.getCountOf(100))
 
-    intMap = CountsMap.from(listOf(2))
-    assertEquals(1, intMap.getCountOf(2))
-    assertEquals(0, intMap.getCountOf(1))
+    intCounts = CountsMap.from(listOf(2))
+    assertEquals(1, intCounts.getCountOf(2))
+    assertEquals(0, intCounts.getCountOf(1))
 
-    intMap = CountsMap.from(listOf(1, 1, 2, 1, -4, 5, 2))
-    assertEquals(3, intMap.getCountOf(1))
-    assertEquals(2, intMap.getCountOf(2))
-    assertEquals(1, intMap.getCountOf(-4))
-    assertEquals(1, intMap.getCountOf(5))
+    intCounts = CountsMap.from(listOf(1, 1, 2, 1, -4, 5, 2))
+    assertEquals(3, intCounts.getCountOf(1))
+    assertEquals(2, intCounts.getCountOf(2))
+    assertEquals(1, intCounts.getCountOf(-4))
+    assertEquals(1, intCounts.getCountOf(5))
 
-    val listMap = CountsMap.from(listOf(listOf(1, 2, 3), listOf(1, 2, 3)))
-    assertEquals(2, listMap.getCountOf(listOf(1, 2, 3)))
-    assertEquals(0, listMap.getCountOf(listOf(1, 2)))
+    val listCounts = CountsMap.from(listOf(listOf(1, 2, 3), listOf(1, 2, 3)))
+    assertEquals(2, listCounts.getCountOf(listOf(1, 2, 3)))
+    assertEquals(0, listCounts.getCountOf(listOf(1, 2)))
 }
 
 fun runIsEmptyTests() {
     // empty
-    var intMap: CountsMap<Int> = CountsMap.from(emptyList())
-    assertTrue(intMap.isEmpty())
+    var intCounts: CountsMap<Int> = CountsMap.from(emptyList())
+    assertTrue(intCounts.isEmpty())
 
-    var stringMap: CountsMap<String> = CountsMap.from(emptyList())
-    assertTrue(stringMap.isEmpty())
+    var stringCounts: CountsMap<String> = CountsMap.from(emptyList())
+    assertTrue(stringCounts.isEmpty())
 
     // not empty
-    intMap = CountsMap.from(listOf(0))
-    assertFalse(intMap.isEmpty())
+    intCounts = CountsMap.from(listOf(0))
+    assertFalse(intCounts.isEmpty())
 
-    intMap = CountsMap.from(listOf(1000, -1000, 4, 2, 4))
-    assertFalse(intMap.isEmpty())
+    intCounts = CountsMap.from(listOf(1000, -1000, 4, 2, 4))
+    assertFalse(intCounts.isEmpty())
 
-    intMap = CountsMap.from(listOf(3, 3, 3))
-    assertFalse(intMap.isEmpty())
+    intCounts = CountsMap.from(listOf(3, 3, 3))
+    assertFalse(intCounts.isEmpty())
 
-    stringMap = CountsMap.from(listOf("123", "abc"))
-    assertFalse(stringMap.isEmpty())
+    stringCounts = CountsMap.from(listOf("123", "abc"))
+    assertFalse(stringCounts.isEmpty())
 
-    stringMap = CountsMap.from(listOf("hello world", "hello world"))
-    assertFalse(stringMap.isEmpty())
+    stringCounts = CountsMap.from(listOf("hello world", "hello world"))
+    assertFalse(stringCounts.isEmpty())
 }

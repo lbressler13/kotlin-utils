@@ -7,7 +7,7 @@ import kotlin.test.assertEquals
 
 class CountsMapTest {
     @Test fun testFrom() = runFromTests()
-    @Test fun testDistinct() = runDistinctTests() // TODO
+    @Test fun testDistinct() = runDistinctTests()
 
     @Test fun testGetCountOf() = runGetCountOfTests()
     @Test fun testIsEmpty() = runIsEmptyTests()

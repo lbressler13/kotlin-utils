@@ -31,6 +31,37 @@ fun runFromTests() {
 }
 
 fun runDistinctTests() {
+    var intCounts: CountsMap<Int> = CountsMap(emptyMap())
+    var intExpected: Set<Int> = emptySet()
+    assertEquals(intExpected, intCounts.distinct)
 
+    intCounts = CountsMap.from(listOf(123, 123, 123, 123))
+    intExpected = setOf(123)
+    assertEquals(intExpected, intCounts.distinct)
+
+    intCounts = CountsMap.from(listOf(1, 2, 3, 4, 5))
+    intExpected = setOf(1, 2, 3, 4, 5)
+    assertEquals(intExpected, intCounts.distinct)
+
+    intCounts = CountsMap.from(listOf(0, 1, 1, 2, 3, 5))
+    intExpected = setOf(0, 1, 2, 3, 5)
+    assertEquals(intExpected, intCounts.distinct)
+
+    val stringCounts = CountsMap.from(listOf("hello", "world", "goodbye", "hello", "hello world", "farewell", "world", "world"))
+    val stringExpected = setOf("farewell", "goodbye", "hello", "hello world", "world")
+    assertEquals(stringExpected, stringCounts.distinct)
+
+    val countsCounts = CountsMap.from(listOf(
+        CountsMap.from(listOf(1)),
+        CountsMap.from(listOf(1)),
+        CountsMap.from(listOf(44, 5)),
+        CountsMap.from(listOf(1, 1, 1)),
+        CountsMap.from(listOf(1)),
+    ))
+    val countsExpected = setOf(
+        CountsMap.from(listOf(1)),
+        CountsMap.from(listOf(44, 5)),
+        CountsMap.from(listOf(1, 1, 1))
+    )
+    assertEquals(countsExpected, countsCounts.distinct)
 }
-
