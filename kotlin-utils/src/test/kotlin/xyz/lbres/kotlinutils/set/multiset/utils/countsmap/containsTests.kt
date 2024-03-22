@@ -51,7 +51,7 @@ fun runContainsAllTests() {
     collection = listOf(3, 1, 2)
     assertTrue(counts.containsAll(collection))
 
-    // submap
+    // subset
     counts = CountsMap.from(listOf(1))
     collection = emptyList()
     assertTrue(counts.containsAll(collection))
@@ -68,11 +68,11 @@ fun runContainsAllTests() {
     collection = listOf(1, 1)
     assertTrue(counts.containsAll(collection))
 
+    // overlapping keys
     counts = CountsMap.from(listOf(1, 3, 5))
     collection = listOf(1, 3, -1, 5)
     assertFalse(counts.containsAll(collection))
 
-    // overlapping keys
     counts = CountsMap.from(listOf(1, 2, 3))
     collection = listOf(1, 3, 4)
     assertFalse(counts.containsAll(collection))
@@ -85,7 +85,7 @@ fun runContainsAllTests() {
     collection = listOf(-10, -5, -10, -10)
     assertFalse(counts.containsAll(collection))
 
-    // no overlapping keys
+    // disjoint
     counts = CountsMap.from(listOf(1))
     collection = listOf(2)
     assertFalse(counts.containsAll(collection))

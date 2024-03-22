@@ -90,7 +90,7 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
             return true
         }
 
-        val counts = CountsMap.from(this.elements)
+        val counts = this.counts // get map before clearing elements
         val otherCounts = CountsMap.from(elements)
 
         this.elements.clear()

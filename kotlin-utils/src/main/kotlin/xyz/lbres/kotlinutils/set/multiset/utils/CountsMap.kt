@@ -63,7 +63,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     fun forEach(function: (element: E, count: Int) -> Unit) = counts.forEach(function)
 
     /**
-     * Cast to a [List]
+     * Cast to list
      *
      * @return [List]<E>: list containing exactly the elements that are in the map
      */
@@ -76,11 +76,6 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
         return list
     }
 
-    /**
-     * Create a string representation of the map
-     *
-     * @return [String]
-     */
     override fun toString(): String {
         if (counts.isEmpty()) {
             return "[]"

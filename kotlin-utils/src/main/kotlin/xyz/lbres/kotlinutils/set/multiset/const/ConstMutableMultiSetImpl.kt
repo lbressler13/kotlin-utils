@@ -2,7 +2,6 @@ package xyz.lbres.kotlinutils.set.multiset.const
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
-import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
 import kotlin.math.min
 
 // final implementation of ConstMutableMultiSet
@@ -12,7 +11,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
      */
     private var allPropertiesUpdated: Boolean = false
 
-    private val _counts: MutableMap<E, Int>
+    private val _counts: MutableMap<E, Int> = mutableMapOf() // values added in init
     override val counts: CountsMap<E>
 
     override val distinctValues: Set<E>
@@ -29,7 +28,10 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     private var string: String = ""
 
     init {
-        _counts = createCountsMap(initialElements).toMutableMap()
+        initialElements.forEach {
+            _counts[it] = _counts.getOrDefault(it, 0) + 1
+        }
+
         counts = CountsMap(_counts)
     }
 
