@@ -21,21 +21,24 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
     override val size: Int
         get() = elements.size
 
+    protected val counts: CountsMap<E>
+        get() = CountsMap.from(elements)
+
     override fun getCountOf(element: E): Int = elements.countElement(element)
 
     override fun contains(element: E): Boolean = elements.contains(element)
     override fun containsAll(elements: Collection<E>): Boolean {
-        return elements.isEmpty() || CountsMap.from(this.elements).containsAll(elements)
+        // skip generating counts map if elements is empty
+        return elements.isEmpty() || counts.containsAll(elements)
     }
 
     override fun equals(other: Any?): Boolean {
-        @Suppress(Suppressions.UNCHECKED_CAST)
         return tryOrDefault(false, listOf(ClassCastException::class)) {
-            val counts = CountsMap.from(this.elements)
             when (other) {
-                is AbstractMultiSetImpl<*> -> counts == CountsMap.from(other)
+                is AbstractMultiSetImpl<*> -> counts == other.counts
                 is AbstractConstMultiSetImpl<*> -> counts == other.counts
                 is MultiSet<*> -> {
+                    @Suppress(Suppressions.UNCHECKED_CAST)
                     other as MultiSet<E>
                     size == other.size && counts.distinct.all { counts.getCountOf(it) == other.getCountOf(it) }
                 }
@@ -45,13 +48,13 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
     }
 
     override fun plus(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(CountsMap.from(elements), other, Int::plus, useAllValues = true)
+        return combineCounts(counts, other, Int::plus, useAllValues = true)
     }
     override fun minus(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(CountsMap.from(elements), other, Int::minus, useAllValues = false)
+        return combineCounts(counts, other, Int::minus, useAllValues = false)
     }
     override fun intersect(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(CountsMap.from(elements), other, ::min, useAllValues = false)
+        return combineCounts(counts, other, ::min, useAllValues = false)
     }
 
     override fun isEmpty(): Boolean = elements.isEmpty()
@@ -63,7 +66,7 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
     }
 
     override fun hashCode(): Int {
-        val hashCode = CountsMap.from(elements).hashCode()
+        val hashCode = counts.hashCode()
         return 31 * hashCode + MultiSet::class.java.name.hashCode()
     }
 }

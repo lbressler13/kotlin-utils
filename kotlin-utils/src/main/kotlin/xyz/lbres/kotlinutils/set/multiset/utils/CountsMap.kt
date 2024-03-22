@@ -28,7 +28,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     /**
      * If the map is empty
      *
-     * @return [Boolean] `true` if the map contains 0 elements, `false` otherwise
+     * @return [Boolean]: `true` if the map contains 0 elements, `false` otherwise
      */
     fun isEmpty(): Boolean = counts.isEmpty()
 
