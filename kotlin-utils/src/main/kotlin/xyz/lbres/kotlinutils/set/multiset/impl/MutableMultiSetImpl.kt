@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.utils.createCountsMap
+import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import kotlin.math.min
 
 /**
@@ -90,13 +90,13 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
             return true
         }
 
-        val counts = getCounts()
-        val otherCounts = createCountsMap(elements)
+        val counts = this.counts // get map before clearing elements
+        val otherCounts = CountsMap.from(elements)
 
         this.elements.clear()
 
-        counts.forEach { (element, count) ->
-            val newCount = min(count, otherCounts.getOrDefault(element, 0))
+        counts.forEach { element, count ->
+            val newCount = min(count, otherCounts.getCountOf(element))
             repeat(newCount) { this.elements.add(element) }
         }
 
