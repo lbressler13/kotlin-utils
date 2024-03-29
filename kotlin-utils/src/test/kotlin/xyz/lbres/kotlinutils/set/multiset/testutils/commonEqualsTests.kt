@@ -8,12 +8,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 @Suppress(Suppressions.UNCHECKED_CAST)
-fun runEqualsTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
-    createStringSet: (Collection<String>) -> MultiSet<String>,
-    createOtherIntSet: (Collection<Int>) -> MultiSet<Int>
-) {
+fun runEqualsTests( createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createStringSet = getCreateSet<String>(createSet)
+    val createIntListSet = getCreateSet<IntList>(createSet)
+    val createOtherIntSet = getCreateSet<Int>(createOtherSet)
+
     // equal
     var set1: MultiSet<Int> = createIntSet(emptyList())
     assertEquals(set1, set1)
@@ -75,14 +75,10 @@ fun runEqualsTests(
     assertNotEquals(anySet1, anySet2)
 }
 
-fun runMutableEqualsTests(
-    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
-    createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>,
-    createMutableStringSet: (Collection<String>) -> MutableMultiSet<String>,
-    createOtherIntSet: (Collection<Int>) -> MultiSet<Int>
-) {
-    runEqualsTests(createMutableIntSet, createMutableIntListSet, createMutableStringSet, createOtherIntSet)
+fun runMutableEqualsTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
+    runEqualsTests(createMutableSet, createOtherSet)
 
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
     val intSet1 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
     val intSet2 = createMutableIntSet(listOf(1, 2, 3, 4, 5, 6))
     assertEquals(intSet1, intSet2)
@@ -101,11 +97,11 @@ fun runMutableEqualsTests(
     assertNotEquals(intSet2, intSet1)
 }
 
-fun runMutableElementsEqualsTests(
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
-    createIntSetSet: (Collection<Set<Int>>) -> MultiSet<Set<Int>>,
-    createOtherIntSetSet: (Collection<Set<Int>>) -> MultiSet<Set<Int>>,
-) {
+fun runMutableElementsEqualsTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntListSet = getCreateSet<IntList>(createSet)
+    val createIntSetSet = getCreateSet<Set<Int>>(createSet)
+    val createOtherIntSetSet = getCreateSet<Set<Int>>(createOtherSet)
+
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val mutableList3 = mutableListOf(0, 5, 7)

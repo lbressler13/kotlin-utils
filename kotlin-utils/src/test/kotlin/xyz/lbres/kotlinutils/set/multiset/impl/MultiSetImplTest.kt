@@ -28,13 +28,13 @@ class MultiSetImplTest {
 
     @Test
     fun testEquals() {
-        runEqualsTests(createSet(), createSet(), createSet(), createOtherSet())
-        runMutableElementsEqualsTests(createSet(), createSet(), createOtherSet())
+        runEqualsTests(createSet(), createOtherSet())
+        runMutableElementsEqualsTests(createSet(), createOtherSet())
     }
 
     @Test
     fun testContains() {
-        runContainsTests(createSet(), createSet(), createSet())
+        runContainsTests(createSet())
         runMutableElementContainsTests(createSet())
     }
 
@@ -46,39 +46,39 @@ class MultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runMinusTests(createSet(), createOtherSet())
         runMutableElementMinusTests(createSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runPlusTests(createSet(), createOtherSet())
         runMutableElementPlusTests(createSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
+        runIntersectTests(createSet(), createOtherSet())
         runMutableElementIntersectTests(createSet())
     }
 
-    @Test fun testIsEmpty() = runIsEmptyTests(createSet(), createSet())
+    @Test fun testIsEmpty() = runIsEmptyTests(createSet())
 
     @Test
     fun testGetCountOf() {
-        runGetCountOfTests(createSet(), createSet())
+        runGetCountOfTests(createSet())
         runMutableElementGetCountOfTests(createSet())
     }
 
     @Test
     fun testIterator() {
-        runIteratorTests(createSet(), createSet())
+        runIteratorTests(createSet())
         runMutableElementsIteratorTests(createSet())
     }
 
     @Test
     fun testToString() {
-        runToStringTests(createSet(), createSet())
+        runToStringTests(createSet())
         runMutableElementToStringTests(createSet())
     }
 }

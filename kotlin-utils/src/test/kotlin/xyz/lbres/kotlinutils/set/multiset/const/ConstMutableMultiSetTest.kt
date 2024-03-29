@@ -25,9 +25,9 @@ class ConstMutableMultiSetTest {
         multiSetConstructorCompListTestValues.forEach { runTest<List<Comparable<*>>>(it) }
     }
 
-    @Test fun testEquals() = runMutableEqualsTests(createSet(), createSet(), createSet(), createOtherSet())
+    @Test fun testEquals() = runMutableEqualsTests(createSet(), createOtherSet())
 
-    @Test fun testContains() = runMutableContainsTests(createSet(), createSet(), createSet())
+    @Test fun testContains() = runMutableContainsTests(createSet())
     @Test fun testContainsAll() = runMutableContainsAllTests(createSet())
 
     @Test fun testClear() = runClearTests(createSet())
@@ -39,22 +39,22 @@ class ConstMutableMultiSetTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runMinusTests(createSet(), createOtherSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runPlusTests(createSet(), createOtherSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
+        runIntersectTests(createSet(), createOtherSet())
     }
 
-    @Test fun testIsEmpty() = runMutableIsEmptyTests(createSet(), createSet())
-    @Test fun testGetCountOf() = runMutableGetCountOfTests(createSet(), createSet())
+    @Test fun testIsEmpty() = runMutableIsEmptyTests(createSet())
+    @Test fun testGetCountOf() = runMutableGetCountOfTests(createSet())
 
-    @Test fun testIterator() = runMutableIteratorTests(createSet(), createSet())
-    @Test fun testToString() = runMutableToStringTests(createSet(), createSet())
+    @Test fun testIterator() = runMutableIteratorTests(createSet())
+    @Test fun testToString() = runMutableToStringTests(createSet())
 }

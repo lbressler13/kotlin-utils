@@ -28,13 +28,13 @@ class MutableMultiSetImplTest {
 
     @Test
     fun testEquals() {
-        runMutableEqualsTests(createSet(), createSet(), createSet(), createOtherSet())
-        runMutableElementsEqualsTests(createSet(), createSet(), createOtherSet())
+        runMutableEqualsTests(createSet(), createOtherSet())
+        runMutableElementsEqualsTests(createSet(), createOtherSet())
     }
 
     @Test
     fun testContains() {
-        runMutableContainsTests(createSet(), createSet(), createSet())
+        runMutableContainsTests(createSet())
         runMutableElementContainsTests(createSet())
     }
 
@@ -53,39 +53,39 @@ class MutableMultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runMinusTests(createSet(), createOtherSet())
         runMutableElementMinusTests(createSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runPlusTests(createSet(), createOtherSet())
         runMutableElementPlusTests(createSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
+        runIntersectTests(createSet(), createOtherSet())
         runMutableElementIntersectTests(createSet())
     }
 
-    @Test fun testIsEmpty() = runMutableIsEmptyTests(createSet(), createSet())
+    @Test fun testIsEmpty() = runMutableIsEmptyTests(createSet())
 
     @Test
     fun testGetCountOf() {
-        runMutableGetCountOfTests(createSet(), createSet())
+        runMutableGetCountOfTests(createSet())
         runMutableElementGetCountOfTests(createSet())
     }
 
     @Test
     fun testIterator() {
-        runMutableIteratorTests(createSet(), createSet())
+        runMutableIteratorTests(createSet())
         runMutableElementsIteratorTests(createSet())
     }
 
     @Test
     fun testToString() {
-        runMutableToStringTests(createSet(), createSet())
+        runMutableToStringTests(createSet())
         runMutableElementToStringTests(createSet())
     }
 }

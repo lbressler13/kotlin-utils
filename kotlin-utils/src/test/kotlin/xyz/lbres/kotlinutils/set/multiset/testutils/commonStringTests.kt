@@ -6,10 +6,10 @@ import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-fun runToStringTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
-) {
+fun runToStringTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     var intSet: MultiSet<Int> = createIntSet(emptyList())
     var expected = "[]"
     assertEquals(expected, intSet.toString())
@@ -32,12 +32,10 @@ fun runToStringTests(
     assertContains(options, listSet.toString())
 }
 
-fun runMutableToStringTests(
-    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
-    createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
-) {
-    runToStringTests(createMutableIntSet, createMutableIntListSet)
+fun runMutableToStringTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    runToStringTests(createMutableSet)
 
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
     val set = createMutableIntSet(listOf(2, 2, 4))
     var options = setOf("[2, 2, 4]", "[2, 4, 2]", "[4, 2, 2]")
     assertContains(options, set.toString())

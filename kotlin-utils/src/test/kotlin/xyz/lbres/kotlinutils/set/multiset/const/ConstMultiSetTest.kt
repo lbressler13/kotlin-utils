@@ -25,29 +25,29 @@ class ConstMultiSetTest {
         multiSetConstructorCompListTestValues.forEach { runTest<List<Comparable<*>>>(it) }
     }
 
-    @Test fun testEquals() = runEqualsTests(createSet(), createSet(), createSet(), createOtherSet())
+    @Test fun testEquals() = runEqualsTests(createSet(), createOtherSet())
 
-    @Test fun testContains() = runContainsTests(createSet(), createSet(), createSet())
+    @Test fun testContains() = runContainsTests(createSet())
     @Test fun testContainsAll() = runContainsAllTests(createSet())
 
     @Test
     fun testMinus() {
-        runMinusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runMinusTests(createSet(), createOtherSet())
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(createSet(), createSet(), createSet(), createSet(), createOtherSet())
+        runPlusTests(createSet(), createOtherSet())
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(createSet(), createSet(), createSet(), createOtherSet())
+        runIntersectTests(createSet(), createOtherSet())
     }
 
-    @Test fun testIsEmpty() = runIsEmptyTests(createSet(), createSet())
-    @Test fun testGetCountOf() = runGetCountOfTests(createSet(), createSet())
+    @Test fun testIsEmpty() = runIsEmptyTests(createSet())
+    @Test fun testGetCountOf() = runGetCountOfTests(createSet())
 
-    @Test fun testIterator() = runIteratorTests(createSet(), createSet())
-    @Test fun testToString() = runToStringTests(createSet(), createSet())
+    @Test fun testIterator() = runIteratorTests(createSet())
+    @Test fun testToString() = runToStringTests(createSet())
 }
