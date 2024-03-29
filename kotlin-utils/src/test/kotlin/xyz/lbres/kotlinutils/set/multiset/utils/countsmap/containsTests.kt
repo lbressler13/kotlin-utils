@@ -17,7 +17,7 @@ fun runContainsTests() {
 
     intCounts = CountsMap.from(listOf(1, 1, 1))
     assertTrue(intCounts.contains(1))
-    assertFalse(intCounts.contains(2))
+    assertFalse(intCounts.contains(3))
 
     val error = ArithmeticException()
     val errorCounts = CountsMap.from(listOf(ArithmeticException(), error, NumberFormatException()))
@@ -51,7 +51,7 @@ fun runContainsAllTests() {
     collection = listOf(3, 1, 2)
     assertTrue(counts.containsAll(collection))
 
-    // subset
+    // contains all
     counts = CountsMap.from(listOf(1))
     collection = emptyList()
     assertTrue(counts.containsAll(collection))
@@ -68,7 +68,7 @@ fun runContainsAllTests() {
     collection = listOf(1, 1)
     assertTrue(counts.containsAll(collection))
 
-    // overlapping keys
+    // overlapping keys, not contained
     counts = CountsMap.from(listOf(1, 3, 5))
     collection = listOf(1, 3, -1, 5)
     assertFalse(counts.containsAll(collection))

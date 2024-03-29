@@ -12,19 +12,19 @@ import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
  * @param counts [CountsMap]<E>: counts map
  * @param multiset [MultiSet]<E>: MultiSet to combine with
  * @param operation (Int, Int) -> Int: combination function
- * @param useAllValues [Boolean]: if all values from both sets should be used to generate the new set. If `false`, only the values from this set will be used.
+ * @param useAllValues [Boolean]: if all values from the map and the set should be used to generate the new set. If `false`, only the values from the counts map will be used.
  * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet. Defaults to `false`
  * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation. If [const] is `true`, the set will be a const multi set.
  */
 internal fun <E> combineCounts(counts: CountsMap<E>, multiset: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean, const: Boolean = false): MultiSet<E> {
-    var otherCount: (E) -> Int = { multiset.getCountOf(it) }
-    var otherDistinct: () -> Set<E> = { multiset.distinctValues }
+    var getOtherCount = multiset::getCountOf
+    var otherDistinct = multiset::distinctValues
 
     // increase efficiency for AbstractMultiSetImpl
     if (multiset is AbstractMultiSetImpl<E>) {
         val otherCounts = CountsMap.from(multiset)
-        otherCount = { otherCounts.getCountOf(it) }
-        otherDistinct = { otherCounts.distinct }
+        getOtherCount = otherCounts::getCountOf
+        otherDistinct = otherCounts::distinct
     }
 
     val values: Set<E> = simpleIf(useAllValues, { counts.distinct + otherDistinct() }, { counts.distinct })
@@ -32,7 +32,7 @@ internal fun <E> combineCounts(counts: CountsMap<E>, multiset: MultiSet<E>, oper
     val newElements: MutableList<E> = mutableListOf()
 
     values.forEach { value ->
-        val count = operation(counts.getCountOf(value), otherCount(value))
+        val count = operation(counts.getCountOf(value), getOtherCount(value))
         if (count > 0) {
             newCounts[value] = count
             repeat(count) { newElements.add(value) }

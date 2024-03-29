@@ -13,7 +13,8 @@ import kotlin.test.assertIs
 import kotlin.test.assertIsNot
 
 class UtilsTest {
-    @Test fun testCombineCounts() {
+    @Test
+    fun testCombineCounts() {
         // empty
         var intCounts: CountsMap<Int> = CountsMap(emptyMap())
         var intSet: MultiSet<Int> = emptyMultiSet()

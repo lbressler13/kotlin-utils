@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
+import xyz.lbres.kotlinutils.general.simpleIf
+
 /**
  * Mapping of occurrences to the number of times that they occur
  */
@@ -58,9 +60,9 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     /**
      * Iterate through elements in the map
      *
-     * @param function (E, Int) -> Unit: function to apply to each key/value pair
+     * @param action (E, Int) -> Unit: action to apply to each key/value pair
      */
-    fun forEach(function: (element: E, count: Int) -> Unit) = counts.forEach(function)
+    fun forEach(action: (element: E, count: Int) -> Unit) = counts.forEach(action)
 
     /**
      * Cast to list
@@ -77,15 +79,15 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     }
 
     override fun toString(): String {
-        if (counts.isEmpty()) {
-            return "[]"
-        }
-
         var elementsString = ""
         counts.forEach { (element, count) ->
-            elementsString += "$element, ".repeat(count)
+            val repeats = simpleIf(elementsString.isEmpty(), count - 1, count)
+
+            if (elementsString.isEmpty()) {
+                elementsString = element.toString()
+            }
+            elementsString += ", $element".repeat(repeats)
         }
-        elementsString = elementsString.substring(0 until elementsString.lastIndex - 1) // remove trailing ", "
 
         return "[$elementsString]"
     }

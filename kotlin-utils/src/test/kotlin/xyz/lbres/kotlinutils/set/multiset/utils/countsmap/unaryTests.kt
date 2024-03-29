@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.utils.countsmap
 
+import xyz.lbres.kotlinutils.list.StringList
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -48,4 +49,7 @@ fun runIsEmptyTests() {
 
     stringCounts = CountsMap.from(listOf("hello world", "hello world"))
     assertFalse(stringCounts.isEmpty())
+
+    val listCounts: CountsMap<StringList> = CountsMap.from(listOf(emptyList()))
+    assertFalse(listCounts.isEmpty())
 }
