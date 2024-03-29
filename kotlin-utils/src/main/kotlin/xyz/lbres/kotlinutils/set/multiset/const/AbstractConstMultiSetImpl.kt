@@ -23,6 +23,7 @@ internal interface AbstractConstMultiSetImpl<E> {
     fun intersect(other: MultiSet<E>): MultiSet<E> {
         return combineCounts(counts, other, ::min, false, const = false)
     }
+
     fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
         return combineCounts(counts, other, Int::plus, true, const = true) as ConstMultiSet<E>
     }

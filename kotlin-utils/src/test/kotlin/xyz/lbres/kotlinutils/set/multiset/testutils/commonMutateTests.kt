@@ -6,7 +6,10 @@ import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertEquals
 
-fun runAddTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>, createMutableStringListSet: (Collection<StringList>) -> MutableMultiSet<StringList>) {
+fun runAddTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
+    val createMutableStringListSet = getCreateMutableSet<StringList>(createMutableSet)
+
     var intSet: MutableMultiSet<Int> = createMutableIntSet(emptyList())
 
     var intExpected = multiSetOf(1)

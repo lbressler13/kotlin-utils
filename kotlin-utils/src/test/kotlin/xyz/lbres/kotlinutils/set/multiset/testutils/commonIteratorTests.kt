@@ -7,10 +7,10 @@ import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-fun runIteratorTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
-) {
+fun runIteratorTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     var intSet: MultiSet<Int> = createIntSet(emptyList())
     var intIter = intSet.iterator()
     assertFalse(intIter.hasNext())
@@ -43,12 +43,10 @@ fun runIteratorTests(
     assertTrue(listValues.elementsEqual(listExpected))
 }
 
-fun runMutableIteratorTests(
-    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
-    createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
-) {
-    runIteratorTests(createMutableIntSet, createMutableIntListSet)
+fun runMutableIteratorTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    runIteratorTests(createMutableSet)
 
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
     val intSet = createMutableIntSet(listOf(1, 2, 3, 4, 1, 4, 5))
     var intIter = intSet.iterator()
     val intValues: MutableList<Int> = mutableListOf()

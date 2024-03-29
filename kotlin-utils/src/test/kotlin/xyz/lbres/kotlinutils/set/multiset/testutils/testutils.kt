@@ -37,3 +37,16 @@ fun <T> getCreateSet(genericCreateSet: (Collection<*>) -> MultiSet<*>): (Collect
         genericCreateSet(it) as MultiSet<T>
     }
 }
+
+/**
+ * Convert generic create mutable set function to create mutable set function for a specific type
+ *
+ * @param genericCreateMutableSet: generic function
+ * @return type-specific function
+ */
+fun <T> getCreateMutableSet(genericCreateMutableSet: (Collection<*>) -> MutableMultiSet<*>): (Collection<T>) -> MutableMultiSet<T> {
+    return {
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        genericCreateMutableSet(it) as MutableMultiSet<T>
+    }
+}
