@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 private fun <T> createSet(): (Collection<T>) -> MutableMultiSetImpl<T> = { MutableMultiSetImpl(it) }
 
 fun runMutableElementsAddTests() {
-    runAddTests(createSet(), createSet())
+    runAddTests(createSet())
 
     // mutable elements
     val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("farewell", "goodbye"), listOf("goodbye"))

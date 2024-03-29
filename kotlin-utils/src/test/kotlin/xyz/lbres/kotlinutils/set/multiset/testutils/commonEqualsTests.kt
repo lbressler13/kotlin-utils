@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 @Suppress(Suppressions.UNCHECKED_CAST)
-fun runEqualsTests( createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
+fun runEqualsTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
     val createIntSet = getCreateSet<Int>(createSet)
     val createStringSet = getCreateSet<String>(createSet)
     val createIntListSet = getCreateSet<IntList>(createSet)
