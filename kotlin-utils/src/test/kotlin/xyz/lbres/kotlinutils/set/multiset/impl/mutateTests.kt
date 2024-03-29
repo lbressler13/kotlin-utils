@@ -5,10 +5,8 @@ import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-import
 import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
-private fun <T> createSet(): (Collection<T>) -> MutableMultiSetImpl<T> = { MutableMultiSetImpl(it) }
-
 fun runMutableElementsAddTests() {
-    runAddTests(createSet())
+    runAddTests(::MutableMultiSetImpl)
 
     // mutable elements
     val listSet: MutableMultiSet<List<String>> = mutableMultiSetOf(listOf("hello", "world"), listOf("farewell", "goodbye"), listOf("goodbye"))
@@ -22,7 +20,7 @@ fun runMutableElementsAddTests() {
 }
 
 fun runMutableElementsAddAllTests() {
-    runAddAllTests(createSet())
+    runAddAllTests(::MutableMultiSetImpl)
 
     // mutable elements
     val mutableList1 = mutableListOf("goodbye")
@@ -39,7 +37,7 @@ fun runMutableElementsAddAllTests() {
 }
 
 fun runMutableElementsRemoveTests() {
-    runRemoveTests(createSet())
+    runRemoveTests(::MutableMultiSetImpl)
 
     // mutable elements
     val mutableList = mutableListOf("goodbye")
@@ -57,7 +55,7 @@ fun runMutableElementsRemoveTests() {
 }
 
 fun runMutableElementsRemoveAllTests() {
-    runRemoveAllTests(createSet())
+    runRemoveAllTests(::MutableMultiSetImpl)
 
     // mutable elements
     val mutableList = mutableListOf("goodbye")
@@ -79,7 +77,7 @@ fun runMutableElementsRemoveAllTests() {
 }
 
 fun runMutableElementsRetainAllTests() {
-    runRetainAllTests(createSet())
+    runRetainAllTests(::MutableMultiSetImpl)
 
     // mutable elements
     val mutableList = mutableListOf(1, 4)
