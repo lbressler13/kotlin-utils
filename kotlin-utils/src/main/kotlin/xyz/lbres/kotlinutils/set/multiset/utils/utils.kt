@@ -1,53 +1,43 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
-/**
- * Create a mapping of each element in a collection to the number of occurrences of the element.
- *
- * @param elements [Collection]<E>: collection to generate map for
- * @return [Map]<E, Int>: mapping where keys are distinct values from [elements],
- * and values are the number of occurrences of the element
- */
-internal fun <E> createCountsMap(elements: Collection<E>): Map<E, Int> {
-    val counts: MutableMap<E, Int> = mutableMapOf()
-    elements.forEach {
-        counts[it] = counts.getOrDefault(it, 0) + 1
-    }
-
-    return counts
-}
+import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.AbstractMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 
 /**
- * Create a string representation of a counts map
+ * Combine counts map and MultiSet, using the given operation
  *
- * @param counts [Map]<E, Int>: map to use in creating string
- * @return [String]: string representation of [counts]
+ * @param counts [CountsMap]<E>: counts map
+ * @param multiset [MultiSet]<E>: MultiSet to combine with
+ * @param operation (Int, Int) -> Int: combination function
+ * @param useAllValues [Boolean]: if all values from the map and the set should be used to generate the new set. If `false`, only the values from the counts map will be used.
+ * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet. Defaults to `false`
+ * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation. If [const] is `true`, the set will be a const multi set.
  */
-internal fun <E> countsToString(counts: Map<E, Int>): String {
-    if (counts.isEmpty()) {
-        return "[]"
+internal fun <E> combineCounts(counts: CountsMap<E>, multiset: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean, const: Boolean = false): MultiSet<E> {
+    var getOtherCount = multiset::getCountOf
+    var otherDistinct = multiset::distinctValues
+
+    // increase efficiency for AbstractMultiSetImpl
+    if (multiset is AbstractMultiSetImpl<E>) {
+        val otherCounts = CountsMap.from(multiset)
+        getOtherCount = otherCounts::getCountOf
+        otherDistinct = otherCounts::distinct
     }
 
-    var elementsString = ""
-    counts.forEach { (element, count) ->
-        elementsString += "$element, ".repeat(count)
-    }
-    elementsString = elementsString.substring(0 until elementsString.lastIndex - 1) // remove trailing ", "
+    val values: Set<E> = simpleIf(useAllValues, { counts.distinct + otherDistinct() }, { counts.distinct })
+    val newCounts: MutableMap<E, Int> = mutableMapOf()
+    val newElements: MutableList<E> = mutableListOf()
 
-    return "[$elementsString]"
-}
-
-/**
- * Create a list containing all values in a counts map.
- * Allows values with count of 0.
- *
- * @param counts [Map]<E, Int>: counts map
- * @return [List]<E>: list containing all values in [counts]
- */
-internal fun <E> countsToList(counts: Map<E, Int>): List<E> {
-    val list: MutableList<E> = mutableListOf()
-    counts.forEach { (element, count) ->
-        repeat(count) { list.add(element) }
+    values.forEach { value ->
+        val count = operation(counts.getCountOf(value), getOtherCount(value))
+        if (count > 0) {
+            newCounts[value] = count
+            repeat(count) { newElements.add(value) }
+        }
     }
 
-    return list
+    return simpleIf(const, { ConstMultiSetImpl(newElements, CountsMap(newCounts)) }, { MultiSetImpl(newElements) })
 }

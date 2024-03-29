@@ -22,7 +22,7 @@ fun Random.nextBoolean(probabilityTrue: Float): Boolean {
  *
  * @param weightedPairs [WeightedList]: list of pairs, which consist of an item and a weight.
  * Weights must be non-negative, and sum of weights must equal 1.
- * @return [T]: the randomly selected value
+ * @return T: the randomly selected value
  * @throws [IllegalArgumentException] if a weight is less than zero, or sum of weights is not 1
  */
 fun <T> Random.nextFromWeightedList(weightedPairs: WeightedList<T>): T {

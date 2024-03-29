@@ -20,7 +20,7 @@ fun BigInteger.isZero(): Boolean = equals(BigInteger.ZERO)
 /**
  * Returns this number if not zero, or the result of calling [getDefaultValue] if it is.
  *
- * @param getDefaultValue [() -> BigInteger]
+ * @param getDefaultValue () -> BigInteger
  * @return [BigInteger] the current value, or the default
  */
 fun BigInteger.ifZero(getDefaultValue: () -> BigInteger): BigInteger = simpleIf(isZero(), { getDefaultValue() }, { this })

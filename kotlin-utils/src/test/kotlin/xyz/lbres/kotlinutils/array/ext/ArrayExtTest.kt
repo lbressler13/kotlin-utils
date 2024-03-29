@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.array.ext
 
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.list.IntList
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -96,5 +97,114 @@ class ArrayExtTest {
 
         nullableArray = arrayOf(null, null, null, null)
         assertEquals(4, nullableArray.countElement(null))
+    }
+
+    @Test
+    fun testMapInPlace() {
+        // empty array
+        var intArray: Array<Int> = emptyArray()
+        var intExpected: Array<Int> = emptyArray()
+        intArray.mapInPlace { it * 3 - 4 }
+        assertContentEquals(intExpected, intArray)
+
+        // constant value
+        intArray = arrayOf(3, 4, 6)
+        intExpected = arrayOf(0, 0, 0)
+        intArray.mapInPlace { 0 }
+        assertContentEquals(intExpected, intArray)
+
+        var listArray = arrayOf(listOf(4, 5, 7), listOf(9, 8, 'c'))
+        var listExpected = arrayOf(listOf(1.5, 'a'), listOf(1.5, 'a'))
+        listArray.mapInPlace { listOf(1.5, 'a') }
+        assertContentEquals(listExpected, listArray)
+
+        // transform function
+        intArray = arrayOf(-1, -1, -1)
+        intExpected = arrayOf(-7, -7, -7)
+        intArray.mapInPlace { it * 3 - 4 }
+        assertContentEquals(intExpected, intArray)
+
+        intArray = arrayOf(3, 4, 2, 0)
+        intExpected = arrayOf(5, 8, 2, -4)
+        intArray.mapInPlace { it * 3 - 4 }
+        assertContentEquals(intExpected, intArray)
+
+        listArray = arrayOf(listOf(1, 2, 3), listOf(4, "hello"), emptyList(), listOf(5.7))
+        listExpected = arrayOf(listOf(3), listOf("hello"), listOf(0, "none"), listOf(5.7))
+        listArray.mapInPlace {
+            simpleIf(it.isEmpty(), { listOf(0, "none") }, { listOf(it.last()) })
+        }
+        assertContentEquals(listExpected, listArray)
+
+        var count = 0
+        val nullArray: Array<String?> = arrayOf("hello", "world", null, null, "goodbye", "planet", "7", null)
+        val nullExpected = arrayOf("50", null, "100", "25", "50", null, "50", "25")
+        nullArray.mapInPlace {
+            val result = when {
+                count % 2 == 0 && it == null -> "100"
+                count % 2 == 0 -> "50"
+                it == null -> "25"
+                else -> null
+            }
+
+            count++
+            result
+        }
+        assertContentEquals(nullExpected, nullArray)
+    }
+
+    @Test
+    fun testMapInPlaceIndexed() {
+        // empty array
+        var intArray: Array<Int> = emptyArray()
+        var intExpected: Array<Int> = emptyArray()
+        intArray.mapInPlaceIndexed { index, value -> value * 3 - index }
+        assertContentEquals(intExpected, intArray)
+
+        // constant value
+        intArray = arrayOf(3, 4, 6)
+        intExpected = arrayOf(0, 0, 0)
+        intArray.mapInPlaceIndexed { _, _ -> 0 }
+        assertContentEquals(intExpected, intArray)
+
+        var listArray = arrayOf(listOf(4, 5, 7), listOf(9, 8, 'c'))
+        var listExpected = arrayOf(listOf(1.5, 'a'), listOf(1.5, 'a'))
+        listArray.mapInPlaceIndexed { _, _ -> listOf(1.5, 'a') }
+        assertContentEquals(listExpected, listArray)
+
+        // transform function
+        intArray = arrayOf(-1, -1, -1)
+        intExpected = arrayOf(-3, -4, -5)
+        intArray.mapInPlaceIndexed { index, value -> value * 3 - index }
+        assertContentEquals(intExpected, intArray)
+
+        intArray = arrayOf(3, 4, 2, 0)
+        intExpected = arrayOf(9, 11, 4, -3)
+        intArray.mapInPlaceIndexed { index, value -> value * 3 - index }
+        assertContentEquals(intExpected, intArray)
+
+        intArray = arrayOf(3, 4, 2, 0)
+        intExpected = arrayOf(1, 4, 9, 16)
+        intArray.mapInPlaceIndexed { index, _ -> (index + 1) * (index + 1) }
+        assertContentEquals(intExpected, intArray)
+
+        listArray = arrayOf(listOf(1, 2, 3), listOf(4), emptyList(), listOf(5, 4, 1, 0, 9))
+        listExpected = arrayOf(listOf(1), listOf(0, "none"), listOf(0, "none"), listOf(0))
+        listArray.mapInPlaceIndexed { index, list ->
+            simpleIf(list.size <= index, { listOf(0, "none") }, { listOf(list[index]) })
+        }
+        assertContentEquals(listExpected, listArray)
+
+        val nullArray: Array<String?> = arrayOf("hello", "world", null, null, "goodbye", "planet", "7", null)
+        val nullExpected = arrayOf("50", null, "100", "25", "50", null, "50", "25")
+        nullArray.mapInPlaceIndexed { index, value ->
+            when {
+                index % 2 == 0 && value == null -> "100"
+                index % 2 == 0 -> "50"
+                value == null -> "25"
+                else -> null
+            }
+        }
+        assertContentEquals(nullExpected, nullArray)
     }
 }
