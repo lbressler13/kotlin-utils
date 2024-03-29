@@ -149,13 +149,15 @@ class UtilsTest {
 
     @Test
     fun testSucceeds() {
+        val divFn: (Int) -> Int = { 1 / it }
+
         // succeeds
-        assertTrue { succeeds { 1 / 2 } }
+        assertTrue { succeeds { divFn(2) } }
         assertTrue { succeeds { listOf(1, 2, 3)[2] } }
         assertTrue { succeeds { setOf("hello", "world").randomOrNull()!! } }
 
         // fails
-        assertFalse { succeeds { 1 / 0 } }
+        assertFalse { succeeds { divFn(0) } }
         assertFalse { succeeds { listOf(1, 2, 3)[4] } }
         assertFalse { succeeds { emptySet<String>().randomOrNull()!! } }
         assertFalse { succeeds { throw NullPointerException() } }

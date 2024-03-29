@@ -16,3 +16,22 @@ fun IntArray.setAllValues(value: Int) {
  * @return [Int]: number of elements with the given value
  */
 fun IntArray.countElement(element: Int) = this.count { it == element }
+
+/**
+ * Replace all values in the array using a provided transform function, without generating a new array
+ *
+ * @param transform (Int) -> Int: function to generate new values
+ */
+fun IntArray.mapInPlace(transform: (Int) -> Int) {
+    forEachIndexed { index, value -> set(index, transform(value)) }
+}
+
+/**
+ * Replace all values in the array using a provided transform function that uses both the value and the index,
+ * without generating a new array
+ *
+ * @param transform (Int, Int) -> Int: function to generate new values
+ */
+fun IntArray.mapInPlaceIndexed(transform: (Int, Int) -> Int) {
+    forEachIndexed { index, value -> set(index, transform(index, value)) }
+}

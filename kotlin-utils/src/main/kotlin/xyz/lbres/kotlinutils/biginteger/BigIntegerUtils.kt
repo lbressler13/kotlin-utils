@@ -43,7 +43,7 @@ fun getGCD(val1: BigInteger, val2: BigInteger): BigInteger {
 /**
  * Get positive greatest common divisor of a list of numbers using Euclidean algorithm
  *
- * @param values [List<BigInteger>]
+ * @param values [List]<BigInteger>
  * @return [BigInteger] the positive greatest common divisor of [values]
  */
 fun getListGCD(values: List<BigInteger>): BigInteger {

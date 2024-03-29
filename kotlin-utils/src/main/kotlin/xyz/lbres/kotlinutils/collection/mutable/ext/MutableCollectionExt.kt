@@ -6,7 +6,7 @@ import kotlin.random.Random
 /**
  * Remove a random element from the collection and return it
  *
- * @return [T]?: an element from the collection, or `null` if the collection is empty
+ * @return T?: an element from the collection, or `null` if the collection is empty
  */
 fun <T> MutableCollection<T>.popRandom(): T? = popRandomUtil(null)
 
@@ -14,7 +14,7 @@ fun <T> MutableCollection<T>.popRandom(): T? = popRandomUtil(null)
  * Remove a random element from the collection and return it
  *
  * @param seed [Long]: random seed
- * @return [T]?: an element from the collection, or `null` if the collection is empty
+ * @return T?: an element from the collection, or `null` if the collection is empty
  */
 fun <T> MutableCollection<T>.popRandom(seed: Long): T? = popRandomUtil(seed)
 
@@ -22,7 +22,7 @@ fun <T> MutableCollection<T>.popRandom(seed: Long): T? = popRandomUtil(seed)
  * Remove a random element from the collection and return it
  *
  * @param seed [Int]: random seed
- * @return [T]?: an element from the collection, or `null` if the collection is empty
+ * @return T?: an element from the collection, or `null` if the collection is empty
  */
 fun <T> MutableCollection<T>.popRandom(seed: Int): T? = popRandomUtil(seed.toLong())
 
@@ -30,7 +30,7 @@ fun <T> MutableCollection<T>.popRandom(seed: Int): T? = popRandomUtil(seed.toLon
  * Common function to use for all popRandom calls, with or without a seed
  *
  * @param seed [Long]?: random seed, can be `null`
- * @return [T]?: an element from the collection, or `null` if the collection is empty
+ * @return T?: an element from the collection, or `null` if the collection is empty
  */
 private fun <T> MutableCollection<T>.popRandomUtil(seed: Long?): T? {
     if (isEmpty()) {

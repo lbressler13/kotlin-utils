@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.longarray.ext
 
+import xyz.lbres.kotlinutils.general.simpleIf
+import kotlin.math.absoluteValue
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -47,5 +49,85 @@ class LongArrayExtTest {
         array[1] = -19
         assertEquals(2, array.countElement(400123))
         assertEquals(2, array.countElement(-19))
+    }
+
+    @Test
+    fun testMapInPlace() {
+        // empty
+        var array = longArrayOf()
+        var expected = longArrayOf()
+        array.mapInPlace { it + 4 }
+        assertContentEquals(expected, array)
+
+        // constant value
+        array = longArrayOf(5, 6, -100)
+        expected = longArrayOf(-1, -1, -1)
+        array.mapInPlace { -1 }
+        assertContentEquals(expected, array)
+
+        // transform function
+        array = longArrayOf(5, 6, -100)
+        expected = longArrayOf(9, 10, -96)
+        array.mapInPlace { it + 4 }
+        assertContentEquals(expected, array)
+
+        array = longArrayOf(-77, 2, 8, -1, 17)
+        expected = longArrayOf(77, 3, 9, 1, 18)
+        array.mapInPlace { simpleIf(it < 0, -it, it + 1) }
+        assertContentEquals(expected, array)
+
+        var count = 0
+        array = longArrayOf(-77, 2, 8, -1, 17)
+        expected = longArrayOf(-1, 0, 1, 1, -1)
+        array.mapInPlace {
+            val result = when {
+                (it % 2).absoluteValue.toInt() == count % 2 -> 1L
+                it % 2 == 0L -> 0L
+                else -> -1L
+            }
+
+            count++
+            result
+        }
+        assertContentEquals(expected, array)
+    }
+
+    @Test
+    fun testMapInPlaceIndexed() {
+        // empty
+        var array = longArrayOf()
+        var expected = longArrayOf()
+        array.mapInPlaceIndexed { index, value -> value + index }
+        assertContentEquals(expected, array)
+
+        // constant value
+        array = longArrayOf(5, 6, -100)
+        expected = longArrayOf(-1, -1, -1)
+        array.mapInPlaceIndexed { _, _ -> -1 }
+        assertContentEquals(expected, array)
+
+        // transform function
+        array = longArrayOf(5, 6, -100)
+        expected = longArrayOf(5, 7, -98)
+        array.mapInPlaceIndexed { index, value -> value + index }
+        assertContentEquals(expected, array)
+
+        array = longArrayOf(-77, 2, 8, -1, 17)
+        expected = longArrayOf(77, -2, 9, 0, 18)
+        array.mapInPlaceIndexed { index, value ->
+            simpleIf(index < 2, -value, value + 1)
+        }
+        assertContentEquals(expected, array)
+
+        array = longArrayOf(-77, 2, 8, -1, 17)
+        expected = longArrayOf(-1, 0, 1, 1, -1)
+        array.mapInPlaceIndexed { index, value ->
+            when {
+                (value % 2).absoluteValue.toInt() == index % 2 -> 1L
+                value % 2 == 0L -> 0L
+                else -> -1L
+            }
+        }
+        assertContentEquals(expected, array)
     }
 }
