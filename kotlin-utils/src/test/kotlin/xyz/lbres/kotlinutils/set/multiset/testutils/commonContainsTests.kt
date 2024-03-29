@@ -6,11 +6,11 @@ import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-fun runContainsTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>,
-    createExceptionSet: (Collection<Exception>) -> MultiSet<Exception>,
-) {
+fun runContainsTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createIntListSet = getCreateSet<IntList>(createSet)
+    val createExceptionSet = getCreateSet<Exception>(createSet)
+
     var intSet: MultiSet<Int> = createIntSet(emptyList())
     assertFalse(intSet.contains(0))
     assertFalse(intSet.contains(1000))
@@ -108,13 +108,10 @@ fun runContainsAllTests(createIntSet: (Collection<Int>) -> MultiSet<Int>) {
     assertFalse(set2.containsAll(set1))
 }
 
-fun runMutableContainsTests(
-    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
-    createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>,
-    createMutableExceptionSet: (Collection<Exception>) -> MutableMultiSet<Exception>,
-) {
-    runContainsTests(createMutableIntSet, createMutableIntListSet, createMutableExceptionSet)
+fun runMutableContainsTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    runContainsTests(createMutableSet)
 
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
     val set = createMutableIntSet(emptyList())
     set.add(1)
     assertTrue(set.contains(1))

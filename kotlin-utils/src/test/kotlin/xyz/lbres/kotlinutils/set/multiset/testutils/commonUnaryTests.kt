@@ -7,10 +7,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-fun runIsEmptyTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createStringSet: (Collection<String>) -> MultiSet<String>
-) {
+fun runIsEmptyTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createStringSet = getCreateSet<String>(createSet)
+
     // empty
     var intSet: MultiSet<Int> = createIntSet(emptyList())
     assertTrue(intSet.isEmpty())
@@ -35,10 +35,10 @@ fun runIsEmptyTests(
     assertFalse(stringSet.isEmpty())
 }
 
-fun runGetCountOfTests(
-    createIntSet: (Collection<Int>) -> MultiSet<Int>,
-    createIntListSet: (Collection<IntList>) -> MultiSet<IntList>
-) {
+fun runGetCountOfTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntSet = getCreateSet<Int>(createSet)
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     var intSet: MultiSet<Int> = createIntSet(emptyList())
     assertEquals(0, intSet.getCountOf(0))
     assertEquals(0, intSet.getCountOf(100))
@@ -58,12 +58,10 @@ fun runGetCountOfTests(
     assertEquals(0, listSet.getCountOf(listOf(1, 2)))
 }
 
-fun runMutableIsEmptyTests(
-    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
-    createMutableStringSet: (Collection<String>) -> MutableMultiSet<String>
-) {
-    runIsEmptyTests(createMutableIntSet, createMutableStringSet)
+fun runMutableIsEmptyTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    runIsEmptyTests(createMutableSet)
 
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
     var intSet = createMutableIntSet(emptyList())
     intSet.remove(1)
     assertTrue(intSet.isEmpty())
@@ -87,12 +85,10 @@ fun runMutableIsEmptyTests(
     assertTrue(intSet.isEmpty())
 }
 
-fun runMutableGetCountOfTests(
-    createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>,
-    createMutableIntListSet: (Collection<IntList>) -> MutableMultiSet<IntList>
-) {
-    runGetCountOfTests(createMutableIntSet, createMutableIntListSet)
+fun runMutableGetCountOfTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    runGetCountOfTests(createMutableSet)
 
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
     val set = createMutableIntSet(listOf(1, 1, 2, 1, -4, 5, 2))
     set.add(2)
     assertEquals(3, set.getCountOf(2))
