@@ -1,6 +1,8 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.AbstractMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import xyz.lbres.kotlinutils.set.multiset.utils.combineCounts
 import kotlin.math.min
@@ -10,6 +12,7 @@ import kotlin.math.min
  */
 internal interface AbstractConstMultiSetImpl<E> {
     val counts: CountsMap<E>
+    val size: Int
 
     fun plus(other: MultiSet<E>): MultiSet<E> {
         return combineCounts(counts, other, Int::plus, true, const = false)
@@ -30,11 +33,16 @@ internal interface AbstractConstMultiSetImpl<E> {
         return combineCounts(counts, other, ::min, false, const = true) as ConstMultiSet<E>
     }
 
+    // check equality to another multiset
     fun equalsSet(other: MultiSet<*>): Boolean {
-        return if (other is AbstractConstMultiSetImpl<*>) {
-            counts == other.counts
-        } else {
-            counts == CountsMap.from(other)
+        return when (other) {
+            is AbstractMultiSetImpl<*> -> counts == CountsMap.from(other)
+            is AbstractConstMultiSetImpl<*> -> counts == other.counts
+            else -> {
+                @Suppress(Suppressions.UNCHECKED_CAST)
+                other as MultiSet<E>
+                size == other.size && counts.distinct.all { counts.getCountOf(it) == other.getCountOf(it) }
+            }
         }
     }
 

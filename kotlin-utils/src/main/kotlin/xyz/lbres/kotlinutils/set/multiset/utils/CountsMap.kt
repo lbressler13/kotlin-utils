@@ -47,7 +47,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
      *
      * @param elements [Collection]<E>: elements to check
      * @return [Boolean]: `true` if the number of occurrences of each element in the given collection is no more
-     * than the number of occurrences in the map
+     * than the number of occurrences in the map, `false` otherwise
      */
     fun containsAll(elements: Collection<E>): Boolean {
         val otherCounts = from(elements)
