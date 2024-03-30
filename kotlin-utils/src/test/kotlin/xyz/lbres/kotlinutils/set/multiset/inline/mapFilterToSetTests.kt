@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
+import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
@@ -61,13 +62,7 @@ fun runMapToSetTests() {
 
     var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
     val expectedList = multiSetOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
-    val listMap: (IntList) -> IntList = {
-        if (it.size > 1) {
-            it.copyWithoutLast()
-        } else {
-            it
-        }
-    }
+    val listMap: (IntList) -> IntList = { simpleIf(it.size > 1, { it.copyWithoutLast() }, { it }) }
     assertEquals(expectedList, listSet.mapToSet(listMap))
 
     // modified
