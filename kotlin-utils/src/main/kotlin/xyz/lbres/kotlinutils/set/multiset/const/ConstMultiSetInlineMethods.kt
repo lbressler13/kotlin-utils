@@ -1,7 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
-import xyz.lbres.kotlinutils.general.simpleIf
-
 /**
  * Create a new ConstMultiSet with the results of applying the transform function to each value in the current ConstMultiSet.
  * The [transform] function can return different values for different occurrences of an element.

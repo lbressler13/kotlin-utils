@@ -1,9 +1,13 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.testutils.GenericMapFn
+import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonMapToSetTests
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
@@ -13,72 +17,17 @@ private val e3 = ClassCastException("Cannot cast Int to List")
 private val e4 = ClassCastException("other message")
 
 fun runMapToSetTests() {
-    var intSet = multiSetOf<Int>()
-    var expectedInt = emptyMultiSet<Int>()
-    assertEquals(expectedInt, intSet.mapToSet { it * 2 })
-
-    intSet = multiSetOf(1, 1, 5, 7, -3, 0, 2, 5)
-    expectedInt = multiSetOf(-3, 0, 1, 1, 2, 5, 5, 7)
-    assertEquals(expectedInt, intSet.mapToSet { it })
-
-    expectedInt = multiSetOf(-6, 0, 2, 2, 4, 10, 10, 14)
-    assertEquals(expectedInt, intSet.mapToSet { it * 2 })
-
-    var expectedString = multiSetOf("-4", "-1", "0", "0", "1", "4", "4", "6")
-    assertEquals(expectedString, intSet.mapToSet { (it - 1).toString() })
-
-    var stringSet = multiSetOf("hello", "world", "goodbye", "world", "hello", "hi", "world", "wrong")
-    val helloWorldMap: (String) -> String = {
-        when (it) {
-            "hello", "hi" -> "greetings"
-            "world" -> "planet"
-            "goodbye" -> "farewell"
-            else -> "leave this planet"
-        }
+    val mapFn: GenericMapFn<*, *> = { set, fn ->
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        set.mapToSet(fn as (Any?) -> Any)
     }
-    expectedString = multiSetOf("greetings", "planet", "farewell", "planet", "greetings", "greetings", "planet", "leave this planet")
-    assertEquals(expectedString, stringSet.mapToSet { helloWorldMap(it) })
+    runCommonMapToSetTests(::MultiSetImpl, mapFn, false)
 
-    var helperString = "1"
-    stringSet = multiSetOf("1", "2", "3", "4", "5")
-    expectedString = multiSetOf("11", "112", "1113", "11114", "111115")
-    val addingMap: (String) -> String = {
-        val result = "$helperString$it"
-        helperString += "1"
-        result
-    }
-    assertEquals(expectedString, stringSet.mapToSet { addingMap(it) })
-
-    expectedString = multiSetOf("", "", "", "", "")
-    assertEquals(expectedString, stringSet.mapToSet { "" })
-
-    stringSet = multiSetOf("hello", "world", "goodbye", "world", "hello", "hi", "world", "wrong")
-    expectedInt = multiSetOf(1, 1, 1, 2, 2, 3, 3, 3)
-    assertEquals(expectedInt, stringSet.mapToSet { stringSet.getCountOf(it) })
-
-    val errorSet = multiSetOf(e1, e2, e3)
-    val expectedStringNull = multiSetOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
-    assertEquals(expectedStringNull, errorSet.mapToSet { it.message })
-
-    var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
-    val expectedList = multiSetOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
-    val listMap: (IntList) -> IntList = { simpleIf(it.size > 1, { it.copyWithoutLast() }, { it }) }
-    assertEquals(expectedList, listSet.mapToSet(listMap))
-
-    // modified
-    var modString = ""
-    intSet = multiSetOf(1, 1, 2, 1, 3)
-    val modMap: (Int) -> String = {
-        modString += "1"
-        modString
-    }
-    expectedString = multiSetOf("1", "11", "111", "1111", "11111")
-    assertEquals(expectedString, intSet.mapToSet(modMap))
-
+    // mutable elements
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
-    listSet = multiSetOf(mutableList1, mutableList2)
-    expectedInt = multiSetOf(3, 3)
+    val listSet = multiSetOf(mutableList1, mutableList2)
+    var expectedInt = multiSetOf(3, 3)
     assertEquals(expectedInt, listSet.mapToSet { it.size })
 
     mutableList1.remove(2)
