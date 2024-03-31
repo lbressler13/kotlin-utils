@@ -1,9 +1,13 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
 import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.testutils.GenericMapFn
+import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonMapToSetConsistentTests
 import java.lang.NullPointerException
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -115,6 +119,13 @@ fun runMapConsistentTests() {
 }
 
 fun runMapToSetConsistentTests() {
+    val mapFn: GenericMapFn<*, *> = { set, fn ->
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        set.mapToSetConsistent(fn as (Any?) -> Any)
+    }
+
+    runCommonMapToSetConsistentTests(::MultiSetImpl, mapFn, false)
+
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyMultiSet<Int>()
     assertEquals(expectedInt, intSet.mapToSetConsistent { it * 2 })
