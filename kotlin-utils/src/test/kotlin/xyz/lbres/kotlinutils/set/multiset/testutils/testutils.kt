@@ -5,6 +5,9 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertEquals
 
+typealias GenericFilterFn<S> = (MultiSet<S>, (S) -> Boolean) -> MultiSet<S>
+typealias GenericMapFn<S, T> = (MultiSet<S>, (S) -> T) -> MultiSet<T>
+
 /**
  * Run single test to mutate set
  *

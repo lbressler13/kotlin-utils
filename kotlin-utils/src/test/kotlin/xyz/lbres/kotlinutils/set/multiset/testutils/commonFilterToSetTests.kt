@@ -8,8 +8,6 @@ import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-typealias GenericFilterFn<S> = (MultiSet<S>, (S) -> Boolean) -> MultiSet<S>
-
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")

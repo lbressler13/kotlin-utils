@@ -10,11 +10,15 @@ import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-typealias GenericMapFn<S, T> = (MultiSet<S>, (S) -> T) -> MultiSet<T>
-
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
+
+private var modString = ""
+private val modMap: (Int) -> String = {
+    modString += "1"
+    modString
+}
 
 private fun <S, T> runSingleTest(set: MultiSet<S>, expected: MultiSet<T>, const: Boolean, genericMap: GenericMapFn<*, *>, mapFn: (S) -> T) {
     val result = genericMap(set, mapFn)
@@ -26,12 +30,8 @@ fun runCommonMapToSetTests(createSet: (Collection<*>) -> MultiSet<*>, genericMap
     runCommonTests(createSet, genericMap, const)
     val createIntSet = getCreateSet<Int>(createSet)
 
-    var modString = ""
+    modString = ""
     val intSet = createIntSet(listOf(1, 1, 2, 1, 3))
-    val modMap: (Int) -> String = {
-        modString += "1"
-        modString
-    }
     val expectedString = multiSetOf("1", "11", "111", "1111", "11111")
     runSingleTest(intSet, expectedString, const, genericMap, modMap)
 }
@@ -40,12 +40,8 @@ fun runCommonMapToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, 
     runCommonTests(createSet, genericMap, const)
     val createIntSet = getCreateSet<Int>(createSet)
 
-    var modString = ""
+    modString = ""
     val intSet = createIntSet(listOf(1, 1, 2, 1, 3))
-    val modMap: (Int) -> String = {
-        modString += "1"
-        modString
-    }
     val resultOptions = listOf(
         multiSetOf("1", "1", "1", "11", "111"),
         multiSetOf("1", "11", "11", "11", "111"),
