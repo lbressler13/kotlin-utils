@@ -45,7 +45,7 @@ class ConstMultiSetInlineMethodsTest {
             @Suppress(Suppressions.UNCHECKED_CAST)
             set.filterToConstSetConsistent(fn as (Any?) -> Boolean)
         }
-        runCommonFilterToSetTests(::ConstMultiSetImpl, filterFn, true)
+        runCommonFilterToSetConsistentTests(::ConstMultiSetImpl, filterFn, true)
 
         val intSet = constMultiSetOf(1, 1, 2, 14, 14)
         val intExpected = constMultiSetOf(1, 2, 14, 14)
