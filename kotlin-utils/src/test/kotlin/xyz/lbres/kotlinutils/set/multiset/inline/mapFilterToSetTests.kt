@@ -4,7 +4,9 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.testutils.GenericFilterFn
 import xyz.lbres.kotlinutils.set.multiset.testutils.GenericMapFn
+import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonFilterToSetTests
 import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonMapToSetTests
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -34,37 +36,16 @@ fun runMapToSetTests() {
 }
 
 fun runFilterToSetTests() {
-    var intSet = emptyMultiSet<Int>()
-    var intExpected = emptyMultiSet<Int>()
-    assertEquals(intExpected, intSet.filterToSet { true })
+    val filterFn: GenericFilterFn<*> = { set, fn ->
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        set.filterToSet(fn as (Any?) -> Boolean)
+    }
+    runCommonFilterToSetTests(::MultiSetImpl, filterFn, false)
 
-    intSet = multiSetOf(1, 1, 1, 2, 3, 4, 5, 5, 6, -1, 0, 0)
-    intExpected = multiSetOf(1, 1, 1, 2, 3, 4, 5, 5, 6, -1, 0, 0)
-    assertEquals(intExpected, intSet.filterToSet { true })
-
-    intExpected = emptyMultiSet()
-    assertEquals(intExpected, intSet.filterToSet { false })
-
-    intExpected = multiSetOf(1, 1, 1, 5, 5, 0, 0)
-    assertEquals(intExpected, intSet.filterToSet { intSet.getCountOf(it) > 1 })
-
-    intExpected = multiSetOf(1, 1, 1, 3, -1, 6)
-    val testInts = setOf(-1, 1, 11, 12, 10, 3, 6, -2)
-    assertEquals(intExpected, intSet.filterToSet { it in testInts })
-
-    val stringSet = multiSetOf("abc", "abc", "hello", "world", "goodbye", "world", "hi", "world")
-    val stringExpected = multiSetOf("abc", "abc", "hello", "world", "world", "world")
-    assertEquals(stringExpected, stringSet.filterToSet { it.length in 3..5 })
-
-    val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
-    val errorExpected: MultiSet<Exception> = multiSetOf(e3, e4, e4)
-    assertEquals(errorExpected, errorSet.filterToSet { it is ClassCastException })
-
-    // modified
-    intSet = multiSetOf(1, 1, 2, 14, 14)
-    intExpected = multiSetOf(1, 2, 14, 14)
+    val intSet = multiSetOf(1, 1, 2, 14, 14)
+    val intExpected = multiSetOf(1, 2, 14, 14)
     var previousOdd = false
-    val intActual = intSet.filterToSet {
+    val oddFilter: (Int) -> Boolean = {
         when {
             it % 2 == 0 -> true
             previousOdd -> false
@@ -74,7 +55,7 @@ fun runFilterToSetTests() {
             }
         }
     }
-    assertEquals(intExpected, intActual)
+    assertEquals(intExpected, intSet.filterToSet(oddFilter))
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
