@@ -152,48 +152,6 @@ fun runFilterToSetConsistentTests() {
     }
     runCommonFilterToSetConsistentTests(::MultiSetImpl, filterFn, false)
 
-    var intSet = emptyMultiSet<Int>()
-    var intExpected = emptyMultiSet<Int>()
-    assertEquals(intExpected, intSet.filterToSetConsistent { true })
-
-    intSet = multiSetOf(1, 1, 1, 2, 3, 4, 5, 5, 6, -1, 0, 0)
-    intExpected = multiSetOf(1, 1, 1, 2, 3, 4, 5, 5, 6, -1, 0, 0)
-    assertEquals(intExpected, intSet.filterToSetConsistent { true })
-
-    intExpected = emptyMultiSet()
-    assertEquals(intExpected, intSet.filterToSetConsistent { false })
-
-    intExpected = multiSetOf(1, 1, 1, 5, 5, 0, 0)
-    assertEquals(intExpected, intSet.filterToSetConsistent { intSet.getCountOf(it) > 1 })
-
-    intExpected = multiSetOf(1, 1, 1, 3, -1, 6)
-    val testInts = setOf(-1, 1, 11, 12, 10, 3, 6, -2)
-    assertEquals(intExpected, intSet.filterToSetConsistent { it in testInts })
-
-    val stringSet = multiSetOf("abc", "abc", "hello", "world", "goodbye", "world", "hi", "world")
-    val stringExpected = multiSetOf("abc", "abc", "hello", "world", "world", "world")
-    assertEquals(stringExpected, stringSet.filterToSetConsistent { it.length in 3..5 })
-
-    val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
-    val errorExpected: MultiSet<Exception> = multiSetOf(e3, e4, e4)
-    assertEquals(errorExpected, errorSet.filterToSetConsistent { it is ClassCastException })
-
-    // modified
-    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
-    val intOptions = listOf(multiSetOf(1, 1, 2, 14, 14), multiSetOf(3, 2, 14, 14))
-    var previousOdd = false
-    val intPredicate: (Int) -> Boolean = {
-        when {
-            it % 2 == 0 -> true
-            previousOdd -> false
-            else -> {
-                previousOdd = true
-                true
-            }
-        }
-    }
-    assertContains(intOptions, intSet.filterToSetConsistent(intPredicate))
-
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = multiSetOf(mutableList1, mutableList2, listOf(1, 2, 3))
@@ -222,48 +180,6 @@ fun runFilterNotToSetConsistentTests() {
         set.filterNotToSetConsistent(fn as (Any?) -> Boolean)
     }
     runCommonFilterNotToSetConsistentTests(::MultiSetImpl, filterFn, false)
-
-    var intSet = emptyMultiSet<Int>()
-    var intExpected = emptyMultiSet<Int>()
-    assertEquals(intExpected, intSet.filterNotToSetConsistent { true })
-
-    intSet = multiSetOf(1, 1, 1, 2, 3, 4, 5, 5, 6, -1, 0, 0)
-    intExpected = emptyMultiSet()
-    assertEquals(intExpected, intSet.filterNotToSetConsistent { true })
-
-    intExpected = multiSetOf(1, 1, 1, 2, 3, 4, 5, 5, 6, -1, 0, 0)
-    assertEquals(intExpected, intSet.filterNotToSetConsistent { false })
-
-    intExpected = multiSetOf(2, 3, 4, 6, -1)
-    assertEquals(intExpected, intSet.filterNotToSetConsistent { intSet.getCountOf(it) > 1 })
-
-    intExpected = multiSetOf(2, 4, 5, 5, 0, 0)
-    val testInts = setOf(-1, 1, 11, 12, 10, 3, 6, -2)
-    assertEquals(intExpected, intSet.filterNotToSetConsistent { it in testInts })
-
-    val stringSet = multiSetOf("abc", "abc", "hello", "world", "goodbye", "world", "hi", "world")
-    val stringExpected = multiSetOf("goodbye", "hi")
-    assertEquals(stringExpected, stringSet.filterNotToSetConsistent { it.length in 3..5 })
-
-    val errorSet: MultiSet<Exception> = multiSetOf(e1, e1, e2, e3, e4, e4)
-    val errorExpected: MultiSet<Exception> = multiSetOf(e1, e1, e2)
-    assertEquals(errorExpected, errorSet.filterNotToSetConsistent { it is ClassCastException })
-
-    // modified
-    intSet = multiSetOf(1, 1, 3, 2, 14, 14)
-    val intOptions = listOf(multiSetOf(1, 1), multiSetOf(3))
-    var previousOdd = false
-    val intPredicate: (Int) -> Boolean = {
-        when {
-            it % 2 == 0 -> true
-            previousOdd -> false
-            else -> {
-                previousOdd = true
-                true
-            }
-        }
-    }
-    assertContains(intOptions, intSet.filterNotToSetConsistent(intPredicate))
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)

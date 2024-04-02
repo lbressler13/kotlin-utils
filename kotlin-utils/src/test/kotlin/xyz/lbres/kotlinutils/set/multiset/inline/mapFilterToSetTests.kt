@@ -4,14 +4,8 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.testutils.*
-import kotlin.test.assertContains
+import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
-
-private val e1 = NullPointerException("Cannot invoke method on null value")
-private val e2 = ArithmeticException()
-private val e3 = ClassCastException("Cannot cast Int to List")
-private val e4 = ClassCastException("other message")
 
 fun runMapToSetTests() {
     val mapFn: GenericMapFn<*, *> = { set, fn ->
