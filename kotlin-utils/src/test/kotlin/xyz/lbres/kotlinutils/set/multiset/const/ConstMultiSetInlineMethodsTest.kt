@@ -3,7 +3,6 @@ package xyz.lbres.kotlinutils.set.multiset.const
 import org.junit.Test
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
-import kotlin.test.assertEquals
 
 class ConstMultiSetInlineMethodsTest {
     @Test
@@ -26,7 +25,15 @@ class ConstMultiSetInlineMethodsTest {
         runCommonFilterToSetTests(::ConstMultiSetImpl, filterFn, true)
     }
 
-    @Test fun testFilterNotToConstSet() = runFilterNotToConstSetTests()
+    @Test
+    fun testFilterNotToConstSet() {
+        val filterFn: GenericFilterFn<*> = { set, fn ->
+            set as ConstMultiSet
+            @Suppress(Suppressions.UNCHECKED_CAST)
+            set.filterNotToConstSet(fn as (Any?) -> Boolean)
+        }
+        runCommonFilterNotToSetTests(::ConstMultiSetImpl, filterFn, true)
+    }
 
     @Test
     fun testMapToConstSetConsistent() {
@@ -46,22 +53,15 @@ class ConstMultiSetInlineMethodsTest {
             set.filterToConstSetConsistent(fn as (Any?) -> Boolean)
         }
         runCommonFilterToSetConsistentTests(::ConstMultiSetImpl, filterFn, true)
-
-        val intSet = constMultiSetOf(1, 1, 2, 14, 14)
-        val intExpected = constMultiSetOf(1, 2, 14, 14)
-        var previousOdd = false
-        val intActual = intSet.filterToConstSet {
-            when {
-                it % 2 == 0 -> true
-                previousOdd -> false
-                else -> {
-                    previousOdd = true
-                    true
-                }
-            }
-        }
-        assertEquals(intExpected, intActual)
     }
 
-    @Test fun testFilterNotToConstSetConsistent() = runFilterNotToConstSetConsistentTests()
+    @Test
+    fun testFilterNotToConstSetConsistent() {
+        val filterFn: GenericFilterFn<*> = { set, fn ->
+            set as ConstMultiSet
+            @Suppress(Suppressions.UNCHECKED_CAST)
+            set.filterNotToConstSetConsistent(fn as (Any?) -> Boolean)
+        }
+        runCommonFilterNotToSetConsistentTests(::ConstMultiSetImpl, filterFn, true)
+    }
 }

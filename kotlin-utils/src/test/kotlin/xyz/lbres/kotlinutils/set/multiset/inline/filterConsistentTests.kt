@@ -5,6 +5,7 @@ import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.GenericFilterFn
+import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonFilterNotToSetConsistentTests
 import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonFilterToSetConsistentTests
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -216,6 +217,12 @@ fun runFilterToSetConsistentTests() {
 }
 
 fun runFilterNotToSetConsistentTests() {
+    val filterFn: GenericFilterFn<*> = { set, fn ->
+        @Suppress(Suppressions.UNCHECKED_CAST)
+        set.filterNotToSetConsistent(fn as (Any?) -> Boolean)
+    }
+    runCommonFilterNotToSetConsistentTests(::MultiSetImpl, filterFn, false)
+
     var intSet = emptyMultiSet<Int>()
     var intExpected = emptyMultiSet<Int>()
     assertEquals(intExpected, intSet.filterNotToSetConsistent { true })
