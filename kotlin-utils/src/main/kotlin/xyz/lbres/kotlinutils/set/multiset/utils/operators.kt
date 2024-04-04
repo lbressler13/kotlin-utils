@@ -29,7 +29,7 @@ internal fun <E> performIntersect(counts: CountsMap<E>, other: MultiSet<E>, cons
  * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet. Defaults to `false`
  * @return [MultiSet]<E>: new set where each element has the number of occurrences specified by the operation. If [const] is `true`, the set will be a const multi set.
  */
-internal fun <E> combineCounts(counts: CountsMap<E>, multiset: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean, const: Boolean = false): MultiSet<E> {
+private fun <E> combineCounts(counts: CountsMap<E>, multiset: MultiSet<E>, operation: (Int, Int) -> Int, useAllValues: Boolean, const: Boolean = false): MultiSet<E> {
     var getOtherCount = multiset::getCountOf
     var otherDistinct = multiset::distinctValues
 
