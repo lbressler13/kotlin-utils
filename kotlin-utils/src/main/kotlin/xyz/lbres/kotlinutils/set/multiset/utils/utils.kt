@@ -5,6 +5,19 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.AbstractMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
+import kotlin.math.min
+
+internal fun <E> performPlus(counts: CountsMap<E>, other: MultiSet<E>, const: Boolean = false): MultiSet<E> {
+    return combineCounts(counts, other, Int::plus, true, const)
+}
+
+internal fun <E> performMinus(counts: CountsMap<E>, other: MultiSet<E>, const: Boolean = false): MultiSet<E> {
+    return combineCounts(counts, other, Int::minus, false, const)
+}
+
+internal fun <E> performIntersect(counts: CountsMap<E>, other: MultiSet<E>, const: Boolean = false): MultiSet<E> {
+    return combineCounts(counts, other, ::min, false, const)
+}
 
 /**
  * Combine counts map and MultiSet, using the given operation

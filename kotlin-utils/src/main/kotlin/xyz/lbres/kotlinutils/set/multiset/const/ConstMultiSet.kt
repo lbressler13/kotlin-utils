@@ -5,8 +5,9 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.impl.AbstractMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
-import xyz.lbres.kotlinutils.set.multiset.utils.combineCounts
-import kotlin.math.min
+import xyz.lbres.kotlinutils.set.multiset.utils.performIntersect
+import xyz.lbres.kotlinutils.set.multiset.utils.performMinus
+import xyz.lbres.kotlinutils.set.multiset.utils.performPlus
 
 /**
  * [MultiSet] implementation where values of elements are assumed to be constant.
@@ -15,17 +16,9 @@ import kotlin.math.min
 sealed class ConstMultiSet<E> : MultiSet<E> {
     protected abstract val counts: CountsMap<E>
 
-    override fun plus(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(counts, other, Int::plus, true, const = false)
-    }
-
-    override fun minus(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(counts, other, Int::minus, true, const = false)
-    }
-
-    override fun intersect(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(counts, other, ::min, false, const = false)
-    }
+    override fun plus(other: MultiSet<E>): MultiSet<E> = performPlus(counts, other)
+    override fun minus(other: MultiSet<E>): MultiSet<E> = performMinus(counts, other)
+    override fun intersect(other: MultiSet<E>): MultiSet<E> = performIntersect(counts, other)
 
     @Suppress(Suppressions.FUNCTION_NAME)
     infix fun `+c`(other: ConstMultiSet<E>): ConstMultiSet<E> = plusC(other)
@@ -38,9 +31,7 @@ sealed class ConstMultiSet<E> : MultiSet<E> {
      * @param other [ConstMultiSet]<E>: values to add to this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing all values from both sets
      */
-    infix fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
-        return combineCounts(counts, other, Int::plus, true, const = true) as ConstMultiSet<E>
-    }
+    infix fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> = performPlus(counts, other, true) as ConstMultiSet<E>
 
     /**
      * Alternate version of [minus], which returns a ConstMultiSet
@@ -48,9 +39,7 @@ sealed class ConstMultiSet<E> : MultiSet<E> {
      * @param other [ConstMultiSet]<E>: values to subtract from this set
      * @return [ConstMultiSet]<E>: ConstMultiSet containing the items in this set but not the other
      */
-    infix fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> {
-        return combineCounts(counts, other, Int::minus, false, const = true) as ConstMultiSet<E>
-    }
+    infix fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> = performMinus(counts, other, true) as ConstMultiSet<E>
 
     /**
      * Alternate version of [intersect], which returns a ConstMultiSet
@@ -58,9 +47,7 @@ sealed class ConstMultiSet<E> : MultiSet<E> {
      * @param other [ConstMultiSet]<E>: ConstMultiSet to intersect with current
      * @return [ConstMultiSet]<E>: ConstMultiSet containing only values that are in both sets
      */
-    infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> {
-        return combineCounts(counts, other, ::min, false, const = true) as ConstMultiSet<E>
-    }
+    infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = performIntersect(counts, other, true) as ConstMultiSet<E>
 
     override fun getCountOf(element: E): Int = counts.getCountOf(element)
     override fun contains(element: E): Boolean = counts.contains(element)
