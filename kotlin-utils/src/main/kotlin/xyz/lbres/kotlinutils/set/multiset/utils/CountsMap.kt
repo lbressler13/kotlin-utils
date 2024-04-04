@@ -81,8 +81,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
         return list
     }
 
-    // TODO remove this?
-    override fun toString(): String {
+    internal fun getString(): String {
         var elementsString = ""
         counts.forEach { (element, count) ->
             val repeats = simpleIf(elementsString.isEmpty(), count - 1, count)

@@ -13,7 +13,7 @@ internal class ConstMultiSetImpl<E>(private val elements: Collection<E>, initial
     init {
         counts = initialCounts.ifNull { CountsMap.from(elements) }
         distinctValues = counts.distinct
-        string = counts.toString()
+        string = "[${elements.joinToString()}]"
     }
 
     fun toCountsMap(): CountsMap<E> = counts
