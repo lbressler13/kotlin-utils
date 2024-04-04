@@ -4,7 +4,8 @@ import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.const.AbstractConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import xyz.lbres.kotlinutils.set.multiset.utils.combineCounts
 import kotlin.math.min
@@ -36,7 +37,8 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
         return tryOrDefault(false, listOf(ClassCastException::class)) {
             when (other) {
                 is AbstractMultiSetImpl<*> -> counts == other.counts
-                is AbstractConstMultiSetImpl<*> -> counts == other.counts
+                is ConstMultiSetImpl<*> -> counts == other.toCountsMap()
+                is ConstMutableMultiSetImpl<*> -> counts == other.toCountsMap()
                 is MultiSet<*> -> {
                     @Suppress(Suppressions.UNCHECKED_CAST)
                     other as MultiSet<E>

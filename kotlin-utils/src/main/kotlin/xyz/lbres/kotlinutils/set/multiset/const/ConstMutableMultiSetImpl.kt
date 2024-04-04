@@ -96,6 +96,8 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
         allPropertiesUpdated = false
     }
 
+    fun toCountsMap(): CountsMap<E> = counts
+
     override fun iterator(): MutableIterator<E> {
         updateMutableValues()
         return elements.toMutableList().iterator()

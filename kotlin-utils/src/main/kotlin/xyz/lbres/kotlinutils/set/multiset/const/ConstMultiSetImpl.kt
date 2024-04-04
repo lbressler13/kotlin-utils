@@ -16,6 +16,7 @@ internal class ConstMultiSetImpl<E>(private val elements: Collection<E>, initial
         string = counts.toString()
     }
 
+    fun toCountsMap(): CountsMap<E> = counts
     override fun iterator(): Iterator<E> = elements.iterator()
     override fun toString(): String = string
 }

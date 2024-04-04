@@ -2,7 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset.utils
 
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.set.multiset.const.AbstractConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 
 /**
  * Mapping of occurrences to the number of times that they occur
@@ -12,7 +13,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
     /**
      * Distinct elements in the map
      */
-    val distinct: Set<E>
+    internal val distinct: Set<E>
         get() = counts.keys
 
     init {
@@ -27,14 +28,14 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      * @param element E: element to get count of
      * @return [Int]: number of occurrences
      */
-    fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
+    internal fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
 
     /**
      * If the map is empty
      *
      * @return [Boolean]: `true` if the map contains 0 elements, `false` otherwise
      */
-    fun isEmpty(): Boolean = counts.isEmpty()
+    internal fun isEmpty(): Boolean = counts.isEmpty()
 
     /**
      * If an element exists in the map
@@ -42,7 +43,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      * @param element E: element to check
      * @return [Boolean]: `true` if the element exists in the map, `false` otherwise
      */
-    fun contains(element: E): Boolean = counts.contains(element)
+    internal fun contains(element: E): Boolean = counts.contains(element)
 
     /**
      * If all values in a collection of elements exist in the map
@@ -51,7 +52,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      * @return [Boolean]: `true` if the number of occurrences of each element in the given collection is no more
      * than the number of occurrences in the map, `false` otherwise
      */
-    fun containsAll(elements: Collection<E>): Boolean {
+    internal fun containsAll(elements: Collection<E>): Boolean {
         val otherCounts = from(elements)
 
         return otherCounts.counts.all { (element, otherCount) ->
@@ -64,14 +65,14 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      *
      * @param action (E, Int) -> Unit: action to apply to each key/value pair
      */
-    fun forEach(action: (element: E, count: Int) -> Unit) = counts.forEach(action)
+    internal fun forEach(action: (element: E, count: Int) -> Unit) = counts.forEach(action)
 
     /**
      * Cast to list
      *
      * @return [List]<E>: list containing exactly the elements that are in the map
      */
-    fun toList(): List<E> {
+    internal fun toList(): List<E> {
         val list: MutableList<E> = mutableListOf()
         counts.forEach { (element, count) ->
             repeat(count) { list.add(element) }
@@ -80,6 +81,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
         return list
     }
 
+    // TODO remove this?
     override fun toString(): String {
         var elementsString = ""
         counts.forEach { (element, count) ->
@@ -102,12 +104,13 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
          * @return [CountsMap]<E>: map containing exactly the elements in the given collection
          */
         fun <E> from(elements: Collection<E>): CountsMap<E> {
+            @Suppress(Suppressions.UNCHECKED_CAST)
             try {
-                if (elements is AbstractConstMultiSetImpl<*>) {
-                    @Suppress(Suppressions.UNCHECKED_CAST)
-                    return elements.counts as CountsMap<E>
+                when (elements) {
+                    is ConstMultiSetImpl<*> -> return elements.toCountsMap() as CountsMap<E>
+                    is ConstMutableMultiSetImpl<*> -> return elements.toCountsMap() as CountsMap<E>
                 }
-            } catch (_: Exception) {}
+            } catch (_: ClassCastException) {}
 
             val counts: MutableMap<E, Int> = mutableMapOf()
             elements.forEach {
