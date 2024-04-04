@@ -8,7 +8,7 @@ import xyz.lbres.kotlinutils.set.multiset.const.AbstractConstMultiSetImpl
  * Mapping of occurrences to the number of times that they occur
  */
 @JvmInline
-internal value class CountsMap<E>(private val counts: Map<E, Int>) {
+value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
     /**
      * Distinct elements in the map
      */
@@ -94,7 +94,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
         return "[$elementsString]"
     }
 
-    companion object {
+    internal companion object {
         /**
          * Create a CountsMap from a collection of elements
          *
