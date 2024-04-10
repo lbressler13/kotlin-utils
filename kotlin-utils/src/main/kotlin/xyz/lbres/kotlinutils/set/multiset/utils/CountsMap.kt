@@ -2,7 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset.utils
 
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.set.multiset.const.AbstractConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 
 /**
  * Mapping of occurrences to the number of times that they occur
@@ -102,12 +103,13 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
          * @return [CountsMap]<E>: map containing exactly the elements in the given collection
          */
         fun <E> from(elements: Collection<E>): CountsMap<E> {
+            @Suppress(Suppressions.UNCHECKED_CAST)
             try {
-                if (elements is AbstractConstMultiSetImpl<*>) {
-                    @Suppress(Suppressions.UNCHECKED_CAST)
-                    return elements.counts as CountsMap<E>
+                when (elements) {
+                    is ConstMultiSetImpl<*> -> return elements.toCountsMap() as CountsMap<E>
+                    is ConstMutableMultiSetImpl<*> -> return elements.toCountsMap() as CountsMap<E>
                 }
-            } catch (_: Exception) {}
+            } catch (_: ClassCastException) {}
 
             val counts: MutableMap<E, Int> = mutableMapOf()
             elements.forEach {

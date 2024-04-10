@@ -4,10 +4,12 @@ import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.iterable.ext.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.const.AbstractConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
-import xyz.lbres.kotlinutils.set.multiset.utils.combineCounts
-import kotlin.math.min
+import xyz.lbres.kotlinutils.set.multiset.utils.performIntersect
+import xyz.lbres.kotlinutils.set.multiset.utils.performMinus
+import xyz.lbres.kotlinutils.set.multiset.utils.performPlus
 
 /**
  * Partial [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
@@ -36,7 +38,8 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
         return tryOrDefault(false, listOf(ClassCastException::class)) {
             when (other) {
                 is AbstractMultiSetImpl<*> -> counts == other.counts
-                is AbstractConstMultiSetImpl<*> -> counts == other.counts
+                is ConstMultiSetImpl<*> -> counts == other.toCountsMap()
+                is ConstMutableMultiSetImpl<*> -> counts == other.toCountsMap()
                 is MultiSet<*> -> {
                     @Suppress(Suppressions.UNCHECKED_CAST)
                     other as MultiSet<E>
@@ -47,15 +50,9 @@ internal abstract class AbstractMultiSetImpl<E>(initialElements: Collection<E>) 
         }
     }
 
-    override fun plus(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(counts, other, Int::plus, useAllValues = true)
-    }
-    override fun minus(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(counts, other, Int::minus, useAllValues = false)
-    }
-    override fun intersect(other: MultiSet<E>): MultiSet<E> {
-        return combineCounts(counts, other, ::min, useAllValues = false)
-    }
+    override fun plus(other: MultiSet<E>): MultiSet<E> = performPlus(counts, other)
+    override fun minus(other: MultiSet<E>): MultiSet<E> = performMinus(counts, other)
+    override fun intersect(other: MultiSet<E>): MultiSet<E> = performIntersect(counts, other)
 
     override fun isEmpty(): Boolean = elements.isEmpty()
     override fun iterator(): Iterator<E> = elements.toList().iterator()
