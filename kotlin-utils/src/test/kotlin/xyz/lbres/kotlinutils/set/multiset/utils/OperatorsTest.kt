@@ -15,7 +15,6 @@ private typealias CompList = List<Comparable<*>>
 
 // light testing, heavier tests are in the MultiSet classes
 class OperatorsTest {
-
     @Test
     fun testPerformPlus() {
         // empty
