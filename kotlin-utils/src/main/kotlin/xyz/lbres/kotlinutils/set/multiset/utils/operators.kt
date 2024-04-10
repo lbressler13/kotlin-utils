@@ -7,16 +7,40 @@ import xyz.lbres.kotlinutils.set.multiset.impl.AbstractMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import kotlin.math.min
 
-internal fun <E> performPlus(counts: CountsMap<E>, other: MultiSet<E>, const: Boolean = false): MultiSet<E> {
-    return combineCounts(counts, other, Int::plus, true, const)
+/**
+ * Generate new MultiSet by adding values in the given CountsMap and MultiSet
+ *
+ * @param counts [CountsMap]<E>: counts map
+ * @param multiset [MultiSet]<E>: MultiSet to combine with
+ * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet. Defaults to `false`
+ * @return [MultiSet]<E>: new set containing result of addition. If [const] is `true`, the set will be a const multi set.
+ */
+internal fun <E> performPlus(counts: CountsMap<E>, multiset: MultiSet<E>, const: Boolean = false): MultiSet<E> {
+    return combineCounts(counts, multiset, Int::plus, true, const)
 }
 
-internal fun <E> performMinus(counts: CountsMap<E>, other: MultiSet<E>, const: Boolean = false): MultiSet<E> {
-    return combineCounts(counts, other, Int::minus, false, const)
+/**
+ * Generate new MultiSet by subtracting the values in the given MultiSet from the values in the CountsMap
+ *
+ * @param counts [CountsMap]<E>: counts map
+ * @param multiset [MultiSet]<E>: MultiSet to combine with
+ * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet. Defaults to `false`
+ * @return [MultiSet]<E>: new set containing result of subtraction. If [const] is `true`, the set will be a const multi set.
+ */
+internal fun <E> performMinus(counts: CountsMap<E>, multiset: MultiSet<E>, const: Boolean = false): MultiSet<E> {
+    return combineCounts(counts, multiset, Int::minus, false, const)
 }
 
-internal fun <E> performIntersect(counts: CountsMap<E>, other: MultiSet<E>, const: Boolean = false): MultiSet<E> {
-    return combineCounts(counts, other, ::min, false, const)
+/**
+ * Generate new MultiSet by intersecting values in the given CountsMap and MultiSet
+ *
+ * @param counts [CountsMap]<E>: counts map
+ * @param multiset [MultiSet]<E>: MultiSet to combine with
+ * @param const [Boolean]: if the returned MultiSet should be a ConstMultiSet. Defaults to `false`
+ * @return [MultiSet]<E>: new set containing result of intersection. If [const] is `true`, the set will be a const multi set.
+ */
+internal fun <E> performIntersect(counts: CountsMap<E>, multiset: MultiSet<E>, const: Boolean = false): MultiSet<E> {
+    return combineCounts(counts, multiset, ::min, false, const)
 }
 
 /**

@@ -1,11 +1,53 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.const.constMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.const.constMutableMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
+import xyz.lbres.kotlinutils.set.multiset.multiSetOf
+import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertIsNot
 
+// light testing, heavier tests are in the MultiSet classes
 class OperatorsTest {
     @Test
     fun testPerformPlus() {
-        // TODO
+        // empty
+        runSingleTest<Int>(CountsMap(emptyMap()), emptyMultiSet(), emptyMultiSet())
+        runSingleTest(CountsMap(emptyMap()), multiSetOf(1, 2, 3), multiSetOf(1, 2, 3))
+        runSingleTest(CountsMap(mapOf(3 to 2)), emptyMultiSet(), multiSetOf(3, 3))
+
+        // non-empty
+        runSingleTest(CountsMap.from(listOf(1)), multiSetOf(1), multiSetOf(1, 1))
+
+        var intCounts = CountsMap.from(listOf(1, 2, 2, 3, 3, 3))
+        val intSet = multiSetOf(1, 2, 0)
+        var intExpected = multiSetOf(1, 2, 2, 3, 3, 3, 1, 2, 0)
+        runSingleTest(intCounts, intSet, intExpected)
+
+        val stringCounts = CountsMap.from(multiSetOf("", "hello", "world", "goodbye"))
+        val stringSet = constMultiSetOf("hi", "no", "bye")
+        val stringExpected = multiSetOf("", "hello", "world", "goodbye", "hi", "no", "bye")
+        runSingleTest(stringCounts, stringSet, stringExpected)
+
+        val listCounts: CountsMap<List<Comparable<*>>> = CountsMap.from(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
+        val listSet: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+        val listExpected: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"), listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+        runSingleTest(listCounts, listSet, listExpected)
+
+        // mutable
+        intCounts = CountsMap.from(listOf(1, 2))
+        val mutableSet = mutableMultiSetOf(2, 3, 4)
+        intExpected = multiSetOf(1, 2, 2, 3, 4)
+        runSingleTest(intCounts, mutableSet, intExpected)
+
+        mutableSet.remove(3)
+        intExpected = multiSetOf(1, 2, 2, 4)
+        runSingleTest(intCounts, mutableSet, intExpected)
     }
 
     @Test
@@ -123,4 +165,14 @@ class OperatorsTest {
 //        assertEquals(countsMapExpected, countsMapResult)
 //        assertIsNot<ConstMultiSet<*>>(countsMapResult)
 //    }
+
+    // TODO pass performPlus as param
+    private fun <T> runSingleTest(counts: CountsMap<T>, set: MultiSet<T>, expected: MultiSet<T>) {
+        var result = performPlus(counts, set, false)
+        assertEquals(expected, result)
+        assertIsNot<ConstMultiSet<T>>(result)
+        result = performPlus(counts, set, true)
+        assertEquals(expected, result)
+        assertIs<ConstMultiSet<T>>(result)
+    }
 }
