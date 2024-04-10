@@ -11,8 +11,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertIsNot
 
+private typealias CompList = List<Comparable<*>>
+
 // light testing, heavier tests are in the MultiSet classes
 class OperatorsTest {
+
     @Test
     fun testPerformPlus() {
         // empty
@@ -33,9 +36,10 @@ class OperatorsTest {
         val stringExpected = multiSetOf("", "hello", "world", "goodbye", "hi", "no", "bye")
         runSingleTest(stringCounts, stringSet, stringExpected, ::performPlus)
 
-        val listCounts: CountsMap<List<Comparable<*>>> = CountsMap.from(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
-        val listSet: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-        val listExpected: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"), listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+        val listCounts: CountsMap<CompList> = CountsMap.from(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
+        val listSet: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+        val listExpected: MultiSet<CompList> =
+            multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"), listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
         runSingleTest(listCounts, listSet, listExpected, ::performPlus)
 
         // mutable
@@ -72,9 +76,9 @@ class OperatorsTest {
         val stringExpected = multiSetOf("hello", "world", "goodbye", "world", "hello", "goodbye")
         runSingleTest(stringCounts, stringSet, stringExpected, ::performMinus)
 
-        val listCounts: CountsMap<List<Comparable<*>>> = CountsMap.from(multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
-        val listSet: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-        val listExpected: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), emptyList())
+        val listCounts: CountsMap<CompList> = CountsMap.from(multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
+        val listSet: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+        val listExpected: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), emptyList())
         runSingleTest(listCounts, listSet, listExpected, ::performMinus)
 
         // mutable
@@ -115,9 +119,9 @@ class OperatorsTest {
         intExpected = multiSetOf(-1, 6)
         runSingleTest(intCounts, intSet, intExpected, ::performIntersect)
 
-        val listCounts: CountsMap<List<Comparable<*>>> = CountsMap.from(multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
-        val listSet: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-        val listExpected: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3))
+        val listCounts: CountsMap<CompList> = CountsMap.from(multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
+        val listSet: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+        val listExpected: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3))
         runSingleTest(listCounts, listSet, listExpected, ::performIntersect)
 
         // mutable
