@@ -114,7 +114,7 @@ internal class ConstMutableMultiSetImpl<E>(initialElements: Collection<E>) : Con
     private fun updateMutableValues() {
         if (!allPropertiesUpdated) {
             elements = counts.toList()
-            string = counts.getString()
+            string = counts.toString()
 
             allPropertiesUpdated = true
         }

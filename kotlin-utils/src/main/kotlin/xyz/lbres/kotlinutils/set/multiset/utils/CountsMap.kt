@@ -9,11 +9,11 @@ import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
  * Mapping of occurrences to the number of times that they occur
  */
 @JvmInline
-value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
+internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     /**
      * Distinct elements in the map
      */
-    internal val distinct: Set<E>
+    val distinct: Set<E>
         get() = counts.keys
 
     init {
@@ -28,14 +28,14 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      * @param element E: element to get count of
      * @return [Int]: number of occurrences
      */
-    internal fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
+    fun getCountOf(element: E): Int = counts.getOrDefault(element, 0)
 
     /**
      * If the map is empty
      *
      * @return [Boolean]: `true` if the map contains 0 elements, `false` otherwise
      */
-    internal fun isEmpty(): Boolean = counts.isEmpty()
+    fun isEmpty(): Boolean = counts.isEmpty()
 
     /**
      * If an element exists in the map
@@ -43,7 +43,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      * @param element E: element to check
      * @return [Boolean]: `true` if the element exists in the map, `false` otherwise
      */
-    internal fun contains(element: E): Boolean = counts.contains(element)
+    fun contains(element: E): Boolean = counts.contains(element)
 
     /**
      * If all values in a collection of elements exist in the map
@@ -52,7 +52,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      * @return [Boolean]: `true` if the number of occurrences of each element in the given collection is no more
      * than the number of occurrences in the map, `false` otherwise
      */
-    internal fun containsAll(elements: Collection<E>): Boolean {
+    fun containsAll(elements: Collection<E>): Boolean {
         val otherCounts = from(elements)
 
         return otherCounts.counts.all { (element, otherCount) ->
@@ -65,14 +65,14 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
      *
      * @param action (E, Int) -> Unit: action to apply to each key/value pair
      */
-    internal fun forEach(action: (element: E, count: Int) -> Unit) = counts.forEach(action)
+    fun forEach(action: (element: E, count: Int) -> Unit) = counts.forEach(action)
 
     /**
      * Cast to list
      *
      * @return [List]<E>: list containing exactly the elements that are in the map
      */
-    internal fun toList(): List<E> {
+    fun toList(): List<E> {
         val list: MutableList<E> = mutableListOf()
         counts.forEach { (element, count) ->
             repeat(count) { list.add(element) }
@@ -81,7 +81,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
         return list
     }
 
-    internal fun getString(): String {
+    override fun toString(): String {
         var elementsString = ""
         counts.forEach { (element, count) ->
             val repeats = simpleIf(elementsString.isEmpty(), count - 1, count)
@@ -95,7 +95,7 @@ value class CountsMap<E> internal constructor(private val counts: Map<E, Int>) {
         return "[$elementsString]"
     }
 
-    internal companion object {
+    companion object {
         /**
          * Create a CountsMap from a collection of elements
          *

@@ -45,21 +45,21 @@ class CountsMapTest {
     }
 
     @Test
-    fun testGetString() {
+    fun testToString() {
         var intCounts: CountsMap<Int> = CountsMap(emptyMap())
-        assertEquals("[]", intCounts.getString())
+        assertEquals("[]", intCounts.toString())
 
         intCounts = CountsMap(mapOf(4 to 1))
-        assertEquals("[4]", intCounts.getString())
+        assertEquals("[4]", intCounts.toString())
 
         intCounts = CountsMap(mapOf(4 to 3))
-        assertEquals("[4, 4, 4]", intCounts.getString())
+        assertEquals("[4, 4, 4]", intCounts.toString())
 
         intCounts = CountsMap(mapOf(3 to 1, 1 to 2, 2 to 1))
         var options = setOf(
             "[1, 1, 2, 3]", "[1, 1, 3, 2]", "[2, 1, 1, 3]", "[2, 3, 1, 1]", "[3, 1, 1, 2]", "[3, 2, 1, 1]"
         )
-        assertContains(options, intCounts.getString())
+        assertContains(options, intCounts.toString())
 
         var stringCounts = CountsMap(mapOf("abc" to 4, "hello" to 2, "world" to 3))
         options = setOf(
@@ -70,14 +70,14 @@ class CountsMapTest {
             "[world, world, world, abc, abc, abc, abc, hello, hello]",
             "[world, world, world, hello, hello, abc, abc, abc, abc]"
         )
-        assertContains(options, stringCounts.getString())
+        assertContains(options, stringCounts.toString())
 
         stringCounts = CountsMap(mapOf("" to 6))
-        assertEquals("[, , , , , ]", stringCounts.getString())
+        assertEquals("[, , , , , ]", stringCounts.toString())
 
         val listCounts = CountsMap(mapOf(listOf(1, 2, 3) to 2, listOf("hello") to 1))
         options = setOf("[[1, 2, 3], [1, 2, 3], [hello]]", "[[hello], [1, 2, 3], [1, 2, 3]]")
-        assertContains(options, listCounts.getString())
+        assertContains(options, listCounts.toString())
     }
 
     @Test
