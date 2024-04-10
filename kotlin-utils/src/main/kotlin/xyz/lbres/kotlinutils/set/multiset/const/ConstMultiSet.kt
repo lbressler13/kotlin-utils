@@ -3,7 +3,6 @@ package xyz.lbres.kotlinutils.set.multiset.const
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
-import xyz.lbres.kotlinutils.set.multiset.impl.AbstractMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import xyz.lbres.kotlinutils.set.multiset.utils.performIntersect
 import xyz.lbres.kotlinutils.set.multiset.utils.performMinus
@@ -64,16 +63,13 @@ sealed class ConstMultiSet<E> : MultiSet<E> {
     }
 
     override fun equals(other: Any?): Boolean {
-        return tryOrDefault(false, listOf(ClassCastException::class)) {
-            when (other) {
-                is AbstractMultiSetImpl<*> -> _counts == CountsMap.from(other)
-                is ConstMultiSet<*> -> _counts == other._counts
-                is MultiSet<*> -> {
-                    @Suppress(Suppressions.UNCHECKED_CAST)
-                    other as MultiSet<E>
-                    size == other.size && _counts.distinct.all { _counts.getCountOf(it) == other.getCountOf(it) }
-                }
-                else -> false
+        return if (other is ConstMultiSet<*>) {
+            _counts == other._counts
+        } else {
+            tryOrDefault(false, listOf(ClassCastException::class)) {
+                @Suppress(Suppressions.UNCHECKED_CAST)
+                other as MultiSet<E>
+                _counts == CountsMap.from(other)
             }
         }
     }
