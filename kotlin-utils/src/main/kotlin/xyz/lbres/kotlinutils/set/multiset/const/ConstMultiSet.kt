@@ -13,7 +13,7 @@ import xyz.lbres.kotlinutils.set.multiset.utils.performPlus
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
 sealed class ConstMultiSet<E> : MultiSet<E> {
-    // required to be CountsMap<E>
+    // required because ConstMultiSet is not a public class. Must be CountsMap<E>
     protected abstract val counts: Any
     private val _counts: CountsMap<E>
         @Suppress(Suppressions.UNCHECKED_CAST)
@@ -31,24 +31,24 @@ sealed class ConstMultiSet<E> : MultiSet<E> {
     /**
      * Alternate version of [plus], which returns a ConstMultiSet
      *
-     * @param other [ConstMultiSet]<E>: values to add to this set
-     * @return [ConstMultiSet]<E>: ConstMultiSet containing all values from both sets
+     * @param other [ConstMultiSet]<E>: values to add to this MultiSet
+     * @return [ConstMultiSet]<E>: ConstMultiSet containing all values from both MultiSets
      */
     fun plusC(other: ConstMultiSet<E>): ConstMultiSet<E> = performPlus(_counts, other, true) as ConstMultiSet<E>
 
     /**
      * Alternate version of [minus], which returns a ConstMultiSet
      *
-     * @param other [ConstMultiSet]<E>: values to subtract from this set
-     * @return [ConstMultiSet]<E>: ConstMultiSet containing the items in this set but not the other
+     * @param other [ConstMultiSet]<E>: values to subtract from this MultiSet
+     * @return [ConstMultiSet]<E>: ConstMultiSet containing the items in this MultiSet but not the other
      */
     fun minusC(other: ConstMultiSet<E>): ConstMultiSet<E> = performMinus(_counts, other, true) as ConstMultiSet<E>
 
     /**
      * Alternate version of [intersect], which returns a ConstMultiSet
      *
-     * @param other [ConstMultiSet]<E>: ConstMultiSet to intersect with current
-     * @return [ConstMultiSet]<E>: ConstMultiSet containing only values that are in both sets
+     * @param other [ConstMultiSet]<E>: values to intersect with this MultiSet
+     * @return [ConstMultiSet]<E>: ConstMultiSet containing only values that are in both MultiSets
      */
     infix fun intersectC(other: ConstMultiSet<E>): ConstMultiSet<E> = performIntersect(_counts, other, true) as ConstMultiSet<E>
 
