@@ -6,7 +6,6 @@ import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.testutils.GenericMapFn
 import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonMapToSetConsistentTests
 import java.lang.NullPointerException
 import kotlin.test.assertContains
@@ -119,11 +118,10 @@ fun runMapConsistentTests() {
 }
 
 fun runMapToSetConsistentTests() {
-    val mapFn: GenericMapFn<*, *> = { set, fn ->
+    runCommonMapToSetConsistentTests(::MultiSetImpl, false) { set, fn ->
         @Suppress(Suppressions.UNCHECKED_CAST)
         set.mapToSetConsistent(fn as (Any?) -> Any)
     }
-    runCommonMapToSetConsistentTests(::MultiSetImpl, mapFn, false)
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)

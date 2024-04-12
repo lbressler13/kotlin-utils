@@ -10,6 +10,8 @@ import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
+private typealias GenericMapFn<S, T> = (MultiSet<S>, (S) -> T) -> MultiSet<T>
+
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
@@ -26,8 +28,8 @@ private fun <S, T> runSingleTest(set: MultiSet<S>, expected: MultiSet<T>, const:
     assertEquals(const, result is ConstMultiSet<*>)
 }
 
-fun runCommonMapToSetTests(createSet: (Collection<*>) -> MultiSet<*>, genericMap: GenericMapFn<*, *>, const: Boolean) {
-    runCommonTests(createSet, genericMap, const)
+fun runCommonMapToSetTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericMap: GenericMapFn<*, *>) {
+    runCommonTests(createSet, const, genericMap)
     val createIntSet = getCreateSet<Int>(createSet)
 
     modString = ""
@@ -36,8 +38,8 @@ fun runCommonMapToSetTests(createSet: (Collection<*>) -> MultiSet<*>, genericMap
     runSingleTest(intSet, expectedString, const, genericMap, modMap)
 }
 
-fun runCommonMapToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, genericMap: GenericMapFn<*, *>, const: Boolean) {
-    runCommonTests(createSet, genericMap, const)
+fun runCommonMapToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericMap: GenericMapFn<*, *>) {
+    runCommonTests(createSet, const, genericMap)
     val createIntSet = getCreateSet<Int>(createSet)
 
     modString = ""
@@ -52,7 +54,7 @@ fun runCommonMapToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, 
     assertEquals(const, result is ConstMultiSet<*>)
 }
 
-private fun runCommonTests(createSet: (Collection<*>) -> MultiSet<*>, genericMap: GenericMapFn<*, *>, const: Boolean) {
+private fun runCommonTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericMap: GenericMapFn<*, *>) {
     val createIntSet = getCreateSet<Int>(createSet)
     val createStringSet = getCreateSet<String>(createSet)
     val createIntListSet = getCreateSet<IntList>(createSet)
