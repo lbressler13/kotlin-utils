@@ -4,7 +4,6 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.testutils.GenericFilterFn
 import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonFilterNotToSetConsistentTests
 import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonFilterToSetConsistentTests
 import kotlin.test.assertContains
@@ -146,11 +145,10 @@ fun runFilterNotConsistentTests() {
 }
 
 fun runFilterToSetConsistentTests() {
-    val filterFn: GenericFilterFn<*> = { set, fn ->
+    runCommonFilterToSetConsistentTests(::MultiSetImpl, false) { set, fn ->
         @Suppress(Suppressions.UNCHECKED_CAST)
         set.filterToSetConsistent(fn as (Any?) -> Boolean)
     }
-    runCommonFilterToSetConsistentTests(::MultiSetImpl, filterFn, false)
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
@@ -175,11 +173,10 @@ fun runFilterToSetConsistentTests() {
 }
 
 fun runFilterNotToSetConsistentTests() {
-    val filterFn: GenericFilterFn<*> = { set, fn ->
+    runCommonFilterNotToSetConsistentTests(::MultiSetImpl, false) { set, fn ->
         @Suppress(Suppressions.UNCHECKED_CAST)
         set.filterNotToSetConsistent(fn as (Any?) -> Boolean)
     }
-    runCommonFilterNotToSetConsistentTests(::MultiSetImpl, filterFn, false)
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)

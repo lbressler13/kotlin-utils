@@ -6,27 +6,10 @@ import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.ext.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.testutils.GenericMapFn
 import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonMapToSetConsistentTests
 import java.lang.NullPointerException
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
-
-private val e1 = NullPointerException("Cannot invoke method on null value")
-private val e2 = ArithmeticException()
-private val e3 = ClassCastException("Cannot cast Int to List")
-
-private val helloWorldMap: (String) -> String = {
-    when (it) {
-        "hello", "hi" -> "greetings"
-        "world" -> "planet"
-        "goodbye" -> "farewell"
-        else -> "leave this planet"
-    }
-}
-private val shortenListMap: (IntList) -> IntList = {
-    simpleIf(it.size > 1, { it.copyWithoutLast() }, { it })
-}
 
 fun runMapConsistentTests() {
     var intSet = multiSetOf<Int>()
@@ -45,15 +28,22 @@ fun runMapConsistentTests() {
 
     var stringSet = multiSetOf("hello", "world", "goodbye", "world", "hello", "hi", "world", "wrong")
     expectedString = listOf("greetings", "planet", "farewell", "planet", "greetings", "greetings", "planet", "leave this planet")
+    val helloWorldMap: (String) -> String = {
+        when (it) {
+            "hello", "hi" -> "greetings"
+            "world" -> "planet"
+            "goodbye" -> "farewell"
+            else -> "leave this planet"
+        }
+    }
     assertEquals(expectedString.sorted(), stringSet.mapConsistent { helloWorldMap(it) }.sorted())
 
-    var helperString = "1"
+    var prefix = ""
     stringSet = multiSetOf("1", "2", "3", "4", "5")
     expectedString = listOf("11", "112", "1113", "11114", "111115")
     val addingMap: (String) -> String = {
-        val result = "$helperString$it"
-        helperString += "1"
-        result
+        prefix += "1"
+        "$prefix$it"
     }
     assertEquals(expectedString.sorted(), stringSet.mapConsistent { addingMap(it) }.sorted())
 
@@ -64,12 +54,16 @@ fun runMapConsistentTests() {
     expectedInt = listOf(1, 1, 1, 2, 2, 3, 3, 3)
     assertEquals(expectedInt, stringSet.mapConsistent { stringSet.getCountOf(it) }.sorted())
 
+    val e1 = NullPointerException("Cannot invoke method on null value")
+    val e2 = ArithmeticException()
+    val e3 = ClassCastException("Cannot cast Int to List")
     val errorSet = multiSetOf(e1, e2, e3)
     val expectedStringNull = listOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     assertEquals(expectedStringNull, errorSet.mapConsistent { it.message }.sortedBy { it ?: "null" })
 
     var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
     val expectedList = listOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
+    val shortenListMap: (IntList) -> IntList = { simpleIf(it.size > 1, { it.copyWithoutLast() }, { it }) }
     assertEquals(expectedList, listSet.mapConsistent(shortenListMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
 
     // modified
@@ -119,11 +113,10 @@ fun runMapConsistentTests() {
 }
 
 fun runMapToSetConsistentTests() {
-    val mapFn: GenericMapFn<*, *> = { set, fn ->
+    runCommonMapToSetConsistentTests(::MultiSetImpl, false) { set, fn ->
         @Suppress(Suppressions.UNCHECKED_CAST)
         set.mapToSetConsistent(fn as (Any?) -> Any)
     }
-    runCommonMapToSetConsistentTests(::MultiSetImpl, mapFn, false)
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
