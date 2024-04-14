@@ -10,11 +10,7 @@ import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-private typealias GenericMapFn<S, T> = (MultiSet<S>, (S) -> T) -> MultiSet<T>
-
-private val e1 = NullPointerException("Cannot invoke method on null value")
-private val e2 = ArithmeticException()
-private val e3 = ClassCastException("Cannot cast Int to List")
+private typealias GenericMapFn<S, T> = (set: MultiSet<S>, transform: (S) -> T) -> MultiSet<T>
 
 private var modString = ""
 private val modMap: (Int) -> String = {
@@ -22,8 +18,8 @@ private val modMap: (Int) -> String = {
     modString
 }
 
-private fun <S, T> runSingleTest(set: MultiSet<S>, expected: MultiSet<T>, const: Boolean, genericMap: GenericMapFn<*, *>, mapFn: (S) -> T) {
-    val result = genericMap(set, mapFn)
+private fun <S, T> runSingleTest(set: MultiSet<S>, expected: MultiSet<T>, const: Boolean, genericMap: GenericMapFn<*, *>, transform: (S) -> T) {
+    val result = genericMap(set, transform)
     assertEquals(expected, result)
     assertEquals(const, result is ConstMultiSet<*>)
 }
@@ -86,13 +82,12 @@ private fun runCommonTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boo
     }
     runSingleTest(stringSet, expectedString, const, genericMap, helloWorldMap)
 
-    var helperString = "1"
+    var prefix = ""
     stringSet = createStringSet(listOf("1", "2", "3", "4", "5"))
     expectedString = multiSetOf("11", "112", "1113", "11114", "111115")
     val addingMap: (String) -> String = {
-        val result = "$helperString$it"
-        helperString += "1"
-        result
+        prefix += "1"
+        "$prefix$it"
     }
     runSingleTest(stringSet, expectedString, const, genericMap, addingMap)
 
@@ -103,6 +98,9 @@ private fun runCommonTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boo
     expectedInt = multiSetOf(1, 1, 1, 2, 2, 3, 3, 3)
     runSingleTest(stringSet, expectedInt, const, genericMap) { stringSet.getCountOf(it) }
 
+    val e1 = NullPointerException("Cannot invoke method on null value")
+    val e2 = ArithmeticException()
+    val e3 = ClassCastException("Cannot cast Int to List")
     val errorSet = createExceptionSet(listOf(e1, e2, e3))
     val expectedStringNull = multiSetOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     runSingleTest(errorSet, expectedStringNull, const, genericMap) { it.message }

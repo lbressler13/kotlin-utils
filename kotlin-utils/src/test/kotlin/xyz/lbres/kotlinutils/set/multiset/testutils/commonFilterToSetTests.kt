@@ -8,7 +8,7 @@ import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-private typealias GenericFilterFn<S> = (MultiSet<S>, (S) -> Boolean) -> MultiSet<S>
+private typealias GenericFilterFn<S> = (set: MultiSet<S>, predicate: (S) -> Boolean) -> MultiSet<S>
 
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
@@ -27,8 +27,8 @@ private val oddPredicate: (Int) -> Boolean = {
     }
 }
 
-private fun <S> runSingleTest(set: MultiSet<S>, expected: MultiSet<S>, const: Boolean, genericFilter: GenericFilterFn<*>, filterFn: (S) -> Boolean) {
-    val result = genericFilter(set, filterFn)
+private fun <S> runSingleTest(set: MultiSet<S>, expected: MultiSet<S>, const: Boolean, genericFilter: GenericFilterFn<*>, predicate: (S) -> Boolean) {
+    val result = genericFilter(set, predicate)
     assertEquals(expected, result)
     assertEquals(const, result is ConstMultiSet<*>)
 }

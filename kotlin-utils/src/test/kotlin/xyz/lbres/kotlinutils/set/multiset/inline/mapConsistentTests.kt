@@ -11,10 +11,6 @@ import java.lang.NullPointerException
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-private val e1 = NullPointerException("Cannot invoke method on null value")
-private val e2 = ArithmeticException()
-private val e3 = ClassCastException("Cannot cast Int to List")
-
 private val helloWorldMap: (String) -> String = {
     when (it) {
         "hello", "hi" -> "greetings"
@@ -46,13 +42,12 @@ fun runMapConsistentTests() {
     expectedString = listOf("greetings", "planet", "farewell", "planet", "greetings", "greetings", "planet", "leave this planet")
     assertEquals(expectedString.sorted(), stringSet.mapConsistent { helloWorldMap(it) }.sorted())
 
-    var helperString = "1"
+    var prefix = ""
     stringSet = multiSetOf("1", "2", "3", "4", "5")
     expectedString = listOf("11", "112", "1113", "11114", "111115")
     val addingMap: (String) -> String = {
-        val result = "$helperString$it"
-        helperString += "1"
-        result
+        prefix += "1"
+        "$prefix$it"
     }
     assertEquals(expectedString.sorted(), stringSet.mapConsistent { addingMap(it) }.sorted())
 
@@ -63,6 +58,9 @@ fun runMapConsistentTests() {
     expectedInt = listOf(1, 1, 1, 2, 2, 3, 3, 3)
     assertEquals(expectedInt, stringSet.mapConsistent { stringSet.getCountOf(it) }.sorted())
 
+    val e1 = NullPointerException("Cannot invoke method on null value")
+    val e2 = ArithmeticException()
+    val e3 = ClassCastException("Cannot cast Int to List")
     val errorSet = multiSetOf(e1, e2, e3)
     val expectedStringNull = listOf("Cannot cast Int to List", "Cannot invoke method on null value", null)
     assertEquals(expectedStringNull, errorSet.mapConsistent { it.message }.sortedBy { it ?: "null" })
