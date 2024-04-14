@@ -13,7 +13,7 @@ import xyz.lbres.kotlinutils.set.multiset.utils.performPlus
  * Behavior is not defined if values of elements are changed (i.e. elements are added to a mutable list).
  */
 sealed class ConstMultiSet<E> : MultiSet<E> {
-    // required because ConstMultiSet is not a public class. Must be CountsMap<E>
+    // required because ConstMultiSet is a public class. Must be CountsMap<E>
     protected abstract val counts: Any
     private val _counts: CountsMap<E>
         @Suppress(Suppressions.UNCHECKED_CAST)
