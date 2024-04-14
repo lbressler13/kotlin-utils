@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.utils.countsmap
 
+import xyz.lbres.kotlinutils.set.multiset.const.constMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import kotlin.test.assertEquals
@@ -28,6 +29,11 @@ fun runFromTests() {
     val listExpected = CountsMap(mapOf(listOf(123) to 1, listOf(1, 4, 5, 6) to 1, listOf(99, 100, 97) to 1))
     val listActual = CountsMap.from(setOf(listOf(123), listOf(1, 4, 5, 6), listOf(99, 100, 97)))
     assertEquals(listExpected, listActual)
+
+    // const multi set
+    intExpected = CountsMap.from(listOf(1, 1, 2, 4, 1, 1, 5, 6, 5))
+    intActual = CountsMap.from(constMultiSetOf(1, 1, 1, 1, 2, 4, 5, 5, 6))
+    assertEquals(intExpected, intActual)
 }
 
 fun runDistinctTests() {
