@@ -7,61 +7,55 @@ import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildc
 class ConstMultiSetInlineMethodsTest {
     @Test
     fun testMapToConstSet() {
-        val mapFn: GenericMapFn<*, *> = { set, fn ->
+        runCommonMapToSetTests(::ConstMultiSetImpl, true) { set, fn ->
             set as ConstMultiSet
             @Suppress(Suppressions.UNCHECKED_CAST)
             set.mapToConstSet(fn as (Any?) -> Any)
         }
-        runCommonMapToSetTests(::ConstMultiSetImpl, mapFn, true)
     }
 
     @Test
     fun testFilterToConstSet() {
-        val filterFn: GenericFilterFn<*> = { set, fn ->
+        runCommonFilterToSetTests(::ConstMultiSetImpl, true) { set, fn ->
             set as ConstMultiSet
             @Suppress(Suppressions.UNCHECKED_CAST)
             set.filterToConstSet(fn as (Any?) -> Boolean)
         }
-        runCommonFilterToSetTests(::ConstMultiSetImpl, filterFn, true)
     }
 
     @Test
     fun testFilterNotToConstSet() {
-        val filterFn: GenericFilterFn<*> = { set, fn ->
+        runCommonFilterNotToSetTests(::ConstMultiSetImpl, true) { set, fn ->
             set as ConstMultiSet
             @Suppress(Suppressions.UNCHECKED_CAST)
             set.filterNotToConstSet(fn as (Any?) -> Boolean)
         }
-        runCommonFilterNotToSetTests(::ConstMultiSetImpl, filterFn, true)
     }
 
     @Test
     fun testMapToConstSetConsistent() {
-        val mapFn: GenericMapFn<*, *> = { set, fn ->
+        runCommonMapToSetConsistentTests(::ConstMultiSetImpl, true) { set, fn ->
             set as ConstMultiSet
             @Suppress(Suppressions.UNCHECKED_CAST)
             set.mapToConstSetConsistent(fn as (Any?) -> Any)
         }
-        runCommonMapToSetConsistentTests(::ConstMultiSetImpl, mapFn, true)
     }
 
     @Test
     fun testFilterToConstSetConsistent() {
-        val filterFn: GenericFilterFn<*> = { set, fn ->
+        runCommonFilterToSetConsistentTests(::ConstMultiSetImpl, true) { set, fn ->
             set as ConstMultiSet
             @Suppress(Suppressions.UNCHECKED_CAST)
             set.filterToConstSetConsistent(fn as (Any?) -> Boolean)
         }
-        runCommonFilterToSetConsistentTests(::ConstMultiSetImpl, filterFn, true)
     }
 
     @Test
     fun testFilterNotToConstSetConsistent() {
-        val filterFn: GenericFilterFn<*> = { set, fn ->
+        runCommonFilterNotToSetConsistentTests(::ConstMultiSetImpl, true) { set, fn ->
             set as ConstMultiSet
             @Suppress(Suppressions.UNCHECKED_CAST)
             set.filterNotToConstSetConsistent(fn as (Any?) -> Boolean)
         }
-        runCommonFilterNotToSetConsistentTests(::ConstMultiSetImpl, filterFn, true)
     }
 }

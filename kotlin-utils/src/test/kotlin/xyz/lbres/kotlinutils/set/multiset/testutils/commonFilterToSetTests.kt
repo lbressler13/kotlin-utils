@@ -8,6 +8,8 @@ import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
+private typealias GenericFilterFn<S> = (set: MultiSet<S>, predicate: (S) -> Boolean) -> MultiSet<S>
+
 private val e1 = NullPointerException("Cannot invoke method on null value")
 private val e2 = ArithmeticException()
 private val e3 = ClassCastException("Cannot cast Int to List")
@@ -25,14 +27,14 @@ private val oddPredicate: (Int) -> Boolean = {
     }
 }
 
-private fun <S> runSingleTest(set: MultiSet<S>, expected: MultiSet<S>, const: Boolean, genericFilter: GenericFilterFn<*>, filterFn: (S) -> Boolean) {
-    val result = genericFilter(set, filterFn)
+private fun <S> runSingleTest(set: MultiSet<S>, expected: MultiSet<S>, const: Boolean, genericFilter: GenericFilterFn<*>, predicate: (S) -> Boolean) {
+    val result = genericFilter(set, predicate)
     assertEquals(expected, result)
     assertEquals(const, result is ConstMultiSet<*>)
 }
 
-fun runCommonFilterToSetTests(createSet: (Collection<*>) -> MultiSet<*>, genericFilter: GenericFilterFn<*>, const: Boolean) {
-    runCommonFilterTests(createSet, genericFilter, const)
+fun runCommonFilterToSetTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericFilter: GenericFilterFn<*>) {
+    runCommonFilterTests(createSet, const, genericFilter)
     val createIntSet = getCreateSet<Int>(createSet)
 
     val intSet = createIntSet(listOf(1, 1, 2, 14, 14))
@@ -41,8 +43,8 @@ fun runCommonFilterToSetTests(createSet: (Collection<*>) -> MultiSet<*>, generic
     runSingleTest(intSet, intExpected, const, genericFilter, oddPredicate)
 }
 
-fun runCommonFilterToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, genericFilter: GenericFilterFn<*>, const: Boolean) {
-    runCommonFilterTests(createSet, genericFilter, const)
+fun runCommonFilterToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericFilter: GenericFilterFn<*>) {
+    runCommonFilterTests(createSet, const, genericFilter)
     val createIntSet = getCreateSet<Int>(createSet)
 
     val intSet = createIntSet(listOf(1, 1, 3, 2, 14, 14))
@@ -53,8 +55,8 @@ fun runCommonFilterToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*
     assertEquals(const, result is ConstMultiSet<*>)
 }
 
-fun runCommonFilterNotToSetTests(createSet: (Collection<*>) -> MultiSet<*>, genericFilterNot: GenericFilterFn<*>, const: Boolean) {
-    runCommonFilterNotTests(createSet, genericFilterNot, const)
+fun runCommonFilterNotToSetTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericFilterNot: GenericFilterFn<*>) {
+    runCommonFilterNotTests(createSet, const, genericFilterNot)
     val createIntSet = getCreateSet<Int>(createSet)
 
     val intSet = createIntSet(listOf(1, 1, 3, 2, 14, 14))
@@ -65,8 +67,8 @@ fun runCommonFilterNotToSetTests(createSet: (Collection<*>) -> MultiSet<*>, gene
     assertEquals(const, result is ConstMultiSet<*>)
 }
 
-fun runCommonFilterNotToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, genericFilterNot: GenericFilterFn<*>, const: Boolean) {
-    runCommonFilterNotTests(createSet, genericFilterNot, const)
+fun runCommonFilterNotToSetConsistentTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericFilterNot: GenericFilterFn<*>) {
+    runCommonFilterNotTests(createSet, const, genericFilterNot)
     val createIntSet = getCreateSet<Int>(createSet)
     val createIntListSet = getCreateSet<IntList>(createSet)
 
@@ -92,7 +94,7 @@ fun runCommonFilterNotToSetConsistentTests(createSet: (Collection<*>) -> MultiSe
     runSingleTest(listSet, listExpected, const, genericFilterNot, listPredicate)
 }
 
-private fun runCommonFilterTests(createSet: (Collection<*>) -> MultiSet<*>, genericFilter: GenericFilterFn<*>, const: Boolean) {
+private fun runCommonFilterTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericFilter: GenericFilterFn<*>) {
     val createIntSet = getCreateSet<Int>(createSet)
     val createStringSet = getCreateSet<String>(createSet)
     val createExceptionSet = getCreateSet<Exception>(createSet)
@@ -124,7 +126,7 @@ private fun runCommonFilterTests(createSet: (Collection<*>) -> MultiSet<*>, gene
     runSingleTest(errorSet, errorExpected, const, genericFilter) { it is ClassCastException }
 }
 
-private fun runCommonFilterNotTests(createSet: (Collection<*>) -> MultiSet<*>, genericFilterNot: GenericFilterFn<*>, const: Boolean) {
+private fun runCommonFilterNotTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boolean, genericFilterNot: GenericFilterFn<*>) {
     val createIntSet = getCreateSet<Int>(createSet)
     val createIntListSet = getCreateSet<IntList>(createSet)
     val createStringSet = getCreateSet<String>(createSet)

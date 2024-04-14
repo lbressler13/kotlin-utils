@@ -4,15 +4,16 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonFilterNotToSetTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonFilterToSetTests
+import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonMapToSetTests
 import kotlin.test.assertEquals
 
 fun runMapToSetTests() {
-    val mapFn: GenericMapFn<*, *> = { set, fn ->
+    runCommonMapToSetTests(::MultiSetImpl, false) { set, fn ->
         @Suppress(Suppressions.UNCHECKED_CAST)
         set.mapToSet(fn as (Any?) -> Any)
     }
-    runCommonMapToSetTests(::MultiSetImpl, mapFn, false)
 
     // mutable elements
     val mutableList1 = mutableListOf(1, 2, 3)
@@ -27,11 +28,10 @@ fun runMapToSetTests() {
 }
 
 fun runFilterToSetTests() {
-    val filterFn: GenericFilterFn<*> = { set, fn ->
+    runCommonFilterToSetTests(::MultiSetImpl, false) { set, fn ->
         @Suppress(Suppressions.UNCHECKED_CAST)
         set.filterToSet(fn as (Any?) -> Boolean)
     }
-    runCommonFilterToSetTests(::MultiSetImpl, filterFn, false)
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
@@ -45,11 +45,10 @@ fun runFilterToSetTests() {
 }
 
 fun runFilterNotToSetTests() {
-    val filterFn: GenericFilterFn<*> = { set, fn ->
+    runCommonFilterNotToSetTests(::MultiSetImpl, false) { set, fn ->
         @Suppress(Suppressions.UNCHECKED_CAST)
         set.filterNotToSet(fn as (Any?) -> Boolean)
     }
-    runCommonFilterNotToSetTests(::MultiSetImpl, filterFn, false)
 
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
