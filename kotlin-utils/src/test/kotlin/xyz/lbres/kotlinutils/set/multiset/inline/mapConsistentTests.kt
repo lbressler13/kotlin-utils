@@ -11,18 +11,6 @@ import java.lang.NullPointerException
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 
-private val helloWorldMap: (String) -> String = {
-    when (it) {
-        "hello", "hi" -> "greetings"
-        "world" -> "planet"
-        "goodbye" -> "farewell"
-        else -> "leave this planet"
-    }
-}
-private val shortenListMap: (IntList) -> IntList = {
-    simpleIf(it.size > 1, { it.copyWithoutLast() }, { it })
-}
-
 fun runMapConsistentTests() {
     var intSet = multiSetOf<Int>()
     var expectedInt = emptyList<Int>()
@@ -40,6 +28,14 @@ fun runMapConsistentTests() {
 
     var stringSet = multiSetOf("hello", "world", "goodbye", "world", "hello", "hi", "world", "wrong")
     expectedString = listOf("greetings", "planet", "farewell", "planet", "greetings", "greetings", "planet", "leave this planet")
+    val helloWorldMap: (String) -> String = {
+        when (it) {
+            "hello", "hi" -> "greetings"
+            "world" -> "planet"
+            "goodbye" -> "farewell"
+            else -> "leave this planet"
+        }
+    }
     assertEquals(expectedString.sorted(), stringSet.mapConsistent { helloWorldMap(it) }.sorted())
 
     var prefix = ""
@@ -67,6 +63,7 @@ fun runMapConsistentTests() {
 
     var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
     val expectedList = listOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
+    val shortenListMap: (IntList) -> IntList = { simpleIf(it.size > 1, { it.copyWithoutLast() }, { it }) }
     assertEquals(expectedList, listSet.mapConsistent(shortenListMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
 
     // modified
