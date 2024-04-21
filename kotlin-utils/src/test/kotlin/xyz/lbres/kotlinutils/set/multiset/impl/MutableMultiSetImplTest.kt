@@ -50,19 +50,19 @@ class MutableMultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(::MutableMultiSetImpl, ::ConstMultiSetImpl)
+        runMinusTests(::MutableMultiSetImpl, ::ConstMultiSetImpl, const = false)
         runMutableElementMinusTests(::MutableMultiSetImpl)
     }
 
     @Test
     fun testPlus() {
-        runPlusTests(::MutableMultiSetImpl, ::ConstMultiSetImpl)
+        runPlusTests(::MutableMultiSetImpl, ::ConstMultiSetImpl, const = false)
         runMutableElementPlusTests(::MutableMultiSetImpl)
     }
 
     @Test
     fun testIntersect() {
-        runIntersectTests(::MutableMultiSetImpl, ::ConstMultiSetImpl)
+        runIntersectTests(::MutableMultiSetImpl, ::ConstMultiSetImpl, const = false)
         runMutableElementIntersectTests(::MutableMultiSetImpl)
     }
 

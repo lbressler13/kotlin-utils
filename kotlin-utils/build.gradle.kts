@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "xyz.lbres"
-version = "1.3.4"
+version = "1.4.4"
 
 repositories {
     mavenCentral()
