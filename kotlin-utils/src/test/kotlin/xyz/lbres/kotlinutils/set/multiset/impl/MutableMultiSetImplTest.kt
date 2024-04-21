@@ -50,7 +50,7 @@ class MutableMultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(::MutableMultiSetImpl, ::ConstMultiSetImpl)
+        runMinusTests(::MutableMultiSetImpl, ::ConstMultiSetImpl, false)
         runMutableElementMinusTests(::MutableMultiSetImpl)
     }
 

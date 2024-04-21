@@ -27,11 +27,11 @@ class ConstMultiSetTest {
     @Test fun testContains() = runContainsTests(::ConstMultiSetImpl)
     @Test fun testContainsAll() = runContainsAllTests(::ConstMultiSetImpl)
 
-    @Test fun testMinus() = runMinusTests(::ConstMultiSetImpl, ::MutableMultiSetImpl)
+    @Test fun testMinus() = runMinusTests(::ConstMultiSetImpl, ::MutableMultiSetImpl, false)
     @Test fun testPlus() = runPlusTests(::ConstMultiSetImpl, ::MutableMultiSetImpl)
     @Test fun testIntersect() = runIntersectTests(::ConstMultiSetImpl, ::MutableMultiSetImpl)
 
-    @Test fun testMinusC() = runMinusCTests(::ConstMultiSetImpl, ::ConstMutableMultiSetImpl)
+    @Test fun testMinusC() = runMinusTests(::ConstMultiSetImpl, ::ConstMutableMultiSetImpl, true)
     @Test fun testPlusC() = runPlusCTests(::ConstMultiSetImpl, ::ConstMutableMultiSetImpl)
     @Test fun testIntersectC() = runIntersectCTests(::ConstMultiSetImpl, ::ConstMutableMultiSetImpl)
 

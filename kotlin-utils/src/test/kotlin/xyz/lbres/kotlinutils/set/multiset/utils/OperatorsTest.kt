@@ -2,7 +2,6 @@ package xyz.lbres.kotlinutils.set.multiset.utils
 
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.const.constMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
@@ -26,14 +25,14 @@ class OperatorsTest {
         runSingleTest(CountsMap.from(listOf(1)), multiSetOf(1), multiSetOf(1, 1), ::performPlus)
 
         var intCounts = CountsMap.from(listOf(1, 2, 2, 3, 3, 3))
-        val intSet = multiSetOf(1, 2, 0)
+        var intSet = multiSetOf(1, 2, 0)
         var intExpected = multiSetOf(1, 2, 2, 3, 3, 3, 1, 2, 0)
         runSingleTest(intCounts, intSet, intExpected, ::performPlus)
 
-        val stringCounts = CountsMap.from(multiSetOf("", "hello", "world", "goodbye"))
-        val stringSet = constMultiSetOf("hi", "no", "bye")
-        val stringExpected = multiSetOf("", "hello", "world", "goodbye", "hi", "no", "bye")
-        runSingleTest(stringCounts, stringSet, stringExpected, ::performPlus)
+        intCounts = CountsMap.from(listOf(0, 4, 5, -1))
+        intSet = multiSetOf(1, 2, 3)
+        intExpected = multiSetOf(-1, 0, 1, 2, 3, 4, 5)
+        runSingleTest(intCounts, intSet, intExpected, ::performPlus)
 
         val listCounts: CountsMap<CompList> = CountsMap.from(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
         val listSet: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
@@ -70,10 +69,10 @@ class OperatorsTest {
         intExpected = multiSetOf(1, 5, 5, 7)
         runSingleTest(intCounts, intSet, intExpected, ::performMinus)
 
-        val stringCounts = CountsMap.from(listOf("hello", "world", "goodbye", "world", "hello", "goodbye"))
-        val stringSet = constMultiSetOf("greetings", "planet", "farewell", "planet", "greetings", "farewell")
-        val stringExpected = multiSetOf("hello", "world", "goodbye", "world", "hello", "goodbye")
-        runSingleTest(stringCounts, stringSet, stringExpected, ::performMinus)
+        intCounts = CountsMap.from(listOf(1, 2, 3, 4))
+        intSet = multiSetOf(5, 6, 7, 8)
+        intExpected = multiSetOf(1, 2, 3, 4)
+        runSingleTest(intCounts, intSet, intExpected, ::performMinus)
 
         val listCounts: CountsMap<CompList> = CountsMap.from(multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
         val listSet: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
@@ -141,9 +140,11 @@ class OperatorsTest {
         expected: MultiSet<T>,
         operator: (CountsMap<T>, MultiSet<T>, Boolean) -> MultiSet<T>
     ) {
+        // non-const
         var result = operator(counts, set, false)
         assertEquals(expected, result)
         assertIsNot<ConstMultiSet<T>>(result)
+        // const
         result = operator(counts, set, true)
         assertEquals(expected, result)
         assertIs<ConstMultiSet<T>>(result)

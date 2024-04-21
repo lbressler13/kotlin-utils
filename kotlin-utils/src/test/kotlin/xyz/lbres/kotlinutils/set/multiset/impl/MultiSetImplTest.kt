@@ -43,7 +43,7 @@ class MultiSetImplTest {
 
     @Test
     fun testMinus() {
-        runMinusTests(::MultiSetImpl, ::ConstMutableMultiSetImpl)
+        runMinusTests(::MultiSetImpl, ::ConstMutableMultiSetImpl, false)
         runMutableElementMinusTests(::MultiSetImpl)
     }
 
