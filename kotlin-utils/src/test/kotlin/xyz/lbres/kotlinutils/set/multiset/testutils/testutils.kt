@@ -5,6 +5,8 @@ import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertEquals
 
+typealias MultiSetOp<S> = (MultiSet<S>, MultiSet<S>) -> MultiSet<S>
+
 /**
  * Run single test to mutate set
  *
