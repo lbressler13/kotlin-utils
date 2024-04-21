@@ -1,18 +1,30 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.assertEmpty
+import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import kotlin.test.assertEquals
-import kotlin.test.assertIsNot
 
 private val e1 = ArithmeticException()
 private val e2 = NullPointerException()
 private val e3 = IllegalArgumentException()
 
-fun runPlusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>) {
+@Suppress(Suppressions.UNCHECKED_CAST)
+private val genericPlus: MultiSetOp<*> = { set1: MultiSet<Any>, set2: MultiSet<Any> -> set1 + set2 } as MultiSetOp<*>
+
+@Suppress(Suppressions.UNCHECKED_CAST)
+private val genericConstPlus: MultiSetOp<*> = { set1: MultiSet<Any>, set2: MultiSet<Any> ->
+    set1 as ConstMultiSet<Any>
+    set2 as ConstMultiSet<Any>
+    set1 `+c` set2
+} as MultiSetOp<*>
+
+fun runPlusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>, const: Boolean) {
+    val plusFn: MultiSetOp<*> = simpleIf(const, genericConstPlus, genericPlus)
     val createIntSet = getCreateSet<Int>(createSet)
     val createStringSet = getCreateSet<String>(createSet)
     val createExceptionSet = getCreateSet<Exception>(createSet)
@@ -22,45 +34,45 @@ fun runPlusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Col
     // empty
     var intSet1: MultiSet<Int> = createIntSet(emptyList())
     var intSet2: MultiSet<Int> = createIntSet(emptyList())
-    assertEmpty(intSet1 + intSet2)
-    assertEmpty(intSet2 + intSet1)
+    assertEmpty(plusFn(intSet1, intSet2))
+    assertEmpty(plusFn(intSet2, intSet1))
 
-    assertIsNot<ConstMultiSet<*>>(intSet1 + intSet2)
+    assertEquals(const, plusFn(intSet1, intSet2) is ConstMultiSet<*>)
 
     intSet1 = createIntSet(listOf(1, 2, 3, 3))
-    assertEquals(intSet1, intSet1 + intSet2)
+    assertEquals(const, plusFn(intSet1, intSet2) is ConstMultiSet<*>)
 
     // non-empty
     intSet1 = createIntSet(listOf(1))
     intSet2 = createIntSet(listOf(1))
     var intExpected = multiSetOf(1, 1)
-    assertEquals(intExpected, intSet1 + intSet2)
+    assertEquals(intExpected, plusFn(intSet1, intSet2))
 
     intSet1 = createIntSet(listOf(1, 2, 2, 3, 3, 3))
     intSet2 = createIntSet(listOf(1, 2, 0))
     intExpected = multiSetOf(0, 1, 1, 2, 2, 2, 3, 3, 3)
-    assertEquals(intExpected, intSet1 + intSet2)
+    assertEquals(intExpected, plusFn(intSet1, intSet2))
 
     val otherSet = createOtherIntSet(listOf(1, 2, 2, 3, 3, 3))
-    assertEquals(intExpected, intSet2 + otherSet)
+    assertEquals(intExpected, plusFn(intSet2, otherSet))
 
     val stringSet1 = createStringSet(listOf("", "hello", "world", "goodbye"))
     val stringSet2 = createStringSet(listOf("hi", "no", "bye"))
     val stringExpected = multiSetOf("", "bye", "goodbye", "hello", "hi", "no", "world")
-    assertEquals(stringExpected, stringSet1 + stringSet2)
-    assertEquals(stringExpected, stringSet2 + stringSet1)
+    assertEquals(stringExpected, plusFn(stringSet1, stringSet2))
+    assertEquals(stringExpected, plusFn(stringSet2, stringSet1))
 
     val listSet1 = createCompListSet(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
     val listSet2 = createCompListSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
-    val expectedList: MultiSet<List<Comparable<*>>> = multiSetOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-    assertEquals(expectedList, listSet1 + listSet2)
-    assertEquals(expectedList, listSet2 + listSet1)
+    val listExpected: MultiSet<List<Comparable<*>>> = multiSetOf(emptyList(), listOf(1, 2, 3), listOf(1, 2, 3), listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+    assertEquals(listExpected, plusFn(listSet1, listSet2))
+    assertEquals(listExpected, plusFn(listSet2, listSet1))
 
     val errorSet1 = createExceptionSet(listOf(e1, e2, e1, e2))
     val errorSet2 = createExceptionSet(listOf(e1, e3, e3, e2, e1, e1))
-    val expectedError: MultiSet<Exception> = multiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
-    assertEquals(expectedError, errorSet1 + errorSet2)
-    assertEquals(expectedError, errorSet2 + errorSet1)
+    val errorExpected: MultiSet<Exception> = multiSetOf(e1, e1, e1, e1, e1, e2, e2, e2, e3, e3)
+    assertEquals(errorExpected, plusFn(errorSet1, errorSet2))
+    assertEquals(errorExpected, plusFn(errorSet2, errorSet1))
 }
 
 fun runMutableElementPlusTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
