@@ -20,7 +20,7 @@ private val genericPlus: MultiSetOp<*> = { set1: MultiSet<Any>, set2: MultiSet<A
 private val genericConstPlus: MultiSetOp<*> = { set1: MultiSet<Any>, set2: MultiSet<Any> ->
     set1 as ConstMultiSet<Any>
     set2 as ConstMultiSet<Any>
-    set1 `+c` set2
+    set1.plusC(set2)
 } as MultiSetOp<*>
 
 fun runPlusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Collection<*>) -> MultiSet<*>, const: Boolean) {

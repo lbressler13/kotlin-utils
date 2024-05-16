@@ -23,11 +23,6 @@ sealed class ConstMultiSet<E> : MultiSet<E> {
     override fun minus(other: MultiSet<E>): MultiSet<E> = performMinus(_counts, other)
     override fun intersect(other: MultiSet<E>): MultiSet<E> = performIntersect(_counts, other)
 
-    @Suppress(Suppressions.FUNCTION_NAME)
-    infix fun `+c`(other: ConstMultiSet<E>): ConstMultiSet<E> = plusC(other)
-    @Suppress(Suppressions.FUNCTION_NAME)
-    infix fun `-c`(other: ConstMultiSet<E>): ConstMultiSet<E> = minusC(other)
-
     /**
      * Alternate version of [plus], which returns a ConstMultiSet
      *
