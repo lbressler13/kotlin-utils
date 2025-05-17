@@ -2,7 +2,6 @@ package xyz.lbres.kotlinutils.set.multiset.impl
 
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
-import kotlin.math.min
 
 /**
  * [MutableMultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).
@@ -12,6 +11,8 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
      * Elements in the set.
      */
     override val elements: MutableList<E> = elements.toMutableList()
+    override val immutableElements: MutableList<E> = elements.filter { isImmutable(it) }.toMutableList()
+    override val mutableElements: MutableList<E> = elements.filterNot { isImmutable(it) }.toMutableList()
 
     /**
      * Add one occurrence of the specified element to the set.
@@ -19,7 +20,16 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
      * @param element [E]
      * @return [Boolean]: `true` if the element has been added successfully, `false` otherwise
      */
-    override fun add(element: E): Boolean = elements.add(element)
+    override fun add(element: E): Boolean {
+        var success = elements.add(element)
+        if (isImmutable(element)) {
+            success = immutableElements.add(element) && success
+            updateImmutableCounts()
+        } else {
+            success = mutableElements.add(element) && success
+        }
+        return success
+    }
 
     /**
      * Add all specified elements to the set.
@@ -44,6 +54,10 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
      */
     override fun clear() {
         elements.clear()
+        immutableElements.clear()
+        mutableElements.clear()
+
+        immutableCounts = CountsMap.from(emptyList())
     }
 
     /**
@@ -52,7 +66,16 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
      * @param element [E]
      * @return [Boolean]: true if the element has been removed successfully, false otherwise
      */
-    override fun remove(element: E): Boolean = elements.remove(element)
+    override fun remove(element: E): Boolean {
+        var success = elements.remove(element)
+        if (isImmutable(element)) {
+            success = immutableElements.remove(element) && success
+            updateImmutableCounts()
+        } else {
+            success = mutableElements.remove(element) && success
+        }
+        return success
+    }
 
     /**
      * Remove all specified elements from the set.
@@ -87,6 +110,9 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
 
         if (elements.isEmpty()) {
             this.elements.clear()
+            immutableElements.clear()
+            mutableElements.clear()
+            updateImmutableCounts()
             return true
         }
 
@@ -94,12 +120,19 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
         val otherCounts = CountsMap.from(elements)
 
         this.elements.clear()
+        immutableElements.clear()
+        mutableElements.clear()
 
-        counts.forEach { element, count ->
-            val newCount = min(count, otherCounts.getCountOf(element))
-            repeat(newCount) { this.elements.add(element) }
-        }
 
+        val newCounts = counts intersect otherCounts
+        val countsList = newCounts.toList() as MutableList<E>
+
+        this.elements.addAll(countsList)
+        val groupedCounts = countsList.groupBy { isImmutable(it) }
+        immutableElements.addAll(groupedCounts.getOrDefault(true, emptyList()))
+        immutableElements.addAll(groupedCounts.getOrDefault(false, emptyList()))
+
+        updateImmutableCounts()
         return true
     }
 
@@ -109,4 +142,11 @@ internal class MutableMultiSetImpl<E>(elements: Collection<E>) : AbstractMultiSe
      * @return [MutableIterator]<E>
      */
     override fun iterator(): MutableIterator<E> = elements.toMutableList().iterator()
+
+    /**
+     * Wrapper function for updating the immutable counts with the current list of immutable elements
+     */
+    private fun updateImmutableCounts() {
+        immutableCounts = CountsMap.from(immutableElements)
+    }
 }
