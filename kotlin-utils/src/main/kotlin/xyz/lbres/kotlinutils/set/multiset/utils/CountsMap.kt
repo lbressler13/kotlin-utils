@@ -4,7 +4,6 @@ import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
-import kotlin.math.max
 import kotlin.math.min
 
 /**
@@ -85,7 +84,7 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
     operator fun minus(other: CountsMap<E>): CountsMap<E> {
         val allKeys = distinct + other.distinct
         val newCounts = allKeys
-            .associateWith { max(getCountOf(it) - other.getCountOf(it), 0) }
+            .associateWith { getCountOf(it) - other.getCountOf(it) }
             .filter { it.value > 0 }
         return CountsMap(newCounts)
     }
