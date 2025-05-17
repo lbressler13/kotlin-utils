@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
+import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
@@ -9,8 +10,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertIsNot
-
-private typealias CompList = List<Comparable<*>>
 
 // light testing, heavier tests are in the MultiSet classes
 class OperatorsTest {

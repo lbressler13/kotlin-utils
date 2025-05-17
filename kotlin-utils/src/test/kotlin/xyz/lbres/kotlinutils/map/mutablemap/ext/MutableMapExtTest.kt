@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.map.mutablemap.ext
 
+import xyz.lbres.kotlinutils.CompList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -34,8 +35,8 @@ class MutableMapExtTest {
         intIntMap.setAllValues(-425)
         assertEquals(intIntExpected, intIntMap)
 
-        val listListMap: MutableMap<List<Comparable<*>>, List<Comparable<*>>> = mutableMapOf(listOf(1, 2, 3) to listOf(4, 5), listOf("hello") to listOf("world"), listOf(12, 'a') to emptyList())
-        val listListExpected: Map<List<Comparable<*>>, List<Comparable<*>>> = mapOf(listOf(1, 2, 3) to emptyList(), listOf("hello") to emptyList(), listOf(12, 'a') to emptyList())
+        val listListMap: MutableMap<CompList, CompList> = mutableMapOf(listOf(1, 2, 3) to listOf(4, 5), listOf("hello") to listOf("world"), listOf(12, 'a') to emptyList())
+        val listListExpected: Map<CompList, CompList> = mapOf(listOf(1, 2, 3) to emptyList(), listOf("hello") to emptyList(), listOf(12, 'a') to emptyList())
         listListMap.setAllValues(emptyList())
         assertEquals(listListExpected, listListMap)
 

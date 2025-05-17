@@ -6,6 +6,8 @@ import kotlin.math.min
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+typealias CompList = List<Comparable<*>>
+
 /**
  * Perform a random action repeatedly and collect the results, and check that the distribution of results matches the given weights for the items.
  *

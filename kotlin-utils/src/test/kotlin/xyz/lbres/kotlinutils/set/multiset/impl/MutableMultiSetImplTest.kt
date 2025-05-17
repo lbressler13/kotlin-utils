@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
+import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
@@ -19,7 +20,7 @@ class MutableMultiSetImplTest {
         multiSetConstructorIntTestValues.forEach { runTest<Int>(it) }
         multiSetConstructorExceptionTestValues.forEach { runTest<Exception>(it) }
         multiSetConstructorIntListTestValues.forEach { runTest<IntList>(it) }
-        multiSetConstructorCompListTestValues.forEach { runTest<List<Comparable<*>>>(it) }
+        multiSetConstructorCompListTestValues.forEach { runTest<CompList>(it) }
         testConstructorWithMutableElements { runTest<IntList>(it) }
     }
 

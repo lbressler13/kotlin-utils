@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
+import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.assertEmpty
 import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
@@ -28,13 +29,12 @@ fun runMinusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Co
     val createIntSet = getCreateSet<Int>(createSet)
     val createStringSet = getCreateSet<String>(createSet)
     val createExceptionSet = getCreateSet<Exception>(createSet)
-    val createCompListSet = getCreateSet<List<Comparable<*>>>(createSet)
+    val createCompListSet = getCreateSet<CompList>(createSet)
     val createOtherIntSet = getCreateSet<Int>(createOtherSet)
 
     // empty
     var intSet1 = createIntSet(emptyList())
     var intSet2 = createIntSet(emptyList())
-    intSet1 - intSet2
     assertEmpty(minusFn(intSet1, intSet2))
     assertEmpty(minusFn(intSet2, intSet1))
 
@@ -101,7 +101,7 @@ fun runMinusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Co
 
     listSet1 = createCompListSet(listOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def")))
     val listSet2 = createCompListSet(listOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
-    var expectedList: MultiSet<List<Comparable<*>>> = multiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+    var expectedList: MultiSet<CompList> = multiSetOf(listOf("abc", "def"), listOf("abc", "def"))
     assertEquals(expectedList, minusFn(listSet1, listSet2))
     expectedList = multiSetOf(listOf(1, 2, 3), emptyList())
     assertEquals(expectedList, minusFn(listSet2, listSet1))
