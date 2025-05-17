@@ -46,8 +46,8 @@ fun runMinusTests() {
 
     intCounts1 = CountsMap.from(emptyList())
     intCounts2 = CountsMap.from(listOf(1, 2, 3))
-    assertEquals(intCounts1,intCounts1 - intCounts2)
-    assertEquals(intCounts2,intCounts2 - intCounts1)
+    assertEquals(intCounts1, intCounts1 - intCounts2)
+    assertEquals(intCounts2, intCounts2 - intCounts1)
 
     // equal
     intCounts1 = CountsMap.from(listOf(2, 2, 5, 1))
@@ -88,4 +88,49 @@ fun runMinusTests() {
     assertEquals(listExpected, listCounts1 - listCounts2)
     listExpected = CountsMap.from(listOf(listOf(1, 2, 3), emptyList()))
     assertEquals(listExpected, listCounts2 - listCounts1)
+}
+
+fun runIntersectTests() {
+    // empty
+    var intCounts1: CountsMap<Int> = CountsMap.from(emptyList())
+    var intCounts2: CountsMap<Int> = CountsMap.from(emptyList())
+    var intExpected: CountsMap<Int> = CountsMap.from(emptyList())
+    assertEquals(intExpected, intCounts1 intersect intCounts2)
+
+    intCounts1 = CountsMap.from(emptyList())
+    intCounts2 = CountsMap.from(listOf(1, 2, 3))
+    intExpected = CountsMap.from(emptyList())
+    assertEquals(intExpected, intCounts1 intersect intCounts2)
+    assertEquals(intExpected, intCounts2 intersect intCounts1)
+
+    // equal
+    intCounts1 = CountsMap.from(listOf(1, 4, 5, 1, 3))
+    assertEquals(intCounts1, intCounts1 intersect intCounts1)
+
+    // none shared
+    intCounts1 = CountsMap.from(listOf(1, 2, 3))
+    intCounts2 = CountsMap.from(listOf(4, 5, 6, 7, 8))
+    intExpected = CountsMap.from(emptyList())
+    assertEquals(intExpected, intCounts1 intersect intCounts2)
+    assertEquals(intExpected, intCounts2 intersect intCounts1)
+
+    // all overlapping elements
+    intCounts1 = CountsMap.from(listOf(1, 1, 2, 2, 3, 3))
+    intCounts2 = CountsMap.from(listOf(1, 2, 2, 2, 3))
+    intExpected = CountsMap.from(listOf(1, 2, 2, 3))
+    assertEquals(intExpected, intCounts1 intersect intCounts2)
+    assertEquals(intExpected, intCounts2 intersect intCounts1)
+
+    // some overlapping elements
+    intCounts1 = CountsMap.from(listOf(1, 2, 2, 4, 5, 6, 7, -1, 10))
+    intCounts2 = CountsMap.from(listOf(-1, 14, 3, 9, 9, 6))
+    intExpected = CountsMap.from(listOf(-1, 6))
+    assertEquals(intExpected, intCounts1 intersect intCounts2)
+    assertEquals(intExpected, intCounts2 intersect intCounts1)
+
+    val listCounts1: CountsMap<CompList> = CountsMap.from(listOf(listOf(1, 2, 3), emptyList(), listOf("abc", "def"), listOf("abc", "def")))
+    val listCounts2: CountsMap<CompList> = CountsMap.from(listOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList()))
+    val listExpected: CountsMap<CompList> = CountsMap.from(listOf(listOf(1, 2, 3), emptyList()))
+    assertEquals(listExpected, listCounts1 intersect listCounts2)
+    assertEquals(listExpected, listCounts2 intersect listCounts1)
 }

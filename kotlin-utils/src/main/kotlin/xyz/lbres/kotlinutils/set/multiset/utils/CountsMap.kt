@@ -5,6 +5,7 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Mapping of occurrences to the number of times that they occur
@@ -85,6 +86,20 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
         val allKeys = distinct + other.distinct
         val newCounts = allKeys
             .associateWith { max(getCountOf(it) - other.getCountOf(it), 0) }
+            .filter { it.value > 0 }
+        return CountsMap(newCounts)
+    }
+
+    /**
+     * Create a new CountsMap with values that are shared between the maps.
+     * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
+     *
+     * @param other [CountsMap]<E>: values to intersect with this CountsMap
+     * @return [CountsMap]<E>: CountsMap containing only values that are in both CountsMap
+     */
+    infix fun intersect(other: CountsMap<E>): CountsMap<E> {
+        val newCounts = counts
+            .mapValues { min(getCountOf(it.key), other.getCountOf(it.key)) }
             .filter { it.value > 0 }
         return CountsMap(newCounts)
     }
