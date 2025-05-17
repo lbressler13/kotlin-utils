@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.collection.mutable.ext
 
+import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.collection.ext.toMutableMultiSet
 import xyz.lbres.kotlinutils.list.mutablelist.ext.popRandom
 import xyz.lbres.kotlinutils.runTestWithRetry
@@ -26,7 +27,7 @@ class MutableCollectionExtTest {
         multiSet = mutableMultiSetOf(-1, 1, 2, 2, 2, 3, 3)
         runSinglePopRandomTest(multiSet, multiSet.toMutableMultiSet(), mutableMultiSetOf())
 
-        val listMultiSet: MutableMultiSet<List<Comparable<*>>> = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf("7"), listOf("7"), listOf("7"))
+        val listMultiSet: MutableMultiSet<CompList> = mutableMultiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf("7"), listOf("7"), listOf("7"))
         runSinglePopRandomTest(listMultiSet, listMultiSet.toMutableMultiSet(), mutableMultiSetOf())
 
         var set = mutableSetOf<String>()

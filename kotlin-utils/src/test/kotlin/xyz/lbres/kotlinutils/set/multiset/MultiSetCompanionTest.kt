@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
+import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
@@ -42,9 +43,9 @@ class MultiSetCompanionTest {
         assertEquals(expectedList, MultiSet.genericPlus(listSet1, listSet2))
         assertEquals(expectedList, MultiSet.genericPlus(listSet2, listSet1))
 
-        val compListSet1: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-        val compListSet2: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-        val expectedCompList: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"), listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+        val compListSet1: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+        val compListSet2: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+        val expectedCompList: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"), listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
         assertEquals(expectedCompList, MultiSet.genericPlus(compListSet1, compListSet2))
         assertEquals(expectedCompList, MultiSet.genericPlus(compListSet2, compListSet1))
 
@@ -117,9 +118,9 @@ class MultiSetCompanionTest {
         listExpected = multiSetOf(emptyList())
         assertEquals(listExpected, MultiSet.genericMinus(listSet2, listSet1))
 
-        val compListSet1: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
-        val compListSet2: MultiSet<List<Comparable<*>>> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
-        var compListExpected: MultiSet<List<Comparable<*>>> = multiSetOf(listOf("abc", "def"), listOf("abc", "def"))
+        val compListSet1: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf("abc", "def"), listOf("abc", "def"))
+        val compListSet2: MultiSet<CompList> = multiSetOf(listOf(1, 2, 3), listOf(1, 2, 3), emptyList())
+        var compListExpected: MultiSet<CompList> = multiSetOf(listOf("abc", "def"), listOf("abc", "def"))
         assertEquals(compListExpected, MultiSet.genericMinus(compListSet1, compListSet2))
         compListExpected = multiSetOf(listOf(1, 2, 3), emptyList())
         assertEquals(compListExpected, MultiSet.genericMinus(compListSet2, compListSet1))

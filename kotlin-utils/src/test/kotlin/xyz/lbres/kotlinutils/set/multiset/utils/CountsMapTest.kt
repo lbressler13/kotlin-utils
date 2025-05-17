@@ -16,6 +16,10 @@ class CountsMapTest {
     @Test fun testContains() = runContainsTests()
     @Test fun testContainsAll() = runContainsAllTests()
 
+    @Test fun testPlus() = runPlusTests()
+    @Test fun testMinus() = runMinusTests()
+    @Test fun testIntersect() = runIntersectTests()
+
     @Test
     fun testForEach() {
         var total = 0

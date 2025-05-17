@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
+import kotlin.math.min
 
 /**
  * Mapping of occurrences to the number of times that they occur
@@ -58,6 +59,48 @@ internal value class CountsMap<E>(private val counts: Map<E, Int>) {
         return otherCounts.counts.all { (element, otherCount) ->
             otherCount <= getCountOf(element)
         }
+    }
+
+    /**
+     * Create a new CountsMap with all values from both maps.
+     * If there are multiple occurrences of a value, the number of occurrences in the other map will be added to the number in this CountsMap.
+     *
+     * @param other [CountsMap]<E>: values to add to this CountsMap
+     * @return [CountsMap]<E>: CountsMap containing all values from both CountsMaps
+     */
+    operator fun plus(other: CountsMap<E>): CountsMap<E> {
+        val allKeys = distinct + other.distinct
+        val newCounts = allKeys.associateWith { getCountOf(it) + other.getCountOf(it) }
+        return CountsMap(newCounts)
+    }
+
+    /**
+     * Create a new CountsMap with values that are in this map but not the other map.
+     * If there are multiple occurrences of a value, the number of occurrences in the other map will be subtracted from the number in this map.
+     *
+     * @param other [CountsMap]<E>: values to subtract from this CountsMap
+     * @return [CountsMap]<E>: CountsMap containing the items in this CountsMap but not the other
+     */
+    operator fun minus(other: CountsMap<E>): CountsMap<E> {
+        val allKeys = distinct + other.distinct
+        val newCounts = allKeys
+            .associateWith { getCountOf(it) - other.getCountOf(it) }
+            .filter { it.value > 0 }
+        return CountsMap(newCounts)
+    }
+
+    /**
+     * Create a new CountsMap with values that are shared between the maps.
+     * If there are multiple occurrences of a value, the smaller number of occurrences will be used.
+     *
+     * @param other [CountsMap]<E>: values to intersect with this CountsMap
+     * @return [CountsMap]<E>: CountsMap containing only values that are in both CountsMap
+     */
+    infix fun intersect(other: CountsMap<E>): CountsMap<E> {
+        val newCounts = counts
+            .mapValues { min(getCountOf(it.key), other.getCountOf(it.key)) }
+            .filter { it.value > 0 }
+        return CountsMap(newCounts)
     }
 
     /**
