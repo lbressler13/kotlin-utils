@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
-import xyz.lbres.kotlinutils.generic.ext.ifNull
+import xyz.lbres.kotlinutils.generic.ifNull
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 
 // final implementation of ConstMultiSet

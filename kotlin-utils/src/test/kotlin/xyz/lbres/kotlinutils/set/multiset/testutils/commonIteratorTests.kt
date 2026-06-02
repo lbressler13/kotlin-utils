@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.list.ext.elementsEqual
+import xyz.lbres.kotlinutils.list.elementsEqual
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import kotlin.test.assertFalse
