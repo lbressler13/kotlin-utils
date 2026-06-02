@@ -1,11 +1,10 @@
 package xyz.lbres.kotlinutils.collection
 
 import xyz.lbres.kotlinutils.CompList
+import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.collection.multiset.mutableMultiSetOf
 import xyz.lbres.kotlinutils.list.mutablelist.popRandom
 import xyz.lbres.kotlinutils.runTestWithRetry
-import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.mutableMultiSetOf
-import xyz.lbres.kotlinutils.set.mutableset.popRandom
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
