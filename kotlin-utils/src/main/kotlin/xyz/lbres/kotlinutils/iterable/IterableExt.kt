@@ -37,4 +37,12 @@ fun <S, T> Iterable<S>.forEachWithIndexed(other: Iterable<T>, action: (IndexedVa
  * @param element T: value to match
  * @return [Int]: number of elements with the given value
  */
-fun <T> Iterable<T>.countElement(element: T) = this.count { it == element }
+fun <T> Iterable<T>.countElement(element: T): Int = this.count { it == element }
+
+/**
+ * Check if any elements in the array are equal to the given value
+ *
+ * @param element T: value to match
+ * @return [T]?: `true` if the element is present, `false` otherwise
+ */
+fun <T> Iterable<T>.anyEquals(element: T): Boolean = this.any { it == element }
