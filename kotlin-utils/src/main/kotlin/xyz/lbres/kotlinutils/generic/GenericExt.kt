@@ -29,4 +29,3 @@ fun <T> T?.isNotNull(): Boolean = this != null
  * @return `null` if this value is `null`, or result of executing [block] on the non-null value
  */
 fun <T, S> T?.ifNotNull(block: (T) -> S): S? = if (this == null) null else block(this)
-// TODO use this

@@ -12,6 +12,7 @@ import kotlin.reflect.KClass
  * @return [trueValue] if the check is `true`, [falseValue] otherwise
  */
 fun <T> simpleIf(check: Boolean, trueValue: T, falseValue: T): T = simpleIf(check, { trueValue }, { falseValue })
+// TODO replace with infix?
 
 /**
  * Function to perform a simple boolean check, and execute a function based on value of the check.
@@ -78,14 +79,3 @@ fun succeeds(function: () -> Unit): Boolean {
         true
     }
 }
-
-/**
- * Function to perform a simple boolean check, and return a value based on the result
- *
- * @param check [Boolean]
- * @param trueValue T: value to return if [check] is true
- * @param falseValue T: value to return if [check] is false
- * @return [trueValue] if the check is true, [falseValue] otherwise
- */
-@Deprecated("Replace with simpleIf", ReplaceWith("simpleIf", "xyz.lbres.kotlinutils.general.simpleIf"), DeprecationLevel.WARNING)
-fun <T> ternaryIf(check: Boolean, trueValue: T, falseValue: T) = simpleIf(check, trueValue, falseValue)
