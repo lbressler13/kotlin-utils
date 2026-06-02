@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.set.multiset.utils
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
+import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.min
 
 /**

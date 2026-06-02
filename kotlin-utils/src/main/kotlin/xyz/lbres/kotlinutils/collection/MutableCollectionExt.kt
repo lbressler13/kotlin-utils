@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.collection
 
-import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.random.Random
 
 /**

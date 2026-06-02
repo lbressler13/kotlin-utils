@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.array
 
-import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlin.test.Test

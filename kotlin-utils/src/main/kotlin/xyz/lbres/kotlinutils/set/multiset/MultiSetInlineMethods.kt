@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset
 
-import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.utils.simpleIf
 
 /**
  * Create a new MultiSet with the results of applying the transform function to each value in the current MultiSet.

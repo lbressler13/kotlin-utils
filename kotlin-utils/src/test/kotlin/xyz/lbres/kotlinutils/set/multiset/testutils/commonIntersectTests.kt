@@ -1,13 +1,13 @@
 package xyz.lbres.kotlinutils.set.multiset.testutils
 
 import xyz.lbres.kotlinutils.assertEmpty
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
 import xyz.lbres.kotlinutils.set.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
+import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.assertEquals
 
 private val e1 = ArithmeticException()

@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.list
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.utils.simpleIf
 
 /**
  * Create a copy of a list, with one value changed

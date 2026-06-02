@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.number.isZero
+import xyz.lbres.kotlinutils.utils.simpleIf
 
 /**
  * Filter a long collection to contain only elements that do not equal zero.

@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.string
 
-import xyz.lbres.kotlinutils.general.succeeds
+import xyz.lbres.kotlinutils.utils.succeeds
 
 /**
  * Substring function which uses end index instead of start index

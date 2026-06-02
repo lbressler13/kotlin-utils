@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.pair.comparable
 
-import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.utils.simpleIf
 
 /**
  * Get larger of the values in the pair

@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.set.multiset.impl
 
-import xyz.lbres.kotlinutils.general.tryOrDefault
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.iterable.countElement
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
@@ -10,6 +9,7 @@ import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import xyz.lbres.kotlinutils.set.multiset.utils.performIntersect
 import xyz.lbres.kotlinutils.set.multiset.utils.performMinus
 import xyz.lbres.kotlinutils.set.multiset.utils.performPlus
+import xyz.lbres.kotlinutils.utils.tryOrDefault
 
 /**
  * Partial [MultiSet] implementation which supports modifications to values of elements (i.e. adding elements to a mutable list).

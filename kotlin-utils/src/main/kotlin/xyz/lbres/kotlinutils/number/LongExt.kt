@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.utils.simpleIf
 
 /**
  * Returns this number if not zero, or the result of calling [getDefaultValue] if it is.

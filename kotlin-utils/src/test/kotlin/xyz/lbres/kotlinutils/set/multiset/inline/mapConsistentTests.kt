@@ -1,12 +1,12 @@
 package xyz.lbres.kotlinutils.set.multiset.inline
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.copyWithoutLast
 import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.runCommonMapToSetConsistentTests
+import xyz.lbres.kotlinutils.utils.simpleIf
 import java.lang.NullPointerException
 import kotlin.test.assertContains
 import kotlin.test.assertEquals

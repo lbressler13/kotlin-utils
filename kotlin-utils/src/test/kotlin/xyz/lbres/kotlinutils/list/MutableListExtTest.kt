@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.list
 
-import xyz.lbres.kotlinutils.general.simpleIf
 import xyz.lbres.kotlinutils.list.mutablelist.mapInPlace
 import xyz.lbres.kotlinutils.list.mutablelist.mapInPlaceIndexed
 import xyz.lbres.kotlinutils.list.mutablelist.setAllValues
+import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

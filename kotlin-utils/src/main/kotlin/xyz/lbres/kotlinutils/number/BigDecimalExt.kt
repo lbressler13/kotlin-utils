@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.general.succeeds
-import xyz.lbres.kotlinutils.general.tryOrDefault
+import xyz.lbres.kotlinutils.utils.succeeds
+import xyz.lbres.kotlinutils.utils.tryOrDefault
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode

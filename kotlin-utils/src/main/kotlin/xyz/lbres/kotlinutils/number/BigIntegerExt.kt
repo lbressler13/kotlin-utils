@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.general.simpleIf
+import xyz.lbres.kotlinutils.utils.simpleIf
 import java.math.BigInteger
 
 /**
