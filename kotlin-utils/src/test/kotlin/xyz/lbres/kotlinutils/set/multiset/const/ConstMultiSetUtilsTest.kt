@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.const
 
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.impl.ConstMutableMultiSetImpl
 import kotlin.test.Test

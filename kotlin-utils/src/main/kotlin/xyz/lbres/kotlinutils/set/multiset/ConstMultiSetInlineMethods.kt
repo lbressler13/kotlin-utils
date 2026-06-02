@@ -1,7 +1,4 @@
-package xyz.lbres.kotlinutils.set.multiset.const
-
-import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
+package xyz.lbres.kotlinutils.set.multiset
 
 /**
  * Create a new ConstMultiSet with the results of applying the transform function to each value in the current ConstMultiSet.

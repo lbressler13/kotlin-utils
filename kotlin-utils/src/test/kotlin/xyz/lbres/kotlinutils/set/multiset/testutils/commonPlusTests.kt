@@ -4,8 +4,8 @@ import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.assertEmpty
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.assertEquals

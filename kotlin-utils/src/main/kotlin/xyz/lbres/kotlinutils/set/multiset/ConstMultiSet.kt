@@ -74,4 +74,4 @@ sealed class ConstMultiSet<E> : MultiSet<E> {
     }
 }
 
-internal abstract class IConstMultiSet<E>: ConstMultiSet<E>()
+internal abstract class IConstMultiSet<E> : ConstMultiSet<E>()

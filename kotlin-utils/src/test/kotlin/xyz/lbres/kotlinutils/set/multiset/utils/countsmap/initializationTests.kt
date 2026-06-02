@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.set.multiset.utils.countsmap
 
-import xyz.lbres.kotlinutils.set.multiset.const.constMultiSetOf
+import xyz.lbres.kotlinutils.set.multiset.constMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.multiSetOf
 import xyz.lbres.kotlinutils.set.multiset.utils.CountsMap
 import kotlin.test.assertEquals
