@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.collection
+package xyz.lbres.kotlinutils.collection.bool
 
 /**
  * Determine if all the values in collection are `true`

@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.collection
+package xyz.lbres.kotlinutils.collection.number
 
 import xyz.lbres.kotlinutils.number.isZero
 

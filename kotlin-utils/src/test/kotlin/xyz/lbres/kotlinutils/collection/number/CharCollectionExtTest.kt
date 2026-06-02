@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.collection
+package xyz.lbres.kotlinutils.collection.number
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

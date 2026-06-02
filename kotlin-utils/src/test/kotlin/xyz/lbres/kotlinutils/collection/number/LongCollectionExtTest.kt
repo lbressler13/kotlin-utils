@@ -1,14 +1,13 @@
-package xyz.lbres.kotlinutils.collection
+package xyz.lbres.kotlinutils.collection.number
 
-import xyz.lbres.kotlinutils.collection.list.IntList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class IntCollectionExtTest {
+class LongCollectionExtTest {
     @Test
     fun testFilterNotZero() {
-        var list: List<Int> = emptyList()
-        var expected: List<Int> = emptyList()
+        var list: List<Long> = emptyList()
+        var expected: List<Long> = emptyList()
         assertEquals(expected, list.filterNotZero())
 
         list = listOf(0, 0, 0)
@@ -30,8 +29,8 @@ class IntCollectionExtTest {
 
     @Test
     fun testSum() {
-        var list: IntList = emptyList()
-        var expected = 0
+        var list: List<Long> = emptyList()
+        var expected = 0L
         assertEquals(expected, list.sum())
 
         list = listOf(33)
@@ -57,8 +56,8 @@ class IntCollectionExtTest {
 
     @Test
     fun testProduct() {
-        var list: IntList = emptyList()
-        var expected = 0
+        var list: List<Long> = emptyList()
+        var expected = 0L
         assertEquals(expected, list.product())
 
         list = listOf(0)

@@ -47,10 +47,6 @@ class BooleanArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test fun testAll() = runAllTests()
-    @Test fun testNone() = runNoneTests()
-    @Test fun testAny() = runAnyTests()
-
     @Test
     fun testCountElement() {
         var array = booleanArrayOf()

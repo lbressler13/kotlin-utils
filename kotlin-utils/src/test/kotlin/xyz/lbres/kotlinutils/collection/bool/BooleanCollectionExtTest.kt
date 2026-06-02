@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.collection
+package xyz.lbres.kotlinutils.collection.bool
 
 import xyz.lbres.kotlinutils.collection.list.BoolList
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
