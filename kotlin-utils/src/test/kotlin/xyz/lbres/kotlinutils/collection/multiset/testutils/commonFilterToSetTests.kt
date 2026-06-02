@@ -1,10 +1,10 @@
 package xyz.lbres.kotlinutils.collection.multiset.testutils
 
+import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.collection.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.MultiSet
 import xyz.lbres.kotlinutils.collection.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
-import xyz.lbres.kotlinutils.collection.list.IntList
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 

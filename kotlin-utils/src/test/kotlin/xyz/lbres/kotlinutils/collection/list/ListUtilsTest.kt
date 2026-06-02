@@ -1,8 +1,5 @@
 package xyz.lbres.kotlinutils.collection.list
 
-import xyz.lbres.kotlinutils.collection.list.IntList
-import xyz.lbres.kotlinutils.collection.list.listOfNulls
-import xyz.lbres.kotlinutils.collection.list.listOfValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

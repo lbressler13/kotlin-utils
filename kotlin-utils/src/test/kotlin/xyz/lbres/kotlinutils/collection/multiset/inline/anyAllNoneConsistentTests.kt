@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection.multiset.inline
 
-import xyz.lbres.kotlinutils.collection.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.collection.list.IntList
+import xyz.lbres.kotlinutils.collection.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.number.isNegative
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

@@ -1,11 +1,11 @@
 package xyz.lbres.kotlinutils.collection.multiset.inline
 
+import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.collection.multiset.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.collection.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonFilterNotToSetConsistentTests
 import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonFilterToSetConsistentTests
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.collection.list.IntList
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 

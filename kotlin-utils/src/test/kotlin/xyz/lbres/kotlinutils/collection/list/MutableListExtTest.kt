@@ -1,8 +1,5 @@
 package xyz.lbres.kotlinutils.collection.list
 
-import xyz.lbres.kotlinutils.collection.list.mapInPlace
-import xyz.lbres.kotlinutils.collection.list.mapInPlaceIndexed
-import xyz.lbres.kotlinutils.collection.list.setAllValues
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.Test
 import kotlin.test.assertEquals

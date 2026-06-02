@@ -1,12 +1,12 @@
 package xyz.lbres.kotlinutils.collection.multiset.testutils
 
 import xyz.lbres.kotlinutils.assertEmpty
+import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.collection.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.MultiSet
 import xyz.lbres.kotlinutils.collection.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.assertEquals
 

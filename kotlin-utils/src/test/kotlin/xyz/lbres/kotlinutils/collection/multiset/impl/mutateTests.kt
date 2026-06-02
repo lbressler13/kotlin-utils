@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.collection.multiset.impl
 
+import xyz.lbres.kotlinutils.collection.list.StringList
 import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.mutableMultiSetOf
-import xyz.lbres.kotlinutils.collection.multiset.testutils.*
-import xyz.lbres.kotlinutils.collection.list.StringList
+import xyz.lbres.kotlinutils.collection.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.assertEquals
 
 fun runMutableElementsAddTests() {

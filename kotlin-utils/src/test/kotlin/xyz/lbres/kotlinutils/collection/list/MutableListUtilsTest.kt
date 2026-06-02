@@ -1,7 +1,5 @@
 package xyz.lbres.kotlinutils.collection.list
 
-import xyz.lbres.kotlinutils.collection.list.mutableListOfNulls
-import xyz.lbres.kotlinutils.collection.list.mutableListOfValue
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

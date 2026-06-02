@@ -1,13 +1,13 @@
 package xyz.lbres.kotlinutils.collection.multiset.const
 
 import xyz.lbres.kotlinutils.CompList
+import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.collection.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.impl.ConstMutableMultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.impl.MutableMultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.collection.list.IntList
 import kotlin.test.Test
 
 class ConstMultiSetTest {

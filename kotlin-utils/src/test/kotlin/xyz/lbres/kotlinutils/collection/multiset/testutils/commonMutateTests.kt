@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.collection.multiset.testutils
 
+import xyz.lbres.kotlinutils.collection.list.StringList
 import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
-import xyz.lbres.kotlinutils.collection.list.StringList
 import kotlin.test.assertEquals
 
 fun runAddTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
