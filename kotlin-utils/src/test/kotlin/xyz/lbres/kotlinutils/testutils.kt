@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils
 
-import xyz.lbres.kotlinutils.list.WeightedList
+import xyz.lbres.kotlinutils.collection.list.WeightedList
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.test.assertEquals
