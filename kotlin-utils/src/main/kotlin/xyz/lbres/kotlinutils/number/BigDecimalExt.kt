@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.number.isZero
 import xyz.lbres.kotlinutils.general.succeeds
 import xyz.lbres.kotlinutils.general.tryOrDefault
 import java.math.BigDecimal

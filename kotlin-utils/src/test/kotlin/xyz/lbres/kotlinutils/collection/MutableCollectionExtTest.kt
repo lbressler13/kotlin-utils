@@ -1,7 +1,6 @@
 package xyz.lbres.kotlinutils.collection
 
 import xyz.lbres.kotlinutils.CompList
-import xyz.lbres.kotlinutils.collection.toMutableMultiSet
 import xyz.lbres.kotlinutils.list.mutablelist.popRandom
 import xyz.lbres.kotlinutils.runTestWithRetry
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet

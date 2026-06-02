@@ -1,10 +1,10 @@
 package xyz.lbres.kotlinutils.collection
 
 import xyz.lbres.kotlinutils.assertEmpty
-import xyz.lbres.kotlinutils.number.isZero
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.list.IntList
 import xyz.lbres.kotlinutils.list.StringList
+import xyz.lbres.kotlinutils.number.isZero
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
