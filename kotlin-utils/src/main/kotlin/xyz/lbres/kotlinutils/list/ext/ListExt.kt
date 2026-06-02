@@ -58,3 +58,11 @@ fun <T> List<T>.isSingleValue(): Boolean = size == 1
 fun <E> List<E>.elementsEqual(other: List<E>): Boolean {
     return ConstMultiSetImpl(this) == ConstMultiSetImpl(other)
 }
+
+/**
+ * Multiply a list by a number
+ *
+ * @param other [Int]
+ * @return [List]: list containing all the elements of this list, replicated [other] number of times
+ */
+operator fun <E> List<E>.times(other: Int): List<E> = List(other) { this }.flatten()

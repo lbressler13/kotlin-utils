@@ -229,4 +229,34 @@ class ListExtTest {
         exceptionList2 = listOf(e1, e2, NullPointerException())
         assertFalse(exceptionList1.elementsEqual(exceptionList2))
     }
+
+    @Test
+    fun testTimes() {
+        var intList: List<Int> = emptyList()
+        var intExpected: List<Int> = emptyList()
+        assertEquals(intExpected, intList * 0)
+        assertEquals(intExpected, intList * 10)
+
+        intList = listOf(1)
+        assertEquals(intExpected, intList * 0)
+        intExpected = List(10) { 1 }
+        assertEquals(intExpected, intList * 10)
+
+        val stringList = listOf("123", "hello", "123", "45")
+        val stringExpected =
+            listOf("123", "123", "123", "123", "123", "123", "45", "45", "45", "hello", "hello", "hello")
+        assertEquals(stringExpected.sorted(), (stringList * 3).sorted())
+
+        var nullableList: List<Any?> = listOf(null, null)
+        var nullableExpected: List<Any?> = listOf(null, null, null, null, null, null, null, null)
+        assertEquals(nullableExpected, nullableList * 4)
+        nullableList = listOf(123, "123", null, 1)
+        nullableExpected = listOf(123, 123, "123", "123", null, null, 1, 1)
+        val sortMethod: (Any?, Any?) -> Int = { val1, val2 ->
+            val str1 = "${val1}_${val1?.javaClass}"
+            val str2 = "${val2}_${val2?.javaClass}"
+            str1.compareTo(str2)
+        }
+        assertEquals(nullableExpected.sortedWith(sortMethod), (nullableList * 2).sortedWith(sortMethod))
+    }
 }
