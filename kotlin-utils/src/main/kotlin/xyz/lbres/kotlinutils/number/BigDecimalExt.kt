@@ -6,8 +6,6 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
 
-// TODO split some of these into big int only?
-
 /**
  * Unary check to determine if value is zero
  *
