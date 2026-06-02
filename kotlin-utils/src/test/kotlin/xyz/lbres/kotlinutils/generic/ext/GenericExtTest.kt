@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
@@ -113,5 +114,39 @@ class GenericExtTest {
 
         list = listOf(null, null)
         assertTrue(list.isNotNull())
+    }
+
+    @Test
+    fun testIfNotNull() {
+        // null
+        var i: Int? = null
+        assertNull(i.ifNotNull { it + 5 })
+        assertNull(i.ifNotNull { it.toString().padStart(4, '0') })
+
+        var l: List<Int>? = null
+        assertNull(l.ifNotNull { it.size })
+
+        val mapStr: (String) -> List<Char> = {
+            it.map { c -> c.uppercaseChar().minus(3) }
+        }
+        var s: String? = null
+        assertNull(s.ifNotNull(mapStr))
+
+        // not null
+        i = 0
+        assertEquals(5, i.ifNotNull { it + 5 })
+
+        i = 6
+        assertEquals(11, i.ifNotNull { it + 5 })
+        assertEquals("0006", i.ifNotNull { it.toString().padStart(4, '0') })
+
+        l = listOf(1, 4, 5, 6)
+        assertEquals(4, l.ifNotNull { it.size })
+
+        l = emptyList()
+        assertEquals(0, l.ifNotNull { it.size })
+
+        s = "hello"
+        assertEquals("EBIIL".toList(), s.ifNotNull(mapStr))
     }
 }
