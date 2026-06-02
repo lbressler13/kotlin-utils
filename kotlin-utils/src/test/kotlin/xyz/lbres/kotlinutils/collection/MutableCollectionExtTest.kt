@@ -3,7 +3,6 @@ package xyz.lbres.kotlinutils.collection
 import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.mutableMultiSetOf
-import xyz.lbres.kotlinutils.list.mutablelist.popRandom
 import xyz.lbres.kotlinutils.runTestWithRetry
 import kotlin.test.Test
 import kotlin.test.assertEquals

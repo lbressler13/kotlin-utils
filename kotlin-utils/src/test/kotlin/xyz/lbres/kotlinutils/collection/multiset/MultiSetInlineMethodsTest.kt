@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.collection.multiset
 
+import xyz.lbres.kotlinutils.collection.multiset.inline.* // ktlint-disable no-wildcard-imports no-unused-imports
 import kotlin.test.Test
 
 class MultiSetInlineMethodsTest {

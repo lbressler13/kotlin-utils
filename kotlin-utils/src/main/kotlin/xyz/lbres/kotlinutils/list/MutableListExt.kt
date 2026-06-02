@@ -1,13 +1,4 @@
-package xyz.lbres.kotlinutils.list.mutablelist
-
-import xyz.lbres.kotlinutils.collection.popRandom
-
-/**
- * Remove a random element from list and return it.
- *
- * @return T?: an element from the list, or `null` if the list is empty
- */
-fun <T> MutableList<T>.popRandom(): T? = popRandom()
+package xyz.lbres.kotlinutils.list
 
 /**
  * Assign all indices to have the same value
