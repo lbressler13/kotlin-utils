@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.collection.multiset
 
-import xyz.lbres.kotlinutils.collection.multiset.*
 import xyz.lbres.kotlinutils.collection.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.impl.MutableMultiSetImpl
 import kotlin.test.Test

@@ -13,4 +13,5 @@ sealed class ConstMutableMultiSet<E> : MutableMultiSet<E>, ConstMultiSet<E>() {
     abstract override fun iterator(): MutableIterator<E>
 }
 
+// internal wrapper for sealed class
 internal abstract class IConstMutableMultiSet<E> : ConstMutableMultiSet<E>()
