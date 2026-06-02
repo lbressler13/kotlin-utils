@@ -1,5 +1,6 @@
-package xyz.lbres.kotlinutils.list
+package xyz.lbres.kotlinutils.collection.list
 
+import xyz.lbres.kotlinutils.collection.list.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails

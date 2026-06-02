@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonFilterNotToS
 import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonFilterToSetTests
 import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonMapToSetTests
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.list.IntList
+import xyz.lbres.kotlinutils.collection.list.IntList
 import kotlin.test.assertEquals
 
 fun runMapToSetTests() {

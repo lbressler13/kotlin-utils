@@ -6,8 +6,8 @@ import xyz.lbres.kotlinutils.collection.multiset.mapToSetConsistent
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
 import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonMapToSetConsistentTests
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.list.copyWithoutLast
+import xyz.lbres.kotlinutils.collection.list.IntList
+import xyz.lbres.kotlinutils.collection.list.copyWithoutLast
 import xyz.lbres.kotlinutils.utils.simpleIf
 import java.lang.NullPointerException
 import kotlin.test.assertContains

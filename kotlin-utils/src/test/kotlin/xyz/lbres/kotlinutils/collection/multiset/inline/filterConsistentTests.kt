@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.collection.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonFilterNotToSetConsistentTests
 import xyz.lbres.kotlinutils.collection.multiset.testutils.runCommonFilterToSetConsistentTests
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.list.IntList
+import xyz.lbres.kotlinutils.collection.list.IntList
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 

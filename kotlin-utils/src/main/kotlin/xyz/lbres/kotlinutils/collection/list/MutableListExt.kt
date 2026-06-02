@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.list
+package xyz.lbres.kotlinutils.collection.list
 
 /**
  * Assign all indices to have the same value

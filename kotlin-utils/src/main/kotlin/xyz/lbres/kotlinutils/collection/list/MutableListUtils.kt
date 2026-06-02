@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.list
+package xyz.lbres.kotlinutils.collection.list
 
 /**
  * Create mutable list where every element is initialized with the same value

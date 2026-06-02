@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection
 
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
-import xyz.lbres.kotlinutils.list.BoolList
+import xyz.lbres.kotlinutils.collection.list.BoolList
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

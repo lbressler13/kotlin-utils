@@ -2,8 +2,8 @@ package xyz.lbres.kotlinutils.collection.multiset.testutils
 
 import xyz.lbres.kotlinutils.collection.multiset.MultiSet
 import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.list.elementsEqual
+import xyz.lbres.kotlinutils.collection.list.IntList
+import xyz.lbres.kotlinutils.collection.list.elementsEqual
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

@@ -2,7 +2,7 @@ package xyz.lbres.kotlinutils.utils
 
 import xyz.lbres.kotlinutils.collection.popRandom
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.list.IntList
+import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.number.isNegative
 import xyz.lbres.kotlinutils.number.isZero
 import kotlin.math.sqrt

@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.list
+package xyz.lbres.kotlinutils.collection.list
 
 import xyz.lbres.kotlinutils.collection.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.utils.simpleIf
@@ -39,6 +39,7 @@ fun <T> List<T>.copyWithFirstReplaced(value: T): List<T> = copyWithReplacement(0
  *
  * @return [List]: list identical to this, with the last value removed
  */
+// TODO rename
 fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
 
 /**

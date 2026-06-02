@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.array
 
-import xyz.lbres.kotlinutils.list.IntList
+import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.Test
 import kotlin.test.assertContentEquals

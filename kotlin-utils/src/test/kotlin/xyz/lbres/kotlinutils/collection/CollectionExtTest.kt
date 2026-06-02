@@ -12,8 +12,8 @@ import xyz.lbres.kotlinutils.collection.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
 import xyz.lbres.kotlinutils.collection.multiset.mutableMultiSetOf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
-import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.list.StringList
+import xyz.lbres.kotlinutils.collection.list.IntList
+import xyz.lbres.kotlinutils.collection.list.StringList
 import xyz.lbres.kotlinutils.number.isZero
 import kotlin.math.max
 import kotlin.math.min

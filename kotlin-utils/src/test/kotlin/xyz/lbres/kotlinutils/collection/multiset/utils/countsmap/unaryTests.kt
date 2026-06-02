@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection.multiset.utils.countsmap
 
 import xyz.lbres.kotlinutils.collection.multiset.utils.CountsMap
-import xyz.lbres.kotlinutils.list.StringList
+import xyz.lbres.kotlinutils.collection.list.StringList
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
