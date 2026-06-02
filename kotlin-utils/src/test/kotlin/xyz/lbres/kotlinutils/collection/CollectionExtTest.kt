@@ -7,8 +7,8 @@ import xyz.lbres.kotlinutils.list.StringList
 import xyz.lbres.kotlinutils.number.isZero
 import xyz.lbres.kotlinutils.set.multiset.MultiSet
 import xyz.lbres.kotlinutils.set.multiset.MutableMultiSet
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSet
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSet
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.set.multiset.const.constMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.const.constMutableMultiSetOf
 import xyz.lbres.kotlinutils.set.multiset.const.emptyConstMultiSet

@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.list
 
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.utils.simpleIf
 
 /**

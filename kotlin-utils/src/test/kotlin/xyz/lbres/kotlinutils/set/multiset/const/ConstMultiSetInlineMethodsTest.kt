@@ -2,6 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset.const
 
 import org.junit.Test
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.set.multiset.ConstMultiSet
+import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.set.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 
 class ConstMultiSetInlineMethodsTest {

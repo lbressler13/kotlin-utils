@@ -2,8 +2,8 @@ package xyz.lbres.kotlinutils.set.multiset
 
 import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.list.IntList
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMultiSetImpl
-import xyz.lbres.kotlinutils.set.multiset.const.ConstMutableMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.ConstMultiSetImpl
+import xyz.lbres.kotlinutils.set.multiset.impl.ConstMutableMultiSetImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

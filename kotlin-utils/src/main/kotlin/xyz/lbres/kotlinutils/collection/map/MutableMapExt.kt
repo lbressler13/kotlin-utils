@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.map.mutablemap
+package xyz.lbres.kotlinutils.collection.map
 
 /**
  * Assign all keys to have the same value

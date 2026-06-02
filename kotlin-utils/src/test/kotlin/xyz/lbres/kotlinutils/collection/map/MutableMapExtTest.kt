@@ -1,4 +1,4 @@
-package xyz.lbres.kotlinutils.map.mutablemap
+package xyz.lbres.kotlinutils.collection.map
 
 import xyz.lbres.kotlinutils.CompList
 import kotlin.test.Test
