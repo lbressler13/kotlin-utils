@@ -169,9 +169,4 @@ class IterableExtTest {
         assertEquals(1, longRange.countElement(10L))
         assertEquals(0, longRange.countElement(2L))
     }
-
-    @Test
-    fun testAnyEquals() {
-        // TODO
-    }
 }
