@@ -3,8 +3,6 @@ package xyz.lbres.kotlinutils.number
 import xyz.lbres.kotlinutils.collection.list.isSingleValue
 import java.math.BigInteger
 
-// TODO expand to other number types
-
 /**
  * Get positive greatest common divisor of 2 numbers using Euclidean algorithm
  *
