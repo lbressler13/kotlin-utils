@@ -8,7 +8,7 @@ import xyz.lbres.kotlinutils.utils.simpleIf
  *
  * @param index [Int]: index of value to change
  * @param value T: value to substitute at index
- * @return [List]: list identical to this, with the exception of the value at index i
+ * @return [List]: list identical to this, except for the value at index i
  * @throws IndexOutOfBoundsException if index is less than zero or greater than lastIndex
  */
 fun <T> List<T>.withReplacementAt(index: Int, value: T): List<T> {
@@ -22,7 +22,7 @@ fun <T> List<T>.withReplacementAt(index: Int, value: T): List<T> {
  * Create a copy of a list, with the last value changed
  *
  * @param value T: new value for last index
- * @return [List]: list identical to this, with the exception of the value at the last index
+ * @return [List]: list identical to this, except for the value at the last index
  */
 fun <T> List<T>.withLastReplaced(value: T): List<T> = withReplacementAt(lastIndex, value)
 
@@ -30,7 +30,7 @@ fun <T> List<T>.withLastReplaced(value: T): List<T> = withReplacementAt(lastInde
  * Create a copy of a list, with the first value changed
  *
  * @param value T: new value for first index
- * @return [List]: list identical to this, with the exception of the value at the first index
+ * @return [List]: list identical to this, except for the value at the first index
  */
 fun <T> List<T>.withFirstReplaced(value: T): List<T> = withReplacementAt(0, value)
 

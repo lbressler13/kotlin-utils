@@ -3,6 +3,7 @@ package xyz.lbres.kotlinutils.internal.constants
 /**
  * Messages to use in Suppress annotations
  */
+@Suppress(Suppressions.UNUSED)
 internal object Suppressions {
     const val BOOLEAN_LITERAL_ARG = "BooleanLiteralArgument"
     const val CONSTANT_CONDITIONS = "KotlinConstantConditions"
