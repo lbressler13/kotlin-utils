@@ -10,8 +10,6 @@ import xyz.lbres.kotlinutils.collection.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.impl.MutableMultiSetImpl
 import xyz.lbres.kotlinutils.iterable.countElement
 
-// TODO anyEquals
-
 /**
  * Create a MultiSet with the elements in the current collection.
  *

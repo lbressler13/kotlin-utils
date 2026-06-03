@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection.multiset.inline
 
 import xyz.lbres.kotlinutils.collection.list.IntList
-import xyz.lbres.kotlinutils.collection.list.copyWithoutLast
+import xyz.lbres.kotlinutils.collection.list.withoutLast
 import xyz.lbres.kotlinutils.collection.multiset.impl.MultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.mapConsistent
 import xyz.lbres.kotlinutils.collection.multiset.mapToSetConsistent
@@ -65,7 +65,7 @@ fun runMapConsistentTests() {
 
     var listSet = multiSetOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7))
     val expectedList = listOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
-    val shortenListMap: (IntList) -> IntList = { simpleIf(it.size > 1, { it.copyWithoutLast() }, { it }) }
+    val shortenListMap: (IntList) -> IntList = { simpleIf(it.size > 1, { it.withoutLast() }, { it }) }
     assertEquals(expectedList, listSet.mapConsistent(shortenListMap).sortedBy { if (it.isEmpty()) 0 else it.first() })
 
     // modified
