@@ -8,8 +8,8 @@ import xyz.lbres.kotlinutils.utils.simpleIf
  *
  * @param index [Int]: index of value to change
  * @param value T: value to substitute at index
- * @return [List]: list identical to this, except for the value at index i
- * @throws IndexOutOfBoundsException if index is less than zero or greater than lastIndex
+ * @return [List]: list identical to this, except for the value at the given index
+ * @throws IndexOutOfBoundsException if the index is less than zero or greater than lastIndex
  */
 fun <T> List<T>.withReplacementAt(index: Int, value: T): List<T> {
     val before = subList(0, index)
