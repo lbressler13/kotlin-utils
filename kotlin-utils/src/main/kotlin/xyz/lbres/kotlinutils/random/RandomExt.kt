@@ -10,7 +10,6 @@ import kotlin.random.Random
  * @return [Boolean]
  * @throws [IllegalArgumentException] if probability is not between 0 and 1
  */
-// TODO seeded
 fun Random.nextBoolean(probabilityTrue: Float): Boolean {
     if (probabilityTrue !in (0f..1f)) {
         throw IllegalArgumentException("Probability must be in range 0f..1f")
@@ -26,7 +25,6 @@ fun Random.nextBoolean(probabilityTrue: Float): Boolean {
  * @return T: the randomly selected value
  * @throws [IllegalArgumentException] if a weight is less than zero, or sum of weights is not 1
  */
-// TODO seeded
 fun <T> Random.nextFromWeightedList(weightedPairs: WeightedList<T>): T {
     // check for invalid weights
     if (weightedPairs.any { it.second < 0f }) {

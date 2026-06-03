@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection.multiset.testutils
 
 import xyz.lbres.kotlinutils.collection.list.IntList
-import xyz.lbres.kotlinutils.collection.list.copyWithoutLast
+import xyz.lbres.kotlinutils.collection.list.withoutLast
 import xyz.lbres.kotlinutils.collection.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.MultiSet
 import xyz.lbres.kotlinutils.collection.multiset.emptyMultiSet
@@ -108,6 +108,6 @@ private fun runCommonTests(createSet: (Collection<*>) -> MultiSet<*>, const: Boo
     val listSet = createIntListSet(listOf(listOf(1, 2, 3), listOf(4, 5, 6), emptyList(), listOf(7), listOf(7), listOf(7)))
     val expectedList = multiSetOf(emptyList(), listOf(1, 2), listOf(4, 5), listOf(7), listOf(7), listOf(7))
     runSingleTest(listSet, expectedList, const, genericMap) {
-        simpleIf(it.size > 1, { it.copyWithoutLast() }, { it })
+        simpleIf(it.size > 1, { it.withoutLast() }, { it })
     }
 }

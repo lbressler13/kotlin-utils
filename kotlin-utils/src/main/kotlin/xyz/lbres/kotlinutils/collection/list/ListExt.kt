@@ -11,7 +11,7 @@ import xyz.lbres.kotlinutils.utils.simpleIf
  * @return [List]: list identical to this, with the exception of the value at index i
  * @throws IndexOutOfBoundsException if index is less than zero or greater than lastIndex
  */
-fun <T> List<T>.copyWithReplacement(index: Int, value: T): List<T> {
+fun <T> List<T>.withReplacementAt(index: Int, value: T): List<T> {
     val before = subList(0, index)
     val after = simpleIf(index == lastIndex, { emptyList() }, { subList(index + 1, size) })
 
@@ -24,7 +24,7 @@ fun <T> List<T>.copyWithReplacement(index: Int, value: T): List<T> {
  * @param value T: new value for last index
  * @return [List]: list identical to this, with the exception of the value at the last index
  */
-fun <T> List<T>.copyWithLastReplaced(value: T): List<T> = copyWithReplacement(lastIndex, value)
+fun <T> List<T>.withLastReplaced(value: T): List<T> = withReplacementAt(lastIndex, value)
 
 /**
  * Create a copy of a list, with the first value changed
@@ -32,15 +32,14 @@ fun <T> List<T>.copyWithLastReplaced(value: T): List<T> = copyWithReplacement(la
  * @param value T: new value for first index
  * @return [List]: list identical to this, with the exception of the value at the first index
  */
-fun <T> List<T>.copyWithFirstReplaced(value: T): List<T> = copyWithReplacement(0, value)
+fun <T> List<T>.withFirstReplaced(value: T): List<T> = withReplacementAt(0, value)
 
 /**
  * Create a copy of a list, without the last value
  *
  * @return [List]: list identical to this, with the last value removed
  */
-// TODO rename
-fun <T> List<T>.copyWithoutLast(): List<T> = subList(0, lastIndex)
+fun <T> List<T>.withoutLast(): List<T> = subList(0, lastIndex)
 
 /**
  * If list consists of a single value
