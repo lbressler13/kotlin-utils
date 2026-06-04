@@ -46,6 +46,8 @@ Helper functions may still be associated with a class.
 │   │   │   ├── kotlin
 │   │   │   │   ├── kotlinutils  <-- Unit tests for kotlin-utils module
 │   ├── build.gradle.kts
+├── migrations                   <-- Documentation for migrating between major versions
+├── README.md
 └── settings.gradle.kts
 ```
 
@@ -116,3 +118,11 @@ See [here](https://docs.github.com/en/packages/working-with-a-github-packages-re
 For example, if a method is applicable for `Collection`, it should be defined as an extension of `Collection`, rather than an extension of `List`, `Map`, or other child classes.
 - If a method is added for one class, it should also be added for similar classes. For example, a method that is useful for `List` may also be useful for `Array`.
 - When applicable, randomized functions should be defined with and without a seed.
+
+## Migrating Between Versions
+
+Major versions of the package may contain breaking changes.
+See the [migration](migrations) documentation for details about migrating code to a new major version.
+
+Minor or patch version changes will not introduce breaking changes.
+See [here](https://semver.org/) for additional information about semantic versioning.
