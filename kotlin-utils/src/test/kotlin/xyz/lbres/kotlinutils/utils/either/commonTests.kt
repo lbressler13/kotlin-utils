@@ -7,38 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-// construct using left value, taking mutability into account
-private fun <S, T> constructL(value: S, mutable: Boolean): Either<S, T> {
-    return simpleIf(mutable, MutableEither(value), Either(value))
-}
-
-// construct using right value, taking mutability into account
-private fun <S, T> constructR(value: T, mutable: Boolean): Either<S, T> {
-    return simpleIf(mutable, MutableEither<S, T>(value), Either<S, T>(value))
-}
-
-// set the left value, either by modifying a mutable either or by generating a new immutable instance
-private fun <S, T> setLeft(either: Either<S, T>, value: S, mutable: Boolean): Either<S, T> {
-    return if (mutable) {
-        either as MutableEither<S, T>
-        either.left = value
-        either
-    } else {
-        Either(value)
-    }
-}
-
-// set the right value, either by modifying a mutable either or by generating a new immutable instance
-private fun <S, T> setRight(either: Either<S, T>, value: T, mutable: Boolean): Either<S, T> {
-    return if (mutable) {
-        either as MutableEither<S, T>
-        either.right = value
-        either
-    } else {
-        Either.withRight(value)
-    }
-}
-
 fun runTestConstructor(mutable: Boolean) {
     var intString = constructL<Int, String>(123, mutable)
     checkLeft(intString, 123)

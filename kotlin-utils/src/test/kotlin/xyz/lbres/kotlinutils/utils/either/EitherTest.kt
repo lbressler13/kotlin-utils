@@ -60,38 +60,7 @@ class EitherTest {
         assertFalse(intList == mutable)
     }
 
-    @Test
-    fun testEqualsValue() {
-        var intString = Either<Int, String>(123)
-        assertTrue(intString.equalsValue(123))
-        assertFalse(intString.equalsValue(12))
-        assertFalse(intString.equalsValue("123"))
-
-        intString = Either<Int, String>("hello")
-        assertTrue(intString eqV "hello")
-        assertFalse(intString eqV 123)
-
-        val nested = Either<List<Int>, Either<String, Int>>(Either("123"))
-        assertTrue(nested eqV "123")
-
-        var nestedNested = Either<String, Either<List<Int>, Either<String, Int>>>(nested)
-        assertTrue(nestedNested eqV "123")
-
-        nestedNested = Either.withRight(Either.withRight(Either.withRight(5)))
-        assertTrue(nestedNested eqV 5)
-
-        // nullable
-        val nullable = Either<Int?, Int>(null)
-        assertTrue(nullable eqV null)
-
-        // mutable
-        intString = Either<Int, String>(123)
-        val mutable = MutableEither<Int, String>(123)
-        assertTrue(intString eqV mutable)
-
-        mutable.left = 12
-        assertFalse(intString eqV mutable)
-    }
+    @Test fun testEqualsValue() = runTestEqualsValue(mutable)
 
     @Test fun testToString() = runTestToString(mutable = mutable)
 }
