@@ -18,3 +18,13 @@ fun <T, S> checkRight(either: Either<T, S>, value: S) {
     assertFalse(either.isLeft)
     assertTrue(either.isRight)
 }
+
+fun <S, T, U, V> bothEquals(first: Either<S, T>, second: Either<U, V>) {
+    assertTrue(first == second)
+    assertTrue(second == first)
+}
+
+fun <S, T, U, V> bothNotEquals(first: Either<S, T>, second: Either<U, V>) {
+    assertFalse(first == second)
+    assertFalse(second == first)
+}

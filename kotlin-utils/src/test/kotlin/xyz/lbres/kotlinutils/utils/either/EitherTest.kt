@@ -4,7 +4,6 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @Suppress(Suppressions.REMOVE_EXPLICIT_TYPES)
@@ -13,39 +12,7 @@ class EitherTest {
     @Test fun testWithLeft() = runTestWithLeft(mutable = false)
     @Test fun testWithRight() = runTestWithRight(mutable = false)
 
-    @Test
-    fun testIsNull() {
-        // not null
-        var intString = Either<Int?, String?>("hello")
-        assertFalse(intString.isNull())
-        intString = Either(123)
-        assertFalse(intString.isNull())
-
-        var intInt = Either<Int, Int?>(4)
-        assertFalse(intInt.isNull())
-
-        intInt = Either.withRight(4)
-        assertFalse(intInt.isNull())
-
-        var listString = Either<List<String?>?, String?>("123")
-        assertFalse(listString.isNull())
-
-        listString = Either(listOf(null, null, null))
-        assertFalse(listString.isNull())
-
-        // null
-        intString = Either(null)
-        assertTrue(intString.isNull())
-
-        intInt = Either.withRight(null)
-        assertTrue(intInt.isNull())
-
-        listString = Either.withLeft(null)
-        assertTrue(listString.isNull())
-
-        listString = Either.withRight(null)
-        assertTrue(listString.isNull())
-    }
+    @Test fun testIsNull() = runTestIsNull(mutable = false)
 
     @Test
     fun testEquals() {
@@ -53,31 +20,36 @@ class EitherTest {
         assertEquals(intString, intString)
 
         val arrInt = Either<IntArray, Int>(123)
-        assertTrue(intString == arrInt)
+        bothEquals(intString, arrInt)
 
         var stringInt = Either<String, Int>(123)
-        assertTrue(intString == stringInt)
+        bothEquals(intString, stringInt)
 
         stringInt = Either("123")
-        assertFalse(intString == stringInt)
+        bothNotEquals(intString, stringInt)
 
         val stringInt2 = Either<String, Int>("12")
-        assertNotEquals(stringInt, stringInt2)
+        bothNotEquals(stringInt, stringInt2)
 
         var intList = Either<Int, List<Int>>(emptyList())
         var stringList = Either<Int, List<String>>(emptyList())
-        assertTrue(intList == stringList)
+        bothEquals(intList, stringList)
 
         intList = Either<Int, List<Int>>(listOf(1, 2, 3))
         stringList = Either<Int, List<String>>(listOf("1"))
-        assertFalse(intList == stringList)
+        bothNotEquals(intList, stringList)
+
+        // null
+        val nullable1 = Either<Int?, String>(null)
+        val nullable2 = Either<List<Int>, List<Boolean>?>(null)
+        bothEquals(nullable1, nullable2)
 
         // nested
         stringInt = Either("123")
         val nested = Either<List<Int>, Either<String, Int>>(Either("123"))
-        assertTrue(nested == stringInt)
-        assertTrue(stringInt == nested)
+        bothEquals(nested, stringInt)
 
+        // mutable
         intList = Either<Int, List<Int>>(listOf(1, 2, 3))
         val mutable = MutableEither<List<Int>, Int>(listOf(1, 2, 3))
         assertTrue(intList == mutable)
