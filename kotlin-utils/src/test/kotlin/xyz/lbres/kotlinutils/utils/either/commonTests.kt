@@ -8,19 +8,19 @@ import kotlin.test.assertIs
 import kotlin.test.assertIsNot
 import kotlin.test.assertTrue
 
-private fun <T, S> constructL(value: T, mutable: Boolean): Either<T, S> {
+private fun <S, T> constructL(value: S, mutable: Boolean): Either<S, T> {
     return simpleIf(mutable, MutableEither(value), Either(value))
 }
 
-private fun <T, S> constructR(value: S, mutable: Boolean): Either<T, S> {
-    return simpleIf(mutable, MutableEither<T, S>(value), Either<T, S>(value))
+private fun <S, T> constructR(value: T, mutable: Boolean): Either<S, T> {
+    return simpleIf(mutable, MutableEither<S, T>(value), Either<S, T>(value))
 }
 
-private fun <T, S> checkMutability(either: Either<T, S>, mutable: Boolean) {
+private fun <S, T> checkMutability(either: Either<S, T>, mutable: Boolean) {
     if (mutable) {
-        assertIs<MutableEither<T, S>>(either)
+        assertIs<MutableEither<S, T>>(either)
     } else {
-        assertIsNot<MutableEither<T, S>>(either)
+        assertIsNot<MutableEither<S, T>>(either)
     }
 }
 
@@ -62,7 +62,7 @@ fun runTestConstructor(mutable: Boolean) {
 }
 
 fun runTestWithLeft(mutable: Boolean) {
-    fun <T, S> withLeft(value: T): Either<T, S> {
+    fun <S, T> withLeft(value: S): Either<S, T> {
         return simpleIf(mutable, MutableEither.withLeft(value), Either.withLeft(value))
     }
 
@@ -84,7 +84,7 @@ fun runTestWithLeft(mutable: Boolean) {
 }
 
 fun runTestWithRight(mutable: Boolean) {
-    fun <T, S> withRight(value: S): Either<T, S> {
+    fun <S, T> withRight(value: T): Either<S, T> {
         return simpleIf(mutable, MutableEither.withRight(value), Either.withRight(value))
     }
 
@@ -106,9 +106,9 @@ fun runTestWithRight(mutable: Boolean) {
 }
 
 fun runTestIsNull(mutable: Boolean) {
-    fun <T, S> setLeft(either: Either<T, S>, value: T): Either<T, S> {
+    fun <S, T> setLeft(either: Either<S, T>, value: S): Either<S, T> {
         return if (mutable) {
-            either as MutableEither<T, S>
+            either as MutableEither<S, T>
             either.left = value
             either
         } else {
@@ -116,9 +116,9 @@ fun runTestIsNull(mutable: Boolean) {
         }
     }
 
-    fun <T, S> setRight(either: Either<T, S>, value: S): Either<T, S> {
+    fun <S, T> setRight(either: Either<S, T>, value: T): Either<S, T> {
         return if (mutable) {
-            either as MutableEither<T, S>
+            either as MutableEither<S, T>
             either.right = value
             either
         } else {

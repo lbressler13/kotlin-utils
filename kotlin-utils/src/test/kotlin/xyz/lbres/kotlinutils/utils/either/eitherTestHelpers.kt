@@ -5,14 +5,14 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-fun <T, S> checkLeft(either: Either<T, S>, value: T) {
+fun <S, T> checkLeft(either: Either<S, T>, value: S) {
     assertEquals(value, either.left)
     assertNull(either.right)
     assertTrue(either.isLeft)
     assertFalse(either.isRight)
 }
 
-fun <T, S> checkRight(either: Either<T, S>, value: S) {
+fun <S, T> checkRight(either: Either<S, T>, value: T) {
     assertNull(either.left)
     assertEquals(value, either.right)
     assertFalse(either.isLeft)

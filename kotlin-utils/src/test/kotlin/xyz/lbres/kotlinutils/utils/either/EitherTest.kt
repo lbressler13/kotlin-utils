@@ -17,18 +17,18 @@ class EitherTest {
 
     @Test
     fun testToMutableEither() {
-        fun <T, S> castLeft(value: T) {
-            val either = Either.withLeft<T, S>(value)
+        fun <S, T> castLeft(value: S) {
+            val either = Either.withLeft<S, T>(value)
             val result = either.toMutableEither()
             checkLeft(either, value)
-            assertIs<MutableEither<T, S>>(result)
+            assertIs<MutableEither<S, T>>(result)
         }
 
-        fun <T, S> castRight(value: S) {
-            val either = Either.withRight<T, S>(value)
+        fun <S, T> castRight(value: T) {
+            val either = Either.withRight<S, T>(value)
             val result = either.toMutableEither()
             checkRight(either, value)
-            assertIs<MutableEither<T, S>>(result)
+            assertIs<MutableEither<S, T>>(result)
         }
 
         castRight<Int, Int?>(null)
