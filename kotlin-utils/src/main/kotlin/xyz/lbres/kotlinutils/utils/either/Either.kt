@@ -49,7 +49,7 @@ open class Either<S, T> internal constructor(left: S?, right: T?, isLeft: Boolea
     infix fun eqV(other: Any?): Boolean = equalsValue(other)
 
     /**
-     * Get the current set value
+     * Get the current set value, including the value of a nested [Either]
      */
     protected fun currentValue(): Any? {
         val current: Any? = if (isLeft) left else right
@@ -83,12 +83,12 @@ open class Either<S, T> internal constructor(left: S?, right: T?, isLeft: Boolea
         operator fun <S, T> invoke(value: T): Either<S, T> = Either(null, value, isLeft = false)
 
         /**
-         * Create an [Either] using the left value
+         * Create an [Either] with the given left value
          */
         fun <S, T> withLeft(value: S): Either<S, T> = Either(value, null, isLeft = true)
 
         /**
-         * Create an [Either] using the right value
+         * Create an [Either] with the given right value
          */
         fun <S, T> withRight(value: T): Either<S, T> = Either(null, value, isLeft = false)
     }

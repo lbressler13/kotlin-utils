@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.utils.either
 
 /**
- * Class that contains exactly one of the two possible types, where the values of left and right can be updated
+ * Class that contains exactly one of the two possible types, where the set value can be updated.
  */
 class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boolean) : Either<S, T>(left, right, isLeft) {
     private var _left: S? = left
@@ -13,10 +13,11 @@ class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boole
      * Changing this will automatically set [right] to `null` and set [isLeft] to `true`.
      */
     override var left: S?
-        get() = if (_isLeft) _left else null
+        get() = _left
         set(value) {
             _isLeft = true
             _left = value
+            _right = null
         }
 
     /**
@@ -24,10 +25,11 @@ class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boole
      * Changing this will automatically set [left] to `null` and set [isRight] to `true`.
      */
     override var right: T?
-        get() = if (_isLeft) null else _right
+        get() = _right
         set(value) {
             _isLeft = false
             _right = value
+            _left = null
         }
 
     /**
@@ -52,12 +54,12 @@ class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boole
         operator fun <S, T> invoke(value: T): MutableEither<S, T> = MutableEither(null, value, isLeft = false)
 
         /**
-         * Create a [MutableEither] using the left value
+         * Create a [MutableEither] with the given left value
          */
         fun <S, T> withLeft(value: S): MutableEither<S, T> = MutableEither(value, null, isLeft = true)
 
         /**
-         * Create a [MutableEither] using the right value
+         * Create a [MutableEither] with the given right value
          */
         fun <S, T> withRight(value: T): MutableEither<S, T> = MutableEither(null, value, isLeft = false)
     }
