@@ -1,29 +1,56 @@
 package xyz.lbres.kotlinutils.utils.either
 
-import xyz.lbres.kotlinutils.internal.constants.Suppressions
+/**
+ * Class that contains exactly one of the two possible types
+ */
+open class Either<S, T> internal constructor(left: S?, right: T?, isLeft: Boolean) {
+    /**
+     * Left value, `null` if [isLeft] is `false`
+     */
+    open val left: S? = left
 
-open class Either<S, T> internal constructor(open val left: S?, open val right: T?, open val isLeft: Boolean) {
+    /**
+     * Right value, `null` if [isRight] is `false`
+     */
+    open val right: T? = right
+
+    /**
+     * If the left value is set
+     */
+    open val isLeft: Boolean = isLeft
+
+    /**
+     * If the right value is set
+     */
     val isRight: Boolean
         get() = !isLeft
 
     constructor(value: S) : this(value, null, isLeft = true)
 
     override fun equals(other: Any?): Boolean {
-        println(other)
         return other is Either<*, *> && currentValue() == other.currentValue()
     }
 
-    @Suppress(Suppressions.COULD_BE_PRIVATE)
+    /**
+     * If the set value matches a given value.
+     * If [other] is an instance of [Either], it will check the set value of [other].
+     */
     fun equalsValue(other: Any?): Boolean {
-        println("${currentValue()}, $other, ${other is Either<*, *>}")
         if (other is Either<*, *>) {
             return equals(other)
         }
         return other == currentValue()
     }
 
+    /**
+     * If the set value matches a given value.
+     * If [other] is an instance of [Either], it will check the set value of [other].
+     */
     infix fun eqV(other: Any?): Boolean = equalsValue(other)
 
+    /**
+     * Get the current set value
+     */
     protected fun currentValue(): Any? {
         val current: Any? = if (isLeft) left else right
         if (current is Either<*, *>) {
@@ -32,8 +59,14 @@ open class Either<S, T> internal constructor(open val left: S?, open val right: 
         return current
     }
 
+    /**
+     * If the set value is `null`
+     */
     fun isNull(): Boolean = left == null && right == null
 
+    /**
+     * Cast to an instance of [MutableEither] with the same value
+     */
     fun toMutableEither(): MutableEither<S, T> = MutableEither(this)
 
     override fun toString(): String {
@@ -49,8 +82,14 @@ open class Either<S, T> internal constructor(open val left: S?, open val right: 
     companion object {
         operator fun <S, T> invoke(value: T): Either<S, T> = Either(null, value, isLeft = false)
 
+        /**
+         * Create an [Either] using the left value
+         */
         fun <S, T> withLeft(value: S): Either<S, T> = Either(value, null, isLeft = true)
 
+        /**
+         * Create an [Either] using the right value
+         */
         fun <S, T> withRight(value: T): Either<S, T> = Either(null, value, isLeft = false)
     }
 }
