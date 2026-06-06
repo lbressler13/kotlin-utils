@@ -26,7 +26,7 @@ open class Either<T, S> protected constructor(open val left: T?, open val right:
     infix fun eqV(other: Any?): Boolean = equalsValue(other)
 
     protected fun currentValue(): Any? {
-        val current = if (isLeft) left else right
+        val current: Any? = if (isLeft) left else right
         if (current is Either<*, *>) {
             return current.currentValue()
         }
@@ -36,7 +36,7 @@ open class Either<T, S> protected constructor(open val left: T?, open val right:
     fun isNull(): Boolean = left == null && right == null
 
     override fun toString(): String {
-        val current = if (isLeft) left else right
+        val current: Any? = if (isLeft) left else right
         return "Either($current)"
     }
 

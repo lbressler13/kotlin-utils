@@ -7,7 +7,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
-@Suppress(Suppressions.CONSTANT_CONDITIONS)
+@Suppress(Suppressions.REMOVE_EXPLICIT_TYPES)
 class EitherTest {
     @Test fun testConstructor() = runTestConstructor(mutable = false)
     @Test fun testWithLeft() = runTestWithLeft(mutable = false)

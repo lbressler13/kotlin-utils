@@ -10,6 +10,7 @@ internal object Suppressions {
     const val COULD_BE_PRIVATE = "MemberVisibilityCanBePrivate"
     const val DEPRECATION = "Deprecation"
     const val FUNCTION_NAME = "FunctionName"
+    const val REMOVE_EXPLICIT_TYPES = "RemoveExplicitTypeArguments"
     const val UNCHECKED_CAST = "UNCHECKED_CAST"
     const val UNUSED = "Unused"
 }
