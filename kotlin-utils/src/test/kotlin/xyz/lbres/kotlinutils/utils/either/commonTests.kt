@@ -164,3 +164,39 @@ fun runTestToString(mutable: Boolean) {
     nested = Either(listOf(1, 4))
     assertEquals("Either([1, 4])", nested.toString())
 }
+
+fun runTestToEither(mutable: Boolean) {
+    fun <S, T> castLeft(either: Either<S, T>, value: S) {
+        val result = if (mutable) {
+            either as MutableEither<S, T>
+            either.toEither()
+        } else {
+            either.toMutableEither()
+        }
+        checkLeft(result, value, !mutable)
+    }
+
+    fun <S, T> castRight(either: Either<S, T>, value: T) {
+        val result = if (mutable) {
+            either as MutableEither<S, T>
+            either.toEither()
+        } else {
+            either.toMutableEither()
+        }
+        checkRight(result, value, !mutable)
+    }
+
+    var int = constructR<Int, Int?>(null, mutable)
+    castRight(int, null)
+    int = setLeft(int, 4, mutable)
+    castLeft(int, 4)
+    int = setRight(int, 4, mutable)
+    castRight(int, 4)
+
+    var string = constructL<List<String>, String>(emptyList(), mutable)
+    castLeft(string, emptyList())
+    string = setLeft(string, listOf("123"), mutable)
+    castLeft(string, listOf("123"))
+    string = setRight(string, "hello world", mutable)
+    castRight(string, "hello world")
+}

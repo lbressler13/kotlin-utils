@@ -4,42 +4,18 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 @Suppress(Suppressions.REMOVE_EXPLICIT_TYPES)
 class EitherTest {
     private val mutable = false
 
-    @Test fun testConstructor() = runTestConstructor(mutable = mutable)
-    @Test fun testWithLeft() = runTestWithLeft(mutable = mutable)
-    @Test fun testWithRight() = runTestWithRight(mutable = mutable)
+    @Test fun testConstructor() = runTestConstructor(mutable)
+    @Test fun testWithLeft() = runTestWithLeft(mutable)
+    @Test fun testWithRight() = runTestWithRight(mutable)
 
-    @Test fun testIsNull() = runTestIsNull(mutable = mutable)
-
-    @Test
-    fun testToMutableEither() {
-        fun <S, T> castLeft(value: S) {
-            val either = Either.withLeft<S, T>(value)
-            val result = either.toMutableEither()
-            checkLeft(either, value)
-            assertIs<MutableEither<S, T>>(result)
-        }
-
-        fun <S, T> castRight(value: T) {
-            val either = Either.withRight<S, T>(value)
-            val result = either.toMutableEither()
-            checkRight(either, value)
-            assertIs<MutableEither<S, T>>(result)
-        }
-
-        castRight<Int, Int?>(null)
-        castLeft<Int, Int?>(4)
-        castRight<Int, Int?>(4)
-
-        castLeft<List<String>, String>(emptyList())
-        castLeft<List<String>, String>(listOf("123"))
-    }
+    @Test fun testIsNull() = runTestIsNull(mutable)
+    @Test fun testToMutableEither() = runTestToEither(mutable)
 
     @Test
     fun testEquals() {

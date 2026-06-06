@@ -3,46 +3,17 @@ package xyz.lbres.kotlinutils.utils.either
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertIsNot
 import kotlin.test.assertTrue
 
 class MutableEitherTest {
     private val mutable = true
 
-    @Test fun testConstructor() = runTestConstructor(mutable = mutable)
-    @Test fun testWithLeft() = runTestWithLeft(mutable = mutable)
-    @Test fun testWithRight() = runTestWithRight(mutable = mutable)
+    @Test fun testConstructor() = runTestConstructor(mutable)
+    @Test fun testWithLeft() = runTestWithLeft(mutable)
+    @Test fun testWithRight() = runTestWithRight(mutable)
 
-    @Test fun testIsNull() = runTestIsNull(mutable = mutable)
-
-    @Test
-    fun testToEither() {
-        fun <S, T> castLeft(either: MutableEither<S, T>, value: S) {
-            val result = either.toEither()
-            checkLeft(either, value)
-            assertIsNot<MutableEither<S, T>>(result)
-        }
-
-        fun <S, T> castRight(either: MutableEither<S, T>, value: T) {
-            val result = either.toEither()
-            checkRight(either, value)
-            assertIsNot<MutableEither<S, T>>(result)
-        }
-
-        val int = MutableEither<Int, Int?>(null)
-        castRight(int, null)
-        int.left = 4
-        castLeft(int, 4)
-        int.right = 4
-        castRight(int, 4)
-
-        val string = MutableEither<List<String>, String>(emptyList())
-        castLeft(string, emptyList())
-        string.left = listOf("123")
-        castLeft(string, listOf("123"))
-        string.right = "hello world"
-        castRight(string, "hello world")
-    }
+    @Test fun testIsNull() = runTestIsNull(mutable)
+    @Test fun testToEither() = runTestToEither(mutable)
 
     @Test
     fun testEquals() {
@@ -179,5 +150,5 @@ class MutableEitherTest {
         checkRight(intString, null)
     }
 
-    @Test fun testToString() = runTestToString(mutable = mutable)
+    @Test fun testToString() = runTestToString(mutable)
 }
