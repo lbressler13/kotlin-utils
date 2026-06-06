@@ -28,4 +28,4 @@ fun <T> T?.isNotNull(): Boolean = this != null
  * @param block: block of code to execute
  * @return `null` if this value is `null`, or result of executing [block] on the non-null value
  */
-fun <S, T> T?.ifNotNull(block: (T) -> S): S? = if (this == null) null else block(this)
+fun <T, S> T?.ifNotNull(block: (T) -> S): S? = if (this == null) null else block(this)
