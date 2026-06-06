@@ -7,7 +7,7 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 // TODO toImmutable and toMutable
 
 // TODO make this sealed?
-open class Either<T, S> protected constructor(open val left: T?, open val right: S?, open val isLeft: Boolean) {
+open class Either<T, S> internal constructor(open val left: T?, open val right: S?, open val isLeft: Boolean) {
     val isRight: Boolean
         get() = !isLeft
 
@@ -38,6 +38,8 @@ open class Either<T, S> protected constructor(open val left: T?, open val right:
     }
 
     fun isNull(): Boolean = left == null && right == null
+
+    fun toMutableEither(): MutableEither<T, S> = MutableEither(this)
 
     override fun toString(): String {
         val current: Any? = if (isLeft) left else right

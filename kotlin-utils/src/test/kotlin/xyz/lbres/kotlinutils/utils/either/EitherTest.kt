@@ -4,6 +4,7 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 @Suppress(Suppressions.REMOVE_EXPLICIT_TYPES)
@@ -13,6 +14,30 @@ class EitherTest {
     @Test fun testWithRight() = runTestWithRight(mutable = false)
 
     @Test fun testIsNull() = runTestIsNull(mutable = false)
+
+    @Test
+    fun testToMutableEither() {
+        fun <T, S> castLeft(value: T) {
+            val either = Either.withLeft<T, S>(value)
+            val result = either.toMutableEither()
+            checkLeft(either, value)
+            assertIs<MutableEither<T, S>>(result)
+        }
+
+        fun <T, S> castRight(value: S) {
+            val either = Either.withRight<T, S>(value)
+            val result = either.toMutableEither()
+            checkRight(either, value)
+            assertIs<MutableEither<T, S>>(result)
+        }
+
+        castRight<Int, Int?>(null)
+        castLeft<Int, Int?>(4)
+        castRight<Int, Int?>(4)
+
+        castLeft<List<String>, String>(emptyList())
+        castLeft<List<String>, String>(listOf("123"))
+    }
 
     @Test
     fun testEquals() {

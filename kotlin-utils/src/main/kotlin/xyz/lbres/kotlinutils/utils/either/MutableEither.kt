@@ -24,6 +24,10 @@ class MutableEither<T, S> private constructor(left: T?, right: S?, isLeft: Boole
 
     constructor(value: T) : this(value, null, isLeft = true)
 
+    internal constructor(either: Either<T, S>) : this(either.left, either.right, either.isLeft)
+
+    fun toEither(): Either<T, S> = Either(left, right, isLeft)
+
     companion object {
         operator fun <T, S> invoke(value: S): MutableEither<T, S> = MutableEither(null, value, isLeft = false)
 

@@ -3,6 +3,7 @@ package xyz.lbres.kotlinutils.utils.either
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIsNot
 import kotlin.test.assertTrue
 
 class MutableEitherTest {
@@ -13,8 +14,36 @@ class MutableEitherTest {
     @Test fun testIsNull() = runTestIsNull(mutable = true)
 
     @Test
+    fun testToEither() {
+        fun <T, S> castLeft(either: MutableEither<T, S>, value: T) {
+            val result = either.toEither()
+            checkLeft(either, value)
+            assertIsNot<MutableEither<T, S>>(result)
+        }
+
+        fun <T, S> castRight(either: MutableEither<T, S>, value: S) {
+            val result = either.toEither()
+            checkRight(either, value)
+            assertIsNot<MutableEither<T, S>>(result)
+        }
+
+        val int = MutableEither<Int, Int?>(null)
+        castRight(int, null)
+        int.left = 4
+        castLeft(int, 4)
+        int.right = 4
+        castRight(int, 4)
+
+        val string = MutableEither<List<String>, String>(emptyList())
+        castLeft(string, emptyList())
+        string.left = listOf("123")
+        castLeft(string, listOf("123"))
+        string.right = "hello world"
+        castRight(string, "hello world")
+    }
+
+    @Test
     fun testEquals() {
-        // TODO this can be shorter
         val intString = MutableEither<Int, String>(123)
         assertEquals(intString, intString)
 
@@ -28,9 +57,6 @@ class MutableEitherTest {
         bothEquals(intString, arrInt)
 
         arrInt.left = intArrayOf(123)
-        bothNotEquals(intString, arrInt)
-
-        intString.right = "123"
         bothNotEquals(intString, arrInt)
 
         val intList = MutableEither<Int, List<Int>>(emptyList())
