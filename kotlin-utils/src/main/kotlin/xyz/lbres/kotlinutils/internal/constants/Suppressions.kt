@@ -7,6 +7,7 @@ package xyz.lbres.kotlinutils.internal.constants
 internal object Suppressions {
     const val BOOLEAN_LITERAL_ARG = "BooleanLiteralArgument"
     const val CONSTANT_CONDITIONS = "KotlinConstantConditions"
+    const val COULD_BE_PRIVATE = "MemberVisibilityCanBePrivate"
     const val DEPRECATION = "Deprecation"
     const val FUNCTION_NAME = "FunctionName"
     const val UNCHECKED_CAST = "UNCHECKED_CAST"
