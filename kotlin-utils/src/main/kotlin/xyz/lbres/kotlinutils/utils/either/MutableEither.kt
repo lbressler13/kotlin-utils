@@ -27,8 +27,8 @@ class MutableEither<T, S> private constructor(left: T?, right: S?, isLeft: Boole
     companion object {
         operator fun <T, S> invoke(value: S): MutableEither<T, S> = MutableEither(null, value, isLeft = false)
 
-        fun <T, S> withLeft(value: T): Either<T, S> = MutableEither(value, null, isLeft = true)
+        fun <T, S> withLeft(value: T): MutableEither<T, S> = MutableEither(value, null, isLeft = true)
 
-        fun <T, S> withRight(value: S): Either<T, S> = MutableEither(null, value, isLeft = false)
+        fun <T, S> withRight(value: S): MutableEither<T, S> = MutableEither(null, value, isLeft = false)
     }
 }

@@ -119,10 +119,36 @@ class MutableEitherTest {
 
     @Test
     fun testSetLeft() {
+        var intString = MutableEither<Int, String>(123)
+        intString.left = -6
+        checkLeft(intString, -6)
+
+        intString = MutableEither.withRight("hello")
+        intString.left = 10
+        checkLeft(intString, 10)
+
+        val stringInt = MutableEither<String?, Int>(123)
+        stringInt.left = "123"
+        checkLeft(stringInt, "123")
+        stringInt.left = null
+        checkLeft(stringInt, null)
     }
 
     @Test
     fun testSetRight() {
+        var stringInt = MutableEither<String, Int>(123)
+        stringInt.right = -6
+        checkRight(stringInt, -6)
+
+        stringInt = MutableEither.withLeft("hello")
+        stringInt.right = 10
+        checkRight(stringInt, 10)
+
+        val intString = MutableEither<Int, String?>(123)
+        intString.right = "123"
+        checkRight(intString, "123")
+        intString.right = null
+        checkRight(intString, null)
     }
 
     @Test
@@ -132,5 +158,23 @@ class MutableEitherTest {
 
         intString.right = "hello"
         assertEquals("Either(hello)", intString.toString())
+
+        val nullable = MutableEither<Int?, Int>(null)
+        assertEquals("Either(null)", nullable.toString())
+
+        nullable.left = 3
+        assertEquals("Either(3)", nullable.toString())
+
+        nullable.right = 3
+        assertEquals("Either(3)", nullable.toString())
+
+        val nested = MutableEither<List<Int>, MutableEither<String, Int>>(MutableEither("123"))
+        assertEquals("Either(Either(123))", nested.toString())
+
+        nested.right!!.right = 12
+        assertEquals("Either(Either(12))", nested.toString())
+
+        nested.left = listOf(1, 4)
+        assertEquals("Either([1, 4])", nested.toString())
     }
 }
