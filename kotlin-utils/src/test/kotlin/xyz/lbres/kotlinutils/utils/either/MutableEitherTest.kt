@@ -7,11 +7,13 @@ import kotlin.test.assertIsNot
 import kotlin.test.assertTrue
 
 class MutableEitherTest {
-    @Test fun testConstructor() = runTestConstructor(mutable = true)
-    @Test fun testWithLeft() = runTestWithLeft(mutable = true)
-    @Test fun testWithRight() = runTestWithRight(mutable = true)
+    private val mutable = true
 
-    @Test fun testIsNull() = runTestIsNull(mutable = true)
+    @Test fun testConstructor() = runTestConstructor(mutable = mutable)
+    @Test fun testWithLeft() = runTestWithLeft(mutable = mutable)
+    @Test fun testWithRight() = runTestWithRight(mutable = mutable)
+
+    @Test fun testIsNull() = runTestIsNull(mutable = mutable)
 
     @Test
     fun testToEither() {
@@ -177,30 +179,5 @@ class MutableEitherTest {
         checkRight(intString, null)
     }
 
-    @Test
-    fun testToString() {
-        val intString = MutableEither<Int, String>(123)
-        assertEquals("Either(123)", intString.toString())
-
-        intString.right = "hello"
-        assertEquals("Either(hello)", intString.toString())
-
-        val nullable = MutableEither<Int?, Int>(null)
-        assertEquals("Either(null)", nullable.toString())
-
-        nullable.left = 3
-        assertEquals("Either(3)", nullable.toString())
-
-        nullable.right = 3
-        assertEquals("Either(3)", nullable.toString())
-
-        val nested = MutableEither<List<Int>, MutableEither<String, Int>>(MutableEither("123"))
-        assertEquals("Either(Either(123))", nested.toString())
-
-        nested.right!!.right = 12
-        assertEquals("Either(Either(12))", nested.toString())
-
-        nested.left = listOf(1, 4)
-        assertEquals("Either([1, 4])", nested.toString())
-    }
+    @Test fun testToString() = runTestToString(mutable = mutable)
 }

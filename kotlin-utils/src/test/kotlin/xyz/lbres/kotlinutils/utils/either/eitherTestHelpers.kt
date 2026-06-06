@@ -2,27 +2,41 @@ package xyz.lbres.kotlinutils.utils.either
 
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
+import kotlin.test.assertIsNot
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 /**
  * Check that all fields in [either] match the expected state when the left value is set to [value]
  */
-fun <S, T> checkLeft(either: Either<S, T>, value: S) {
+fun <S, T> checkLeft(either: Either<S, T>, value: S, mutable: Boolean? = null) {
     assertEquals(value, either.left)
     assertNull(either.right)
     assertTrue(either.isLeft)
     assertFalse(either.isRight)
+
+    if (mutable == true) {
+        assertIs<MutableEither<S, T>>(either)
+    } else if (mutable == false) {
+        assertIsNot<MutableEither<S, T>>(either)
+    }
 }
 
 /**
  * Check that all fields in [either] match the expected state when the right value is set to [value]
  */
-fun <S, T> checkRight(either: Either<S, T>, value: T) {
+fun <S, T> checkRight(either: Either<S, T>, value: T, mutable: Boolean? = null) {
     assertNull(either.left)
     assertEquals(value, either.right)
     assertFalse(either.isLeft)
     assertTrue(either.isRight)
+
+    if (mutable == true) {
+        assertIs<MutableEither<S, T>>(either)
+    } else if (mutable == false) {
+        assertIsNot<MutableEither<S, T>>(either)
+    }
 }
 
 /**

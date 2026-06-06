@@ -3,62 +3,69 @@ package xyz.lbres.kotlinutils.utils.either
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.utils.simpleIf
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertIs
-import kotlin.test.assertIsNot
 import kotlin.test.assertTrue
 
+// construct using left value, taking mutability into account
 private fun <S, T> constructL(value: S, mutable: Boolean): Either<S, T> {
     return simpleIf(mutable, MutableEither(value), Either(value))
 }
 
+// construct using right value, taking mutability into account
 private fun <S, T> constructR(value: T, mutable: Boolean): Either<S, T> {
     return simpleIf(mutable, MutableEither<S, T>(value), Either<S, T>(value))
 }
 
-private fun <S, T> checkMutability(either: Either<S, T>, mutable: Boolean) {
-    if (mutable) {
-        assertIs<MutableEither<S, T>>(either)
+// set the left value, either by modifying a mutable either or by generating a new immutable instance
+private fun <S, T> setLeft(either: Either<S, T>, value: S, mutable: Boolean): Either<S, T> {
+    return if (mutable) {
+        either as MutableEither<S, T>
+        either.left = value
+        either
     } else {
-        assertIsNot<MutableEither<S, T>>(either)
+        Either(value)
+    }
+}
+
+// set the right value, either by modifying a mutable either or by generating a new immutable instance
+private fun <S, T> setRight(either: Either<S, T>, value: T, mutable: Boolean): Either<S, T> {
+    return if (mutable) {
+        either as MutableEither<S, T>
+        either.right = value
+        either
+    } else {
+        Either.withRight(value)
     }
 }
 
 fun runTestConstructor(mutable: Boolean) {
     var intString = constructL<Int, String>(123, mutable)
     checkLeft(intString, 123)
-    checkMutability(intString, mutable)
 
     intString = constructR("hello", mutable)
     checkRight(intString, "hello")
-    checkMutability(intString, mutable)
 
     val intInt = constructL<Int, Int>(4, mutable)
     checkLeft(intInt, 4)
-    checkMutability(intInt, mutable)
 
     // nullable
     var nullable = constructL<Int?, String?>(null, mutable)
     checkLeft(nullable, null)
-    checkMutability(nullable, mutable)
 
     nullable = constructL<Int?, String?>(5, mutable)
     checkLeft(nullable, 5)
-    checkMutability(nullable, mutable)
 
     nullable = constructR<Int?, String?>("12", mutable)
     checkRight(nullable, "12")
-    checkMutability(nullable, mutable)
 
     // nested either
     var nested = constructR<List<Int>, Either<String, Int>>(Either("123"), mutable)
     checkRight(nested, Either<String, Int>("123"))
     checkLeft(nested.right!!, "123")
-    checkMutability(nested, mutable)
 
     nested = constructL(listOf(1, 2, 5), mutable)
     checkLeft(nested, listOf(1, 2, 5))
-    checkMutability(nested, mutable)
 }
 
 fun runTestWithLeft(mutable: Boolean) {
@@ -67,20 +74,16 @@ fun runTestWithLeft(mutable: Boolean) {
     }
 
     val ints = withLeft<Int, Int>(5)
-    checkLeft(ints, 5)
-    checkMutability(ints, mutable)
+    checkLeft(ints, 5, mutable)
 
     val nullable = withLeft<Int?, String>(null)
-    checkLeft(nullable, null)
-    checkMutability(nullable, mutable)
+    checkLeft(nullable, null, mutable)
 
     val string = withLeft<String, Int?>("123")
-    checkLeft(string, "123")
-    checkMutability(string, mutable)
+    checkLeft(string, "123", mutable)
 
     val list = withLeft<List<Int>, List<String>>(emptyList())
-    checkLeft(list, emptyList())
-    checkMutability(list, mutable)
+    checkLeft(list, emptyList(), mutable)
 }
 
 fun runTestWithRight(mutable: Boolean) {
@@ -89,71 +92,75 @@ fun runTestWithRight(mutable: Boolean) {
     }
 
     val ints = withRight<Int, Int>(5)
-    checkRight(ints, 5)
-    checkMutability(ints, mutable)
+    checkRight(ints, 5, mutable)
 
     val nullable = withRight<String, Int?>(null)
-    checkRight(nullable, null)
-    checkMutability(nullable, mutable)
+    checkRight(nullable, null, mutable)
 
     val string = withRight<Int?, String>("123")
-    checkRight(string, "123")
-    checkMutability(string, mutable)
+    checkRight(string, "123", mutable)
 
     val list = withRight<List<String>, List<Int>>(emptyList())
-    checkRight(list, emptyList())
-    checkMutability(list, mutable)
+    checkRight(list, emptyList(), mutable)
 }
 
 fun runTestIsNull(mutable: Boolean) {
-    fun <S, T> setLeft(either: Either<S, T>, value: S): Either<S, T> {
-        return if (mutable) {
-            either as MutableEither<S, T>
-            either.left = value
-            either
-        } else {
-            Either(value)
-        }
-    }
-
-    fun <S, T> setRight(either: Either<S, T>, value: T): Either<S, T> {
-        return if (mutable) {
-            either as MutableEither<S, T>
-            either.right = value
-            either
-        } else {
-            Either.withRight(value)
-        }
-    }
-
     // not null
     var intString: Either<Int?, String?> = constructR("hello", mutable)
     assertFalse(intString.isNull())
-    intString = setLeft(intString, 123)
+    intString = setLeft(intString, 123, mutable)
     assertFalse(intString.isNull())
 
     var intInt: Either<Int, Int?> = constructL(4, mutable)
     assertFalse(intInt.isNull())
 
-    intInt = setRight(intInt, 0)
+    intInt = setRight(intInt, 0, mutable)
     assertFalse(intInt.isNull())
 
     var listString: Either<List<String?>?, String?> = constructR("", mutable)
     assertFalse(listString.isNull())
 
-    listString = setLeft(listString, listOf(null, null, null))
+    listString = setLeft(listString, listOf(null, null, null), mutable)
     assertFalse(listString.isNull())
 
     // null
-    intString = setLeft(intString, null)
+    intString = setLeft(intString, null, mutable)
     assertTrue(intString.isNull())
 
-    intInt = setRight(intInt, null)
+    intInt = setRight(intInt, null, mutable)
     assertTrue(intInt.isNull())
 
-    listString = setLeft(listString, null)
+    listString = setLeft(listString, null, mutable)
     assertTrue(listString.isNull())
 
-    listString = setRight(listString, null)
+    listString = setRight(listString, null, mutable)
     assertTrue(listString.isNull())
+}
+
+fun runTestToString(mutable: Boolean) {
+    var intString = constructL<Int, String>(123, mutable)
+    assertEquals("Either(123)", intString.toString())
+
+    intString = setRight(intString, "hello", mutable)
+    assertEquals("Either(hello)", intString.toString())
+
+    var nullable = constructL<Int?, Int>(null, mutable)
+    assertEquals("Either(null)", nullable.toString())
+
+    nullable = setLeft(nullable, 3, mutable)
+    assertEquals("Either(3)", nullable.toString())
+
+    nullable = setRight(nullable, 3, mutable)
+    assertEquals("Either(3)", nullable.toString())
+
+    var subnested = constructL<String, Int>("123", mutable)
+    var nested = constructR<List<Int>, Either<String, Int>>(subnested, mutable)
+    assertEquals("Either(Either(123))", nested.toString())
+
+    subnested = setRight(subnested, 12, mutable)
+    nested = setRight(nested, subnested, mutable)
+    assertEquals("Either(Either(12))", nested.toString())
+
+    nested = Either(listOf(1, 4))
+    assertEquals("Either([1, 4])", nested.toString())
 }

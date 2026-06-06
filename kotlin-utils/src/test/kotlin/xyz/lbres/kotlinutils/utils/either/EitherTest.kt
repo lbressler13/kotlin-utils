@@ -9,11 +9,13 @@ import kotlin.test.assertTrue
 
 @Suppress(Suppressions.REMOVE_EXPLICIT_TYPES)
 class EitherTest {
-    @Test fun testConstructor() = runTestConstructor(mutable = false)
-    @Test fun testWithLeft() = runTestWithLeft(mutable = false)
-    @Test fun testWithRight() = runTestWithRight(mutable = false)
+    private val mutable = false
 
-    @Test fun testIsNull() = runTestIsNull(mutable = false)
+    @Test fun testConstructor() = runTestConstructor(mutable = mutable)
+    @Test fun testWithLeft() = runTestWithLeft(mutable = mutable)
+    @Test fun testWithRight() = runTestWithRight(mutable = mutable)
+
+    @Test fun testIsNull() = runTestIsNull(mutable = mutable)
 
     @Test
     fun testToMutableEither() {
@@ -115,24 +117,5 @@ class EitherTest {
         assertFalse(intString eqV mutable)
     }
 
-    @Test
-    fun testToString() {
-        var intString = Either<Int, String>(123)
-        assertEquals("Either(123)", intString.toString())
-
-        intString = Either<Int, String>("hello")
-        assertEquals("Either(hello)", intString.toString())
-
-        val nullable = Either<Int?, Int>(null)
-        assertEquals("Either(null)", nullable.toString())
-
-        var nested = Either<List<Int>, Either<String, Int>>(Either("123"))
-        assertEquals("Either(Either(123))", nested.toString())
-
-        nested = Either.withRight(Either.withRight(12))
-        assertEquals("Either(Either(12))", nested.toString())
-
-        nested = Either(listOf(1, 4))
-        assertEquals("Either([1, 4])", nested.toString())
-    }
+    @Test fun testToString() = runTestToString(mutable = mutable)
 }
