@@ -2,6 +2,8 @@ package xyz.lbres.kotlinutils.utils.either
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 
+// TODO should be S, T
+
 // TODO make this sealed?
 open class Either<T, S> protected constructor(open val left: T?, open val right: S?, open val isLeft: Boolean) {
     val isRight: Boolean

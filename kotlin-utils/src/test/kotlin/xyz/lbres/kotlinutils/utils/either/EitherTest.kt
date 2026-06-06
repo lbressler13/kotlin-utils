@@ -60,9 +60,9 @@ class EitherTest {
     @Test
     fun testEqualsValue() {
         var intString = Either<Int, String>(123)
-        assertTrue(intString eqV 123)
-        assertFalse(intString eqV 12)
-        assertFalse(intString eqV "123")
+        assertTrue(intString.equalsValue(123))
+        assertFalse(intString.equalsValue(12))
+        assertFalse(intString.equalsValue("123"))
 
         intString = Either<Int, String>("hello")
         assertTrue(intString eqV "hello")
@@ -77,8 +77,17 @@ class EitherTest {
         nestedNested = Either.withRight(Either.withRight(Either.withRight(5)))
         assertTrue(nestedNested eqV 5)
 
+        // nullable
         val nullable = Either<Int?, Int>(null)
         assertTrue(nullable eqV null)
+
+        // mutable
+        intString = Either<Int, String>(123)
+        val mutable = MutableEither<Int, String>(123)
+        assertTrue(intString eqV mutable)
+
+        mutable.left = 12
+        assertFalse(intString eqV mutable)
     }
 
     @Test
