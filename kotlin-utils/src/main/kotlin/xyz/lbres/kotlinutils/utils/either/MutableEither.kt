@@ -1,12 +1,16 @@
 package xyz.lbres.kotlinutils.utils.either
 
+/**
+ * Class that contains exactly one of the two possible types, where the values of left and right can be updated
+ */
 class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boolean) : Either<S, T>(left, right, isLeft) {
     private var _left: S? = left
     private var _right: T? = right
     private var _isLeft: Boolean = isLeft
 
     /**
-     * Left value, `null` if [isLeft] is `false`
+     * Left value, `null` if [isLeft] is `false`.
+     * Changing this will automatically set [right] to `null` and set [isLeft] to `true`.
      */
     override var left: S?
         get() = if (_isLeft) _left else null
@@ -16,7 +20,8 @@ class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boole
         }
 
     /**
-     * Right value, `null` if [isRight] is `false`
+     * Right value, `null` if [isRight] is `false`.
+     * Changing this will automatically set [left] to `null` and set [isRight] to `true`.
      */
     override var right: T?
         get() = if (_isLeft) null else _right
