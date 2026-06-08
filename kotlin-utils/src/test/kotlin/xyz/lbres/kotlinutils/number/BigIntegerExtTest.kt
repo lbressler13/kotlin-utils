@@ -1,11 +1,13 @@
 package xyz.lbres.kotlinutils.number
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import java.math.BigInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class BigIntegerExtTest {
     @Test
     fun testIsNegative() {
@@ -62,5 +64,26 @@ class BigIntegerExtTest {
         bi = BigInteger("-100")
         expected = BigInteger("-100")
         assertEquals(expected, bi.ifZero(getValue))
+    }
+
+    @Test
+    fun testIsNullOrZero() {
+        var bi: BigInteger? = null
+        assertTrue { bi.isNullOrZero() }
+
+        bi = BigInteger.ZERO
+        assertTrue { bi.isNullOrZero() }
+
+        bi = BigInteger.ONE
+        assertFalse { bi.isNullOrZero() }
+
+        bi = BigInteger("-1")
+        assertFalse { bi.isNullOrZero() }
+
+        bi = BigInteger("100")
+        assertFalse { bi.isNullOrZero() }
+
+        bi = BigInteger("-100")
+        assertFalse { bi.isNullOrZero() }
     }
 }

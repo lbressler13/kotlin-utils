@@ -16,3 +16,10 @@ fun BigDecimal.isZero(): Boolean = tryOrDefault(false) { toBigIntegerExact().isZ
  * @return [Boolean]: true if value is less than zero, false otherwise
  */
 fun BigDecimal.isNegative(): Boolean = this < BigDecimal.ZERO
+
+/**
+ * Returns true if value is null or zero, or false otherwise
+ *
+ * @return [Boolean]
+ */
+fun BigDecimal?.isNullOrZero(): Boolean = this == null || isZero()

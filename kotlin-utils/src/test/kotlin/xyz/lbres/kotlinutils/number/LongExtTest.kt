@@ -64,4 +64,25 @@ class LongExtTest {
         long = -100
         assertFalse(long.isZero())
     }
+
+    @Test
+    fun testIsNullOrZero() {
+        var long: Long? = null
+        assertTrue(long.isNullOrZero())
+
+        long = 0L
+        assertTrue(long.isNullOrZero())
+
+        long = 1
+        assertFalse(long.isNullOrZero())
+
+        long = -1
+        assertFalse(long.isNullOrZero())
+
+        long = 100
+        assertFalse(long.isNullOrZero())
+
+        long = -100
+        assertFalse(long.isNullOrZero())
+    }
 }

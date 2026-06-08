@@ -24,3 +24,10 @@ fun BigInteger.isZero(): Boolean = equals(BigInteger.ZERO)
  * @return [BigInteger] the current value, or the default
  */
 fun BigInteger.ifZero(getDefaultValue: () -> BigInteger): BigInteger = simpleIf(isZero(), { getDefaultValue() }, { this })
+
+/**
+ * Returns true if value is null or zero, or false otherwise
+ *
+ * @return [Boolean]
+ */
+fun BigInteger?.isNullOrZero(): Boolean = this == null || isZero()

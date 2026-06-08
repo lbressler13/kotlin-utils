@@ -64,4 +64,25 @@ class IntExtTest {
         int = -100
         assertFalse(int.isZero())
     }
+
+    @Test
+    fun testIsNullOrZero() {
+        var int: Int? = null
+        assertTrue(int.isNullOrZero())
+
+        int = 0
+        assertTrue(int.isNullOrZero())
+
+        int = 1
+        assertFalse(int.isNullOrZero())
+
+        int = -1
+        assertFalse(int.isNullOrZero())
+
+        int = 100
+        assertFalse(int.isNullOrZero())
+
+        int = -100
+        assertFalse(int.isNullOrZero())
+    }
 }

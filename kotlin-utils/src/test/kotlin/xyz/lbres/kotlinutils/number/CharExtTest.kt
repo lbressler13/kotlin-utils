@@ -1,10 +1,12 @@
 package xyz.lbres.kotlinutils.number
 
+import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class CharExtTest {
     @Test
     fun testIfZero() {
@@ -33,5 +35,20 @@ class CharExtTest {
 
         char = Char(100)
         assertFalse(char.isZero())
+    }
+
+    @Test
+    fun testIsNullOrZero() {
+        var char: Char? = null
+        assertTrue(char.isNullOrZero())
+
+        char = Char(0)
+        assertTrue(char.isNullOrZero())
+
+        char = Char(1)
+        assertFalse(char.isNullOrZero())
+
+        char = Char(100)
+        assertFalse(char.isNullOrZero())
     }
 }

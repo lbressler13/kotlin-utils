@@ -23,3 +23,10 @@ fun Long.isZero(): Boolean = equals(0L)
  * @return [Boolean]: true if value is less than zero, false otherwise
  */
 fun Long.isNegative(): Boolean = this < 0L
+
+/**
+ * Returns true if value is null or zero, or false otherwise
+ *
+ * @return [Boolean]
+ */
+fun Long?.isNullOrZero(): Boolean = this == null || isZero()
