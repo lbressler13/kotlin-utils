@@ -121,8 +121,7 @@ For example, if a method is applicable for `Collection`, it should be defined as
 
 ## Migrating Between Versions
 
-Major versions of the package may contain breaking changes.
-See the [migration](migrations) documentation for details about migrating code to a new major version.
+Major version updates may contain breaking changes.
+See the [migration](migrations) documentation for details about migrating to a new major version.
 
-Minor or patch version changes will not introduce breaking changes.
-See [here](https://semver.org/) for additional information about semantic versioning.
+Minor or patch version updates will not introduce breaking changes.
