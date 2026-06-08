@@ -26,8 +26,8 @@ fun BigInteger.isZero(): Boolean = equals(BigInteger.ZERO)
 fun BigInteger.ifZero(getDefaultValue: () -> BigInteger): BigInteger = simpleIf(isZero(), { getDefaultValue() }, { this })
 
 /**
- * Returns true if value is null or zero, or false otherwise
+ * Unary check to determine if value is null or zero
  *
- * @return [Boolean]
+ * @return [Boolean]: true if the value is null or zero, or false otherwise
  */
 fun BigInteger?.isNullOrZero(): Boolean = this == null || isZero()

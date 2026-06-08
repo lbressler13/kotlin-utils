@@ -25,8 +25,8 @@ fun Int.isZero(): Boolean = equals(0)
 fun Int.isNegative(): Boolean = this < 0
 
 /**
- * Returns true if value is null or zero, or false otherwise
+ * Unary check to determine if value is null or zero
  *
- * @return [Boolean]
+ * @return [Boolean]: true if the value is null or zero, or false otherwise
  */
 fun Int?.isNullOrZero(): Boolean = this == null || isZero()

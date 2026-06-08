@@ -25,8 +25,8 @@ fun Long.isZero(): Boolean = equals(0L)
 fun Long.isNegative(): Boolean = this < 0L
 
 /**
- * Returns true if value is null or zero, or false otherwise
+ * Unary check to determine if value is null or zero
  *
- * @return [Boolean]
+ * @return [Boolean]: true if the value is null or zero, or false otherwise
  */
 fun Long?.isNullOrZero(): Boolean = this == null || isZero()

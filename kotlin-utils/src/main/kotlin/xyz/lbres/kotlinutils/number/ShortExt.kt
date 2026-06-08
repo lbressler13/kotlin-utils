@@ -25,8 +25,8 @@ fun Short.isZero(): Boolean = equals(0.toShort())
 fun Short.isNegative(): Boolean = this < 0.toShort()
 
 /**
- * Returns true if value is null or zero, or false otherwise
+ * Unary check to determine if value is null or zero
  *
- * @return [Boolean]
+ * @return [Boolean]: true if the value is null or zero, or false otherwise
  */
 fun Short?.isNullOrZero(): Boolean = this == null || isZero()
