@@ -3,7 +3,9 @@ package xyz.lbres.kotlinutils.utils.either
 /**
  * Class that contains exactly one of the two possible types, where the set value can be updated.
  */
-class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boolean) : Either<S, T>(left, right, isLeft) {
+class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boolean) :
+    Either<S, T>(left, right, isLeft) {
+    // mutable backing properties
     private var _left: S? = left
     private var _right: T? = right
     private var _isLeft: Boolean = isLeft
@@ -38,12 +40,11 @@ class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boole
     override val isLeft: Boolean
         get() = _isLeft
 
+    // left constructor
     constructor(value: S) : this(value, null, isLeft = true)
 
-    /**
-     * Constructor to use for casting only
-     */
-    internal constructor(either: Either<S, T>) : this(either.left, either.right, either.isLeft)
+    // constructor to use for casting only
+    constructor(either: Either<S, T>) : this(either.left, either.right, either.isLeft)
 
     /**
      * Cast to an instance of a non-mutable [Either] with the same value
@@ -51,6 +52,7 @@ class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boole
     fun toEither(): Either<S, T> = Either(left, right, isLeft)
 
     companion object {
+        // right constructor
         operator fun <S, T> invoke(value: T): MutableEither<S, T> = MutableEither(null, value, isLeft = false)
 
         /**

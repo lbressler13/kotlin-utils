@@ -18,6 +18,9 @@ fun runTestConstructor(mutable: Boolean) {
     var nullable = constructL<Int?, String?>(null, mutable)
     checkLeft(nullable, null)
 
+    nullable = constructR<Int?, String?>(null, mutable)
+    checkRight(nullable, null)
+
     nullable = constructL<Int?, String?>(5, mutable)
     checkLeft(nullable, 5)
 

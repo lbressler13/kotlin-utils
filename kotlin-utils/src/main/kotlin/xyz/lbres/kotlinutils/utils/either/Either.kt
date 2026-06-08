@@ -25,6 +25,7 @@ open class Either<S, T> internal constructor(left: S?, right: T?, isLeft: Boolea
     val isRight: Boolean
         get() = !isLeft
 
+    // left constructor
     constructor(value: S) : this(value, null, isLeft = true)
 
     override fun equals(other: Any?): Boolean {
@@ -80,6 +81,7 @@ open class Either<S, T> internal constructor(left: S?, right: T?, isLeft: Boolea
     }
 
     companion object {
+        // right constructor
         operator fun <S, T> invoke(value: T): Either<S, T> = Either(null, value, isLeft = false)
 
         /**
