@@ -23,3 +23,10 @@ fun Int.isZero(): Boolean = equals(0)
  * @return [Boolean]: true if value is less than zero, false otherwise
  */
 fun Int.isNegative(): Boolean = this < 0
+
+/**
+ * Unary check to determine if value is null or zero
+ *
+ * @return [Boolean]: true if the value is null or zero, or false otherwise
+ */
+fun Int?.isNullOrZero(): Boolean = this == null || isZero()

@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.collection.multiset.utils.countsmap
 
-import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.collection.multiset.utils.CountsMap
+import xyz.lbres.kotlinutils.testutils.CompList
 import kotlin.test.assertEquals
 
 fun runPlusTests() {

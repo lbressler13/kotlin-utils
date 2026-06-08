@@ -1,6 +1,6 @@
 package xyz.lbres.kotlinutils.collection.map
 
-import xyz.lbres.kotlinutils.CompList
+import xyz.lbres.kotlinutils.testutils.CompList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

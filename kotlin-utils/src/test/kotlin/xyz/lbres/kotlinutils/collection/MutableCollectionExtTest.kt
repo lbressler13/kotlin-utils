@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.collection
 
-import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.mutableMultiSetOf
-import xyz.lbres.kotlinutils.runTestWithRetry
+import xyz.lbres.kotlinutils.testutils.CompList
+import xyz.lbres.kotlinutils.testutils.runTestWithRetry
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -77,7 +77,7 @@ class MutableCollectionExtTest {
 
         // check order
         runTestWithRetry {
-            set = mutableSetOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "17", "17", "20")
+            set = (1..20).map { it.toString() }.toMutableSet()
             copy = set.toMutableSet()
             val resultsList1: MutableList<String?> = mutableListOf()
             val resultsList2: MutableList<String?> = mutableListOf()

@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.number
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -63,5 +64,12 @@ class IntExtTest {
 
         int = -100
         assertFalse(int.isZero())
+    }
+
+    @Test
+    fun testIsNullOrZero() {
+        val trueValues = listOf(null, 0)
+        val falseValues = listOf(1, -1, 100, -100)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }) { it.isNullOrZero() }
     }
 }
