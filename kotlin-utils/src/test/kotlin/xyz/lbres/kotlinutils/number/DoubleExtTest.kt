@@ -1,11 +1,9 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class DoubleExtTest {
     @Test
     fun testIfZero() {

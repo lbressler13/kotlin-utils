@@ -1,13 +1,11 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import java.math.BigDecimal
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class BigDecimalExtTest {
     private val zero = BigDecimal("0.0000000000000000000000000000")
     private val smallPositive = BigDecimal("0.0000000000000000000000000001")

@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import java.math.BigInteger
 import kotlin.test.Test
@@ -8,7 +7,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class BigIntegerExtTest {
     @Test
     fun testIsNegative() {

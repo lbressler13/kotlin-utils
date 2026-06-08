@@ -1,13 +1,11 @@
 package xyz.lbres.kotlinutils.number
 
-import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@Suppress(Suppressions.CONSTANT_CONDITIONS)
 class CharExtTest {
     @Test
     fun testIfZero() {
