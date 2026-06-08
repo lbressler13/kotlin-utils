@@ -1,10 +1,10 @@
 package xyz.lbres.kotlinutils.collection.multiset.impl
 
-import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.collection.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.CompList
 import kotlin.test.Test
 
 class ConstMultiSetImplTest {

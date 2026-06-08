@@ -16,3 +16,10 @@ fun Char.ifZero(getDefaultValue: () -> Char): Char = simpleIf(isZero(), { getDef
  * @return [Boolean]: true if value is zero, false otherwise
  */
 fun Char.isZero(): Boolean = code.isZero()
+
+/**
+ * Unary check to determine if value is null or zero
+ *
+ * @return [Boolean]: true if the value is null or zero, or false otherwise
+ */
+fun Char?.isNullOrZero(): Boolean = this == null || isZero()

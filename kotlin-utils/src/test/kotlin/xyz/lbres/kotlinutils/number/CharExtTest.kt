@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.number
 
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -33,5 +34,12 @@ class CharExtTest {
 
         char = Char(100)
         assertFalse(char.isZero())
+    }
+
+    @Test
+    fun testIsNullOrZero() {
+        val trueValues = listOf(null, Char(0))
+        val falseValues = listOf(Char(1), Char(100))
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }, { it.isNullOrZero() })
     }
 }

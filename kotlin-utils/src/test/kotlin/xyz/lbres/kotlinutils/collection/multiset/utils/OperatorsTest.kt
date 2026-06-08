@@ -1,11 +1,11 @@
 package xyz.lbres.kotlinutils.collection.multiset.utils
 
-import xyz.lbres.kotlinutils.CompList
 import xyz.lbres.kotlinutils.collection.multiset.ConstMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.MultiSet
 import xyz.lbres.kotlinutils.collection.multiset.emptyMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
 import xyz.lbres.kotlinutils.collection.multiset.mutableMultiSetOf
+import xyz.lbres.kotlinutils.testutils.CompList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
