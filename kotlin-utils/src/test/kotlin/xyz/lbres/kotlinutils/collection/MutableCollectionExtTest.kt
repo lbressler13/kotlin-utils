@@ -77,7 +77,7 @@ class MutableCollectionExtTest {
 
         // check order
         runTestWithRetry {
-            set = mutableSetOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "17", "17", "20")
+            set = (1..20).map { it.toString() }.toMutableSet()
             copy = set.toMutableSet()
             val resultsList1: MutableList<String?> = mutableListOf()
             val resultsList2: MutableList<String?> = mutableListOf()

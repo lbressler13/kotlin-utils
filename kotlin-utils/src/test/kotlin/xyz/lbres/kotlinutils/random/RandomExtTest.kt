@@ -1,10 +1,10 @@
 package xyz.lbres.kotlinutils.random
 
 import xyz.lbres.kotlinutils.collection.list.WeightedList
+import xyz.lbres.kotlinutils.testutils.assertFailsWithMessage
 import xyz.lbres.kotlinutils.testutils.runTestWithWeights
 import kotlin.random.Random
 import kotlin.test.Test
-import kotlin.test.assertFailsWith
 
 class RandomExtTest {
     private val random = Random.Default
@@ -20,8 +20,8 @@ class RandomExtTest {
         runSingleNextBooleanTest(0.9f)
 
         val expectedMessage = "Probability must be in range 0f..1f"
-        assertFailsWith<IllegalArgumentException>(expectedMessage) { random.nextBoolean(-0.5f) }
-        assertFailsWith<IllegalArgumentException>(expectedMessage) { random.nextBoolean(1.5f) }
+        assertFailsWithMessage<IllegalArgumentException>(expectedMessage) { random.nextBoolean(-0.5f) }
+        assertFailsWithMessage<IllegalArgumentException>(expectedMessage) { random.nextBoolean(1.5f) }
     }
 
     /**
@@ -38,35 +38,36 @@ class RandomExtTest {
     @Test
     fun testNextFromWeightedList() {
         // errors
-        val expectedError = "Weights must total 1"
-        assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(emptyList()) }
+        var expectedError = "Weights must total 1"
+        assertFailsWithMessage<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(emptyList()) }
 
         var list = listOf(
             Pair(1, 0.1f),
             Pair(2, 0.2f),
             Pair(3, 0.75f)
         )
-        assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
+        assertFailsWithMessage<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
 
         list = listOf(
             Pair(1, 0.1f),
             Pair(2, 0.2f),
             Pair(3, 0.6f)
         )
-        assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
+        assertFailsWithMessage<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
 
         list = listOf(
             Pair(1, 0f),
             Pair(2, 0f),
         )
-        assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
+        assertFailsWithMessage<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
 
         list = listOf(
             Pair(1, -0.1f),
             Pair(2, 0.5f),
             Pair(6, 0.6f),
         )
-        assertFailsWith<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
+        expectedError = "Weights cannot be less than zero"
+        assertFailsWithMessage<IllegalArgumentException>(expectedError) { random.nextFromWeightedList(list) }
 
         // tests with int
         list = listOf(Pair(3, 1f))
