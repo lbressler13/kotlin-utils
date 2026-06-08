@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.number
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import java.math.BigInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -68,22 +69,8 @@ class BigIntegerExtTest {
 
     @Test
     fun testIsNullOrZero() {
-        var bi: BigInteger? = null
-        assertTrue { bi.isNullOrZero() }
-
-        bi = BigInteger.ZERO
-        assertTrue { bi.isNullOrZero() }
-
-        bi = BigInteger.ONE
-        assertFalse { bi.isNullOrZero() }
-
-        bi = BigInteger("-1")
-        assertFalse { bi.isNullOrZero() }
-
-        bi = BigInteger("100")
-        assertFalse { bi.isNullOrZero() }
-
-        bi = BigInteger("-100")
-        assertFalse { bi.isNullOrZero() }
+        val trueValues = listOf(null, BigInteger.ZERO)
+        val falseValues = listOf(BigInteger.ONE, BigInteger("-1"), BigInteger("100"), BigInteger("-100"))
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }, { it.isNullOrZero() })
     }
 }

@@ -1,10 +1,9 @@
 package xyz.lbres.kotlinutils.number
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
 class FloatExtTest {
@@ -34,67 +33,22 @@ class FloatExtTest {
 
     @Test
     fun testIsNegative() {
-        var float = 0f
-        assertFalse(float.isNegative())
-
-        float = -0f
-        assertFalse(float.isNegative())
-
-        float = 0.000000000001f
-        assertFalse(float.isNegative())
-
-        float = 100f
-        assertFalse(float.isNegative())
-
-        float = -0.000000000001f
-        assertTrue(float.isNegative())
-
-        float = -100f
-        assertTrue(float.isNegative())
+        val trueValues = listOf(-0.000000000001f, -100f)
+        val falseValues = listOf(0f, -0f, 0.000000000001f, 100f)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNegative()" }, Float::isNegative)
     }
 
     @Test
     fun testIsZero() {
-        var float = 0f
-        assertTrue(float.isZero())
-
-        float = -0f
-        assertTrue(float.isZero())
-
-        float = 0.000000000001f
-        assertFalse(float.isZero())
-
-        float = -0.000000000001f
-        assertFalse(float.isZero())
-
-        float = 100f
-        assertFalse(float.isZero())
-
-        float = -100f
-        assertFalse(float.isZero())
+        val trueValues = listOf(0f, -0f)
+        val falseValues = listOf(0.000000000001f, 100f, -0.000000000001f, -100f)
+        checkTrueFalse(trueValues, falseValues, { "$it.isZero()" }, Float::isZero)
     }
 
     @Test
     fun testIsNullOrZero() {
-        var float: Float? = null
-        assertTrue(float.isNullOrZero())
-
-        float = 0f
-        assertTrue(float.isNullOrZero())
-
-        float = -0f
-        assertTrue(float.isNullOrZero())
-
-        float = 0.000000000001f
-        assertFalse(float.isNullOrZero())
-
-        float = -0.000000000001f
-        assertFalse(float.isNullOrZero())
-
-        float = 100f
-        assertFalse(float.isNullOrZero())
-
-        float = -100f
-        assertFalse(float.isNullOrZero())
+        val trueValues = listOf(null, 0f, -0f)
+        val falseValues = listOf(0.000000000001f, 100f, -0.000000000001f, -100f)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }) { it.isNullOrZero() }
     }
 }

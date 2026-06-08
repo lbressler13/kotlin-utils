@@ -5,6 +5,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 typealias CompList = List<Comparable<*>>
@@ -89,6 +90,24 @@ fun runWithFailMessage(failureMessage: String, block: () -> Unit) {
     } catch (e: AssertionError) {
         printErr(failureMessage)
         throw e
+    }
+}
+
+// TODO use this in many more tests
+/**
+ * Check that lists of values pass or fail a given check, and print a message on failure
+ *
+ * @param trueValues: values for which the check is expected to succeed
+ * @param falseValues: value for which the check is  expected to fail
+ * @param description: method to describe the check being performed, should include the value being checked
+ * @param check: the check to perform
+ */
+fun <T> checkTrueFalse(trueValues: List<T>, falseValues: List<T>, description: (T) -> String, check: (T) -> Boolean) {
+    trueValues.forEach {
+        runWithFailMessage("${description(it)} is false") { assertTrue(check(it)) }
+    }
+    falseValues.forEach {
+        runWithFailMessage("${description(it)} is true") { assertFalse(check(it)) }
     }
 }
 

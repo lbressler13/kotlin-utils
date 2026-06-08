@@ -1,10 +1,9 @@
 package xyz.lbres.kotlinutils.number
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
 class DoubleExtTest {
@@ -34,67 +33,22 @@ class DoubleExtTest {
 
     @Test
     fun testIsNegative() {
-        var double = 0.0
-        assertFalse(double.isNegative())
-
-        double = -0.0
-        assertFalse(double.isNegative())
-
-        double = 0.000000000001
-        assertFalse(double.isNegative())
-
-        double = 100.0
-        assertFalse(double.isNegative())
-
-        double = -0.000000000001
-        assertTrue(double.isNegative())
-
-        double = -100.0
-        assertTrue(double.isNegative())
+        val trueValues = listOf(-0.000000000001, -100.0)
+        val falseValues = listOf(0.0, -0.0, 0.000000000001, 100.0)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNegative()" }, Double::isNegative)
     }
 
     @Test
     fun testIsZero() {
-        var double = 0.0
-        assertTrue(double.isZero())
-
-        double = -0.0
-        assertTrue(double.isZero())
-
-        double = 0.000000000001
-        assertFalse(double.isZero())
-
-        double = -0.000000000001
-        assertFalse(double.isZero())
-
-        double = 100.0
-        assertFalse(double.isZero())
-
-        double = -100.0
-        assertFalse(double.isZero())
+        val trueValues = listOf(0.0, -0.0)
+        val falseValues = listOf(-0.000000000001, -100.0, 0.000000000001, 100.0)
+        checkTrueFalse(trueValues, falseValues, { "$it.isZero()" }, Double::isZero)
     }
 
     @Test
     fun testIsNullOrZero() {
-        var double: Double? = null
-        assertTrue(double.isNullOrZero())
-
-        double = 0.0
-        assertTrue(double.isNullOrZero())
-
-        double = -0.0
-        assertTrue(double.isNullOrZero())
-
-        double = 0.000000000001
-        assertFalse(double.isNullOrZero())
-
-        double = -0.000000000001
-        assertFalse(double.isNullOrZero())
-
-        double = 100.0
-        assertFalse(double.isNullOrZero())
-
-        double = -100.0
-        assertFalse(double.isNullOrZero())
+        val trueValues = listOf(null, 0.0, -0.0)
+        val falseValues = listOf(-0.000000000001, -100.0, 0.000000000001, 100.0)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }, { it.isNullOrZero() })
     }
 }

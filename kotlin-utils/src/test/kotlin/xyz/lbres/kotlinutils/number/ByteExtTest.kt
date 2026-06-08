@@ -1,10 +1,9 @@
 package xyz.lbres.kotlinutils.number
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
 class ByteExtTest {
@@ -31,58 +30,22 @@ class ByteExtTest {
 
     @Test
     fun testIsNegative() {
-        var byte: Byte = 0
-        assertFalse(byte.isNegative())
-
-        byte = 1
-        assertFalse(byte.isNegative())
-
-        byte = 100
-        assertFalse(byte.isNegative())
-
-        byte = -1
-        assertTrue(byte.isNegative())
-
-        byte = -100
-        assertTrue(byte.isNegative())
+        val trueValues: List<Byte> = listOf(-1, -100)
+        val falseValues: List<Byte> = listOf(0, 1, 100)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNegative()" }, Byte::isNegative)
     }
 
     @Test
     fun testIsZero() {
-        var byte: Byte = 0
-        assertTrue(byte.isZero())
-
-        byte = 1
-        assertFalse(byte.isZero())
-
-        byte = -1
-        assertFalse(byte.isZero())
-
-        byte = 100
-        assertFalse(byte.isZero())
-
-        byte = -100
-        assertFalse(byte.isZero())
+        val trueValues: List<Byte> = listOf(0)
+        val falseValues: List<Byte> = listOf(1, -1, 100, -100)
+        checkTrueFalse(trueValues, falseValues, { "$it.isZero()" }, Byte::isZero)
     }
 
     @Test
     fun testIsNullOrZero() {
-        var byte: Byte? = null
-        assertTrue(byte.isNullOrZero())
-
-        byte = 0
-        assertTrue(byte.isNullOrZero())
-
-        byte = 1
-        assertFalse(byte.isNullOrZero())
-
-        byte = -1
-        assertFalse(byte.isNullOrZero())
-
-        byte = 100
-        assertFalse(byte.isNullOrZero())
-
-        byte = -100
-        assertFalse(byte.isNullOrZero())
+        val trueValues: List<Byte?> = listOf(null, 0)
+        val falseValues: List<Byte?> = listOf(1, -1, 100, -100)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }, { it.isNullOrZero() })
     }
 }

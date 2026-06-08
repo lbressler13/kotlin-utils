@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.number
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -67,22 +68,8 @@ class LongExtTest {
 
     @Test
     fun testIsNullOrZero() {
-        var long: Long? = null
-        assertTrue(long.isNullOrZero())
-
-        long = 0L
-        assertTrue(long.isNullOrZero())
-
-        long = 1
-        assertFalse(long.isNullOrZero())
-
-        long = -1
-        assertFalse(long.isNullOrZero())
-
-        long = 100
-        assertFalse(long.isNullOrZero())
-
-        long = -100
-        assertFalse(long.isNullOrZero())
+        val trueValues = listOf(null, 0L)
+        val falseValues = listOf(1L, -1L, 100L, -100L)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }) { it.isNullOrZero() }
     }
 }

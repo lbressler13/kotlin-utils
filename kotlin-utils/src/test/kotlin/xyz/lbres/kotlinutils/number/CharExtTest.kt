@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.number
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -39,16 +40,8 @@ class CharExtTest {
 
     @Test
     fun testIsNullOrZero() {
-        var char: Char? = null
-        assertTrue(char.isNullOrZero())
-
-        char = Char(0)
-        assertTrue(char.isNullOrZero())
-
-        char = Char(1)
-        assertFalse(char.isNullOrZero())
-
-        char = Char(100)
-        assertFalse(char.isNullOrZero())
+        val trueValues = listOf(null, Char(0))
+        val falseValues = listOf(Char(1), Char(100))
+        checkTrueFalse(trueValues, falseValues, { "$it.isNullOrZero()" }, { it.isNullOrZero() })
     }
 }
