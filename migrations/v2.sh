@@ -9,6 +9,16 @@ escape() {
   echo "$(sed -e 's/\./\\./g' <<< "$1")"
 }
 
+get_suffix() {
+  paths=$1
+  if [[ $paths == "true" ]]; then
+    echo "."
+  else
+    echo ""
+  fi
+
+}
+
 replacePaths() {
   oldPath="$basePackage.$1"
   newPath="$basePackage.$2"
@@ -16,7 +26,7 @@ replacePaths() {
   newPathE=$(escape $newPath)
   files=$(git grep -rl $oldPathE $rootPath)
   if [[ -z $files ]]; then
-    echo "No occurrences of '$oldPath' found skipping"
+    echo "No occurrences of '$oldPath' found, skipping"
   else
     echo "Replacing '$oldPath' with '$newPath'"
     echo $files | xargs sed -i "s/$oldPathE/$newPathE/"
@@ -28,16 +38,20 @@ replaceArray() {
   arr=("${!name}")
   arrayPrefix=$2
   replacement=$3
+  paths="${4:-true}"
+  suffix=$(get_suffix $paths)
   for p in "${arr[@]}"; do
-    replacePaths "$arrayPrefix$p." "$replacement"
+    replacePaths "$arrayPrefix$p$suffix" "$replacement$suffix"
   done
 }
 
 replaceMap() {
   name=$(declare -p "$1")
   declare -A map=${name#*=}
+  paths="${2:-true}"
+  suffix=$(get_suffix $paths)
   for key in "${!map[@]}"; do
-    replacePaths "$key." "${map[$key]}."
+    replacePaths "$key$suffix" "${map[$key]}$suffix"
   done
 }
 
@@ -49,7 +63,7 @@ deprecations["set.mutableset.popRandom"]="collections.popRandom"
 deprecations["list.mutablelist.popRandom"]="collections.popRandom"
 deprecations["general.ternaryIf"]="utils.simpleIf"
 
-replaceMap "deprecations"
+replaceMap "deprecations" false
 
 # ext
 extPattern="$(escape $basePackage).*\.ext"
@@ -74,18 +88,18 @@ for fn in "${bigdecimal[@]}"; do
 done
 
 numbers=("bigdecimal" "biginteger" "char" "int" "long")
-replaceArray "numbers" "" "number."
+replaceArray "numbers" "" "number"
 
 # closedranges
 closedranges=("charrange" "intrange" "longrange")
-replaceArray "closedranges" "closedrange." "closedrange."
+replaceArray "closedranges" "closedrange." "closedrange"
 
 # arrays
 arrays=("booleanarray" "chararray" "bytearray" "doublearray" "floatarray" "intarray" "longarray" "shortarray")
-replaceArray "arrays" "" "array."
+replaceArray "arrays" "" "array"
 
 booleanarray=("all" "none" "any")
-replaceArray "booleanarray" "array." "array.booleanarray."
+replaceArray "booleanarray" "array." "array.booleanarray"
 
 # collections
 declare -A collections
@@ -101,8 +115,12 @@ collections["set.multiset"]="collection.multiset"
 
 replaceMap "collections"
 
-# lists
 declare -A lists
-# TODO renamed ext functions
+lists["collection.list.copyWithReplacement"]="collection.list.withReplacement"
+lists["collection.list.copyWithLastReplaced"]="collection.list.withLastReplaced"
+lists["collection.list.copyWithFirstReplaced"]="collection.list.withFirstReplaced"
+lists["collection.list.copyWithoutLast"]="collection.list.withoutLast"
+
+replaceMap "lists" false
 
 # import xyz.lbres.kotlinutils.classes.labelled.Labelled
