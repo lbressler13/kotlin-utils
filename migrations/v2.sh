@@ -33,6 +33,14 @@ replaceArray() {
   done
 }
 
+replaceMap() {
+  name=$(declare -p "$1")
+  declare -A map=${name#*=}
+  for key in "${!map[@]}"; do
+    replacePaths "$key." "${map[$key]}."
+  done
+}
+
 # deprecated
 declare -A deprecations
 deprecations["classes.labelled.Labelled"]="utils.Labelled"
@@ -41,10 +49,7 @@ deprecations["set.mutableset.popRandom"]="collections.popRandom"
 deprecations["list.mutablelist.popRandom"]="collections.popRandom"
 deprecations["general.ternaryIf"]="utils.simpleIf"
 
-for key in "${!deprecations[@]}"; do
-  value=${deprecations[$key]}
-  replacePaths $key $value
-done
+replaceMap "deprecations"
 
 # ext
 extPattern="$(escape $basePackage).*\.ext"
@@ -73,20 +78,14 @@ replaceArray "numbers" "" "number."
 
 # closedranges
 closedranges=("charrange" "intrange" "longrange")
-for p in "${closedranges[@]}"; do
-  replacePaths "closedrange.$p." "closedrange."
-done
+replaceArray "closedranges" "closedrange." "closedrange."
 
 # arrays
 arrays=("booleanarray" "chararray" "bytearray" "doublearray" "floatarray" "intarray" "longarray" "shortarray")
-for p in "${arrays[@]}"; do
-  replacePaths "$p." "array."
-done
+replaceArray "arrays" "" "array."
 
 booleanarray=("all" "none" "any")
-for fn in "${booleanarray[@]}"; do
-  replacePaths "array.$fn" "array.booleanarray.$fn"
-done
+replaceArray "booleanarray" "array." "array.booleanarray."
 
 # collections
 declare -A collections
@@ -100,13 +99,10 @@ collections["map.mutablemap"]="collection.map"
 collections["set.multiset.const"]="collection.multiset" # must be before set.multiset
 collections["set.multiset"]="collection.multiset"
 
+replaceMap "collections"
+
 # lists
 declare -A lists
 # TODO renamed ext functions
-
-for key in "${!collections[@]}"; do
-  value=${collections[$key]}
-  replacePaths "$key." "$value."
-done
 
 # import xyz.lbres.kotlinutils.classes.labelled.Labelled
