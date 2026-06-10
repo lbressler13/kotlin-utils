@@ -101,6 +101,8 @@ booleanarray=("all" "none" "any")
 replaceArray "booleanarray" "array." "array.booleanarray"
 
 # collections
+replacePaths "set.multiset.const." "set.multiset."
+
 declare -A collections
 collections["collection.boolean"]="collection.bool"
 collections["collection.char"]="collection.number"
@@ -109,7 +111,6 @@ collections["collection.long"]="collection.number"
 collections["collection.mutable"]="collection"
 collections["list"]="collection.list"
 collections["map.mutablemap"]="collection.map"
-collections["set.multiset.const"]="collection.multiset" # must be before set.multiset
 collections["set.multiset"]="collection.multiset"
 
 replaceMap "collections"
@@ -121,5 +122,25 @@ lists["copyWithFirstReplaced"]="withFirstReplaced"
 lists["copyWithoutLast"]="withoutLast"
 
 for key in "${!lists[@]}"; do
-  replacePaths "collection.list.$key" "collection.list.${map[$key]}"
+  replacePaths "collection.list.$key" "collection.list.${lists[$key]}"
+done
+
+# invocations
+declare -A invocations
+invocations["ternaryIf"]="simpleIf"
+invocations["copyWithReplacement"]="withReplacementAt"
+invocations["copyWithLastReplaced"]="withLastReplaced"
+invocations["copyWithFirstReplaced"]="withFirstReplaced"
+invocations["copyWithoutLast"]="withoutLast"
+
+for key in "${!invocations[@]}"; do
+  value="${invocations[$key]}"
+  files=$(git grep -rl $key $rootPath)
+
+  if [[ -z $files ]]; then
+    echo "No occurrences of '$key' found, skipping"
+  else
+    echo "Replacing '$key' with '$value'"
+    echo $files | xargs sed -i "s/$key/$value/"
+  fi
 done
