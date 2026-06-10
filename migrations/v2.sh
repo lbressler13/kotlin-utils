@@ -1,19 +1,22 @@
 #!/bin/bash
 # TODO snake case?
-# TODO non git version
 
 rootPath="."
 basePackage="xyz.lbres.kotlinutils"
-useGit=true
+grepCmd="git grep"
 
 while test $# -gt 0; do
   case "$1" in
     --no-git)
-      useGit=false
+      grepCmd="grep"
       shift
       ;;
     --src-path*)
       rootPath=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift
+      ;;
+    --log-skipped*)
+      logSkipped=true
       shift
       ;;
     *)
@@ -40,9 +43,11 @@ replacePaths() {
   newPath="$basePackage.$2"
   oldPathE=$(escape $oldPath)
   newPathE=$(escape $newPath)
-  files=$(git grep -rl $oldPathE $rootPath)
+  files=$($grepCmd -rl $oldPathE $rootPath)
   if [[ -z $files ]]; then
-    echo "No occurrences of '$oldPath' found, skipping"
+    if [[ $logSkipped == "true" ]]; then
+      echo "No occurrences of '$oldPath' found, skipping"
+    fi
   else
     echo "Replacing '$oldPath' with '$newPath'"
     echo $files | xargs sed -i "s/$oldPathE/$newPathE/"
@@ -83,10 +88,12 @@ replaceMap "deprecations" false
 
 # ext
 extPattern="$(escape $basePackage).*\.ext"
-extFiles=$(git grep -rl $extPattern $rootPath)
+extFiles=$($grepCmd -rl $extPattern $rootPath)
 
 if [[ -z $extFiles ]]; then
-  echo "No occurrences of '.ext' paths, skipping"
+  if [[ $logSkipped == "true" ]]; then
+    echo "No occurrences of '.ext' paths, skipping"
+  fi
 else
   echo "Replacing '.ext' paths"
   for f in "${extFiles[@]}"; do
@@ -152,10 +159,12 @@ invocations["copyWithoutLast"]="withoutLast"
 
 for key in "${!invocations[@]}"; do
   value="${invocations[$key]}"
-  files=$(git grep -rl $key $rootPath)
+  files=$($grepCmd -rl $key $rootPath)
 
   if [[ -z $files ]]; then
-    echo "No occurrences of '$key' found, skipping"
+    if [[ $logSkipped == "true" ]]; then
+      echo "No occurrences of '$key' found, skipping"
+    fi
   else
     echo "Replacing '$key' with '$value'"
     echo $files | xargs sed -i "s/$key/$value/"
