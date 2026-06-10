@@ -23,6 +23,16 @@ replacePaths() {
   fi
 }
 
+replaceArray() {
+  name=$1[@]
+  arr=("${!name}")
+  arrayPrefix=$2
+  replacement=$3
+  for p in "${arr[@]}"; do
+    replacePaths "$arrayPrefix$p." "$replacement"
+  done
+}
+
 # deprecated
 declare -A deprecations
 deprecations["classes.labelled.Labelled"]="utils.Labelled"
@@ -59,9 +69,7 @@ for fn in "${bigdecimal[@]}"; do
 done
 
 numbers=("bigdecimal" "biginteger" "char" "int" "long")
-for p in "${numbers[@]}"; do
-  replacePaths "$p." "number."
-done
+replaceArray "numbers" "" "number."
 
 # closedranges
 closedranges=("charrange" "intrange" "longrange")
