@@ -1,5 +1,6 @@
+#!/bin/bash
 
-rootPath=kotlin-utils # TODO param
+rootPath="${1:-.}"
 
 previousName="xyz.lbres.kotlinutils.classes.labelled.Labelled"
 newName="xyz.lbres.kotlinutils.utils.Labelled"
