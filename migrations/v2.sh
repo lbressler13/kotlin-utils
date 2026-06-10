@@ -4,6 +4,7 @@
 
 rootPath="${1:-.}"
 basePackage="xyz.lbres.kotlinutils"
+basePackageE="$(sed -e 's/\./\\./g' <<< "$basePackage")"
 
 replacePaths() {
   oldPath="$basePackage.$1"
@@ -19,22 +20,6 @@ replacePaths() {
   fi
 }
 
-basePackageE="$(sed -e 's/\./\\./g' <<< "$basePackage")"
-pattern="$basePackageE.*\.ext"
-
-files=$(git grep -rl $pattern $rootPath)
-
-for f in "${files[@]}"; do
-  echo $f
-  sed -i "/$pattern/s/\.ext//g" $f
-#  lines=$(grep --no-filename $pattern $f)
-#  for line in $lines; do
-#    echo $line
-#  done
-done
-
-exit
-
 # deprecated
 declare -A deprecations
 deprecations["classes.labelled.Labelled"]="utils.Labelled"
@@ -49,7 +34,12 @@ for key in "${!deprecations[@]}"; do
 done
 
 # ext
+extPattern="$basePackageE.*\.ext"
+files=$(git grep -rl $extPattern $rootPath)
 
+for f in "${files[@]}"; do
+  sed -i "/$extPattern/s/\.ext//g" $f
+done
 
 # utils
 replacePaths "general." "utils."
