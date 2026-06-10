@@ -1,9 +1,24 @@
 #!/bin/bash
+# TODO snake case?
 
 rootPath="${1:-.}"
 
-previousName="xyz.lbres.kotlinutils.classes.labelled.Labelled"
+replacePaths() {
+  oldPath=$1
+  newPath=$2
+  oldPathE="$(sed -e 's/\./\\./g' <<< "$1")"
+  newPathE="$(sed -e 's/\./\\./g' <<< "$2")"
+  git grep -l $oldPathE $rootPath | xargs sed -i "s/$oldPathE/$newPathE/"
+}
+
+# ext
+
+# deprecated
+
+# others
+
+# bool array/collection come at end
+
+oldName="xyz.lbres.kotlinutils.classes.labelled.Labelled"
 newName="xyz.lbres.kotlinutils.utils.Labelled"
-previousNameE="$(sed -e 's/\./\\./g' <<< "$previousName")"
-newNameE="$(sed -e 's/\./\\./g' <<< "$newName")"
-git grep -l $previousNameE $rootPath | xargs sed -i "s/$previousNameE/$newNameE/"
+replacePaths $oldName $newName
