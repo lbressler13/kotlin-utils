@@ -21,11 +21,16 @@ replacePaths() {
 
 basePackageE="$(sed -e 's/\./\\./g' <<< "$basePackage")"
 pattern="$basePackageE.*\.ext"
+
 files=$(git grep -rl $pattern $rootPath)
 
 for f in "${files[@]}"; do
-  lines=$(grep --no-filename $pattern $f)
-  echo $lines
+  echo $f
+  sed -i "/$pattern/s/\.ext//g" $f
+#  lines=$(grep --no-filename $pattern $f)
+#  for line in $lines; do
+#    echo $line
+#  done
 done
 
 exit
