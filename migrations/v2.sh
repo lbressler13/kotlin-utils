@@ -1,5 +1,6 @@
 #!/bin/bash
 # TODO snake case?
+# TODO non git version
 
 rootPath="${1:-.}"
 basePackage="xyz.lbres.kotlinutils"
@@ -18,6 +19,11 @@ replacePaths() {
   fi
 }
 
+basePackageE="$(sed -e 's/\./\\./g' <<< "$basePackage")"
+git grep -rl "$basePackageE.*\.ext" $rootPath
+
+exit
+
 # deprecated
 declare -A deprecations
 deprecations["classes.labelled.Labelled"]="utils.Labelled"
@@ -32,7 +38,7 @@ for key in "${!deprecations[@]}"; do
 done
 
 # ext
-# TODO
+
 
 # utils
 replacePaths "general." "utils."
