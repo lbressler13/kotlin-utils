@@ -16,7 +16,6 @@ get_suffix() {
   else
     echo ""
   fi
-
 }
 
 replacePaths() {
@@ -116,11 +115,11 @@ collections["set.multiset"]="collection.multiset"
 replaceMap "collections"
 
 declare -A lists
-lists["collection.list.copyWithReplacement"]="collection.list.withReplacement"
-lists["collection.list.copyWithLastReplaced"]="collection.list.withLastReplaced"
-lists["collection.list.copyWithFirstReplaced"]="collection.list.withFirstReplaced"
-lists["collection.list.copyWithoutLast"]="collection.list.withoutLast"
+lists["copyWithReplacement"]="withReplacementAt"
+lists["copyWithLastReplaced"]="withLastReplaced"
+lists["copyWithFirstReplaced"]="withFirstReplaced"
+lists["copyWithoutLast"]="withoutLast"
 
-replaceMap "lists" false
-
-# import xyz.lbres.kotlinutils.classes.labelled.Labelled
+for key in "${!lists[@]}"; do
+  replacePaths "collection.list.$key" "collection.list.${map[$key]}"
+done
