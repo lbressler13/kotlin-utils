@@ -21,7 +21,7 @@ replacePaths() {
 # deprecated
 declare -A deprecations
 deprecations["classes.labelled.Labelled"]="utils.Labelled"
-deprecations["classes.multiset"]="collections.multiset"
+deprecations["classes.multiset."]="collections.multiset."
 deprecations["set.mutableset.popRandom"]="collections.popRandom"
 deprecations["list.mutablelist.popRandom"]="collections.popRandom"
 deprecations["general.ternaryIf"]="utils.simpleIf"
@@ -35,7 +35,7 @@ done
 # TODO
 
 # utils
-replacePaths "general" "utils"
+replacePaths "general." "utils."
 
 # numbers
 bigdecimal=("isWholeNumber" "roundToBigInteger")
@@ -43,22 +43,21 @@ for fn in "${bigdecimal[@]}"; do
   replacePaths "bigdecimal.$fn" "number.bigdecimal.$fn"
 done
 
-# TODO
-#numbers=("bigdecimal" "biginteger" "char" "int" "long")
-#for p in "${numbers[@]}"; do
-#  replacePaths $p "number"
-#done
+numbers=("bigdecimal" "biginteger" "char" "int" "long")
+for p in "${numbers[@]}"; do
+  replacePaths "$p." "number."
+done
 
 # closedranges
 closedranges=("charrange" "intrange" "longrange")
 for p in "${closedranges[@]}"; do
-  replacePaths "closedrange.$p" "closedrange"
+  replacePaths "closedrange.$p." "closedrange."
 done
 
 # arrays
 arrays=("booleanarray" "chararray" "bytearray" "doublearray" "floatarray" "intarray" "longarray" "shortarray")
 for p in "${arrays[@]}"; do
-  replacePaths $p "array"
+  replacePaths "$p." "array."
 done
 
 booleanarray=("all" "none" "any")
@@ -67,7 +66,7 @@ for fn in "${booleanarray[@]}"; do
 done
 
 # collections
-declare -A collection
+declare -A collections
 collections["collection.boolean"]="collection.bool"
 collections["collection.char"]="collection.number"
 collections["collection.int"]="collection.number"
@@ -78,10 +77,9 @@ collections["map.mutablemap"]="collection.map"
 collections["set.multiset.const"]="collection.multiset" # must be before set.multiset
 collections["set.multiset"]="collection.multiset"
 
-# TODO
-#for key in "${!collections[@]}"; do
-#  value=${collections[$key]}
-#  replacePaths $key $value
-#done
+for key in "${!collections[@]}"; do
+  value=${collections[$key]}
+  replacePaths "$key." "$value."
+done
 
 # import xyz.lbres.kotlinutils.classes.labelled.Labelled
