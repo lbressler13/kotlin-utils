@@ -2,8 +2,25 @@
 # TODO snake case?
 # TODO non git version
 
-rootPath="${1:-.}"
+rootPath="."
 basePackage="xyz.lbres.kotlinutils"
+useGit=true
+
+while test $# -gt 0; do
+  case "$1" in
+    --no-git)
+      useGit=false
+      shift
+      ;;
+    --src-path*)
+      rootPath=`echo $1 | sed -e 's/^[^=]*=//g'`
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
 
 escape() {
   echo "$(sed -e 's/\./\\./g' <<< "$1")"
