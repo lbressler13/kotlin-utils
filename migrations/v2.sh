@@ -7,8 +7,8 @@ basePackage="xyz.lbres.kotlinutils"
 replacePaths() {
   oldPath="$basePackage.$1"
   newPath="$basePackage.$2"
-  oldPathE="$(sed -e 's/\./\\./g' <<< "$1")"
-  newPathE="$(sed -e 's/\./\\./g' <<< "$2")"
+  oldPathE="$(sed -e 's/\./\\./g' <<< "$oldPath")"
+  newPathE="$(sed -e 's/\./\\./g' <<< "$newPath")"
   output=$(git grep -rl $oldPathE $rootPath)
   if [[ -z $output ]]; then
     echo "No occurrences of '$oldPath' found skipping"
@@ -43,10 +43,11 @@ for fn in "${bigdecimal[@]}"; do
   replacePaths "bigdecimal.$fn" "number.bigdecimal.$fn"
 done
 
-numbers=("bigdecimal" "biginteger" "char" "int" "long")
-for p in "${numbers[@]}"; do
-  replacePaths $p "number"
-done
+# TODO
+#numbers=("bigdecimal" "biginteger" "char" "int" "long")
+#for p in "${numbers[@]}"; do
+#  replacePaths $p "number"
+#done
 
 # closedranges
 closedranges=("charrange" "intrange" "longrange")
@@ -55,14 +56,14 @@ for p in "${closedranges[@]}"; do
 done
 
 # arrays
-booleanarray=("all" "none" "any")
-for fn in "${booleanarray[@]}"; do
-  replacePaths "array.booleanarray.$fn" "array.booleanarray.$fn"
-done
-
 arrays=("booleanarray" "chararray" "bytearray" "doublearray" "floatarray" "intarray" "longarray" "shortarray")
 for p in "${arrays[@]}"; do
   replacePaths $p "array"
+done
+
+booleanarray=("all" "none" "any")
+for fn in "${booleanarray[@]}"; do
+  replacePaths "array.$fn" "array.booleanarray.$fn"
 done
 
 # collections
@@ -77,9 +78,10 @@ collections["map.mutablemap"]="collection.map"
 collections["set.multiset.const"]="collection.multiset" # must be before set.multiset
 collections["set.multiset"]="collection.multiset"
 
-for key in "${!collections[@]}"; do
-  value=${collections[$key]}
-  replacePaths $key $value
-done
+# TODO
+#for key in "${!collections[@]}"; do
+#  value=${collections[$key]}
+#  replacePaths $key $value
+#done
 
 # import xyz.lbres.kotlinutils.classes.labelled.Labelled
