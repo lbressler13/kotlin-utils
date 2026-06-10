@@ -11,12 +11,12 @@ replacePaths() {
   newPath="$basePackage.$2"
   oldPathE="$(sed -e 's/\./\\./g' <<< "$oldPath")"
   newPathE="$(sed -e 's/\./\\./g' <<< "$newPath")"
-  output=$(git grep -rl $oldPathE $rootPath)
-  if [[ -z $output ]]; then
+  files=$(git grep -rl $oldPathE $rootPath)
+  if [[ -z $files ]]; then
     echo "No occurrences of '$oldPath' found skipping"
   else
     echo "Replacing '$oldPath' with '$newPath'"
-    echo $output | xargs sed -i "s/$oldPathE/$newPathE/"
+    echo $files | xargs sed -i "s/$oldPathE/$newPathE/"
   fi
 }
 
@@ -35,11 +35,16 @@ done
 
 # ext
 extPattern="$basePackageE.*\.ext"
-files=$(git grep -rl $extPattern $rootPath)
+extFiles=$(git grep -rl $extPattern $rootPath)
 
-for f in "${files[@]}"; do
-  sed -i "/$extPattern/s/\.ext//g" $f
-done
+if [[ -z $extFiles ]]; then
+  echo "No occurrences of '.ext' paths, skipping"
+else
+  echo "Replacing '.ext' paths"
+  for f in "${extFiles[@]}"; do
+    sed -i "/$extPattern/s/\.ext//g" $f
+  done
+fi
 
 # utils
 replacePaths "general." "utils."
