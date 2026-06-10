@@ -4,13 +4,16 @@
 
 rootPath="${1:-.}"
 basePackage="xyz.lbres.kotlinutils"
-basePackageE="$(sed -e 's/\./\\./g' <<< "$basePackage")"
+
+escape() {
+  echo "$(sed -e 's/\./\\./g' <<< "$1")"
+}
 
 replacePaths() {
   oldPath="$basePackage.$1"
   newPath="$basePackage.$2"
-  oldPathE="$(sed -e 's/\./\\./g' <<< "$oldPath")"
-  newPathE="$(sed -e 's/\./\\./g' <<< "$newPath")"
+  oldPathE=$(escape $oldPath)
+  newPathE=$(escape $newPath)
   files=$(git grep -rl $oldPathE $rootPath)
   if [[ -z $files ]]; then
     echo "No occurrences of '$oldPath' found skipping"
@@ -34,7 +37,7 @@ for key in "${!deprecations[@]}"; do
 done
 
 # ext
-extPattern="$basePackageE.*\.ext"
+extPattern="$(escape $basePackage).*\.ext"
 extFiles=$(git grep -rl $extPattern $rootPath)
 
 if [[ -z $extFiles ]]; then
