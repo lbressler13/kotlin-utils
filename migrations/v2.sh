@@ -20,7 +20,13 @@ replacePaths() {
 }
 
 basePackageE="$(sed -e 's/\./\\./g' <<< "$basePackage")"
-git grep -rl "$basePackageE.*\.ext" $rootPath
+pattern="$basePackageE.*\.ext"
+files=$(git grep -rl $pattern $rootPath)
+
+for f in "${files[@]}"; do
+  lines=$(grep --no-filename $pattern $f)
+  echo $lines
+done
 
 exit
 
@@ -82,6 +88,10 @@ collections["list"]="collection.list"
 collections["map.mutablemap"]="collection.map"
 collections["set.multiset.const"]="collection.multiset" # must be before set.multiset
 collections["set.multiset"]="collection.multiset"
+
+# lists
+declare -A lists
+# TODO renamed ext functions
 
 for key in "${!collections[@]}"; do
   value=${collections[$key]}

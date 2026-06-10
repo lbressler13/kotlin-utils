@@ -1,5 +1,8 @@
 package xyz.lbres.kotlinutils.array.booleanarray
 
+import xyz.lbres.kotlinutils.list.ext.withReplacementAt
+import xyz.lbres.kotlinutils.list.ext.withoutLast
+
 /**
  * Determine if all values in array are `true`
  *

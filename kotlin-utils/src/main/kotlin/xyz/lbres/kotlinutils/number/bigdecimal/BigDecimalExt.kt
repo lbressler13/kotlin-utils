@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.number.bigdecimal
 
+import xyz.lbres.kotlinutils.string.ext.substringTo
+
 import xyz.lbres.kotlinutils.utils.succeeds
 import java.math.BigDecimal
 import java.math.BigInteger
