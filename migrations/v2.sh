@@ -15,13 +15,18 @@ replacePaths() {
 # ext
 
 # deprecated
+declare -A deprecations
+deprecations["classes.labelled.Labelled"]="utils.Labelled"
+
+for key in "${!deprecations[@]}"; do
+  value=${deprecations[$key]}
+  replacePaths $key $value
+done
+
 
 # others
 
 # bool array/collection come at end
 
-oldName="classes.labelled.Labelled"
-newName="utils.Labelled"
-replacePaths $oldName $newName
 
 # import xyz.lbres.kotlinutils.classes.labelled.Labelled
