@@ -23,6 +23,10 @@ replacePaths() {
 # deprecated
 declare -A deprecations
 deprecations["classes.labelled.Labelled"]="utils.Labelled"
+deprecations["classes.multiset"]="collections.multiset"
+deprecations["set.mutableset.popRandom"]="collections.popRandom"
+deprecations["list.mutablelist.popRandom"]="collections.popRandom"
+deprecations["general.ternaryIf"]="utils.simpleIf"
 
 for key in "${!deprecations[@]}"; do
   value=${deprecations[$key]}
