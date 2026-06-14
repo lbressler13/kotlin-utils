@@ -4,6 +4,9 @@ rootPath="."
 basePackage="xyz.lbres.kotlinutils"
 grepCmd="git grep"
 
+# track modified files
+modified=()
+
 # colors for logging
 red="\u001b[31m"
 nc="\u001b[0m" # no color
@@ -98,6 +101,7 @@ replacePaths() {
   else
     echo "Replacing '$oldPath' with '$newPath'"
     echo $files | xargs sed -i "s/$oldPathE/$newPathE/"
+    modified+=" $files"
   fi
 }
 
@@ -156,6 +160,7 @@ replaceMap "deprecations" false
 # ext
 extPattern="$(escape $basePackage).*\.ext"
 extFiles=$($grepCmd -rl $extPattern $rootPath)
+modified+="$extFiles"
 
 if [[ -z $extFiles ]]; then
   if [[ $logSkipped == "true" ]]; then
@@ -228,4 +233,7 @@ for key in "${!invocations[@]}"; do
   replacePaths $key "${invocations[$key]}" false
 done
 
-echo "v1 to v2 migration complete!"
+# get unique files changed
+IFS=" " read -r -a modified <<< "$(tr ' ' '\n' <<< "${modified[@]}" | sort -u | tr '\n' ' ')"
+
+echo "v1 to v2 migration complete! ${#modified[@]} files modified"
