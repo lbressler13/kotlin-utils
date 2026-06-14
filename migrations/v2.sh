@@ -165,7 +165,7 @@ replaceMap "deprecations" false
 # ext
 extPattern="$(escape $basePackage).*\.ext"
 extFiles=$($grepCmd -rl $extPattern $rootPath)
-modified+="$extFiles"
+modified+=" $extFiles"
 
 if [[ -z $extFiles ]]; then
   if [[ $logSkipped == "true" ]]; then
@@ -238,7 +238,7 @@ for key in "${!invocations[@]}"; do
   replacePaths $key "${invocations[$key]}" false
 done
 
-# get unique files changed
+# get unique files modified
 IFS=" " read -r -a modified <<< "$(tr ' ' '\n' <<< "${modified[@]}" | sort -u | tr '\n' ' ')"
 
 echo "v1 to v2 migration complete! ${#modified[@]} files modified"
