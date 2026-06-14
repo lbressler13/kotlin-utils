@@ -1,5 +1,4 @@
 #!/bin/bash
-# TODO consistent casing
 
 rootPath="."
 basePackage="xyz.lbres.kotlinutils"
@@ -16,7 +15,7 @@ while test $# -gt 0; do
       rootPath=`echo $1 | sed -e 's/^[^=]*=//g'`
       shift
       ;;
-    --log-skipped*)
+    --log-skipped)
       logSkipped=true
       shift
       ;;
@@ -115,6 +114,8 @@ replaceMap() {
   done
 }
 
+echo "Starting v1 to v2 migration..."
+
 # deprecated
 declare -A deprecations
 deprecations["classes.labelled.Labelled"]="utils.Labelled"
@@ -199,3 +200,5 @@ invocations["copyWithoutLast"]="withoutLast"
 for key in "${!invocations[@]}"; do
   replacePaths $key "${invocations[$key]}" false
 done
+
+echo "v1 to v2 migration complete!"
