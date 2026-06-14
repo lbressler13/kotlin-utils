@@ -18,6 +18,7 @@ printHelpOptions() {
   tab="  "
   echo "Valid options:"
   echo "$tab--help|-h: print help text"
+  echo "$tab--src-path: root path for update, defaults to current directory"
   echo "$tab--no-git: run script in a non-git repo, using the grep command instead of git grep. This can cause damage in git repositories."
   echo "$tab--log-skipped: print the names of checks which are being skipped due to no matching files"
 }
