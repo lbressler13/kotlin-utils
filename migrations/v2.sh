@@ -24,9 +24,10 @@ printHelpOptions() {
   echo "$tab--src-path: root path for update, defaults to current directory"
   echo "$tab--no-git: run script in a non-git repo, using the grep command instead of git grep. This can cause damage in git repositories."
   echo "$tab--log-skipped: print the names of checks which are being skipped due to no matching files"
+  echo "$tab--log-modified: print the names of files changed after script runs"
 
   echo
-  echo "Sample usage: ./v2.sh --src-path=\"src\" --log-skipped"
+  echo "Sample usage: ./v2.sh --src-path=\"src\" --log-skipped --log-modified"
 }
 
 # read input flags
@@ -46,6 +47,10 @@ while test $# -gt 0; do
       ;;
     --log-skipped)
       logSkipped=true
+      shift
+      ;;
+    --log-modified)
+      logModified=true
       shift
       ;;
     *)
@@ -237,3 +242,11 @@ done
 IFS=" " read -r -a modified <<< "$(tr ' ' '\n' <<< "${modified[@]}" | sort -u | tr '\n' ' ')"
 
 echo "v1 to v2 migration complete! ${#modified[@]} files modified"
+
+if [[ $logModified ]]; then
+  echo
+  echo "Modified files:"
+  for f in "${modified[@]}"; do
+    echo "  $f"
+  done
+fi
