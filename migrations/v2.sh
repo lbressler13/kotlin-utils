@@ -1,10 +1,11 @@
 #!/bin/bash
-# TODO snake case?
+# TODO consistent casing
 
 rootPath="."
 basePackage="xyz.lbres.kotlinutils"
 grepCmd="git grep"
 
+# read input flags
 while test $# -gt 0; do
   case "$1" in
     --no-git)
@@ -25,12 +26,14 @@ while test $# -gt 0; do
   esac
 done
 
+# escape a string to use in grep/sed
 escape() {
   echo "$(sed -e 's/\./\\./g' <<< "$1")"
 }
 
+# get suffix for path
 get_suffix() {
-  paths=$1
+  local paths=$1
   if [[ $paths == "true" ]]; then
     echo "."
   else
@@ -38,12 +41,30 @@ get_suffix() {
   fi
 }
 
+######################################################################
+# Replace old package path with new one in all files
+# Globals:
+#   basePackage
+#   rootPath
+# Arguments:
+#   1 - old package path, starting after base package
+#   2 - new package path, starting after base package
+#   3 - if base package should be included in path, defaults to true
+# Outputs:
+#   Updates files
+######################################################################
 replacePaths() {
-  oldPath="$basePackage.$1"
-  newPath="$basePackage.$2"
-  oldPathE=$(escape $oldPath)
-  newPathE=$(escape $newPath)
-  files=$($grepCmd -rl $oldPathE $rootPath)
+  local useBasePackage="${3:-true}"
+  if [[ $useBasePackage == "true" ]]; then
+    local oldPath="$basePackage.$1"
+    local newPath="$basePackage.$2"
+  else
+    local oldPath=$1
+    local newPath=$2
+  fi
+  local oldPathE=$(escape $oldPath)
+  local newPathE=$(escape $newPath)
+  local files=$($grepCmd -rl $oldPathE $rootPath)
   if [[ -z $files ]]; then
     if [[ $logSkipped == "true" ]]; then
       echo "No occurrences of '$oldPath' found, skipping"
@@ -54,23 +75,41 @@ replacePaths() {
   fi
 }
 
+######################################################################
+# Replace all paths from an array with the same new path
+# Arguments:
+#   1 - name of array of old paths
+#   2 - common prefix to add to paths in the array
+#   3 - new path
+#   4 - if the values in the array are dir paths, defaults to true
+# Outputs:
+#   Updates files
+######################################################################
 replaceArray() {
-  name=$1[@]
-  arr=("${!name}")
-  arrayPrefix=$2
-  replacement=$3
-  paths="${4:-true}"
-  suffix=$(get_suffix $paths)
+  local name=$1[@]
+  local arr=("${!name}")
+  local arrayPrefix=$2
+  local replacement=$3
+  local dirs="${4:-true}"
+  local suffix=$(get_suffix $dirs)
   for p in "${arr[@]}"; do
     replacePaths "$arrayPrefix$p$suffix" "$replacement$suffix"
   done
 }
 
+######################################################################
+# Replace all old paths from a map with the corresponding new values
+# Arguments:
+#   1 - name of map mapping old paths to new paths
+#   2 - if the values in the array are dir paths, defaults to true
+# Outputs:
+#   Updates files
+######################################################################
 replaceMap() {
-  name=$(declare -p "$1")
+  local name=$(declare -p "$1")
   declare -A map=${name#*=}
-  paths="${2:-true}"
-  suffix=$(get_suffix $paths)
+  local dirs="${2:-true}"
+  local suffix=$(get_suffix $dirs)
   for key in "${!map[@]}"; do
     replacePaths "$key$suffix" "${map[$key]}$suffix"
   done
@@ -158,15 +197,5 @@ invocations["copyWithFirstReplaced"]="withFirstReplaced"
 invocations["copyWithoutLast"]="withoutLast"
 
 for key in "${!invocations[@]}"; do
-  value="${invocations[$key]}"
-  files=$($grepCmd -rl $key $rootPath)
-
-  if [[ -z $files ]]; then
-    if [[ $logSkipped == "true" ]]; then
-      echo "No occurrences of '$key' found, skipping"
-    fi
-  else
-    echo "Replacing '$key' with '$value'"
-    echo $files | xargs sed -i "s/$key/$value/"
-  fi
+  replacePaths $key "${invocations[$key]}" false
 done
