@@ -4,9 +4,31 @@ rootPath="."
 basePackage="xyz.lbres.kotlinutils"
 grepCmd="git grep"
 
+# colors for logging
+red="\u001b[31m"
+nc="\u001b[0m" # no color
+
+# print help text
+printHelpOptions() {
+  prefixText=$1
+  if [[ "$prefixText" != "" ]]; then
+    echo -e $prefixText
+    echo
+  fi
+  tab="  "
+  echo "Valid options:"
+  echo "$tab--help|-h: print help text"
+  echo "$tab--no-get: run script in a non-git repo, using the grep command instead of git grep. This can cause damage in git repositories."
+  echo "$tab--log-skipped: print the names of checks which are being skipped due to no matching files"
+}
+
 # read input flags
 while test $# -gt 0; do
   case "$1" in
+    --help|-h)
+      printHelpOptions "This script modifies the code in a repository to replace deprecated, moved, or renamed functions and classes that were changed between major versions 1 and 2."
+      exit 0
+      ;;
     --no-git)
       grepCmd="grep"
       shift
@@ -20,7 +42,8 @@ while test $# -gt 0; do
       shift
       ;;
     *)
-      break
+      printHelpOptions "${red}Invalid option: $1${nc}"
+      exit 1
       ;;
   esac
 done
@@ -31,7 +54,7 @@ escape() {
 }
 
 # get suffix for path
-get_suffix() {
+getSuffix() {
   local paths=$1
   if [[ $paths == "true" ]]; then
     echo "."
@@ -90,7 +113,7 @@ replaceArray() {
   local arrayPrefix=$2
   local replacement=$3
   local dirs="${4:-true}"
-  local suffix=$(get_suffix $dirs)
+  local suffix=$(getSuffix $dirs)
   for p in "${arr[@]}"; do
     replacePaths "$arrayPrefix$p$suffix" "$replacement$suffix"
   done
@@ -108,7 +131,7 @@ replaceMap() {
   local name=$(declare -p "$1")
   declare -A map=${name#*=}
   local dirs="${2:-true}"
-  local suffix=$(get_suffix $dirs)
+  local suffix=$(getSuffix $dirs)
   for key in "${!map[@]}"; do
     replacePaths "$key$suffix" "${map[$key]}$suffix"
   done
