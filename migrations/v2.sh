@@ -18,7 +18,7 @@ printHelpOptions() {
   tab="  "
   echo "Valid options:"
   echo "$tab--help|-h: print help text"
-  echo "$tab--no-get: run script in a non-git repo, using the grep command instead of git grep. This can cause damage in git repositories."
+  echo "$tab--no-git: run script in a non-git repo, using the grep command instead of git grep. This can cause damage in git repositories."
   echo "$tab--log-skipped: print the names of checks which are being skipped due to no matching files"
 }
 
@@ -55,8 +55,8 @@ escape() {
 
 # get suffix for path
 getSuffix() {
-  local paths=$1
-  if [[ $paths == "true" ]]; then
+  local dirs=$1
+  if [[ $dirs == "true" ]]; then
     echo "."
   else
     echo ""
