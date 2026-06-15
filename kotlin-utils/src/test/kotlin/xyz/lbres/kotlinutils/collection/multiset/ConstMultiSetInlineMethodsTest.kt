@@ -1,9 +1,9 @@
 package xyz.lbres.kotlinutils.collection.multiset
 
-import org.junit.Test
 import xyz.lbres.kotlinutils.collection.multiset.impl.ConstMultiSetImpl
 import xyz.lbres.kotlinutils.collection.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import kotlin.test.Test
 
 class ConstMultiSetInlineMethodsTest {
     @Test

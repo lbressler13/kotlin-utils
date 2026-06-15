@@ -71,11 +71,11 @@ fun runTestEquals(mutable: Boolean) {
     bothEquals(intList, stringList)
 
     // nullable
-    val nullable1 = MutableEither<Int?, String>(null)
-    val nullable2 = MutableEither<List<Int>, List<Boolean>?>(null)
+    var nullable1 = constructL<Int?, String>(null, mutable)
+    val nullable2 = constructR<List<Int>, List<Boolean>?>(null, mutable)
     bothEquals(nullable1, nullable2)
 
-    nullable1.left = 5
+    nullable1 = setLeft(nullable1, 5, mutable)
     bothNotEquals(nullable1, nullable2)
 
     // nested

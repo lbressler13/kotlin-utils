@@ -1,7 +1,7 @@
 package xyz.lbres.kotlinutils.array.booleanarray
 
-import org.junit.Test
 import xyz.lbres.kotlinutils.array.setAllValues
+import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

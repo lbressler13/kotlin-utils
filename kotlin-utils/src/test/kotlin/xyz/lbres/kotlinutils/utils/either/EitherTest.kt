@@ -21,14 +21,14 @@ class EitherTest {
         runTestEquals(mutable)
 
         // mutable
-        val either = Either<Int, List<Int>>(listOf(1, 2, 3))
+        val immutable = Either<Int, List<Int>>(listOf(1, 2, 3))
         val mutable = MutableEither<List<Int>, Int>(listOf(1, 2, 3))
-        assertTrue(either == mutable)
+        assertTrue(immutable == mutable)
         mutable.left = listOf(1)
-        assertFalse(either == mutable)
+        assertFalse(immutable == mutable)
     }
 
     @Test fun testEqualsValue() = runTestEqualsValue(mutable)
 
-    @Test fun testToString() = runTestToString(mutable = mutable)
+    @Test fun testToString() = runTestToString(mutable)
 }

@@ -19,11 +19,11 @@ class MutableEitherTest {
         runTestEquals(mutable)
 
         // immutable
-        val either = MutableEither<Int, List<Int>>(listOf(1, 2, 3))
+        val mutable = MutableEither<Int, List<Int>>(listOf(1, 2, 3))
         val immutable = Either<List<Int>, Int>(listOf(1, 2, 3))
-        assertTrue(either == immutable)
-        either.right = listOf(1, 2)
-        assertFalse(either == immutable)
+        assertTrue(mutable == immutable)
+        mutable.right = listOf(1, 2)
+        assertFalse(mutable == immutable)
     }
 
     @Test fun testEqualsValue() = runTestEqualsValue(mutable)
@@ -38,11 +38,11 @@ class MutableEitherTest {
         intString.left = 10
         checkLeft(intString, 10)
 
-        val stringInt = MutableEither<String?, Int>(123)
-        stringInt.left = "123"
-        checkLeft(stringInt, "123")
-        stringInt.left = null
-        checkLeft(stringInt, null)
+        val nullable = MutableEither<String?, Int>(123)
+        nullable.left = "123"
+        checkLeft(nullable, "123")
+        nullable.left = null
+        checkLeft(nullable, null)
     }
 
     @Test
@@ -55,11 +55,11 @@ class MutableEitherTest {
         stringInt.right = 10
         checkRight(stringInt, 10)
 
-        val intString = MutableEither<Int, String?>(123)
-        intString.right = "123"
-        checkRight(intString, "123")
-        intString.right = null
-        checkRight(intString, null)
+        val nullable = MutableEither<Int, String?>(123)
+        nullable.right = "123"
+        checkRight(nullable, "123")
+        nullable.right = null
+        checkRight(nullable, null)
     }
 
     @Test fun testToString() = runTestToString(mutable)
