@@ -4,44 +4,20 @@ import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import java.math.BigInteger
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class BigIntegerExtTest {
     @Test
     fun testIsNegative() {
-        var bi = BigInteger.ZERO
-        assertFalse { bi.isNegative() }
-
-        bi = BigInteger.ONE
-        assertFalse { bi.isNegative() }
-
-        bi = BigInteger("100")
-        assertFalse { bi.isNegative() }
-
-        bi = BigInteger("-1")
-        assertTrue { bi.isNegative() }
-
-        bi = BigInteger("-100")
-        assertTrue { bi.isNegative() }
+        val trueValues = listOf(BigInteger("-1"), BigInteger("-100"))
+        val falseValues = listOf(BigInteger.ZERO, BigInteger.ONE, BigInteger("100"))
+        checkTrueFalse(trueValues, falseValues, { "$it.isNegative()" }, BigInteger::isNegative)
     }
 
     @Test
     fun testIsZero() {
-        var bi = BigInteger.ZERO
-        assertTrue { bi.isZero() }
-
-        bi = BigInteger.ONE
-        assertFalse { bi.isZero() }
-
-        bi = BigInteger("-1")
-        assertFalse { bi.isZero() }
-
-        bi = BigInteger("100")
-        assertFalse { bi.isZero() }
-
-        bi = BigInteger("-100")
-        assertFalse { bi.isZero() }
+        val trueValues = listOf(BigInteger.ZERO)
+        val falseValues = listOf(BigInteger.ONE, BigInteger("-1"), BigInteger("100"), BigInteger("-100"))
+        checkTrueFalse(trueValues, falseValues, { "$it.isZero()" }, BigInteger::isZero)
     }
 
     @Test
