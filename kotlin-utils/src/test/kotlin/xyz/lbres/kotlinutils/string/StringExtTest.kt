@@ -1,10 +1,9 @@
 package xyz.lbres.kotlinutils.string
 
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class StringExtTest {
     @Test
@@ -56,30 +55,8 @@ class StringExtTest {
 
     @Test
     fun testIsInt() {
-        // int
-        var string = "0"
-        assertTrue { string.isInt() }
-
-        string = "1000000"
-        assertTrue { string.isInt() }
-
-        string = "-1000000"
-        assertTrue { string.isInt() }
-
-        string = Int.MAX_VALUE.toString()
-        assertTrue { string.isInt() }
-
-        // not int
-        string = ""
-        assertFalse { string.isInt() }
-
-        string = "abc"
-        assertFalse { string.isInt() }
-
-        string = "1.0"
-        assertFalse { string.isInt() }
-
-        string = Long.MAX_VALUE.toString()
-        assertFalse { string.isInt() }
+        val trueValues = listOf("0", "1000000", "-1000000", Int.MAX_VALUE.toString())
+        val falseValues = listOf("", "abc", "1.0", Long.MAX_VALUE.toString())
+        checkTrueFalse(trueValues, falseValues, { "$it.isInt()" }, String::isInt)
     }
 }
