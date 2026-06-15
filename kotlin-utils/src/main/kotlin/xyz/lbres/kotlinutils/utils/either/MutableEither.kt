@@ -44,7 +44,7 @@ class MutableEither<S, T> private constructor(left: S?, right: T?, isLeft: Boole
     constructor(value: S) : this(value, null, isLeft = true)
 
     // constructor to use for casting only
-    constructor(either: Either<S, T>) : this(either.left, either.right, either.isLeft)
+    internal constructor(either: Either<S, T>) : this(either.left, either.right, either.isLeft)
 
     /**
      * Cast to an instance of a non-mutable [Either] with the same value

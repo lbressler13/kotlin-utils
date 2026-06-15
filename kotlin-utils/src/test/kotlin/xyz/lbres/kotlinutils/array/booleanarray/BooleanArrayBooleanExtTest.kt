@@ -5,7 +5,7 @@ import xyz.lbres.kotlinutils.array.setAllValues
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class BooleanArrayExtTest {
+class BooleanArrayBooleanExtTest {
     @Test
     fun testAll() {
         // true
