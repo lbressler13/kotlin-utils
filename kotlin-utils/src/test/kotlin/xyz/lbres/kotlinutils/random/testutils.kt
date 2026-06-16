@@ -3,8 +3,8 @@ package xyz.lbres.kotlinutils.random
 import xyz.lbres.kotlinutils.collection.list.WeightedList
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 /**
  * Perform a random action repeatedly and collect the results, and check that the distribution of results matches the given weights for the items.
@@ -41,7 +41,7 @@ fun <T> runTestWithWeights(weightedItems: WeightedList<T>, randomAction: () -> T
                 val minMatch = (minFloat * iterations).toInt()
                 val maxMatch = (maxFloat * iterations).toInt()
 
-                assertTrue(result.second in (minMatch..maxMatch))
+                assertContains(minMatch..maxMatch, result.second)
             }
         }
     }
