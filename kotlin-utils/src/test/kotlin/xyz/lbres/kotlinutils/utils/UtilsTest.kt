@@ -5,7 +5,6 @@ import xyz.lbres.kotlinutils.collection.popRandom
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.number.isNegative
 import xyz.lbres.kotlinutils.number.isZero
-import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.math.sqrt
 import kotlin.reflect.KClass
 import kotlin.test.Test
@@ -153,18 +152,15 @@ class UtilsTest {
         val divFn: (Int) -> Int = { 1 / it }
 
         // succeeds
-        val trueValues: List<Pair<() -> Any, String>> = listOf(
-            { divFn(2) } to "divFn(2)",
-            { listOf(1, 2, 3)[2] } to "listOf(1, 2, 3)[2]",
-            { setOf("hello", "world").randomOrNull()!! } to "setOf(hello, world).randomOrNull!!",
-        )
-        val falseValues: List<Pair<() -> Any, String>> = listOf(
-            { divFn(0) } to "divFn(0)",
-            { listOf(1, 2, 3)[4] } to "listOf(1, 2, 3)[4]",
-            { emptySet<String>().randomOrNull()!! } to "emptySet<String>().toRandomOrNull!!",
-            { throw NullPointerException() } to "throw NullPointerException()",
-        )
-        checkTrueFalse(trueValues, falseValues, { "'${it.second}'" }) { succeeds { it.first.invoke() } }
+        assertTrue { succeeds { divFn(2) } }
+        assertTrue { succeeds { listOf(1, 2, 3)[2] } }
+        assertTrue { succeeds { setOf("hello", "world").randomOrNull()!! } }
+
+        // fails
+        assertFalse { succeeds { divFn(0) } }
+        assertFalse { succeeds { listOf(1, 2, 3)[4] } }
+        assertFalse { succeeds { emptySet<String>().randomOrNull()!! } }
+        assertFalse { succeeds { throw NullPointerException() } }
 
         // changing
         val mutableSet = mutableSetOf(1, 2)
