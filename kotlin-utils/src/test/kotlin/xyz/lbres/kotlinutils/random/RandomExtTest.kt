@@ -2,7 +2,6 @@ package xyz.lbres.kotlinutils.random
 
 import xyz.lbres.kotlinutils.collection.list.WeightedList
 import xyz.lbres.kotlinutils.testutils.assertFailsWithMessage
-import xyz.lbres.kotlinutils.testutils.runTestWithWeights
 import kotlin.random.Random
 import kotlin.test.Test
 

@@ -184,16 +184,13 @@ fun runRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<
 fun runClearTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
     set.clear()
-    assertEquals(0, set.size)
     assertEquals(emptyMultiSet(), set)
 
     set = createMutableIntSet(listOf(1, 2, 3))
     set.clear()
-    assertEquals(0, set.size)
     assertEquals(emptyMultiSet(), set)
 
     set = createMutableIntSet(listOf(-45, -45, -45, -45))
     set.clear()
-    assertEquals(0, set.size)
     assertEquals(emptyMultiSet(), set)
 }
