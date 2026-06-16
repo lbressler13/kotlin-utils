@@ -26,17 +26,9 @@ class ClosedRangeExtTest {
         Char(1) until Char(3),
         Char.MIN_VALUE..Char.MAX_VALUE,
     )
-    private val longSingleValues = listOf(
-        0L..0L,
-        1000000L..1000000L,
-        -1000000L..-1000000L,
-        1L until 2L,
-    )
-    private val longMultipleValues = listOf(
-        0L..1L,
-        1L until 3L,
-        Long.MIN_VALUE..Long.MAX_VALUE,
-    )
+    private val longSingleValues = intSingleValues.map { it.first.toLong()..it.last.toLong() }
+    private val longMultipleValues = intMultipleValues
+        .map { it.first.toLong()..it.last.toLong() } + listOf(Long.MIN_VALUE..Long.MAX_VALUE)
 
     @Test
     fun testIsSingleValue() {
