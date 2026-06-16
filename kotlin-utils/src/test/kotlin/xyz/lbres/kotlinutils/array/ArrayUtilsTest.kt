@@ -30,7 +30,7 @@ class ArrayUtilsTest {
     }
 
     @Test
-    fun testArrayOfNull() {
+    fun testArrayOfNulls() {
         var expectedInt: Array<Int?> = emptyArray()
         assertContentEquals(expectedInt, arrayOfNulls(0))
 
