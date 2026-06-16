@@ -93,7 +93,6 @@ fun runWithFailMessage(failureMessage: String, block: () -> Unit) {
     }
 }
 
-// TODO use this in many more tests
 /**
  * Check that lists of values pass or fail a given check, and print a message on failure
  *

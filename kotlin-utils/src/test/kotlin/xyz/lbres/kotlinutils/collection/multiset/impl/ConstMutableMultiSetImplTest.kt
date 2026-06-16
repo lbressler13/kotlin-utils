@@ -5,6 +5,7 @@ import xyz.lbres.kotlinutils.collection.multiset.ConstMutableMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.testutils.CompList
+import xyz.lbres.kotlinutils.testutils.runWithFailMessage
 import kotlin.test.Test
 
 class ConstMutableMultiSetImplTest {
@@ -17,10 +18,18 @@ class ConstMutableMultiSetImplTest {
             testConstructed(set, map)
         }
 
-        multiSetConstructorIntTestValues.forEach { runTest<Int>(it) }
-        multiSetConstructorExceptionTestValues.forEach { runTest<Exception>(it) }
-        multiSetConstructorIntListTestValues.forEach { runTest<IntList>(it) }
-        multiSetConstructorCompListTestValues.forEach { runTest<CompList>(it) }
+        multiSetConstructorIntTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runTest<Int>(it) }
+        }
+        multiSetConstructorExceptionTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runTest<Exception>(it) }
+        }
+        multiSetConstructorIntListTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runTest<IntList>(it) }
+        }
+        multiSetConstructorCompListTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runTest<CompList>(it) }
+        }
     }
 
     @Test fun testEquals() = runMutableEqualsTests(::ConstMutableMultiSetImpl, ::MultiSetImpl)
