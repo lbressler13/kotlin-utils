@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.collection.list
 
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -149,31 +150,19 @@ class ListExtTest {
 
     @Test
     fun testIsSingleValue() {
-        // single value
-        var intList = listOf(5)
-        assertTrue(intList.isSingleValue())
-
-        intList = listOf(-1000)
-        assertTrue(intList.isSingleValue())
-
-        var stringList = listOf("")
-        assertTrue(stringList.isSingleValue())
-
-        stringList = listOf("1 1 1 1 1 1")
-        assertTrue(stringList.isSingleValue())
-
-        // not single value
-        intList = emptyList()
-        assertFalse(intList.isSingleValue())
-
-        intList = listOf(1, 1)
-        assertFalse(intList.isSingleValue())
-
-        intList = listOf(9, 44, 512, 5, -11110004, 124, 59, 0, 111, 2424)
-        assertFalse(intList.isSingleValue())
-
-        stringList = listOf("123", "456", "789")
-        assertFalse(stringList.isSingleValue())
+        val trueValues = listOf(
+            listOf(5),
+            listOf(-1000),
+            listOf(""),
+            listOf("1 1 1 1 1 1"),
+        )
+        val falseValues = listOf(
+            emptyList<Int>(),
+            listOf(1, 1),
+            listOf(9, 44, 512, 5, -11110004, 124, 59, 0, 111, 2424),
+            listOf("123", "456", "789"),
+        )
+        checkTrueFalse(trueValues, falseValues, { "$it.isSingleValue()" }) { it.isSingleValue() }
     }
 
     @Test

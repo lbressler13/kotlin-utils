@@ -3,8 +3,6 @@ package xyz.lbres.kotlinutils.number
 import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import java.math.BigDecimal
 import kotlin.test.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class BigDecimalExtTest {
     private val zero = BigDecimal("0.0000000000000000000000000000")
@@ -13,52 +11,16 @@ class BigDecimalExtTest {
 
     @Test
     fun testIsZero() {
-        // zero
-        var bd = BigDecimal.ZERO
-        assertTrue(bd.isZero())
-
-        bd = zero
-        assertTrue(bd.isZero())
-
-        // non zero
-        bd = smallPositive
-        assertFalse(bd.isZero())
-
-        bd = smallNegative
-        assertFalse(bd.isZero())
-
-        bd = BigDecimal.ONE
-        assertFalse(bd.isZero())
-
-        bd = BigDecimal("-1000")
-        assertFalse(bd.isZero())
+        val trueValues = listOf(BigDecimal.ZERO, zero)
+        val falseValues = listOf(smallPositive, smallNegative, BigDecimal.ONE, BigDecimal("-1000"))
+        checkTrueFalse(trueValues, falseValues, { "$it.isZero()" }, BigDecimal::isZero)
     }
 
     @Test
     fun testIsNegative() {
-        // zero
-        var bd = BigDecimal.ZERO
-        assertFalse(bd.isNegative())
-
-        // negative
-        bd = BigDecimal("-1")
-        assertTrue(bd.isNegative())
-
-        bd = smallNegative
-        assertTrue(bd.isNegative())
-
-        bd = BigDecimal("-1231.4252435")
-        assertTrue(bd.isNegative())
-
-        // positive
-        bd = BigDecimal("1")
-        assertFalse(bd.isNegative())
-
-        bd = smallPositive
-        assertFalse(bd.isNegative())
-
-        bd = BigDecimal("1231.4252435")
-        assertFalse(bd.isNegative())
+        val trueValues = listOf(smallNegative, BigDecimal("-1000"))
+        val falseValues = listOf(BigDecimal.ZERO, zero, smallPositive, BigDecimal.ONE)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNegative()" }, BigDecimal::isNegative)
     }
 
     @Test

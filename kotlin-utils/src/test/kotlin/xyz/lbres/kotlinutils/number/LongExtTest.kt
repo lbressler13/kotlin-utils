@@ -4,8 +4,6 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
 class LongExtTest {
@@ -32,38 +30,16 @@ class LongExtTest {
 
     @Test
     fun testIsNegative() {
-        var long = 0L
-        assertFalse(long.isNegative())
-
-        long = 1L
-        assertFalse(long.isNegative())
-
-        long = 100
-        assertFalse(long.isNegative())
-
-        long = -1
-        assertTrue(long.isNegative())
-
-        long = -100
-        assertTrue(long.isNegative())
+        val trueValues = listOf(-1L, -100L)
+        val falseValues = listOf(0L, 1L, 100L)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNegative()" }, Long::isNegative)
     }
 
     @Test
     fun testIsZero() {
-        var long = 0L
-        assertTrue(long.isZero())
-
-        long = 1
-        assertFalse(long.isZero())
-
-        long = -1
-        assertFalse(long.isZero())
-
-        long = 100
-        assertFalse(long.isZero())
-
-        long = -100
-        assertFalse(long.isZero())
+        val trueValues = listOf(0L)
+        val falseValues = listOf(1L, -1L, 100L, -100L)
+        checkTrueFalse(trueValues, falseValues, { "$it.isZero()" }, Long::isZero)
     }
 
     @Test

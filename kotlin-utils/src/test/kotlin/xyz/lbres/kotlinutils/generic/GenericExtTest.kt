@@ -1,11 +1,10 @@
 package xyz.lbres.kotlinutils.generic
 
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
 class GenericExtTest {
@@ -64,56 +63,26 @@ class GenericExtTest {
 
     @Test
     fun testIsNull() {
-        var string: String? = null
-        assertTrue(string.isNull())
+        val stringFalseValues: List<String?> = listOf("", "null", "abc 123")
+        checkTrueFalse(listOf(null), stringFalseValues, { "$it.isNull()" }) { it.isNull() }
 
-        string = ""
-        assertFalse(string.isNull())
+        val intFalseValues = listOf(-100, 0)
+        checkTrueFalse(listOf(null), intFalseValues, { "$it.isNull()" }) { it.isNull() }
 
-        string = "null"
-        assertFalse(string.isNull())
-
-        string = "abc 123"
-        assertFalse(string.isNull())
-
-        var int: Int? = null
-        assertTrue(int.isNull())
-
-        int = -100
-        assertFalse(int.isNull())
-
-        var list: List<Int?>? = null
-        assertTrue(list.isNull())
-
-        list = listOf(null, null)
-        assertFalse(list.isNull())
+        val nullList: List<Int?> = listOf(null, null)
+        checkTrueFalse(listOf(null), listOf(nullList), { "$it.isNull()" }) { it.isNull() }
     }
 
     @Test
     fun testIsNotNull() {
-        var string: String? = null
-        assertFalse(string.isNotNull())
+        val stringTrueValues: List<String?> = listOf("", "null", "abc 123")
+        checkTrueFalse(stringTrueValues, listOf(null), { "$it.isNotNull()" }) { it.isNotNull() }
 
-        string = ""
-        assertTrue(string.isNotNull())
+        val intTrueValues = listOf(-100, 0)
+        checkTrueFalse(intTrueValues, listOf(null), { "$it.isNotNull()" }) { it.isNotNull() }
 
-        string = "null"
-        assertTrue(string.isNotNull())
-
-        string = "abc 123"
-        assertTrue(string.isNotNull())
-
-        var int: Int? = null
-        assertFalse(int.isNotNull())
-
-        int = -100
-        assertTrue(int.isNotNull())
-
-        var list: List<Int?>? = null
-        assertFalse(list.isNotNull())
-
-        list = listOf(null, null)
-        assertTrue(list.isNotNull())
+        val nullList: List<Int?> = listOf(null, null)
+        checkTrueFalse(listOf(nullList), listOf(null), { "$it.isNotNull()" }) { it.isNotNull() }
     }
 
     @Test

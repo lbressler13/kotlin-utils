@@ -3,6 +3,7 @@ package xyz.lbres.kotlinutils.collection.multiset.testutils
 import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.collection.multiset.MultiSet
 import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -11,28 +12,15 @@ fun runIsEmptyTests(createSet: (Collection<*>) -> MultiSet<*>) {
     val createIntSet = getCreateSet<Int>(createSet)
     val createStringSet = getCreateSet<String>(createSet)
 
-    // empty
-    var intSet: MultiSet<Int> = createIntSet(emptyList())
-    assertTrue(intSet.isEmpty())
-
-    var stringSet: MultiSet<String> = createStringSet(emptyList())
-    assertTrue(stringSet.isEmpty())
-
-    // not empty
-    intSet = createIntSet(listOf(0))
-    assertFalse(intSet.isEmpty())
-
-    intSet = createIntSet(listOf(1000, -1000, 4, 2, 4))
-    assertFalse(intSet.isEmpty())
-
-    intSet = createIntSet(listOf(3, 3, 3))
-    assertFalse(intSet.isEmpty())
-
-    stringSet = createStringSet(listOf("123", "abc"))
-    assertFalse(stringSet.isEmpty())
-
-    stringSet = createStringSet(listOf("hello world", "hello world"))
-    assertFalse(stringSet.isEmpty())
+    val trueValues = listOf(createIntSet(emptyList()), createStringSet(emptyList()))
+    val falseValues = listOf(
+        createIntSet(listOf(0)),
+        createIntSet(listOf(1000, -1000, 4, 2, 4)),
+        createIntSet(listOf(3, 3, 3)),
+        createStringSet(listOf("123", "abc")),
+        createStringSet(listOf("hello world", "hello world")),
+    )
+    checkTrueFalse(trueValues, falseValues, { "$it.isEmpty()" }) { it.isEmpty() }
 }
 
 fun runGetCountOfTests(createSet: (Collection<*>) -> MultiSet<*>) {

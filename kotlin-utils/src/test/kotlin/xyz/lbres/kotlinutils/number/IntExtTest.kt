@@ -4,8 +4,6 @@ import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
 class IntExtTest {
@@ -32,38 +30,16 @@ class IntExtTest {
 
     @Test
     fun testIsNegative() {
-        var int = 0
-        assertFalse(int.isNegative())
-
-        int = 1
-        assertFalse(int.isNegative())
-
-        int = 100
-        assertFalse(int.isNegative())
-
-        int = -1
-        assertTrue(int.isNegative())
-
-        int = -100
-        assertTrue(int.isNegative())
+        val trueValues = listOf(-1, -100)
+        val falseValues = listOf(0, 1, 100)
+        checkTrueFalse(trueValues, falseValues, { "$it.isNegative()" }, Int::isNegative)
     }
 
     @Test
     fun testIsZero() {
-        var int = 0
-        assertTrue(int.isZero())
-
-        int = 1
-        assertFalse(int.isZero())
-
-        int = -1
-        assertFalse(int.isZero())
-
-        int = 100
-        assertFalse(int.isZero())
-
-        int = -100
-        assertFalse(int.isZero())
+        val trueValues = listOf(0)
+        val falseValues = listOf(1, -1, 100, -100)
+        checkTrueFalse(trueValues, falseValues, { "$it.isZero()" }, Int::isZero)
     }
 
     @Test
