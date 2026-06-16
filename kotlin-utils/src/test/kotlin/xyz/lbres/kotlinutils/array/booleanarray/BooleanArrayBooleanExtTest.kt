@@ -1,45 +1,28 @@
 package xyz.lbres.kotlinutils.array.booleanarray
 
 import xyz.lbres.kotlinutils.array.setAllValues
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class BooleanArrayBooleanExtTest {
+    private val empty = listOf(booleanArrayOf())
+    private val trueValues = listOf(booleanArrayOf(true), booleanArrayOf(true, true, true, true))
+    private val falseValues = listOf(booleanArrayOf(false), booleanArrayOf(false, false, false, false))
+    private val mixedValues = listOf(
+        booleanArrayOf(true, false),
+        booleanArrayOf(false, true),
+        booleanArrayOf(true, true, true, false, true),
+        booleanArrayOf(true, false, true, false, true, false, false),
+    )
+
     @Test
     fun testAll() {
-        // true
-        var array = booleanArrayOf()
-        assertTrue(array.all())
-
-        array = booleanArrayOf(true)
-        assertTrue(array.all())
-
-        array = booleanArrayOf(true, true, true, true)
-        assertTrue(array.all())
-
-        // false
-        array = booleanArrayOf(false)
-        assertFalse(array.all())
-
-        array = booleanArrayOf(false, false, false, false)
-        assertFalse(array.all())
-
-        // mixed
-        array = booleanArrayOf(true, false)
-        assertFalse(array.all())
-
-        array = booleanArrayOf(false, true)
-        assertFalse(array.all())
-
-        array = booleanArrayOf(true, true, true, false, true)
-        assertFalse(array.all())
-
-        array = booleanArrayOf(true, false, true, false, true, false, false)
-        assertFalse(array.all())
+        checkTrueFalse(empty + trueValues, falseValues + mixedValues, { "$it.all()" }, BooleanArray::all)
 
         // changing
-        array = booleanArrayOf(true)
+        var array = booleanArrayOf(true)
         assertTrue(array.all())
 
         array[0] = false
@@ -57,38 +40,10 @@ class BooleanArrayBooleanExtTest {
 
     @Test
     fun testNone() {
-        // true
-        var array = booleanArrayOf()
-        assertTrue(array.none())
-
-        array = booleanArrayOf(false)
-        assertTrue(array.none())
-
-        array = booleanArrayOf(false, false, false, false)
-        assertTrue(array.none())
-
-        // false
-        array = booleanArrayOf(true)
-        assertFalse(array.none())
-
-        array = booleanArrayOf(true, true, true, true)
-        assertFalse(array.none())
-
-        // mixed
-        array = booleanArrayOf(true, false)
-        assertFalse(array.none())
-
-        array = booleanArrayOf(false, true)
-        assertFalse(array.none())
-
-        array = booleanArrayOf(true, true, true, false, true)
-        assertFalse(array.none())
-
-        array = booleanArrayOf(true, false, true, false, true, false, false)
-        assertFalse(array.none())
+        checkTrueFalse(empty + falseValues, trueValues + mixedValues, { "$it.none()" }, BooleanArray::none)
 
         // changing
-        array = booleanArrayOf(true)
+        var array = booleanArrayOf(true)
         assertFalse(array.none())
 
         array[0] = false
@@ -106,39 +61,10 @@ class BooleanArrayBooleanExtTest {
 
     @Test
     fun testAny() {
-        // empty
-        var array = booleanArrayOf()
-        assertFalse(array.any())
-
-        // true
-        array = booleanArrayOf(true)
-        assertTrue(array.any())
-
-        array = booleanArrayOf(true, true, true, true)
-        assertTrue(array.any())
-
-        // false
-        array = booleanArrayOf(false)
-        assertFalse(array.any())
-
-        array = booleanArrayOf(false, false, false, false)
-        assertFalse(array.any())
-
-        // mixed
-        array = booleanArrayOf(true, false)
-        assertTrue(array.any())
-
-        array = booleanArrayOf(false, true)
-        assertTrue(array.any())
-
-        array = booleanArrayOf(true, true, true, false, true)
-        assertTrue(array.any())
-
-        array = booleanArrayOf(true, false, true, false, true, false, false)
-        assertTrue(array.any())
+        checkTrueFalse(trueValues + mixedValues, empty + falseValues, { "$it.any()" }, BooleanArray::any)
 
         // changing
-        array = booleanArrayOf(true)
+        var array = booleanArrayOf(true)
         assertTrue(array.any())
 
         array[0] = false

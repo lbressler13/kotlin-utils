@@ -1,10 +1,8 @@
 package xyz.lbres.kotlinutils.collection.multiset.utils.countsmap
 
-import xyz.lbres.kotlinutils.collection.list.StringList
 import xyz.lbres.kotlinutils.collection.multiset.utils.CountsMap
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 fun runGetCountOfTests() {
     var intCounts: CountsMap<Int> = CountsMap.from(emptyList())
@@ -27,29 +25,14 @@ fun runGetCountOfTests() {
 }
 
 fun runIsEmptyTests() {
-    // empty
-    var intCounts: CountsMap<Int> = CountsMap.from(emptyList())
-    assertTrue(intCounts.isEmpty())
-
-    var stringCounts: CountsMap<String> = CountsMap.from(emptyList())
-    assertTrue(stringCounts.isEmpty())
-
-    // not empty
-    intCounts = CountsMap.from(listOf(0))
-    assertFalse(intCounts.isEmpty())
-
-    intCounts = CountsMap.from(listOf(1000, -1000, 4, 2, 4))
-    assertFalse(intCounts.isEmpty())
-
-    intCounts = CountsMap.from(listOf(3, 3, 3))
-    assertFalse(intCounts.isEmpty())
-
-    stringCounts = CountsMap.from(listOf("123", "abc"))
-    assertFalse(stringCounts.isEmpty())
-
-    stringCounts = CountsMap.from(listOf("hello world", "hello world"))
-    assertFalse(stringCounts.isEmpty())
-
-    val listCounts: CountsMap<StringList> = CountsMap.from(listOf(emptyList()))
-    assertFalse(listCounts.isEmpty())
+    val trueValues = listOf(emptyList<Int>(), emptyList<String>())
+    val falseValues = listOf(
+        listOf(0),
+        listOf(1000, -1000, 4, 2, 4),
+        listOf(3, 3, 3),
+        listOf("123", "abc"),
+        listOf("hello world", "hello world"),
+        listOf(emptyList<String>())
+    )
+    checkTrueFalse(trueValues, falseValues, { "${CountsMap.from(it)}.isEmpty()" }) { CountsMap.from(it).isEmpty() }
 }

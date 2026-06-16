@@ -15,12 +15,11 @@ import xyz.lbres.kotlinutils.collection.multiset.mutableMultiSetOf
 import xyz.lbres.kotlinutils.internal.constants.Suppressions
 import xyz.lbres.kotlinutils.number.isZero
 import xyz.lbres.kotlinutils.testutils.assertEmpty
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 @Suppress(Suppressions.CONSTANT_CONDITIONS)
 class CollectionExtTest {
@@ -176,20 +175,9 @@ class CollectionExtTest {
 
     @Test
     fun testIsNotNullOrEmpty() {
-        var collection: Collection<Int?>? = null
-        assertFalse(collection.isNotNullOrEmpty())
-
-        collection = emptySet()
-        assertFalse(collection.isNotNullOrEmpty())
-
-        collection = listOf(1)
-        assertTrue(collection.isNotNullOrEmpty())
-
-        collection = listOf(null)
-        assertTrue(collection.isNotNullOrEmpty())
-
-        collection = listOf(1, 2, 3)
-        assertTrue(collection.isNotNullOrEmpty())
+        val trueValues: List<Collection<Int?>?> = listOf(listOf(1), listOf(null), listOf(1, 2, 3))
+        val falseValues: List<Collection<Int?>?> = listOf(null, emptySet())
+        checkTrueFalse(trueValues, falseValues, { "$it.isNotNullOrEmpty()" }) { it.isNotNullOrEmpty() }
     }
 
     @Test

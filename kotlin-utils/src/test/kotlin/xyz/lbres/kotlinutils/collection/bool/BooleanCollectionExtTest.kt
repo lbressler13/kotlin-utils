@@ -1,49 +1,24 @@
 package xyz.lbres.kotlinutils.collection.bool
 
-import xyz.lbres.kotlinutils.collection.list.BoolList
 import xyz.lbres.kotlinutils.collection.multiset.multiSetOf
+import xyz.lbres.kotlinutils.testutils.checkTrueFalse
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class BooleanCollectionExtTest {
+    private val empty: List<Collection<Boolean>> = listOf(emptyList())
+    private val trueValues = listOf(listOf(true), listOf(true, true, true), multiSetOf(true, true))
+    private val falseValues = listOf(listOf(false), listOf(false, false, false), multiSetOf(false, false))
+    private val mixedValues = listOf(
+        setOf(true, false),
+        multiSetOf(false, true, true, false, true),
+        listOf(true, false, true, false, true, false, false),
+    )
+
     @Test
     fun testAll() {
-        // true
-        var list: BoolList = emptyList()
-        assertTrue(list.all())
-
-        list = listOf(true)
-        assertTrue(list.all())
-
-        list = listOf(true, true, true)
-        assertTrue(list.all())
-
-        var multiSet = multiSetOf(true, true)
-        assertTrue(multiSet.all())
-
-        // false
-        list = listOf(false)
-        assertFalse(list.all())
-
-        list = listOf(false, false, false)
-        assertFalse(list.all())
-
-        multiSet = multiSetOf(false, false)
-        assertFalse(multiSet.all())
-
-        // mix
-        val set = setOf(true, false)
-        assertFalse(set.all())
-
-        multiSet = multiSetOf(false, false)
-        assertFalse(multiSet.all())
-
-        multiSet = multiSetOf(false, true, true, false, true)
-        assertFalse(multiSet.all())
-
-        list = listOf(true, false, true, false, true, false, false)
-        assertFalse(list.all())
+        checkTrueFalse(empty + trueValues, falseValues + mixedValues, { "$it.all()" }) { it.all() }
 
         // mutable
         val mutableList = mutableListOf(true)
@@ -62,41 +37,7 @@ class BooleanCollectionExtTest {
 
     @Test
     fun testNone() {
-        // true
-        var list: BoolList = emptyList()
-        assertTrue(list.none())
-
-        list = listOf(false)
-        assertTrue(list.none())
-
-        list = listOf(false, false, false)
-        assertTrue(list.none())
-
-        var multiSet = multiSetOf(false, false)
-        assertTrue(multiSet.none())
-
-        // false
-        list = listOf(true)
-        assertFalse(list.none())
-
-        list = listOf(true, true, true)
-        assertFalse(list.none())
-
-        multiSet = multiSetOf(true, true)
-        assertFalse(multiSet.none())
-
-        // mix
-        val set = setOf(true, false)
-        assertFalse(set.none())
-
-        multiSet = multiSetOf(false, false)
-        assertTrue(multiSet.none())
-
-        multiSet = multiSetOf(false, true, true, false, true)
-        assertFalse(multiSet.none())
-
-        list = listOf(true, false, true, false, true, false, false)
-        assertFalse(list.none())
+        checkTrueFalse(empty + falseValues, trueValues + mixedValues, { "$it.none()" }) { it.none() }
 
         // mutable
         val mutableList = mutableListOf(true)
@@ -115,42 +56,7 @@ class BooleanCollectionExtTest {
 
     @Test
     fun testAny() {
-        // empty
-        var list: BoolList = emptyList()
-        assertFalse(list.any())
-
-        // true
-        list = listOf(true)
-        assertTrue(list.any())
-
-        list = listOf(true, true, true)
-        assertTrue(list.any())
-
-        var multiSet = multiSetOf(true, true)
-        assertTrue(multiSet.any())
-
-        // false
-        list = listOf(false)
-        assertFalse(list.any())
-
-        list = listOf(false, false, false)
-        assertFalse(list.any())
-
-        multiSet = multiSetOf(false, false)
-        assertFalse(multiSet.any())
-
-        // mix
-        val set = setOf(true, false)
-        assertTrue(set.any())
-
-        multiSet = multiSetOf(false, false)
-        assertFalse(multiSet.any())
-
-        multiSet = multiSetOf(false, true, true, false, true)
-        assertTrue(multiSet.any())
-
-        list = listOf(true, false, true, false, true, false, false)
-        assertTrue(list.any())
+        checkTrueFalse(trueValues + mixedValues, empty + falseValues, { "$it.any()" }) { it.any() }
 
         // mutable
         val mutableList = mutableListOf(true)

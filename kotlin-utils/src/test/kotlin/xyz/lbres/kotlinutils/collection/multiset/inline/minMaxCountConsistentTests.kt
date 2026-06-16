@@ -6,7 +6,6 @@ import xyz.lbres.kotlinutils.number.isZero
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 fun runMinByConsistentTests() {
     val intSet = multiSetOf(-1, 0, -10, 3, 1, 2, 3, 4, 4, 4)
@@ -20,7 +19,7 @@ fun runMinByConsistentTests() {
     assertEquals(expectedInt, actualInt)
 
     actualInt = intSet.minByOrNullConsistent { intSet.getCountOf(it) }
-    assertTrue { actualInt in setOf(-10, -1, 0, 1, 2) }
+    assertContains(setOf(-10, -1, 0, 1, 2), actualInt)
 
     var expectedString = "hi"
     var actualString = stringSet.minByOrNullConsistent { it.length }
@@ -90,7 +89,7 @@ fun runMaxByConsistentTests() {
     assertEquals(expectedInt, actualInt)
 
     actualInt = intSet.maxByOrNullConsistent { intSet.getCountOf(it) }
-    assertTrue { actualInt in setOf(3, 4) }
+    assertContains(setOf(3, 4), actualInt)
 
     var expectedString = "welcome"
     var actualString = stringSet.maxByOrNullConsistent { it.length }
