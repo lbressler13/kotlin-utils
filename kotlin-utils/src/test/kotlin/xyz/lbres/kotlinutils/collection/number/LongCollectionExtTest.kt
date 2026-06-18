@@ -4,10 +4,9 @@ import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-typealias LongColl = Collection<Long>
 class LongCollectionExtTest {
     @Test
-    fun testFilterNotZero() = testFilterNotZeroGeneric<Long, LongColl>({ it }) { it.filterNotZero() }
+    fun testFilterNotZero() = testFilterNotZeroGeneric<Long, Collection<Long>>({ it }) { it.filterNotZero() }
 
     @Test
     fun testSum() {

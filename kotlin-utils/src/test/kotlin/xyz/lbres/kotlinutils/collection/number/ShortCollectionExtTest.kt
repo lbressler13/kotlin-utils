@@ -4,11 +4,9 @@ import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-typealias ShortColl = Collection<Short>
-
 class ShortCollectionExtTest {
     @Test
-    fun testFilterNotZero() = testFilterNotZeroGeneric<Short, ShortColl>({ it }) { it.filterNotZero() }
+    fun testFilterNotZero() = testFilterNotZeroGeneric<Short, Collection<Short>>({ it }) { it.filterNotZero() }
 
     @Test
     fun testSum() {

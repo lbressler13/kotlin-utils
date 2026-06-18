@@ -9,11 +9,7 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class CharArrayExtTest {
-    private val zero = Char(0)
-    private val one = Char(1)
-    private val four = Char(4)
-    private val five = Char(5)
-    private val fromList: (List<Char>) -> CharArray = { it.toCharArray() }
+    private val fromList = { it: List<Char> -> it.toCharArray() }
 
     @Test
     fun testSetAllValues() {

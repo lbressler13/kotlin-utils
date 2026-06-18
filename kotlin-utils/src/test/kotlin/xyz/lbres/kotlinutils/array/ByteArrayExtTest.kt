@@ -1,8 +1,8 @@
 package xyz.lbres.kotlinutils.array
 
 import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
-import xyz.lbres.kotlinutils.testutils.number.testProductByte
-import xyz.lbres.kotlinutils.testutils.number.testSumByte
+import xyz.lbres.kotlinutils.testutils.number.testProductGeneric
+import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.test.Test
@@ -10,6 +10,8 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class ByteArrayExtTest {
+    private val fromList = { it: List<Byte> -> it.toByteArray() }
+
     @Test
     fun testSetAllValues() {
         // empty array
@@ -136,8 +138,7 @@ class ByteArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toByteArray() }, ByteArray::filterNotZero)
-
-    @Test fun testSum() = testSumByte({ it.toByteArray() }, ByteArray::sum)
-    @Test fun testProduct() = testProductByte({ it.toByteArray() }, ByteArray::product)
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(fromList, ByteArray::filterNotZero)
+    @Test fun testSum() = testSumGeneric(fromList, ByteArray::sum)
+    @Test fun testProduct() = testProductGeneric(fromList, ByteArray::product)
 }
