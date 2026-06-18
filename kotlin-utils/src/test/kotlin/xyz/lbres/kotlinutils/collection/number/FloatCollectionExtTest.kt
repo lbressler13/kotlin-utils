@@ -3,7 +3,6 @@ package xyz.lbres.kotlinutils.collection.number
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-// TODO duplicate to double after decimals are added
 class FloatCollectionExtTest {
     @Test
     fun testFilterNotZero() {
