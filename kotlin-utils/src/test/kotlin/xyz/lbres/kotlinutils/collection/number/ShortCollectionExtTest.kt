@@ -1,31 +1,14 @@
 package xyz.lbres.kotlinutils.collection.number
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+typealias ShortColl = Collection<Short>
+
 class ShortCollectionExtTest {
     @Test
-    fun testFilterNotZero() {
-        var list: List<Short> = emptyList()
-        var expected: List<Short> = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(0, 0, 0)
-        expected = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1, 2, 0, 4, 0, 0, 5)
-        expected = listOf(1, 2, 4, 5)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(-1, 1, 0)
-        expected = listOf(-1, 1)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1, 4, 1000, 19, 5)
-        expected = listOf(1, 4, 1000, 19, 5)
-        assertEquals(expected, list.filterNotZero())
-    }
+    fun testFilterNotZero() = testFilterNotZeroGeneric<Short, ShortColl>({ it }) { it.filterNotZero() }
 
     @Test
     fun testSum() {

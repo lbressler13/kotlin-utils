@@ -1,31 +1,11 @@
 package xyz.lbres.kotlinutils.collection.number
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DoubleCollectionExtTest {
-    @Test
-    fun testFilterNotZero() {
-        var list: List<Double> = emptyList()
-        var expected: List<Double> = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(0.0, -0.0, 0.0)
-        expected = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1.0, 0.2, 0.0, 4.0, 0.0, 0.0, 5.63)
-        expected = listOf(1.0, 0.2, 4.0, 5.63)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(-1.0, 1.0, 0.0, -0.0)
-        expected = listOf(-1.0, 1.0)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1.0, 4.0, 1000.0, 19.0, 5.0)
-        expected = listOf(1.0, 4.0, 1000.0, 19.0, 5.0)
-        assertEquals(expected, list.filterNotZero())
-    }
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric<Double, Collection<Double>>({ it }) { it.filterNotZero() }
 
     @Test
     fun testSum() {

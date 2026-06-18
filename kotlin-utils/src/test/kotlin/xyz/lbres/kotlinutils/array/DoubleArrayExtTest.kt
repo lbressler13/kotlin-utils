@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
@@ -132,28 +133,7 @@ class DoubleArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test
-    fun testFilterNotZero() {
-        var array = doubleArrayOf()
-        var expected: List<Double> = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = doubleArrayOf(0.0, -0.0, 0.0)
-        expected = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = doubleArrayOf(1.0, 0.2, 0.0, 4.0, 0.0, 0.0, 5.63)
-        expected = listOf(1.0, 0.2, 4.0, 5.63)
-        assertEquals(expected, array.filterNotZero())
-
-        array = doubleArrayOf(-1.0, 1.0, 0.0, -0.0)
-        expected = listOf(-1.0, 1.0)
-        assertEquals(expected, array.filterNotZero())
-
-        array = doubleArrayOf(1.0, 4.0, 1000.0, 19.0, 5.0)
-        expected = listOf(1.0, 4.0, 1000.0, 19.0, 5.0)
-        assertEquals(expected, array.filterNotZero())
-    }
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toDoubleArray() }, DoubleArray::filterNotZero)
 
     @Test
     fun testSum() {

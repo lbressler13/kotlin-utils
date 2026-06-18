@@ -1,7 +1,10 @@
 package xyz.lbres.kotlinutils.collection.number
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import kotlin.test.Test
 import kotlin.test.assertEquals
+
+typealias CharColl = Collection<Char>
 
 class CharCollectionExtTest {
     private val zero = Char(0)
@@ -10,23 +13,7 @@ class CharCollectionExtTest {
     private val five = Char(5)
 
     @Test
-    fun testFilterNotZero() {
-        var list: List<Char> = emptyList()
-        var expected: List<Char> = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(zero, zero, zero)
-        expected = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(one, Char(2), zero, four, zero, zero, five)
-        expected = listOf(one, Char(2), four, five)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(one, four, Char(1000), Char(19), five)
-        expected = listOf(one, four, Char(1000), Char(19), five)
-        assertEquals(expected, list.filterNotZero())
-    }
+    fun testFilterNotZero() = testFilterNotZeroGeneric<Char, CharColl>({ it }) { it.filterNotZero() }
 
     @Test
     fun testSum() {

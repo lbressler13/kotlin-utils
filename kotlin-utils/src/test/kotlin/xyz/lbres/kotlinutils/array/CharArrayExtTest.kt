@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -134,23 +135,7 @@ class CharArrayExtTest {
     }
 
     @Test
-    fun testFilterNotZero() {
-        var array = charArrayOf()
-        var expected: List<Char> = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = charArrayOf(zero, zero, zero)
-        expected = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = charArrayOf(one, Char(2), zero, four, zero, zero, five)
-        expected = listOf(one, Char(2), four, five)
-        assertEquals(expected, array.filterNotZero())
-
-        array = charArrayOf(one, four, Char(1000), Char(19), five)
-        expected = listOf(one, four, Char(1000), Char(19), five)
-        assertEquals(expected, array.filterNotZero())
-    }
+    fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toCharArray() }, CharArray::filterNotZero)
 
     @Test
     fun testSum() {

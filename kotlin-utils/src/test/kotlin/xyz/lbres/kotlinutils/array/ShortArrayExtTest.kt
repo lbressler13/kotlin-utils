@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.test.Test
@@ -135,27 +136,7 @@ class ShortArrayExtTest {
     }
 
     @Test
-    fun testFilterNotZero() {
-        var array = shortArrayOf()
-        var expected: List<Short> = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = shortArrayOf(0, 0, 0)
-        expected = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = shortArrayOf(1, 2, 0, 4, 0, 0, 5)
-        expected = listOf(1, 2, 4, 5)
-        assertEquals(expected, array.filterNotZero())
-
-        array = shortArrayOf(-1, 1, 0)
-        expected = listOf(-1, 1)
-        assertEquals(expected, array.filterNotZero())
-
-        array = shortArrayOf(1, 4, 1000, 19, 5)
-        expected = listOf(1, 4, 1000, 19, 5)
-        assertEquals(expected, array.filterNotZero())
-    }
+    fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toShortArray() }, ShortArray::filterNotZero)
 
     @Test
     fun testSum() {

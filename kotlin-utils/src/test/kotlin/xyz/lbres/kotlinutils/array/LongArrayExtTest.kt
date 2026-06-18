@@ -1,5 +1,6 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.test.Test
@@ -132,27 +133,7 @@ class LongArrayExtTest {
     }
 
     @Test
-    fun testFilterNotZero() {
-        var array = longArrayOf()
-        var expected: List<Long> = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = longArrayOf(0, 0, 0)
-        expected = emptyList()
-        assertEquals(expected, array.filterNotZero())
-
-        array = longArrayOf(1, 2, 0, 4, 0, 0, 5)
-        expected = listOf(1, 2, 4, 5)
-        assertEquals(expected, array.filterNotZero())
-
-        array = longArrayOf(-1, 1, 0)
-        expected = listOf(-1, 1)
-        assertEquals(expected, array.filterNotZero())
-
-        array = longArrayOf(1, 4, 1000, 19, 5)
-        expected = listOf(1, 4, 1000, 19, 5)
-        assertEquals(expected, array.filterNotZero())
-    }
+    fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toLongArray() }, LongArray::filterNotZero)
 
     @Test
     fun testSum() {
