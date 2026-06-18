@@ -1,6 +1,8 @@
 package xyz.lbres.kotlinutils.array
 
 import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
+import xyz.lbres.kotlinutils.testutils.number.testProductGeneric
+import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -11,6 +13,7 @@ class CharArrayExtTest {
     private val one = Char(1)
     private val four = Char(4)
     private val five = Char(5)
+    private val fromList: (List<Char>) -> CharArray = { it.toCharArray() }
 
     @Test
     fun testSetAllValues() {
@@ -134,44 +137,7 @@ class CharArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test
-    fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toCharArray() }, CharArray::filterNotZero)
-
-    @Test
-    fun testSum() {
-        var array = charArrayOf()
-        var expected = zero
-        assertEquals(expected, array.sum())
-
-        array = charArrayOf(Char(33))
-        expected = Char(33)
-        assertEquals(expected, array.sum())
-
-        array = charArrayOf(Char(100), Char(45), Char(10), Char(67), Char(99))
-        expected = Char(321)
-        assertEquals(expected, array.sum())
-    }
-
-    @Test
-    fun testProduct() {
-        var array = charArrayOf()
-        var expected = zero
-        assertEquals(expected, array.product())
-
-        array = charArrayOf(zero)
-        expected = zero
-        assertEquals(expected, array.product())
-
-        array = charArrayOf(one)
-        expected = one
-        assertEquals(expected, array.product())
-
-        array = charArrayOf(four, four, zero)
-        expected = zero
-        assertEquals(expected, array.product())
-
-        array = charArrayOf(Char(15), Char(23), Char(4), Char(4))
-        expected = Char(5520)
-        assertEquals(expected, array.product())
-    }
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(fromList, CharArray::filterNotZero)
+    @Test fun testSum() = testSumGeneric(fromList, CharArray::sum)
+    @Test fun testProduct() = testProductGeneric(fromList, CharArray::product)
 }

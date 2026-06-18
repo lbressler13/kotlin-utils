@@ -16,43 +16,43 @@ inline fun <reified S, T> testFilterNotZeroGeneric(createValues: (List<S>) -> T,
 
 @Suppress(Suppressions.UNCHECKED_CAST)
 inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
-    val byteNotZeroValues: List<Pair<List<Byte>, List<Byte>>> = listOf(
+    val byteValues: List<Pair<List<Byte>, List<Byte>>> = listOf(
         listOf(0, 0, 0).map(Int::toByte) to emptyList(),
         listOf(1, 2, 0, 4, 0, 0, 5).map(Int::toByte) to listOf(1, 2, 4, 5),
         listOf(-1, 1, 0).map(Int::toByte) to listOf(-1, 1),
         listOf(1, 4, 100, 19, 5).map(Int::toByte) to listOf(1, 4, 100, 19, 5)
     )
-    val charNotZeroValues: List<Pair<List<Char>, List<Char>>> = listOf(
+    val charValues: List<Pair<List<Char>, List<Char>>> = listOf(
         listOf(0, 0, 0).map(Int::toChar) to emptyList(),
         listOf(1, 2, 0, 4, 0, 0, 5).map(Int::toChar) to listOf(1, 2, 4, 5).map(Int::toChar),
         listOf(-1, 1, 0).map(Int::toChar) to listOf(-1, 1).map(Int::toChar),
         listOf(1, 4, 1000, 19, 5).map(Int::toChar) to listOf(1, 4, 1000, 19, 5).map(Int::toChar),
     )
-    val doubleNotZeroValues: List<Pair<List<Double>, List<Double>>> = listOf(
+    val doubleValues: List<Pair<List<Double>, List<Double>>> = listOf(
         listOf(0.0, -0.0, 0.0) to emptyList(),
         listOf(1.0, 0.2, 0.0, 4.0, 0.0, 0.0, 5.63) to listOf(1.0, 0.2, 4.0, 5.63),
         listOf(-1.0, 1.0, 0.0, -0.0) to listOf(-1.0, 1.0),
         listOf(1.0, 4.0, 1000.0, 19.0, 5.0) to listOf(1.0, 4.0, 1000.0, 19.0, 5.0),
     )
-    val floatNotZeroValues: List<Pair<List<Float>, List<Float>>> = listOf(
+    val floatValues: List<Pair<List<Float>, List<Float>>> = listOf(
         listOf(0f, -0f, 0f) to emptyList(),
         listOf(1f, 0.2f, 0f, 4f, 0f, 0f, 5.63f) to listOf(1f, 0.2f, 4f, 5.63f),
         listOf(-1f, 1f, 0f, -0f) to listOf(-1f, 1f),
         listOf(1f, 4f, 1000f, 19f, 5f) to listOf(1f, 4f, 1000f, 19f, 5f),
     )
-    val intNotZeroValues: List<Pair<List<Int>, List<Int>>> = listOf(
+    val intValues: List<Pair<List<Int>, List<Int>>> = listOf(
         listOf(0, 0, 0) to emptyList(),
         listOf(1, 2, 0, 4, 0, 0, 5) to listOf(1, 2, 4, 5),
         listOf(-1, 1, 0) to listOf(-1, 1),
         listOf(1, 4, 1000, 19, 5) to listOf(1, 4, 1000, 19, 5),
     )
-    val longNotZeroValues: List<Pair<List<Long>, List<Long>>> = listOf(
+    val longValues: List<Pair<List<Long>, List<Long>>> = listOf(
         listOf(0L, 0L, 0L) to emptyList(),
         listOf(1L, 2L, 0L, 4L, 0L, 0L, 5L) to listOf(1, 2, 4, 5),
         listOf(-1L, 1L, 0L) to listOf(-1, 1),
         listOf(1L, 4L, 1000L, 19L, 5L) to listOf(1, 4, 1000, 19, 5),
     )
-    val shortNotZeroValues: List<Pair<List<Short>, List<Short>>> = listOf(
+    val shortValues: List<Pair<List<Short>, List<Short>>> = listOf(
         listOf(0, 0, 0).map(Int::toShort) to emptyList(),
         listOf(1, 2, 0, 4, 0, 0, 5).map(Int::toShort) to listOf(1, 2, 4, 5),
         listOf(-1, 1, 0).map(Int::toShort) to listOf(-1, 1),
@@ -61,13 +61,13 @@ inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
 
     val empty: List<Pair<List<S>, List<S>>> = listOf(emptyList<S>() to emptyList())
     return empty + when (S::class) {
-        Byte::class -> byteNotZeroValues
-        Char::class -> charNotZeroValues
-        Double::class -> doubleNotZeroValues
-        Float::class -> floatNotZeroValues
-        Int::class -> intNotZeroValues
-        Long::class -> longNotZeroValues
-        Short::class -> shortNotZeroValues
+        Byte::class -> byteValues
+        Char::class -> charValues
+        Double::class -> doubleValues
+        Float::class -> floatValues
+        Int::class -> intValues
+        Long::class -> longValues
+        Short::class -> shortValues
         else -> emptyList()
     } as List<Pair<List<S>, List<S>>>
 }
