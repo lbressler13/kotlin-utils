@@ -5,9 +5,9 @@ import xyz.lbres.kotlinutils.number.isZero
 /**
  * Filter a byte collection to contain only elements that do not equal zero.
  *
- * @return [Collection]<Byte>: collection containing the same values as this collection, except any elements with value 0.
+ * @return [List]<Byte>: list containing the same values as this collection, except any elements with value 0.
  */
-fun Collection<Byte>.filterNotZero(): Collection<Byte> = filterNot { it.isZero() }
+fun Collection<Byte>.filterNotZero(): List<Byte> = filterNot { it.isZero() }
 
 /**
  * Add all values in collection.
