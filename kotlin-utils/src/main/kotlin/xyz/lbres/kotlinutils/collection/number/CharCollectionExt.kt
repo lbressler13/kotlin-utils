@@ -2,6 +2,8 @@ package xyz.lbres.kotlinutils.collection.number
 
 import xyz.lbres.kotlinutils.number.isZero
 
+// TODO extend to Byte etc
+
 /**
  * Filter a char collection to contain only elements that do not equal zero.
  *

@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.number.isZero
+
 /**
  * Assign all indices to have the same value
  *
@@ -34,4 +36,31 @@ fun CharArray.mapInPlace(transform: (Char) -> Char) {
  */
 fun CharArray.mapInPlaceIndexed(transform: (Int, Char) -> Char) {
     forEachIndexed { index, value -> set(index, transform(index, value)) }
+}
+
+/**
+ * Filter a char array to contain only elements that do not equal zero.
+ *
+ * @return [List]<Char>: list containing the same values as this array, except any elements with value 0.
+ */
+fun CharArray.filterNotZero(): List<Char> = filterNot { it.isZero() }
+
+/**
+ * Add all values in array.
+ *
+ * @return [Char]: sum of numbers in array
+ */
+fun CharArray.sum(): Char = fold(Char(0)) { acc, char -> acc + char.code }
+
+/**
+ * Multiply all values in array
+ *
+ * @return [Char]: product of numbers in array, or 0 if array is empty
+ */
+fun CharArray.product(): Char {
+    if (isEmpty()) {
+        return Char(0)
+    }
+
+    return fold(1) { acc, char -> acc * char.code }.toChar()
 }
