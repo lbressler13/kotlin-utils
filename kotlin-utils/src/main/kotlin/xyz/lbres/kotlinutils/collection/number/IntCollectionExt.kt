@@ -6,9 +6,9 @@ import xyz.lbres.kotlinutils.utils.simpleIf
 /**
  * Filter an integer collection to contain only elements that do not equal zero.
  *
- * @return [Collection]<Int>: collection containing the same values as this collection, except any elements with value 0.
+ * @return [List]<Int>: list containing the same values as this collection, except any elements with value 0.
  */
-fun Collection<Int>.filterNotZero(): Collection<Int> = filterNot { it.isZero() }
+fun Collection<Int>.filterNotZero(): List<Int> = filterNot { it.isZero() }
 
 /**
  * Add all values in collection.

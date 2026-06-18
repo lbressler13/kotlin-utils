@@ -1,32 +1,12 @@
 package xyz.lbres.kotlinutils.collection.number
 
 import xyz.lbres.kotlinutils.collection.list.IntList
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class IntCollectionExtTest {
-    @Test
-    fun testFilterNotZero() {
-        var list: List<Int> = emptyList()
-        var expected: List<Int> = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(0, 0, 0)
-        expected = emptyList()
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1, 2, 0, 4, 0, 0, 5)
-        expected = listOf(1, 2, 4, 5)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(-1, 1, 0)
-        expected = listOf(-1, 1)
-        assertEquals(expected, list.filterNotZero())
-
-        list = listOf(1, 4, 1000, 19, 5)
-        expected = listOf(1, 4, 1000, 19, 5)
-        assertEquals(expected, list.filterNotZero())
-    }
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric<Int, Collection<Int>>({ it }) { it.filterNotZero() }
 
     @Test
     fun testSum() {

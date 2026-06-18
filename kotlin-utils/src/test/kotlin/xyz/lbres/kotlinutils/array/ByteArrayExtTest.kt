@@ -1,6 +1,5 @@
 package xyz.lbres.kotlinutils.array
 
-import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroByte
 import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import xyz.lbres.kotlinutils.testutils.number.testProductByte
 import xyz.lbres.kotlinutils.testutils.number.testSumByte
