@@ -130,4 +130,85 @@ class LongArrayExtTest {
         }
         assertContentEquals(expected, array)
     }
+
+    @Test
+    fun testFilterNotZero() {
+        var array = longArrayOf()
+        var expected: List<Long> = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = longArrayOf(0, 0, 0)
+        expected = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = longArrayOf(1, 2, 0, 4, 0, 0, 5)
+        expected = listOf(1, 2, 4, 5)
+        assertEquals(expected, array.filterNotZero())
+
+        array = longArrayOf(-1, 1, 0)
+        expected = listOf(-1, 1)
+        assertEquals(expected, array.filterNotZero())
+
+        array = longArrayOf(1, 4, 1000, 19, 5)
+        expected = listOf(1, 4, 1000, 19, 5)
+        assertEquals(expected, array.filterNotZero())
+    }
+
+    @Test
+    fun testSum() {
+        var array = longArrayOf()
+        var expected = 0L
+        assertEquals(expected, array.sum())
+
+        array = longArrayOf(33)
+        expected = 33
+        assertEquals(expected, array.sum())
+
+        array = longArrayOf(-33)
+        expected = -33
+        assertEquals(expected, array.sum())
+
+        array = longArrayOf(5, -5)
+        expected = 0
+        assertEquals(expected, array.sum())
+
+        array = longArrayOf(100, 45, -10, 67, 99)
+        expected = 301
+        assertEquals(expected, array.sum())
+
+        array = longArrayOf(-100, 45, -10, -67, 99)
+        expected = -33
+        assertEquals(expected, array.sum())
+    }
+
+    @Test
+    fun testProduct() {
+        var array = longArrayOf()
+        var expected = 0L
+        assertEquals(expected, array.product())
+
+        array = longArrayOf(0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = longArrayOf(1)
+        expected = 1
+        assertEquals(expected, array.product())
+
+        array = longArrayOf(-1)
+        expected = -1
+        assertEquals(expected, array.product())
+
+        array = longArrayOf(5, 5, -2, 0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = longArrayOf(-15, 23, 17, 4, 4, -2, 3)
+        expected = 563040
+        assertEquals(expected, array.product())
+
+        array = longArrayOf(-15, 23, 17, 4, 4, -2, -3)
+        expected = -563040
+        assertEquals(expected, array.product())
+    }
 }

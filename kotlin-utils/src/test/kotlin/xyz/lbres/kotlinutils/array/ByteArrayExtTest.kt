@@ -132,4 +132,85 @@ class ByteArrayExtTest {
         }
         assertContentEquals(expected, array)
     }
+
+    @Test
+    fun testFilterNotZero() {
+        var array = byteArrayOf()
+        var expected: List<Byte> = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = byteArrayOf(0, 0, 0)
+        expected = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = byteArrayOf(1, 2, 0, 4, 0, 0, 5)
+        expected = listOf(1, 2, 4, 5)
+        assertEquals(expected, array.filterNotZero())
+
+        array = byteArrayOf(-1, 1, 0)
+        expected = listOf(-1, 1)
+        assertEquals(expected, array.filterNotZero())
+
+        array = byteArrayOf(1, 4, 100, 19, 5)
+        expected = listOf(1, 4, 100, 19, 5)
+        assertEquals(expected, array.filterNotZero())
+    }
+
+    @Test
+    fun testSum() {
+        var array = byteArrayOf()
+        var expected: Byte = 0
+        assertEquals(expected, array.sum())
+
+        array = byteArrayOf(33)
+        expected = 33
+        assertEquals(expected, array.sum())
+
+        array = byteArrayOf(-33)
+        expected = -33
+        assertEquals(expected, array.sum())
+
+        array = byteArrayOf(5, -5)
+        expected = 0
+        assertEquals(expected, array.sum())
+
+        array = byteArrayOf(-100, 45, -10, 67, -99)
+        expected = -97
+        assertEquals(expected, array.sum())
+
+        array = byteArrayOf(-100, 45, -10, -67, 99)
+        expected = -33
+        assertEquals(expected, array.sum())
+    }
+
+    @Test
+    fun testProduct() {
+        var array = byteArrayOf()
+        var expected: Byte = 0
+        assertEquals(expected, array.product())
+
+        array = byteArrayOf(0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = byteArrayOf(1)
+        expected = 1
+        assertEquals(expected, array.product())
+
+        array = byteArrayOf(-1)
+        expected = -1
+        assertEquals(expected, array.product())
+
+        array = byteArrayOf(5, 5, -2, 0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = byteArrayOf(-3, -7, 2, 2)
+        expected = 84
+        assertEquals(expected, array.product())
+
+        array = byteArrayOf(-3, -7, -2, 2)
+        expected = -84
+        assertEquals(expected, array.product())
+    }
 }

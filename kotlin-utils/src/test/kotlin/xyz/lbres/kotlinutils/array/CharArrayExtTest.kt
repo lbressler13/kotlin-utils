@@ -6,6 +6,11 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class CharArrayExtTest {
+    private val zero = Char(0)
+    private val one = Char(1)
+    private val four = Char(4)
+    private val five = Char(5)
+
     @Test
     fun testSetAllValues() {
         // empty array
@@ -126,5 +131,62 @@ class CharArrayExtTest {
             }
         }
         assertContentEquals(expected, array)
+    }
+
+    @Test
+    fun testFilterNotZero() {
+        var array = charArrayOf()
+        var expected: List<Char> = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = charArrayOf(zero, zero, zero)
+        expected = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = charArrayOf(one, Char(2), zero, four, zero, zero, five)
+        expected = listOf(one, Char(2), four, five)
+        assertEquals(expected, array.filterNotZero())
+
+        array = charArrayOf(one, four, Char(1000), Char(19), five)
+        expected = listOf(one, four, Char(1000), Char(19), five)
+        assertEquals(expected, array.filterNotZero())
+    }
+
+    @Test
+    fun testSum() {
+        var array = charArrayOf()
+        var expected = zero
+        assertEquals(expected, array.sum())
+
+        array = charArrayOf(Char(33))
+        expected = Char(33)
+        assertEquals(expected, array.sum())
+
+        array = charArrayOf(Char(100), Char(45), Char(10), Char(67), Char(99))
+        expected = Char(321)
+        assertEquals(expected, array.sum())
+    }
+
+    @Test
+    fun testProduct() {
+        var array = charArrayOf()
+        var expected = zero
+        assertEquals(expected, array.product())
+
+        array = charArrayOf(zero)
+        expected = zero
+        assertEquals(expected, array.product())
+
+        array = charArrayOf(one)
+        expected = one
+        assertEquals(expected, array.product())
+
+        array = charArrayOf(four, four, zero)
+        expected = zero
+        assertEquals(expected, array.product())
+
+        array = charArrayOf(Char(15), Char(23), Char(4), Char(4))
+        expected = Char(5520)
+        assertEquals(expected, array.product())
     }
 }

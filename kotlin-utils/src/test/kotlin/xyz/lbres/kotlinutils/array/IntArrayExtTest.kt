@@ -130,4 +130,85 @@ class IntArrayExtTest {
         }
         assertContentEquals(expected, array)
     }
+
+    @Test
+    fun testFilterNotZero() {
+        var array = intArrayOf()
+        var expected: List<Int> = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = intArrayOf(0, 0, 0)
+        expected = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = intArrayOf(1, 2, 0, 4, 0, 0, 5)
+        expected = listOf(1, 2, 4, 5)
+        assertEquals(expected, array.filterNotZero())
+
+        array = intArrayOf(-1, 1, 0)
+        expected = listOf(-1, 1)
+        assertEquals(expected, array.filterNotZero())
+
+        array = intArrayOf(1, 4, 1000, 19, 5)
+        expected = listOf(1, 4, 1000, 19, 5)
+        assertEquals(expected, array.filterNotZero())
+    }
+
+    @Test
+    fun testSum() {
+        var array = intArrayOf()
+        var expected = 0
+        assertEquals(expected, array.sum())
+
+        array = intArrayOf(33)
+        expected = 33
+        assertEquals(expected, array.sum())
+
+        array = intArrayOf(-33)
+        expected = -33
+        assertEquals(expected, array.sum())
+
+        array = intArrayOf(5, -5)
+        expected = 0
+        assertEquals(expected, array.sum())
+
+        array = intArrayOf(100, 45, -10, 67, 99)
+        expected = 301
+        assertEquals(expected, array.sum())
+
+        array = intArrayOf(-100, 45, -10, -67, 99)
+        expected = -33
+        assertEquals(expected, array.sum())
+    }
+
+    @Test
+    fun testProduct() {
+        var array = intArrayOf()
+        var expected = 0
+        assertEquals(expected, array.product())
+
+        array = intArrayOf(0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = intArrayOf(1)
+        expected = 1
+        assertEquals(expected, array.product())
+
+        array = intArrayOf(-1)
+        expected = -1
+        assertEquals(expected, array.product())
+
+        array = intArrayOf(5, 5, -2, 0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = intArrayOf(-15, 23, 17, 4, 4, -2, 3)
+        expected = 563040
+        assertEquals(expected, array.product())
+
+        array = intArrayOf(-15, 23, 17, 4, 4, -2, -3)
+        expected = -563040
+        assertEquals(expected, array.product())
+    }
 }

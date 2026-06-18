@@ -133,4 +133,85 @@ class ShortArrayExtTest {
         }
         assertContentEquals(expected, array)
     }
+
+    @Test
+    fun testFilterNotZero() {
+        var array = shortArrayOf()
+        var expected: List<Short> = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = shortArrayOf(0, 0, 0)
+        expected = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = shortArrayOf(1, 2, 0, 4, 0, 0, 5)
+        expected = listOf(1, 2, 4, 5)
+        assertEquals(expected, array.filterNotZero())
+
+        array = shortArrayOf(-1, 1, 0)
+        expected = listOf(-1, 1)
+        assertEquals(expected, array.filterNotZero())
+
+        array = shortArrayOf(1, 4, 1000, 19, 5)
+        expected = listOf(1, 4, 1000, 19, 5)
+        assertEquals(expected, array.filterNotZero())
+    }
+
+    @Test
+    fun testSum() {
+        var array = shortArrayOf()
+        var expected: Short = 0
+        assertEquals(expected, array.sum())
+
+        array = shortArrayOf(33)
+        expected = 33
+        assertEquals(expected, array.sum())
+
+        array = shortArrayOf(-33)
+        expected = -33
+        assertEquals(expected, array.sum())
+
+        array = shortArrayOf(5, -5)
+        expected = 0
+        assertEquals(expected, array.sum())
+
+        array = shortArrayOf(100, 45, -10, 67, 99)
+        expected = 301
+        assertEquals(expected, array.sum())
+
+        array = shortArrayOf(-100, 45, -10, -67, 99)
+        expected = -33
+        assertEquals(expected, array.sum())
+    }
+
+    @Test
+    fun testProduct() {
+        var array = shortArrayOf()
+        var expected: Short = 0
+        assertEquals(expected, array.product())
+
+        array = shortArrayOf(0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = shortArrayOf(1)
+        expected = 1
+        assertEquals(expected, array.product())
+
+        array = shortArrayOf(-1)
+        expected = -1
+        assertEquals(expected, array.product())
+
+        array = shortArrayOf(5, 5, -2, 0)
+        expected = 0
+        assertEquals(expected, array.product())
+
+        array = shortArrayOf(-15, 17, 4, 4, -2, 3)
+        expected = 24480
+        assertEquals(expected, array.product())
+
+        array = shortArrayOf(-15, 17, 4, 4, -2, -3)
+        expected = -24480
+        assertEquals(expected, array.product())
+    }
 }

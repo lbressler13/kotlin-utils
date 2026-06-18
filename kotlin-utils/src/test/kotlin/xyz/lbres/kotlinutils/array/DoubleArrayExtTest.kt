@@ -131,4 +131,94 @@ class DoubleArrayExtTest {
         }
         assertContentEquals(expected, array)
     }
+
+    @Test
+    fun testFilterNotZero() {
+        var array = doubleArrayOf()
+        var expected: List<Double> = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = doubleArrayOf(0.0, -0.0, 0.0)
+        expected = emptyList()
+        assertEquals(expected, array.filterNotZero())
+
+        array = doubleArrayOf(1.0, 0.2, 0.0, 4.0, 0.0, 0.0, 5.63)
+        expected = listOf(1.0, 0.2, 4.0, 5.63)
+        assertEquals(expected, array.filterNotZero())
+
+        array = doubleArrayOf(-1.0, 1.0, 0.0, -0.0)
+        expected = listOf(-1.0, 1.0)
+        assertEquals(expected, array.filterNotZero())
+
+        array = doubleArrayOf(1.0, 4.0, 1000.0, 19.0, 5.0)
+        expected = listOf(1.0, 4.0, 1000.0, 19.0, 5.0)
+        assertEquals(expected, array.filterNotZero())
+    }
+
+    @Test
+    fun testSum() {
+        var array = doubleArrayOf()
+        var expected = 0.0
+        assertEquals(expected, array.sum())
+
+        array = doubleArrayOf(33.0)
+        expected = 33.0
+        assertEquals(expected, array.sum())
+
+        array = doubleArrayOf(-33.3)
+        expected = -33.3
+        assertEquals(expected, array.sum())
+
+        array = doubleArrayOf(5.0, -5.0)
+        expected = 0.0
+        assertEquals(expected, array.sum())
+
+        array = doubleArrayOf(100.2, 0.45, -10.0, 67.0, 9.983)
+        expected = 167.633
+        assertEquals(expected, array.sum())
+
+        array = doubleArrayOf(-100.2, -0.45, 10.0, -67.0, -9.983)
+        expected = -167.633
+        assertEquals(expected, array.sum())
+        assertEquals(expected, array.sum())
+    }
+
+    @Test
+    fun testProduct() {
+        var array = doubleArrayOf()
+        var expected = 0.0
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(0.0)
+        expected = 0.0
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(-0.0)
+        expected = -0.0
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(1.0)
+        expected = 1.0
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(-1.0)
+        expected = -1.0
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(5.3, 5.3, -0.6, 0.0)
+        expected = -0.0
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(-5.3, 5.3, -0.6, 0.0)
+        expected = 0.0
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(-10.5, 23.0, 17.8, 2.4, 2.4, -13.5, 3.0)
+        expected = 1002800.736
+        assertEquals(expected, array.product())
+
+        array = doubleArrayOf(10.5, 23.0, 17.8, 2.4, 2.4, -13.5, 3.0)
+        expected = -1002800.736
+        assertEquals(expected, array.product())
+    }
 }
