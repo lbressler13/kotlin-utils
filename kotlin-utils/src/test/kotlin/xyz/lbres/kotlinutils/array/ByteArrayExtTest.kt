@@ -1,6 +1,7 @@
 package xyz.lbres.kotlinutils.array
 
 import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroByte
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
 import xyz.lbres.kotlinutils.testutils.number.testProductByte
 import xyz.lbres.kotlinutils.testutils.number.testSumByte
 import xyz.lbres.kotlinutils.utils.simpleIf
@@ -136,7 +137,7 @@ class ByteArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test fun testFilterNotZero() = testFilterNotZeroByte({ it.toByteArray() }, ByteArray::filterNotZero)
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toByteArray() }, ByteArray::filterNotZero)
 
     @Test fun testSum() = testSumByte({ it.toByteArray() }, ByteArray::sum)
     @Test fun testProduct() = testProductByte({ it.toByteArray() }, ByteArray::product)
