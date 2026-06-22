@@ -6,7 +6,7 @@ import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import kotlin.test.Test
 
 class ShortCollectionExtTest {
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric<Short, Collection<Short>>({ it }) { it.filterNotZero() }
-    @Test fun testSum() = testSumGeneric<Short, Collection<Short>>({ it }) { it.sum() }
-    @Test fun testProduct() = testProductGeneric<Short, Collection<Short>>({ it }) { it.product() }
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it }, Collection<Short>::filterNotZero)
+    @Test fun testSum() = testSumGeneric({ it }, Collection<Short>::sum)
+    @Test fun testProduct() = testProductGeneric({ it }, Collection<Short>::product)
 }
