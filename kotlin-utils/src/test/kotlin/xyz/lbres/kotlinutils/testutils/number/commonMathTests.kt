@@ -41,10 +41,22 @@ inline fun <reified S> getSumValues(): List<Pair<List<S>, S>> {
     )
     val doubleValues: List<Pair<List<Double>, Double>> = listOf()
     val floatValues: List<Pair<List<Float>, Float>> = listOf()
-    val intValues: List<Pair<List<Int>, Int>> = listOf()
+    val intValues = listOf(
+        emptyList<Int>() to 0,
+        listOf(33) to 33,
+        listOf(-33) to -33,
+        listOf(5, -5) to 0,
+        listOf(100, 45, -10, 67, 99) to 301,
+        listOf(-100, 45, -10, -67, 99) to -33,
+    )
     val longValues: List<Pair<List<Long>, Long>> = listOf()
-    val shortValues: List<Pair<List<Short>, Short>> = listOf(
-
+    val shortValues = listOf(
+        emptyList<Int>() to 0,
+        listOf(33) to 33,
+        listOf(-33) to -33,
+        listOf(5, -5) to 0,
+        listOf(100, 45, -10, 67, 99) to 301,
+        listOf(-100, 45, -10, -67, 99) to -33,
     )
     return when (S::class) {
         Byte::class -> mapMathResults(byteValues, Int::toByte)
@@ -53,7 +65,7 @@ inline fun <reified S> getSumValues(): List<Pair<List<S>, S>> {
         Float::class -> floatValues
         Int::class -> intValues
         Long::class -> longValues
-        Short::class -> shortValues
+        Short::class -> mapMathResults(shortValues, Int::toShort)
         else -> emptyList()
     } as List<Pair<List<S>, S>>
 }
@@ -77,9 +89,23 @@ inline fun <reified S> getProductValues(): List<Pair<List<S>, S>> {
     )
     val doubleValues: List<Pair<List<Double>, Double>> = listOf()
     val floatValues: List<Pair<List<Float>, Float>> = listOf()
-    val intValues: List<Pair<List<Int>, Int>> = listOf()
+    val intValues = listOf(
+        emptyList<Int>() to 0,
+        listOf(1) to 1,
+        listOf(-1) to -1,
+        listOf(5, 5, -2, 0) to 0,
+        listOf(-15, 23, 17, 4, 4, -2, 3) to 563040,
+        listOf(-15, 23, 17, 4, 4, -2, -3) to -563040,
+    )
     val longValues: List<Pair<List<Long>, Long>> = listOf()
-    val shortValues: List<Pair<List<Short>, Short>> = listOf()
+    val shortValues = listOf(
+        emptyList<Int>() to 0,
+        listOf(1) to 1,
+        listOf(-1) to -1,
+        listOf(5, 5, -2, 0) to 0,
+        listOf(-15, 17, 4, 4, -2, 3) to 24480,
+        listOf(-15, 17, 4, 4, -2, -3) to -24480,
+    )
     return when (S::class) {
         Byte::class -> mapMathResults(byteValues, Int::toByte)
         Char::class -> mapMathResults(charValues, Int::toChar)
@@ -87,7 +113,7 @@ inline fun <reified S> getProductValues(): List<Pair<List<S>, S>> {
         Float::class -> floatValues
         Int::class -> intValues
         Long::class -> longValues
-        Short::class -> shortValues
+        Short::class -> mapMathResults(shortValues, Int::toShort)
         else -> emptyList()
     } as List<Pair<List<S>, S>>
 }

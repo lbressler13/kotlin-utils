@@ -2,6 +2,8 @@ package xyz.lbres.kotlinutils.array
 
 import xyz.lbres.kotlinutils.collection.number.filterNotZero
 import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
+import xyz.lbres.kotlinutils.testutils.number.testProductGeneric
+import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.test.Test
@@ -135,61 +137,6 @@ class IntArrayExtTest {
 
     @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toIntArray() }, IntArray::filterNotZero)
 
-    @Test
-    fun testSum() {
-        var array = intArrayOf()
-        var expected = 0
-        assertEquals(expected, array.sum())
-
-        array = intArrayOf(33)
-        expected = 33
-        assertEquals(expected, array.sum())
-
-        array = intArrayOf(-33)
-        expected = -33
-        assertEquals(expected, array.sum())
-
-        array = intArrayOf(5, -5)
-        expected = 0
-        assertEquals(expected, array.sum())
-
-        array = intArrayOf(100, 45, -10, 67, 99)
-        expected = 301
-        assertEquals(expected, array.sum())
-
-        array = intArrayOf(-100, 45, -10, -67, 99)
-        expected = -33
-        assertEquals(expected, array.sum())
-    }
-
-    @Test
-    fun testProduct() {
-        var array = intArrayOf()
-        var expected = 0
-        assertEquals(expected, array.product())
-
-        array = intArrayOf(0)
-        expected = 0
-        assertEquals(expected, array.product())
-
-        array = intArrayOf(1)
-        expected = 1
-        assertEquals(expected, array.product())
-
-        array = intArrayOf(-1)
-        expected = -1
-        assertEquals(expected, array.product())
-
-        array = intArrayOf(5, 5, -2, 0)
-        expected = 0
-        assertEquals(expected, array.product())
-
-        array = intArrayOf(-15, 23, 17, 4, 4, -2, 3)
-        expected = 563040
-        assertEquals(expected, array.product())
-
-        array = intArrayOf(-15, 23, 17, 4, 4, -2, -3)
-        expected = -563040
-        assertEquals(expected, array.product())
-    }
+    @Test fun testSum() = testSumGeneric({ it.toIntArray() }, IntArray::sum)
+    @Test fun testProduct() = testProductGeneric({ it.toIntArray() }, IntArray::product)
 }
