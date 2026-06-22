@@ -49,7 +49,14 @@ inline fun <reified S> getSumValues(): List<Pair<List<S>, S>> {
         listOf(100, 45, -10, 67, 99) to 301,
         listOf(-100, 45, -10, -67, 99) to -33,
     )
-    val longValues: List<Pair<List<Long>, Long>> = listOf()
+    val longValues = listOf(
+        emptyList<Int>() to 0,
+        listOf(33) to 33,
+        listOf(-33) to -33,
+        listOf(5, -5) to 0,
+        listOf(100, 45, -10, 67, 99) to 301,
+        listOf(-100, 45, -10, -67, 99) to -33,
+    )
     val shortValues = listOf(
         emptyList<Int>() to 0,
         listOf(33) to 33,
@@ -64,7 +71,7 @@ inline fun <reified S> getSumValues(): List<Pair<List<S>, S>> {
         Double::class -> doubleValues
         Float::class -> floatValues
         Int::class -> intValues
-        Long::class -> longValues
+        Long::class -> mapMathResults(longValues, Int::toLong)
         Short::class -> mapMathResults(shortValues, Int::toShort)
         else -> emptyList()
     } as List<Pair<List<S>, S>>
@@ -97,7 +104,14 @@ inline fun <reified S> getProductValues(): List<Pair<List<S>, S>> {
         listOf(-15, 23, 17, 4, 4, -2, 3) to 563040,
         listOf(-15, 23, 17, 4, 4, -2, -3) to -563040,
     )
-    val longValues: List<Pair<List<Long>, Long>> = listOf()
+    val longValues = listOf(
+        emptyList<Int>() to 0,
+        listOf(1) to 1,
+        listOf(-1) to -1,
+        listOf(5, 5, -2, 0) to 0,
+        listOf(-15, 23, 17, 4, 4, -2, 3) to 563040,
+        listOf(-15, 23, 17, 4, 4, -2, -3) to -563040,
+    )
     val shortValues = listOf(
         emptyList<Int>() to 0,
         listOf(1) to 1,
@@ -112,7 +126,7 @@ inline fun <reified S> getProductValues(): List<Pair<List<S>, S>> {
         Double::class -> doubleValues
         Float::class -> floatValues
         Int::class -> intValues
-        Long::class -> longValues
+        Long::class -> mapMathResults(longValues, Int::toLong)
         Short::class -> mapMathResults(shortValues, Int::toShort)
         else -> emptyList()
     } as List<Pair<List<S>, S>>
