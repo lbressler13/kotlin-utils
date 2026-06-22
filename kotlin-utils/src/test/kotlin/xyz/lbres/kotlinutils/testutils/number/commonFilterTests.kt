@@ -47,10 +47,10 @@ inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
         listOf(1, 4, 1000, 19, 5) to listOf(1, 4, 1000, 19, 5),
     )
     val longValues = listOf(
-        listOf(0L, 0L, 0L) to emptyList(),
-        listOf(1L, 2L, 0L, 4L, 0L, 0L, 5L) to listOf(1L, 2L, 4L, 5L),
-        listOf(-1L, 1L, 0L) to listOf(-1L, 1L),
-        listOf(1L, 4L, 1000L, 19L, 5L) to listOf(1L, 4L, 1000L, 19L, 5L),
+        listOf(0, 0, 0) to emptyList(),
+        listOf(1, 2, 0, 4, 0, 0, 5) to listOf(1, 2, 4, 5),
+        listOf(-1, 1, 0) to listOf(-1, 1),
+        listOf(1, 4, 1000, 19, 5) to listOf(1, 4, 1000, 19, 5),
     )
     val shortValues = listOf(
         listOf(0, 0, 0) to emptyList(),
@@ -66,7 +66,7 @@ inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
         Double::class -> doubleValues
         Float::class -> floatValues
         Int::class -> intValues
-        Long::class -> longValues
+        Long::class -> mapFilterResults(longValues, Int::toLong)
         Short::class -> mapFilterResults(shortValues, Int::toShort)
         else -> emptyList()
     } as List<Pair<List<S>, List<S>>>
