@@ -1,76 +1,14 @@
 package xyz.lbres.kotlinutils.collection.number
 
 import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
+import xyz.lbres.kotlinutils.testutils.number.testProductGeneric
+import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DoubleCollectionExtTest {
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric<Double, Collection<Double>>({ it }) { it.filterNotZero() }
-
-    @Test
-    fun testSum() {
-        var list: List<Double> = emptyList()
-        var expected = 0.0
-        assertEquals(expected, list.sum())
-
-        list = listOf(33.0)
-        expected = 33.0
-        assertEquals(expected, list.sum())
-
-        list = listOf(-33.3)
-        expected = -33.3
-        assertEquals(expected, list.sum())
-
-        list = listOf(5.0, -5.0)
-        expected = 0.0
-        assertEquals(expected, list.sum())
-
-        list = listOf(100.2, 0.45, -10.0, 67.0, 9.983)
-        expected = 167.633
-        assertEquals(expected, list.sum())
-
-        list = listOf(-100.2, -0.45, 10.0, -67.0, -9.983)
-        expected = -167.633
-        assertEquals(expected, list.sum())
-        assertEquals(expected, list.sum())
-    }
-
-    @Test
-    fun testProduct() {
-        var list: List<Double> = emptyList()
-        var expected = 0.0
-        assertEquals(expected, list.product())
-
-        list = listOf(0.0)
-        expected = 0.0
-        assertEquals(expected, list.product())
-
-        list = listOf(-0.0)
-        expected = -0.0
-        assertEquals(expected, list.product())
-
-        list = listOf(1.0)
-        expected = 1.0
-        assertEquals(expected, list.product())
-
-        list = listOf(-1.0)
-        expected = -1.0
-        assertEquals(expected, list.product())
-
-        list = listOf(5.3, 5.3, -0.6, 0.0)
-        expected = -0.0
-        assertEquals(expected, list.product())
-
-        list = listOf(-5.3, 5.3, -0.6, 0.0)
-        expected = 0.0
-        assertEquals(expected, list.product())
-
-        list = listOf(-10.5, 23.0, 17.8, 2.4, 2.4, -13.5, 3.0)
-        expected = 1002800.736
-        assertEquals(expected, list.product())
-
-        list = listOf(10.5, 23.0, 17.8, 2.4, 2.4, -13.5, 3.0)
-        expected = -1002800.736
-        assertEquals(expected, list.product())
-    }
+    // TODO remove type params for other coll ext
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it }, Collection<Double>::filterNotZero)
+    @Test fun testSum() = testSumGeneric({ it }, Collection<Double>::sum)
+    @Test fun testProduct() = testProductGeneric({ it }, Collection<Double>::product)
 }

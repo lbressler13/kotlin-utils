@@ -1,6 +1,8 @@
 package xyz.lbres.kotlinutils.array
 
 import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
+import xyz.lbres.kotlinutils.testutils.number.testProductGeneric
+import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
@@ -134,71 +136,6 @@ class DoubleArrayExtTest {
     }
 
     @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toDoubleArray() }, DoubleArray::filterNotZero)
-
-    @Test
-    fun testSum() {
-        var array = doubleArrayOf()
-        var expected = 0.0
-        assertEquals(expected, array.sum())
-
-        array = doubleArrayOf(33.0)
-        expected = 33.0
-        assertEquals(expected, array.sum())
-
-        array = doubleArrayOf(-33.3)
-        expected = -33.3
-        assertEquals(expected, array.sum())
-
-        array = doubleArrayOf(5.0, -5.0)
-        expected = 0.0
-        assertEquals(expected, array.sum())
-
-        array = doubleArrayOf(100.2, 0.45, -10.0, 67.0, 9.983)
-        expected = 167.633
-        assertEquals(expected, array.sum())
-
-        array = doubleArrayOf(-100.2, -0.45, 10.0, -67.0, -9.983)
-        expected = -167.633
-        assertEquals(expected, array.sum())
-        assertEquals(expected, array.sum())
-    }
-
-    @Test
-    fun testProduct() {
-        var array = doubleArrayOf()
-        var expected = 0.0
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(0.0)
-        expected = 0.0
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(-0.0)
-        expected = -0.0
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(1.0)
-        expected = 1.0
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(-1.0)
-        expected = -1.0
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(5.3, 5.3, -0.6, 0.0)
-        expected = -0.0
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(-5.3, 5.3, -0.6, 0.0)
-        expected = 0.0
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(-10.5, 23.0, 17.8, 2.4, 2.4, -13.5, 3.0)
-        expected = 1002800.736
-        assertEquals(expected, array.product())
-
-        array = doubleArrayOf(10.5, 23.0, 17.8, 2.4, 2.4, -13.5, 3.0)
-        expected = -1002800.736
-        assertEquals(expected, array.product())
-    }
+    @Test fun testSum() = testSumGeneric({ it.toDoubleArray() }, DoubleArray::sum)
+    @Test fun testProduct() = testProductGeneric({ it.toDoubleArray() }, DoubleArray::product)
 }
