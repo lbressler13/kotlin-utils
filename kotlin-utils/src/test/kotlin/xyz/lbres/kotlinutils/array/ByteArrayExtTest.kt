@@ -10,8 +10,6 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class ByteArrayExtTest {
-    private val fromList = { it: List<Byte> -> it.toByteArray() }
-
     @Test
     fun testSetAllValues() {
         // empty array
@@ -138,7 +136,7 @@ class ByteArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(fromList, ByteArray::filterNotZero)
-    @Test fun testSum() = testSumGeneric(fromList, ByteArray::sum)
-    @Test fun testProduct() = testProductGeneric(fromList, ByteArray::product)
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(List<Byte>::toByteArray, ByteArray::filterNotZero)
+    @Test fun testSum() = testSumGeneric(List<Byte>::toByteArray, ByteArray::sum)
+    @Test fun testProduct() = testProductGeneric(List<Byte>::toByteArray, ByteArray::product)
 }

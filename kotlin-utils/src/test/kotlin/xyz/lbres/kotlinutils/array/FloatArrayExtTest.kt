@@ -135,7 +135,7 @@ class FloatArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toFloatArray() }, FloatArray::filterNotZero)
-    @Test fun testSum() = testSumGeneric({ it.toFloatArray() }, FloatArray::sum)
-    @Test fun testProduct() = testProductGeneric({ it.toFloatArray() }, FloatArray::product)
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(List<Float>::toFloatArray, FloatArray::filterNotZero)
+    @Test fun testSum() = testSumGeneric(List<Float>::toFloatArray, FloatArray::sum)
+    @Test fun testProduct() = testProductGeneric(List<Float>::toFloatArray, FloatArray::product)
 }

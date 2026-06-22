@@ -72,3 +72,8 @@ fun <T> checkTrueFalse(trueValues: List<T>, falseValues: List<T>, description: (
  * @param collection [Collection]<T>?: collection to validate
  */
 fun <T> assertEmpty(collection: Collection<T>?) = assertTrue(collection?.isEmpty() ?: false)
+
+/**
+ * Create a function that always returns its input value
+ */
+fun <T> reflex(): (T) -> T = { it }

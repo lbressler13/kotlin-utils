@@ -9,8 +9,6 @@ import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class CharArrayExtTest {
-    private val fromList = { it: List<Char> -> it.toCharArray() }
-
     @Test
     fun testSetAllValues() {
         // empty array
@@ -133,7 +131,7 @@ class CharArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(fromList, CharArray::filterNotZero)
-    @Test fun testSum() = testSumGeneric(fromList, CharArray::sum)
-    @Test fun testProduct() = testProductGeneric(fromList, CharArray::product)
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(List<Char>::toCharArray, CharArray::filterNotZero)
+    @Test fun testSum() = testSumGeneric(List<Char>::toCharArray, CharArray::sum)
+    @Test fun testProduct() = testProductGeneric(List<Char>::toCharArray, CharArray::product)
 }

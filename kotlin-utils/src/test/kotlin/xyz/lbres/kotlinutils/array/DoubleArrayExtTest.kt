@@ -135,7 +135,7 @@ class DoubleArrayExtTest {
         assertContentEquals(expected, array)
     }
 
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric({ it.toDoubleArray() }, DoubleArray::filterNotZero)
-    @Test fun testSum() = testSumGeneric({ it.toDoubleArray() }, DoubleArray::sum)
-    @Test fun testProduct() = testProductGeneric({ it.toDoubleArray() }, DoubleArray::product)
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(List<Double>::toDoubleArray, DoubleArray::filterNotZero)
+    @Test fun testSum() = testSumGeneric(List<Double>::toDoubleArray, DoubleArray::sum)
+    @Test fun testProduct() = testProductGeneric(List<Double>::toDoubleArray, DoubleArray::product)
 }

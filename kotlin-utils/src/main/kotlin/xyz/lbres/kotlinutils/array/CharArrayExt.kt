@@ -58,9 +58,9 @@ fun CharArray.sum(): Char = fold(Char(0)) { acc, char -> acc + char.code }
  * @return [Char]: product of numbers in array, or 0 if array is empty
  */
 fun CharArray.product(): Char {
-    if (isEmpty()) {
-        return Char(0)
+    return if (isEmpty()) {
+        Char(0)
+    } else {
+        fold(1) { acc, char -> acc * char.code }.toChar()
     }
-
-    return fold(1) { acc, char -> acc * char.code }.toChar()
 }

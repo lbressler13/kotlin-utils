@@ -4,7 +4,7 @@ package xyz.lbres.kotlinutils.testutils.number
 //    for (pair in getSumValues<S>()) {
 //        val values = createValues(pair.first)
 //        val expected: S = pair.second
-//        runWithFailMessage("Checking $values with expected result $expected") {
+//        runWithFailMessage("Checking ${pair.first} with expected result $expected") {
 //            assertEquals(expected, op(values))
 //        }
 //    }

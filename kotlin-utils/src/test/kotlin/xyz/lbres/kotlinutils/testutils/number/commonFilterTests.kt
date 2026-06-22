@@ -8,7 +8,7 @@ inline fun <reified S, T> testFilterNotZeroGeneric(createValues: (List<S>) -> T,
     for (pair in getFilterNotZeroValues<S>()) {
         val values: T = createValues(pair.first)
         val expected: List<S> = pair.second
-        runWithFailMessage("Checking $values with expected result $expected") {
+        runWithFailMessage("Checking ${pair.first} with expected result $expected") {
             assertEquals(expected, filterNotZero(values))
         }
     }
@@ -16,58 +16,62 @@ inline fun <reified S, T> testFilterNotZeroGeneric(createValues: (List<S>) -> T,
 
 @Suppress(Suppressions.UNCHECKED_CAST)
 inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
-    val byteValues: List<Pair<List<Byte>, List<Byte>>> = listOf(
-        listOf(0, 0, 0).map(Int::toByte) to emptyList(),
-        listOf(1, 2, 0, 4, 0, 0, 5).map(Int::toByte) to listOf(1, 2, 4, 5),
-        listOf(-1, 1, 0).map(Int::toByte) to listOf(-1, 1),
-        listOf(1, 4, 100, 19, 5).map(Int::toByte) to listOf(1, 4, 100, 19, 5)
+    val byteValues = listOf(
+        listOf(0, 0, 0) to emptyList(),
+        listOf(1, 2, 0, 4, 0, 0, 5) to listOf(1, 2, 4, 5),
+        listOf(-1, 1, 0) to listOf(-1, 1),
+        listOf(1, 4, 100, 19, 5) to listOf(1, 4, 100, 19, 5)
     )
-    val charValues: List<Pair<List<Char>, List<Char>>> = listOf(
-        listOf(0, 0, 0).map(Int::toChar) to emptyList(),
-        listOf(1, 2, 0, 4, 0, 0, 5).map(Int::toChar) to listOf(1, 2, 4, 5).map(Int::toChar),
-        listOf(-1, 1, 0).map(Int::toChar) to listOf(-1, 1).map(Int::toChar),
-        listOf(1, 4, 1000, 19, 5).map(Int::toChar) to listOf(1, 4, 1000, 19, 5).map(Int::toChar),
-    )
-    val doubleValues: List<Pair<List<Double>, List<Double>>> = listOf(
-        listOf(0.0, -0.0, 0.0) to emptyList(),
-        listOf(1.0, 0.2, 0.0, 4.0, 0.0, 0.0, 5.63) to listOf(1.0, 0.2, 4.0, 5.63),
-        listOf(-1.0, 1.0, 0.0, -0.0) to listOf(-1.0, 1.0),
-        listOf(1.0, 4.0, 1000.0, 19.0, 5.0) to listOf(1.0, 4.0, 1000.0, 19.0, 5.0),
-    )
-    val floatValues: List<Pair<List<Float>, List<Float>>> = listOf(
-        listOf(0f, -0f, 0f) to emptyList(),
-        listOf(1f, 0.2f, 0f, 4f, 0f, 0f, 5.63f) to listOf(1f, 0.2f, 4f, 5.63f),
-        listOf(-1f, 1f, 0f, -0f) to listOf(-1f, 1f),
-        listOf(1f, 4f, 1000f, 19f, 5f) to listOf(1f, 4f, 1000f, 19f, 5f),
-    )
-    val intValues: List<Pair<List<Int>, List<Int>>> = listOf(
+    val charValues = listOf(
         listOf(0, 0, 0) to emptyList(),
         listOf(1, 2, 0, 4, 0, 0, 5) to listOf(1, 2, 4, 5),
         listOf(-1, 1, 0) to listOf(-1, 1),
         listOf(1, 4, 1000, 19, 5) to listOf(1, 4, 1000, 19, 5),
     )
-    val longValues: List<Pair<List<Long>, List<Long>>> = listOf(
-        listOf(0L, 0L, 0L) to emptyList(),
-        listOf(1L, 2L, 0L, 4L, 0L, 0L, 5L) to listOf(1, 2, 4, 5),
-        listOf(-1L, 1L, 0L) to listOf(-1, 1),
-        listOf(1L, 4L, 1000L, 19L, 5L) to listOf(1, 4, 1000, 19, 5),
+    val doubleValues = listOf(
+        listOf(0.0, -0.0, 0.0) to emptyList(),
+        listOf(1.0, 0.2, 0.0, 4.0, 0.0, 0.0, 5.63) to listOf(1.0, 0.2, 4.0, 5.63),
+        listOf(-1.0, 1.0, 0.0, -0.0) to listOf(-1.0, 1.0),
+        listOf(1.0, 4.0, 1000.0, 19.0, 5.0) to listOf(1.0, 4.0, 1000.0, 19.0, 5.0),
     )
-    val shortValues: List<Pair<List<Short>, List<Short>>> = listOf(
-        listOf(0, 0, 0).map(Int::toShort) to emptyList(),
-        listOf(1, 2, 0, 4, 0, 0, 5).map(Int::toShort) to listOf(1, 2, 4, 5),
-        listOf(-1, 1, 0).map(Int::toShort) to listOf(-1, 1),
-        listOf(1, 4, 1000, 19, 5).map(Int::toShort) to listOf(1, 4, 1000, 19, 5),
+    val floatValues = listOf(
+        listOf(0f, -0f, 0f) to emptyList(),
+        listOf(1f, 0.2f, 0f, 4f, 0f, 0f, 5.63f) to listOf(1f, 0.2f, 4f, 5.63f),
+        listOf(-1f, 1f, 0f, -0f) to listOf(-1f, 1f),
+        listOf(1f, 4f, 1000f, 19f, 5f) to listOf(1f, 4f, 1000f, 19f, 5f),
+    )
+    val intValues = listOf(
+        listOf(0, 0, 0) to emptyList(),
+        listOf(1, 2, 0, 4, 0, 0, 5) to listOf(1, 2, 4, 5),
+        listOf(-1, 1, 0) to listOf(-1, 1),
+        listOf(1, 4, 1000, 19, 5) to listOf(1, 4, 1000, 19, 5),
+    )
+    val longValues = listOf(
+        listOf(0L, 0L, 0L) to emptyList(),
+        listOf(1L, 2L, 0L, 4L, 0L, 0L, 5L) to listOf(1L, 2L, 4L, 5L),
+        listOf(-1L, 1L, 0L) to listOf(-1L, 1L),
+        listOf(1L, 4L, 1000L, 19L, 5L) to listOf(1L, 4L, 1000L, 19L, 5L),
+    )
+    val shortValues = listOf(
+        listOf(0, 0, 0) to emptyList(),
+        listOf(1, 2, 0, 4, 0, 0, 5) to listOf(1, 2, 4, 5),
+        listOf(-1, 1, 0) to listOf(-1, 1),
+        listOf(1, 4, 1000, 19, 5) to listOf(1, 4, 1000, 19, 5),
     )
 
     val empty: List<Pair<List<S>, List<S>>> = listOf(emptyList<S>() to emptyList())
     return empty + when (S::class) {
-        Byte::class -> byteValues
-        Char::class -> charValues
+        Byte::class -> mapFilterResults(byteValues, Int::toByte)
+        Char::class -> mapFilterResults(charValues, Int::toChar)
         Double::class -> doubleValues
         Float::class -> floatValues
         Int::class -> intValues
         Long::class -> longValues
-        Short::class -> shortValues
+        Short::class -> mapFilterResults(shortValues, Int::toShort)
         else -> emptyList()
     } as List<Pair<List<S>, List<S>>>
+}
+
+fun <T> mapFilterResults(intValues: List<Pair<List<Int>, List<Int>>>, fromInt: (Int) -> T): List<Pair<List<T>, List<T>>> {
+    return intValues.map { it.first.map(fromInt) to it.second.map(fromInt) }
 }
