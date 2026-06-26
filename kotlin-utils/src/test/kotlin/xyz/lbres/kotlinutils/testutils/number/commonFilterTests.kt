@@ -59,7 +59,7 @@ inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
         listOf(1, 4, 1000, 19, 5) to listOf(1, 4, 1000, 19, 5),
     )
 
-    val empty: List<Pair<List<S>, List<S>>> = listOf(emptyList<S>() to emptyList())
+    val empty = listOf(emptyList<S>() to emptyList<S>())
     return empty + when (S::class) {
         Byte::class -> mapFilterResults(byteValues, Int::toByte)
         Char::class -> mapFilterResults(charValues, Int::toChar)
