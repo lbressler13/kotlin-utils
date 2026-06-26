@@ -1,5 +1,8 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.testutils.number.testFilterNotZeroGeneric
+import xyz.lbres.kotlinutils.testutils.number.testProductGeneric
+import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import xyz.lbres.kotlinutils.utils.simpleIf
 import kotlin.math.absoluteValue
 import kotlin.test.Test
@@ -130,4 +133,8 @@ class LongArrayExtTest {
         }
         assertContentEquals(expected, array)
     }
+
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(List<Long>::toLongArray, LongArray::filterNotZero)
+    @Test fun testSum() = testSumGeneric(List<Long>::toLongArray, LongArray::sum)
+    @Test fun testProduct() = testProductGeneric(List<Long>::toLongArray, LongArray::product)
 }

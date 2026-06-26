@@ -1,5 +1,8 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.number.isZero
+import xyz.lbres.kotlinutils.utils.simpleIf
+
 /**
  * Assign all indices to have the same value
  *
@@ -35,3 +38,24 @@ fun LongArray.mapInPlace(transform: (Long) -> Long) {
 fun LongArray.mapInPlaceIndexed(transform: (Int, Long) -> Long) {
     forEachIndexed { index, value -> set(index, transform(index, value)) }
 }
+
+/**
+ * Filter a long array to contain only elements that do not equal zero.
+ *
+ * @return [List]<Long>: list containing the same values as this array, except any elements with value 0.
+ */
+fun LongArray.filterNotZero(): List<Long> = filterNot { it.isZero() }
+
+/**
+ * Add all values in array.
+ *
+ * @return [Long]: sum of numbers in array
+ */
+fun LongArray.sum(): Long = fold(0, Long::plus)
+
+/**
+ * Multiply all values in array
+ *
+ * @return [Long]: product of numbers in array, or 0 if array is empty
+ */
+fun LongArray.product(): Long = simpleIf(isEmpty(), 0, fold(1, Long::times))
