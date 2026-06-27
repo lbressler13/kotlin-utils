@@ -37,6 +37,25 @@ class DoubleExtTest {
     }
 
     @Test
+    fun testIsWholeNumber() {
+        val trueValues = listOf(
+            0.0,
+            -0.0,
+            100.0,
+            -1234560000000999.0,
+            123456000000000.0000,
+            7.00000000000000000000000000000,
+        )
+        val falseValues = listOf(
+            0.00000000000000000001,
+            1.01,
+            123456000000099.9,
+            999999999999999.9,
+        )
+        checkTrueFalse(trueValues, falseValues, { "$it.isWholeNumber()" }, Double::isWholeNumber)
+    }
+
+    @Test
     fun testIsZero() {
         val trueValues = listOf(0.0, -0.0)
         val falseValues = listOf(-0.000000000001, -100.0, 0.000000000001, 100.0)

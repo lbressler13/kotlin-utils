@@ -37,6 +37,25 @@ class FloatExtTest {
     }
 
     @Test
+    fun testIsWholeNumber() {
+        val trueValues = listOf(
+            0f,
+            -0f,
+            100f,
+            -12300009f,
+            123456000000000.0000f,
+            7.00000000000000000000000000000f,
+        )
+        val falseValues = listOf(
+            0.00000000000000000001f,
+            1.01f,
+            -1230000.9f,
+            999999.9f,
+        )
+        checkTrueFalse(trueValues, falseValues, { "$it.isWholeNumber()" }, Float::isWholeNumber)
+    }
+
+    @Test
     fun testIsZero() {
         val trueValues = listOf(0f, -0f)
         val falseValues = listOf(0.000000000001f, 100f, -0.000000000001f, -100f)

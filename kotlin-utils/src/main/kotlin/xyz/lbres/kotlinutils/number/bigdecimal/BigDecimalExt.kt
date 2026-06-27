@@ -1,15 +1,17 @@
 package xyz.lbres.kotlinutils.number.bigdecimal
 
+import xyz.lbres.kotlinutils.internal.constants.basePackage
 import xyz.lbres.kotlinutils.utils.succeeds
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.RoundingMode
 
 /**
- * Determine if value is a whole number
+ * Unary check to determine if value is a whole number
  *
- * @return `true` if number is a whole number, `false` otherwise
+ * @return [Boolean]: true if value is a whole number, false otherwise
  */
+@Deprecated("Relocated in v2.1.0", ReplaceWith("isWholeNumber", "$basePackage.number.isWholeNumber"), DeprecationLevel.WARNING)
 fun BigDecimal.isWholeNumber(): Boolean = succeeds { toBigIntegerExact() }
 
 /**

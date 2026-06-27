@@ -26,6 +26,13 @@ fun Float.isZero(): Boolean = abs(this) == 0f
 fun Float.isNegative(): Boolean = this < -0f
 
 /**
+ * Unary check to determine if value is a whole number
+ *
+ * @return [Boolean]: true if value is a whole number, false otherwise
+ */
+fun Float.isWholeNumber(): Boolean = rem(1).isZero()
+
+/**
  * Unary check to determine if value is null or zero
  *
  * @return [Boolean]: true if the value is null or zero, or false otherwise
