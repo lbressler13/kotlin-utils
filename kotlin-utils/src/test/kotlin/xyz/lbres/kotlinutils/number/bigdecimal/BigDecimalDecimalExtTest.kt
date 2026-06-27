@@ -6,7 +6,7 @@ import java.math.RoundingMode
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class BigDecimalExtTest {
+class BigDecimalDecimalExtTest {
     @Test
     fun testRoundToBigInteger() {
         // whole
