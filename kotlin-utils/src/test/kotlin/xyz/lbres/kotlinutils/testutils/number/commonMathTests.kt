@@ -24,7 +24,6 @@ inline fun <reified S, T> testProductGeneric(createValues: (List<S>) -> T, cross
     }
 }
 
-@Suppress(Suppressions.UNCHECKED_CAST)
 inline fun <reified S> getSumValues(): List<Pair<List<S>, S>> {
     val byteValues = listOf(
         emptyList<Int>() to 0,
@@ -79,6 +78,7 @@ inline fun <reified S> getSumValues(): List<Pair<List<S>, S>> {
         listOf(100, 45, -10, 67, 99) to 301,
         listOf(-100, 45, -10, -67, 99) to -33,
     )
+    @Suppress(Suppressions.UNCHECKED_CAST)
     return when (S::class) {
         Byte::class -> mapMathResults(byteValues, Int::toByte)
         Char::class -> mapMathResults(charValues, Int::toChar)

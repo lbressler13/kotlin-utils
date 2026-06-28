@@ -14,7 +14,6 @@ inline fun <reified S, T> testFilterNotZeroGeneric(createValues: (List<S>) -> T,
     }
 }
 
-@Suppress(Suppressions.UNCHECKED_CAST)
 inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
     val byteValues = listOf(
         listOf(0, 0, 0) to emptyList(),
@@ -60,6 +59,7 @@ inline fun <reified S> getFilterNotZeroValues(): List<Pair<List<S>, List<S>>> {
     )
 
     val empty = listOf(emptyList<S>() to emptyList<S>())
+    @Suppress(Suppressions.UNCHECKED_CAST)
     return empty + when (S::class) {
         Byte::class -> mapFilterResults(byteValues, Int::toByte)
         Char::class -> mapFilterResults(charValues, Int::toChar)
