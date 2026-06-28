@@ -1,5 +1,8 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.number.isZero
+import xyz.lbres.kotlinutils.utils.simpleIf
+
 /**
  * Assign all indices to have the same value
  *
@@ -35,3 +38,24 @@ fun FloatArray.mapInPlace(transform: (Float) -> Float) {
 fun FloatArray.mapInPlaceIndexed(transform: (Int, Float) -> Float) {
     forEachIndexed { index, value -> set(index, transform(index, value)) }
 }
+
+/**
+ * Filter a float array to contain only elements that do not equal zero.
+ *
+ * @return [List]<Float>: list containing the same values as this array, except any elements with value 0.
+ */
+fun FloatArray.filterNotZero(): List<Float> = filterNot { it.isZero() }
+
+/**
+ * Add all values in array.
+ *
+ * @return [Float]: sum of numbers in array
+ */
+fun FloatArray.sum(): Float = fold(0f, Float::plus)
+
+/**
+ * Multiply all values in array
+ *
+ * @return [Float]: product of numbers in array, or 0 if array is empty
+ */
+fun FloatArray.product(): Float = simpleIf(isEmpty(), 0f, fold(1f, Float::times))

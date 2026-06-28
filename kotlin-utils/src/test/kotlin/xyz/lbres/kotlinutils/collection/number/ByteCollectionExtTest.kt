@@ -6,8 +6,8 @@ import xyz.lbres.kotlinutils.testutils.number.testSumGeneric
 import xyz.lbres.kotlinutils.testutils.reflex
 import kotlin.test.Test
 
-class LongCollectionExtTest {
-    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(reflex(), Collection<Long>::filterNotZero)
-    @Test fun testSum() = testSumGeneric(reflex(), Collection<Long>::sum)
-    @Test fun testProduct() = testProductGeneric(reflex(), Collection<Long>::product)
+class ByteCollectionExtTest {
+    @Test fun testFilterNotZero() = testFilterNotZeroGeneric(reflex(), Collection<Byte>::filterNotZero)
+    @Test fun testSum() = testSumGeneric(reflex(), Collection<Byte>::sum)
+    @Test fun testProduct() = testProductGeneric(reflex(), Collection<Byte>::product)
 }

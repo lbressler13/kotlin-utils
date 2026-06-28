@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.number.isZero
+
 /**
  * Assign all indices to have the same value
  *
@@ -34,4 +36,31 @@ fun ShortArray.mapInPlace(transform: (Short) -> Short) {
  */
 fun ShortArray.mapInPlaceIndexed(transform: (Int, Short) -> Short) {
     forEachIndexed { index, value -> set(index, transform(index, value)) }
+}
+
+/**
+ * Filter a short array to contain only elements that do not equal zero.
+ *
+ * @return [List]<Short>: list containing the same values as this array, except any elements with value 0.
+ */
+fun ShortArray.filterNotZero(): List<Short> = filterNot { it.isZero() }
+
+/**
+ * Add all values in array.
+ *
+ * @return [Short]: sum of numbers in array
+ */
+fun ShortArray.sum(): Short = fold(0) { acc, sh -> acc + sh }.toShort()
+
+/**
+ * Multiply all values in array
+ *
+ * @return [Short]: product of numbers in array, or 0 if array is empty
+ */
+fun ShortArray.product(): Short {
+    return if (isEmpty()) {
+        0
+    } else {
+        fold(1) { acc, sh -> acc * sh }.toShort()
+    }
 }

@@ -1,5 +1,7 @@
 package xyz.lbres.kotlinutils.array
 
+import xyz.lbres.kotlinutils.number.isZero
+
 /**
  * Assign all indices to have the same value
  *
@@ -34,4 +36,31 @@ fun ByteArray.mapInPlace(transform: (Byte) -> Byte) {
  */
 fun ByteArray.mapInPlaceIndexed(transform: (Int, Byte) -> Byte) {
     forEachIndexed { index, value -> set(index, transform(index, value)) }
+}
+
+/**
+ * Filter a byte array to contain only elements that do not equal zero.
+ *
+ * @return [List]<Byte>: list containing the same values as this array, except any elements with value 0.
+ */
+fun ByteArray.filterNotZero(): List<Byte> = filterNot { it.isZero() }
+
+/**
+ * Add all values in array.
+ *
+ * @return [Byte]: sum of numbers in array
+ */
+fun ByteArray.sum(): Byte = fold(0) { acc, byte -> acc + byte }.toByte()
+
+/**
+ * Multiply all values in array
+ *
+ * @return [Byte]: product of numbers in array, or 0 if array is empty
+ */
+fun ByteArray.product(): Byte {
+    return if (isEmpty()) {
+        0
+    } else {
+        fold(1) { acc, byte -> acc * byte }.toByte()
+    }
 }

@@ -24,6 +24,25 @@ class BigDecimalExtTest {
     }
 
     @Test
+    fun testIsWholeNumber() {
+        val trueValues = listOf(
+            BigDecimal.ZERO,
+            BigDecimal("100"),
+            BigDecimal("-100"),
+            BigDecimal("-1234560000000000000999"),
+            BigDecimal("123456000000000.0000"),
+            BigDecimal("7.00000000000000000000000000000"),
+        )
+        val falseValues = listOf(
+            BigDecimal("0.00000000000000000001"),
+            BigDecimal("-1.01"),
+            BigDecimal("123456000000000000099.9"),
+            BigDecimal("99999999999999999999999.9"),
+        )
+        checkTrueFalse(trueValues, falseValues, { "$it.isWholeNumber()" }, BigDecimal::isWholeNumber)
+    }
+
+    @Test
     fun testIsNullOrZero() {
         val trueValues = listOf(null, BigDecimal.ZERO, zero)
         val falseValues = listOf(smallPositive, smallPositive, BigDecimal.ONE, BigDecimal("-1000"))
