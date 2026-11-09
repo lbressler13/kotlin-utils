@@ -1,8 +1,11 @@
 package xyz.lbres.kotlinutils.collection.multiset.impl
 
+import xyz.lbres.kotlinutils.collection.list.IntList
 import xyz.lbres.kotlinutils.collection.multiset.MultiSet
 import xyz.lbres.kotlinutils.collection.multiset.MutableMultiSet
 import xyz.lbres.kotlinutils.collection.multiset.testutils.* // ktlint-disable no-wildcard-imports no-unused-imports
+import xyz.lbres.kotlinutils.testutils.CompList
+import xyz.lbres.kotlinutils.testutils.runWithFailMessage
 import kotlin.test.Test
 
 typealias Create = (Collection<*>) -> MultiSet<*>
@@ -15,8 +18,27 @@ abstract class AbstractMultiSetTestClass {
     abstract val isMutableSet: Boolean
     abstract val hasMutableElements: Boolean
 
+    abstract fun <T> runSingleConstructorTest(map: Map<String, Any>)
+
     @Test
-    abstract fun testConstructor()
+    fun testConstructor() {
+        multiSetConstructorIntTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runSingleConstructorTest<Int>(it) }
+        }
+        multiSetConstructorExceptionTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runSingleConstructorTest<Exception>(it) }
+        }
+        multiSetConstructorIntListTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runSingleConstructorTest<IntList>(it) }
+        }
+        multiSetConstructorCompListTestValues.forEach {
+            runWithFailMessage("Testing constructor with $it") { runSingleConstructorTest<CompList>(it) }
+        }
+
+        if (hasMutableElements) {
+            testConstructorWithMutableElements { runSingleConstructorTest<IntList>(it) }
+        }
+    }
 
     @Test
     fun testEquals() {
