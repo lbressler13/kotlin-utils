@@ -115,7 +115,9 @@ fun runMinusTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet: (Co
     assertEquals(expectedError, minusFn(errorSet2, errorSet1))
 }
 
-fun runMutableElementMinusTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+fun runMutableElementMinusTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet1: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

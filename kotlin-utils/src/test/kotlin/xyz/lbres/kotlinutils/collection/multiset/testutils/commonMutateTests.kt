@@ -33,7 +33,8 @@ fun runAddTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
     runSingleMutateTest(listSet, listExpected, true) { listSet.add(listOf("goodbye")) }
 }
 
-fun runAddAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runAddAllTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
 
     var expected: MutableMultiSet<Int> = createMutableIntSet(emptyList())
@@ -51,7 +52,9 @@ fun runAddAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int
     runSingleMutateTest(set, expected, true) { set.addAll(other) }
 }
 
-fun runRemoveTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runRemoveTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
+
     // true
     var set = createMutableIntSet(listOf(1))
     var expected = createMutableIntSet(emptyList())
@@ -83,7 +86,9 @@ fun runRemoveTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int
     runSingleMutateTest(set, expected, false) { set.remove(1) }
 }
 
-fun runRemoveAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runRemoveAllTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
+
     // all success
     var set = createMutableIntSet(listOf(1, 2, 3, 4))
 
@@ -181,7 +186,9 @@ fun runRetainAllTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<
     runSingleMutateTest(set, expected, true) { set.retainAll(other) }
 }
 
-fun runClearTests(createMutableIntSet: (Collection<Int>) -> MutableMultiSet<Int>) {
+fun runClearTests(createMutableSet: (Collection<*>) -> MutableMultiSet<*>) {
+    val createMutableIntSet = getCreateMutableSet<Int>(createMutableSet)
+
     var set: MutableMultiSet<Int> = createMutableIntSet(emptyList())
     set.clear()
     assertEquals(emptyMultiSet(), set)

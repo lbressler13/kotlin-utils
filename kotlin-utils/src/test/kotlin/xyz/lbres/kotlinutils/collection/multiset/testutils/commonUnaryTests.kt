@@ -84,7 +84,9 @@ fun runMutableGetCountOfTests(createMutableSet: (Collection<*>) -> MutableMultiS
     assertEquals(0, set.getCountOf(5))
 }
 
-fun runMutableElementGetCountOfTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+fun runMutableElementGetCountOfTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(1, 2, 3)
     val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

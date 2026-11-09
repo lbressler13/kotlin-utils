@@ -93,7 +93,9 @@ fun runIntersectTests(createSet: (Collection<*>) -> MultiSet<*>, createOtherSet:
     assertEquals(expectedError, intersectFn(errorSet2, errorSet1))
 }
 
-fun runMutableElementIntersectTests(createIntListSet: (List<IntList>) -> MultiSet<List<Int>>) {
+fun runMutableElementIntersectTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet1: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

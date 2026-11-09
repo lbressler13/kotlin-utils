@@ -75,7 +75,9 @@ fun runMutableIteratorTests(createMutableSet: (Collection<*>) -> MutableMultiSet
     assertTrue(intValues.elementsEqual(intExpected))
 }
 
-fun runMutableElementsIteratorTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
+fun runMutableElementIteratorTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val listSet: MultiSet<IntList> = createIntListSet(listOf(mutableList1, mutableList2))

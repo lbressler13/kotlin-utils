@@ -59,7 +59,9 @@ fun runMutableToStringTests(createMutableSet: (Collection<*>) -> MutableMultiSet
     assertEquals("[]", set.toString())
 }
 
-fun runMutableElementToStringTests(createIntListSet: (Collection<IntList>) -> MultiSet<IntList>) {
+fun runMutableElementToStringTests(createSet: (Collection<*>) -> MultiSet<*>) {
+    val createIntListSet = getCreateSet<IntList>(createSet)
+
     val mutableList1 = mutableListOf(1, 2, 3)
     val mutableList2 = mutableListOf(0, 5, 7)
     val set = createIntListSet(listOf(mutableList1, mutableList2))
